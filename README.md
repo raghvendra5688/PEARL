@@ -4,17 +4,19 @@ Code for the manuscript:
 
 > **PEARL: Parameter-Efficient Adaptation with Retrieval-Augmented Learning for Molecular Property Prediction**
 
-PEARL systematically compares **three operational modes** for predicting molecular properties on
+PEARL systematically compares **four experimental settings** for predicting molecular properties on
 four benchmark datasets (BACE, BBBP, ClinTox, Flavor):
 
-| Mode | Description |
-|------|-------------|
-| **E2E LoRA** | End-to-end LoRA finetuning of chemical language models (CLMs); evaluation during training |
-| **FT Embed** | ML classifiers (XGB/LGBM/CatBoost) on finetuned embeddings ± 473-dim PC features |
-| **RAFE** | Retrieval-Augmented Feature Enhancement over ZINC-250k knowledge base |
+| Setting | Description |
+|---------|-------------|
+| **E2E LoRA** | End-to-end LoRA finetuning of chemical language models (CLMs); task head trained jointly with adapters |
+| **FT Embed** | Optuna-tuned XGB/LGBM/CatBoost classifiers on CLS-token embeddings extracted from the finetuned CLM |
+| **FT Embed+PC** | Same as FT Embed, but the embedding is concatenated with 473-dim physicochemical (PC) features (148 RDKit descriptors, 30 graph features, 128-bit Morgan fingerprints, 167-bit MACCS keys) |
+| **RAFE** | FT Embed+PC further augmented with ~73-dim ZINC-250k chemical-neighbourhood features via FAISS retrieval (Retrieval-Augmented Feature Enhancement) |
 
-The progression E2E LoRA → FT Embed → RAFE reveals how much each component contributes:
-finetuning quality, physicochemical context, and retrieval-based neighbourhood signal.
+The progression E2E LoRA → FT Embed → FT Embed+PC → RAFE forms an ablation ladder that isolates
+each component's contribution: finetuning quality, physicochemical feature engineering, and
+retrieval-based neighbourhood signal from the 249,455-molecule ZINC-250k knowledge base.
 
 ---
 
@@ -64,7 +66,7 @@ PEARL/
 
 ---
 
-### Mode 1 — E2E LoRA Finetuning
+### Setting 1 — E2E LoRA Finetuning
 
 #### SMILES Track (`scripts/smiles/finetuning/`)
 
@@ -85,7 +87,7 @@ PEARL/
 
 ---
 
-### Mode 2 — FT Embed (ML on Finetuned Embeddings)
+### Settings 2 & 3 — FT Embed and FT Embed+PC (ML on Finetuned Embeddings)
 
 #### Feature Preparation (`scripts/smiles/ml/`)
 
@@ -117,7 +119,7 @@ PEARL/
 
 ---
 
-### Mode 3 — RAFE (Retrieval-Augmented Feature Enhancement)
+### Setting 4 — RAFE (Retrieval-Augmented Feature Enhancement)
 
 #### SMILES RAFE Pipeline (`scripts/smiles/rag/`)
 
@@ -164,13 +166,14 @@ pip install -r requirements.txt
 
 ```
 Step 1   Data cleaning
-Step 2   LoRA finetuning ──────────┬── SMILES track (ChemBERTa, MolFormer)   [Mode 1: E2E LoRA]
+Step 2   LoRA finetuning ──────────┬── SMILES track (ChemBERTa, MolFormer)   [Setting 1: E2E LoRA]
                                    └── Uni-Mol track (conformers → finetune)
 Step 3   Extract finetuned embeddings
-Step 4   Prepare ML input ─────────┬── FT Embed: embeddings (± PC features)  [Mode 2: FT Embed]
-                                   └── FT Embed: Uni-Mol embeddings
+Step 4   Prepare ML input ─────────┬── FT Embed: embeddings only             [Setting 2: FT Embed]
+                                   ├── FT Embed: embeddings + PC features     [Setting 3: FT Embed+PC]
+                                   └── FT Embed: Uni-Mol embeddings (both variants)
 Step 4b  Train FT Embed classifiers (XGB/LGBM/CatBoost, Optuna-tuned)
-Step 5   RAFE pipeline ────────────┬── 5a  Embed ZINC-250k                   [Mode 3: RAFE]
+Step 5   RAFE pipeline ────────────┬── 5a  Embed ZINC-250k                   [Setting 4: RAFE]
                                    ├── 5b  Build FAISS indices
                                    ├── 5c  Extract RAFE features
                                    └── 5d  RAG modelling
@@ -189,7 +192,7 @@ Output: `data/clean/{dataset}_datasets/{split}_clean.csv`
 
 ---
 
-### Step 2 — LoRA Finetuning  [Mode 1: E2E LoRA]
+### Step 2 — LoRA Finetuning  [Setting 1: E2E LoRA]
 
 **SMILES track** — requires a `.env` file at the repo root with `WANDB_API_KEY=<key>`.
 
@@ -250,7 +253,7 @@ Output: `data/finetuned_pc_embeddings/{Dataset}_Embeddings/{prefix}_{split}_feat
 
 ---
 
-### Step 4b — FT Embed Modelling  [Mode 2: FT Embed]
+### Step 4b — FT Embed Modelling  [Settings 2 & 3: FT Embed / FT Embed+PC]
 
 Trains Optuna-tuned XGBoost / LightGBM / CatBoost classifiers on finetuned embeddings.
 
@@ -328,7 +331,7 @@ Output: `data/rag_features/{dataset}/{col_name}_{split}_rag.csv`
 
 ---
 
-### Step 5d — RAFE Modelling  [Mode 3: RAFE]
+### Step 5d — RAFE Modelling  [Setting 4: RAFE]
 
 ```bash
 # SMILES track
@@ -362,3 +365,7 @@ Output: `results/rag/{dataset}/{col_name}/metrics.json`
 ## Citation
 
 If you use this code or data, please cite the PEARL manuscript.
+
+---
+
+&copy; Raghvendra Mall. All rights reserved.
