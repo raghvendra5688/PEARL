@@ -64,7 +64,7 @@ from sklearn.utils.class_weight import compute_sample_weight
 
 EXTRAS_ROOT  = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 EMBED_ROOT   = EXTRAS_ROOT / "unimol_embeddings"
-REPO_ROOT    = Path(__file__).resolve().parent.parent.parent  # EffChem-2.0/
+REPO_ROOT    = Path(__file__).resolve().parent.parent.parent  # PEARL/
 # Mirrors the finetuned-embedding results layout used by the other ml-scripts
 # e.g. results/finetuned/BACE_FT_Results/ for ChemBERTa/MolFormer experiments.
 # Pattern here: results/finetuned/UniMol_{DATASET}_FT_Results/UniMol_{FL|WL}/

@@ -50,7 +50,7 @@ from unimol_lora_trainer import (   # noqa: E402
     preprocess_smiles_for_unimol,
 )
 
-REPO_ROOT   = _SCRIPT_DIR.parent.parent   # EffChem-2.0/
+REPO_ROOT   = _SCRIPT_DIR.parent.parent   # PEARL/
 EXTRAS_ROOT = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 SMILES_COL  = "Standardized SMILES"
 
