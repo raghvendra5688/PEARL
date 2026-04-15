@@ -40,7 +40,7 @@ from unimol_lora_trainer import (
 )
 
 # ── Paths ───────────────────────────────────────────────────────────────────────
-REPO_ROOT   = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT   = Path(__file__).resolve().parent.parent.parent.parent
 CLEAN_ROOT  = REPO_ROOT / "data" / "clean"
 EXTRAS_ROOT = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 OUTPUT_ROOT = EXTRAS_ROOT / "unimol_embeddings"

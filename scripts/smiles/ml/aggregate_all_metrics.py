@@ -138,7 +138,7 @@ def main():
         "--base-dir",
         type=str,
         default=None,
-        help="Base directory containing results folders (default: repo root results/finetuned)"
+        help="Base directory containing results folders (default: repo root results/ft_embeddings)"
     )
 
     parser.add_argument(
@@ -156,7 +156,7 @@ def main():
     if args.base_dir is not None:
         base_dir = Path(args.base_dir).resolve()
     else:
-        base_dir = Path(__file__).resolve().parent.parent.parent / "results" / "finetuned"
+        base_dir = Path(__file__).resolve().parent.parent.parent.parent / "results" / "ft_embeddings"
     output_dir = Path(args.output_dir).resolve() if args.output_dir else base_dir
 
     # Create output directory if needed

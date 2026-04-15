@@ -59,7 +59,7 @@ from rdkit.Chem.Scaffolds import MurckoScaffold
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-REPO_ROOT    = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT    = Path(__file__).resolve().parent.parent.parent.parent
 EXTRAS_ROOT  = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 INDEX_ROOT   = EXTRAS_ROOT / "rag_indices"
 PCA_ROOT     = EXTRAS_ROOT / "rag_pca"

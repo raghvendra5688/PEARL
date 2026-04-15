@@ -24,7 +24,7 @@ from rdkit import Chem
 from rdkit.Chem.MolStandardize import rdMolStandardize
 
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 RAW_ROOT = str(REPO_ROOT / "data" / "raw")
 CLEAN_ROOT = str(REPO_ROOT / "data" / "clean")
 LOG_DIR = str(REPO_ROOT / "logs")

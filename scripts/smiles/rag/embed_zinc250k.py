@@ -33,7 +33,7 @@ from transformers import AutoTokenizer, AutoModel
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-REPO_ROOT   = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT   = Path(__file__).resolve().parent.parent.parent.parent
 ZINC_CSV    = REPO_ROOT / "data" / "zinc250k" / "zinc250k_cleaned.csv"
 EXTRAS_ROOT = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 EMBED_ROOT  = EXTRAS_ROOT / "zinc_embeddings"

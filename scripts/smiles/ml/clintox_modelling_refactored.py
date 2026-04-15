@@ -50,18 +50,18 @@ class Config:
 
     def __init__(self):
         # Get base directory and validate it exists
-        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent
+        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
         # Paths with validation
         self.BASE_MODEL_ROOT = self._validate_path(
             os.getenv('CLINTOX_BASE_MODEL_ROOT', self.BASE_DIR / 'data' / 'finetuned_embeddings' / 'clintox_Embeddings')
         )
         self.OUTPUT_ROOT = self._validate_path(
-            os.getenv('CLINTOX_OUTPUT_ROOT', self.BASE_DIR / 'results' / 'finetuned' / 'clintox_FT_Results'),
+            os.getenv('CLINTOX_OUTPUT_ROOT', self.BASE_DIR / 'results' / 'ft_embeddings' / 'clintox_FT_Results'),
             create=True
         )
         self.LOG_DIR = self._validate_path(
-            os.getenv('CLINTOX_LOG_DIR', self.BASE_DIR / 'results' / 'finetuned' / 'clintox_FT_Results' / 'logs'),
+            os.getenv('CLINTOX_LOG_DIR', self.BASE_DIR / 'results' / 'ft_embeddings' / 'clintox_FT_Results' / 'logs'),
             create=True
         )
 

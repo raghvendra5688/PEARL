@@ -1,16 +1,14 @@
 #!/bin/bash -l
-#SBATCH -J clintox_pc_ft
-#SBATCH -o out_clintox_pc_ft.log
-#SBATCH -e out_clintox_pc_ft.err
+#SBATCH -J bace_ft
+#SBATCH -o out_bace_ft.log
+#SBATCH -e out_bace_ft.err
 #SBATCH -p gpu-H200
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=2
 #SBATCH --mem=512000
 #SBATCH -A H200
 #SBATCH -q h200_qos
-#SBATCH -w crirdchpxd002
 
- 
 export MAMBA_EXE='/export/home/rmall/.local/bin/micromamba';
 export MAMBA_ROOT_PREFIX='/export/home/rmall/micromamba';
 __mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
@@ -26,5 +24,4 @@ micromamba env list
 micromamba activate effichem
 
 REPO_ROOT="$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)"
-python3 "$REPO_ROOT/scripts/smiles/ml/clintox_pc_modelling_refactored.py"
-
+python3 "$REPO_ROOT/scripts/smiles/ml/bace_modelling_refactored.py"

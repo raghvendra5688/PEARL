@@ -40,7 +40,7 @@ from sklearn.metrics import roc_auc_score, precision_score, recall_score, f1_sco
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Repo-relative paths
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 DATA_DIR = REPO_ROOT / "data" / "clean" / "clintox_datasets"
 RESULTS_DIR = REPO_ROOT / "results" / "lora_finetuning" / "clintox"
 MODELS_DIR = REPO_ROOT / "models" / "lora_finetuned" / "clintox"

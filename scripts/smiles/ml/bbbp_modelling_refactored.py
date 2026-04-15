@@ -50,18 +50,18 @@ class Config:
 
     def __init__(self):
         # Get base directory and validate it exists
-        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent
+        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
         # Paths with validation
         self.BASE_MODEL_ROOT = self._validate_path(
             os.getenv('BASE_MODEL_ROOT', self.BASE_DIR / 'data' / 'finetuned_embeddings' / 'BBBP_Embeddings')
         )
         self.OUTPUT_ROOT = self._validate_path(
-            os.getenv('OUTPUT_ROOT', self.BASE_DIR / 'results' / 'finetuned' / 'BBBP_FT_Results'),
+            os.getenv('OUTPUT_ROOT', self.BASE_DIR / 'results' / 'ft_embeddings' / 'BBBP_FT_Results'),
             create=True
         )
         self.LOG_DIR = self._validate_path(
-            os.getenv('LOG_DIR', self.BASE_DIR / 'results' / 'finetuned' / 'BBBP_FT_Results' / 'logs'),
+            os.getenv('LOG_DIR', self.BASE_DIR / 'results' / 'ft_embeddings' / 'BBBP_FT_Results' / 'logs'),
             create=True
         )
 

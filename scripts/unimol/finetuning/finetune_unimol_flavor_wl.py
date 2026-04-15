@@ -51,7 +51,7 @@ from functools import partial
 from torch.utils.data import DataLoader
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-REPO_ROOT   = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT   = Path(__file__).resolve().parent.parent.parent.parent
 DATA_DIR    = REPO_ROOT / "data" / "clean" / "flavor_datasets"
 EXTRAS_ROOT = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 SAVE_DIR    = EXTRAS_ROOT / "weighted_loss_flavor" / "dptech__Uni__Mol_LoRA_Finetuned"

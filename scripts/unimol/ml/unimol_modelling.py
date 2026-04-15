@@ -64,11 +64,11 @@ from sklearn.utils.class_weight import compute_sample_weight
 
 EXTRAS_ROOT  = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 EMBED_ROOT   = EXTRAS_ROOT / "unimol_embeddings"
-REPO_ROOT    = Path(__file__).resolve().parent.parent.parent  # PEARL/
+REPO_ROOT    = Path(__file__).resolve().parent.parent.parent.parent  # PEARL/
 # Mirrors the finetuned-embedding results layout used by the other ml-scripts
-# e.g. results/finetuned/BACE_FT_Results/ for ChemBERTa/MolFormer experiments.
-# Pattern here: results/finetuned/UniMol_{DATASET}_FT_Results/UniMol_{FL|WL}/
-RESULTS_ROOT = REPO_ROOT / "results" / "finetuned"
+# e.g. results/ft_embeddings/BACE_FT_Results/ for ChemBERTa/MolFormer experiments.
+# Pattern here: results/ft_embeddings/UniMol_{DATASET}_FT_Results/UniMol_{FL|WL}/
+RESULTS_ROOT = REPO_ROOT / "results" / "ft_embeddings"
 
 DATASET_REGISTRY: Dict[str, Dict] = {
     "bace": {
@@ -562,7 +562,7 @@ def run_pipeline(
     emb_col    = CONFIG_TO_COL[config]
     tag        = CONFIG_TAG[config]
 
-    # e.g. results/finetuned/UniMol_BACE_FT_Results/UniMol_FL/
+    # e.g. results/ft_embeddings/UniMol_BACE_FT_Results/UniMol_FL/
     out_root = RESULTS_ROOT / f"UniMol_{dataset.upper()}_FT_Results" / tag
     log_dir  = out_root / "logs"
     output_dirs = {

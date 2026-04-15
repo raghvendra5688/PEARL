@@ -1,16 +1,36 @@
+# Core data processing
 pandas
 numpy
+scipy
 rdkit
+networkx
+
+# Machine learning
 scikit-learn
 xgboost
 lightgbm
 catboost
 optuna
-matplotlib
-seaborn
-networkx
-xlsxwriter
 joblib
+
+# Deep learning
 torch
 transformers
 peft
+datasets
+evaluate
+
+# RAG / vector search
+faiss-gpu
+
+# Chemistry 3D conformers (Uni-Mol pipeline)
+unimol-tools
+
+# Experiment tracking
+wandb
+python-dotenv
+
+# Visualisation / reporting
+matplotlib
+seaborn
+xlsxwriter

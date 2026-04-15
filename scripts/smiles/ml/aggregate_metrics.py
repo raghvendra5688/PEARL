@@ -231,9 +231,9 @@ Examples:
     if args.base_dir is not None:
         base_dir = Path(args.base_dir).resolve()
     else:
-        base_dir = Path(__file__).resolve().parent.parent.parent
-    task_dir = base_dir / "results" / "finetuned" / args.task
-    output_path = base_dir / "results" / "finetuned" / args.output
+        base_dir = Path(__file__).resolve().parent.parent.parent.parent
+    task_dir = base_dir / "results" / "ft_embeddings" / args.task
+    output_path = base_dir / "results" / "ft_embeddings" / args.output
 
     logging.info("=" * 80)
     logging.info("Metrics Aggregation Script")

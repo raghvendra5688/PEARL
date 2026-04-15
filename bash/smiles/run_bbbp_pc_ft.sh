@@ -25,6 +25,6 @@ unset __mamba_setup
 micromamba env list
 micromamba activate effichem
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-python3 "$SCRIPT_DIR/bbbp_pc_modelling_refactored.py"
+REPO_ROOT="$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)"
+python3 "$REPO_ROOT/scripts/smiles/ml/bbbp_pc_modelling_refactored.py"
 

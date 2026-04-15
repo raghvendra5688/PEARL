@@ -38,7 +38,7 @@ rdBase.DisableLog("rdApp.error")
 rdBase.DisableLog("rdApp.warning")
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-REPO_ROOT        = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT        = Path(__file__).resolve().parent.parent.parent.parent
 CLEAN_ROOT       = REPO_ROOT / "data" / "clean"
 CONFORM_ROOT     = REPO_ROOT / "data" / "conformers"
 ZINC_CSV         = REPO_ROOT / "data" / "zinc250k" / "zinc250k_cleaned.csv"

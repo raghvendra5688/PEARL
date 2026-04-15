@@ -62,14 +62,14 @@ class Config:
     """Configuration class with path validation and environment variable support."""
 
     def __init__(self):
-        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent
+        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
         # Data paths
         self.BASE_MODEL_ROOT = self._validate_path(
             Path(os.getenv('FLAVOR_DATA_ROOT', self.BASE_DIR / "data" / "finetuned_embeddings" / "flavor_Embeddings"))
         )
         self.OUTPUT_ROOT = self._validate_path(
-            Path(os.getenv('FLAVOR_OUTPUT_ROOT', self.BASE_DIR / "results" / "finetuned" / "flavor_FT_Results")),
+            Path(os.getenv('FLAVOR_OUTPUT_ROOT', self.BASE_DIR / "results" / "ft_embeddings" / "flavor_FT_Results")),
             create=True
         )
         self.LOG_DIR = self._validate_path(

@@ -40,7 +40,7 @@ from unimol_lora_trainer import (
 )
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-REPO_ROOT   = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT   = Path(__file__).resolve().parent.parent.parent.parent
 DATA_DIR    = REPO_ROOT / "data" / "clean" / "bace_datasets"
 EXTRAS_ROOT = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 SAVE_DIR    = EXTRAS_ROOT / "weighted_loss_BACE" / "dptech__Uni__Mol_LoRA_Finetuned"

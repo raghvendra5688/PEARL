@@ -28,7 +28,7 @@ import pandas as pd
 
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
-REPO_ROOT   = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT   = Path(__file__).resolve().parent.parent.parent.parent
 RESULTS_ROOT = REPO_ROOT / "results" / "rag"
 
 DATASETS = ["bace", "bbbp", "clintox", "flavor"]

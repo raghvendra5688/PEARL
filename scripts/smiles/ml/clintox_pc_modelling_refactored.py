@@ -54,14 +54,14 @@ class Config:
     """Configuration class with path validation and environment variable support."""
 
     def __init__(self):
-        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent
+        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
         # Data paths
         self.DATA_ROOT = self._validate_path(
             Path(os.getenv('CLINTOX_PC_DATA_ROOT', self.BASE_DIR / "data" / "finetuned_pc_embeddings" / "clintox_Embeddings"))
         )
         self.OUTPUT_ROOT = self._validate_path(
-            Path(os.getenv('CLINTOX_PC_OUTPUT_ROOT', self.BASE_DIR / "results" / "finetuned" / "clintox_PC_FT_Results")),
+            Path(os.getenv('CLINTOX_PC_OUTPUT_ROOT', self.BASE_DIR / "results" / "ft_embeddings" / "clintox_PC_FT_Results")),
             create=True
         )
         self.LOG_DIR = self._validate_path(

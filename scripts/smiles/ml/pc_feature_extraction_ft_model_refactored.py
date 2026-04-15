@@ -44,7 +44,7 @@ class Config:
     """Configuration class with path validation and environment variable support."""
 
     def __init__(self):
-        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent
+        self.BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
 
         # Data paths
         self.BASE_ROOT = self._validate_path(

@@ -20,7 +20,7 @@ from rdkit.Chem.MolStandardize import rdMolStandardize
 import deepchem as dc
 
 
-REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 RAW_FILE = str(REPO_ROOT / "data" / "raw" / "bace.csv")
 OUT_DIR = str(REPO_ROOT / "data" / "clean" / "bace_datasets")
 LOG_DIR = str(REPO_ROOT / "logs")

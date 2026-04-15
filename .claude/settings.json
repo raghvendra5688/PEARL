@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 manuscript/pearl_workflow.py)"
+    ],
+    "additionalDirectories": [
+      "/export/cse/rmall/Raghvendra/PEARL/manuscript"
+    ]
+  }
+}

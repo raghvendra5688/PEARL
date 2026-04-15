@@ -38,7 +38,7 @@ from sklearn.model_selection import StratifiedKFold, cross_val_score
 
 optuna.logging.set_verbosity(optuna.logging.WARNING)
 
-REPO_ROOT   = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT   = Path(__file__).resolve().parent.parent.parent.parent
 EXTRAS_ROOT = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 
 _OTHER_EMB_COLS = [

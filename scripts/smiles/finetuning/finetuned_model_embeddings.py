@@ -29,7 +29,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 CLEAN_ROOT = REPO_ROOT / "data" / "clean"
 EXTRAS_ROOT = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 OUTPUT_ROOT = REPO_ROOT / "data" / "finetuned_embeddings"
