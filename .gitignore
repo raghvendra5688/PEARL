@@ -1,0 +1,33 @@
+# Large binary files - use PEARL_EXTRAS env var to point to these
+*.pkl
+*.npy
+*.faiss
+*.bin
+*.pt
+*.cbm
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Large data directories (regenerate with scripts)
+data/conformers/
+data/rag_features/
+data/rag_features_unimol/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Logs (can regenerate)
+bash/*/logs/
+logs/
+
+# CatBoost artifacts
+catboost_info/
+
+# Editor
+.vscode/
+*.swp

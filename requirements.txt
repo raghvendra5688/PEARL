@@ -1,0 +1,16 @@
+pandas
+numpy
+rdkit
+scikit-learn
+xgboost
+lightgbm
+catboost
+optuna
+matplotlib
+seaborn
+networkx
+xlsxwriter
+joblib
+torch
+transformers
+peft

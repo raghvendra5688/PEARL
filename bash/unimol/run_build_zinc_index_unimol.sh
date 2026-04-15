@@ -1,0 +1,42 @@
+#!/bin/bash -l
+# Build FAISS-GPU FlatIP indices for Uni-Mol ZINC-250k embeddings.
+# Run AFTER all 4 run_embed_zinc_unimol_*.sh jobs complete.
+# Output: EffiChem_Extras/rag_indices_unimol/{dataset}/UniMol_{FL,WL}.index
+#SBATCH -J build_zinc_index_unimol
+#SBATCH -o out_build_zinc_index_unimol.log
+#SBATCH -e out_build_zinc_index_unimol.err
+#SBATCH -p gpu-H200
+#SBATCH --gres=gpu:1
+#SBATCH --mem=128000
+#SBATCH -A H200
+#SBATCH -q h200_qos
+#SBATCH -x crirdchpxd005
+#SBATCH -w crirdchpxd001
+
+module load cuda12.6/toolkit/12.6.2
+nvidia-smi
+
+export MAMBA_EXE='/export/home/rmall/.local/bin/micromamba';
+export MAMBA_ROOT_PREFIX='/export/home/rmall/micromamba';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias micromamba="$MAMBA_EXE"
+fi
+unset __mamba_setup
+
+micromamba activate effichem
+
+REPO_ROOT="$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)"
+
+SCRIPT_DIR="$REPO_ROOT/scripts/unimol/rag"
+
+for DATASET in bace bbbp clintox flavor; do
+    echo "========================================"
+    echo "Building Uni-Mol ZINC FAISS index: $DATASET"
+    echo "========================================"
+    python3 "$SCRIPT_DIR/build_zinc_index_unimol.py" --dataset "$DATASET" --gpu-id 0
+done
+
+echo "All Uni-Mol ZINC FAISS indices built."

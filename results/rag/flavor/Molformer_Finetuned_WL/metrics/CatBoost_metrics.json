@@ -1,0 +1,11 @@
+{
+  "Accuracy": 0.893,
+  "F1_macro": 0.774,
+  "F1_micro": 0.893,
+  "MCC": 0.804,
+  "AUPR_class0": 0.837,
+  "AUPR_class1": 0.95,
+  "AUPR_class2": 0.988,
+  "AUPR_class3": 0.548,
+  "AUPR_class4": 0.768
+}
