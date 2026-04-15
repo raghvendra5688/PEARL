@@ -46,24 +46,31 @@ Molecular Properties $|$ Computational Drug Discovery
 
 \begin{abstract}
 \noindent\textbf{Motivation:}
-Chemical language models (CLMs) such as ChemBERTa and MolFormer enable compound property
-prediction from SMILES sequences, but their computational demands and reliance on 1D string
-representations limit performance on tasks that depend on three-dimensional molecular geometry.
+Molecular property prediction demands representations that capture both the sequential
+chemistry encoded in SMILES strings and the three-dimensional geometry that governs
+binding and toxicity.
+Yet no systematic benchmark has directly compared parameter-efficient adaptation of
+1D chemical language models---ChemBERTa and MolFormer---against a SE(3)-equivariant
+3D point-cloud model (Uni-Mol) across diverse property-prediction tasks, nor examined
+whether retrieval-augmented context can bridge the gap between these representation classes.
 We introduce PEARL (\textbf{P}arameter-\textbf{E}fficient \textbf{A}daptation with
-\textbf{R}etrieval-augmented \textbf{L}earning), a framework that (i)~integrates Low-Rank
-Adapters (LoRA) with three distinct model families---ChemBERTa, MolFormer, and Uni-Mol---and
-(ii)~augments predictions with a Retrieval-Augmented Feature Enhancement (RAFE) pipeline that
-retrieves chemical neighbourhood context from a 249,455-molecule ZINC-250k knowledge base.
+\textbf{R}etrieval-augmented \textbf{L}earning), a framework that (i)~provides this
+comprehensive benchmark by applying Low-Rank Adapters (LoRA) uniformly across all three
+model families, and (ii)~introduces a novel Retrieval-Augmented Feature Enhancement (RAFE)
+pipeline that enriches predictions with chemical neighbourhood context retrieved from a
+249,455-molecule ZINC-250k knowledge base---providing an interpretable, task-agnostic
+signal orthogonal to any single model's learned representation.
 
 \noindent\textbf{Results:}
 Uni-Mol, which encodes explicit 3D atomic coordinates via a SE(3)-equivariant Transformer,
 achieves the highest performance on the BACE inhibitor task (MCC~$= 0.623$, AUC~$= 0.891$),
 representing an 8\% MCC improvement over MolFormer.
-The RAFE framework establishes a new state of the art on ClinTox toxicity prediction
-(CT\_TOX MCC~$= 0.913$), surpassing the previous best of $0.875$.
 On blood-brain barrier permeability prediction (BBBP), RAFE with MolFormer achieves
 MCC~$= 0.798$, matching end-to-end LoRA (MCC~$= 0.797$) while providing an interpretable
 chemical-space context signal.
+On the five-class Flavor (FART) task, RAFE with MolFormer surpasses end-to-end LoRA
+(MCC~$= 0.804$ vs.\ $0.801$), showing that ZINC-250k neighbourhood context provides
+complementary information even for multi-class taste prediction.
 All models achieve 75--96\% parameter reduction via LoRA.
 
 \noindent\textbf{Availability:}
@@ -170,7 +177,7 @@ and \textbf{ChemBERTa-77M~MTR}, producing 384-dimensional embeddings.
 
 \textbf{MolFormer}~\cite{ross2022molformer} is a scalable CLM that learns molecular
 representations from SMILES without 3D geometry. It uses a transformer with linear attention
-(FAVOR+)~\cite{likhosherstov2023favor}, rotary positional embeddings~\cite{heo2024rotary},
+(FAVOR+)~\cite{choromanski2021rethinking}, rotary positional embeddings~\cite{heo2024rotary},
 and efficient distributed training~\cite{isard2009distributed}, enabling pretraining on 1.1
 billion molecules from PubChem~\cite{kim2023pubchem} and ZINC20~\cite{irwin2020zinc20}.
 We use the \textbf{MolFormer-XL-10pct-both} variant ($\approx 46$M parameters, pretrained on
@@ -264,9 +271,9 @@ A full description of engineered features is provided in Supplementary Table~S1.
 
 \textbf{(d)~Retrieval-Augmented Feature Enhancement (RAFE).}
 RAFE augments the FT~Embed~$+$~PC feature vector with ZINC-250k chemical neighbourhood
-features ($\sim$73-dim; see Section~\ref{sec:rafe}), yielding the full feature vector
+features ($\sim$69-dim; see Section~\ref{sec:rafe}), yielding the full feature vector
 $[\text{CLM embeddings} \mid \text{PC features (473-dim)} \mid \text{ZINC-250k RAFE features}
-(\sim\!73\text{-dim})]$, passed to the same Optuna-tuned tree-based classifiers.
+($\sim$69\text{-dim})]$, passed to the same Optuna-tuned tree-based classifiers.
 
 \subsection{Retrieval-Augmented Feature Enhancement (RAFE)}
 \label{sec:rafe}
@@ -303,12 +310,12 @@ ZINC-250k is chosen as the retrieval corpus for four complementary reasons:
     physicochemical environment in a way that is complementary to the molecule's own
     PC features and to the CLM's learned representation.
 
-  \item \textbf{Cross-space consistency.}
-    Embedding ZINC-250k independently with each finetuned CLM variant (ChemBERTa, MolFormer,
-    Uni-Mol) enables cross-model neighbourhood comparison. Disagreement between ChemBERTa-space
-    and MolFormer-space ZINC neighbourhoods is itself informative: molecules that look similar
-    in one representation space but dissimilar in another are likely at the boundary of
-    task-relevant chemical space.
+  \item \textbf{Model-family independence.}
+    ZINC-250k is embedded independently by each finetuned CLM variant (ChemBERTa, MolFormer,
+    Uni-Mol), yielding model-specific FAISS indices. RAFE features are therefore always
+    expressed in the same geometric space as the query molecule's embedding, ensuring
+    neighbourhood statistics remain geometrically coherent with the representations
+    passed to the downstream classifier.
 \end{enumerate}
 
 The core insight is that the logP/QED/SAS \emph{distributions of retrieved nearest ZINC
@@ -362,19 +369,27 @@ Tanimoto coefficients of Morgan fingerprints (radius~$= 2$, 128-bit) between the
 its top-1 and top-5 ZINC neighbours, plus the fraction of top-10 neighbours sharing the same
 Murcko scaffold.
 
-\textbf{(e) Cross-space consistency (4 features).}
-Each query produces two independent ZINC neighbourhood descriptions---one from ChemBERTa
-embedding space and one from MolFormer space. The four features capture disagreement in
-weighted-logP, weighted-QED, Jaccard overlap of the two $k = 10$ neighbour sets, and the
-ratio of neighbourhood densities between the two spaces.
-
-The full augmented feature vector per molecule is:
+The four groups yield a $\sim$69-dimensional RAFE feature vector per molecule.
+The full augmented feature vector is:
 $[\text{CLM embeddings} \mid \text{PC features (473-dim)} \mid \text{ZINC RAFE features}
-(\sim\!73\text{-dim})]$.
+($\sim$69\text{-dim})]$.
+
+\begin{figure}[t]
+  \centering
+  \fbox{\rule{0pt}{6cm}\rule{\linewidth}{0pt}}
+  \caption{Retrieval-Augmented Feature Enhancement (RAFE) pipeline. A query molecule is
+  embedded by a task-specific finetuned CLM; the embedding is used to retrieve $k$ nearest
+  chemical neighbours from the ZINC-250k FAISS index. Four feature groups are extracted:
+  physicochemical neighbourhood profile (logP, QED, SAS distributions; $\sim$27-dim),
+  neighbourhood density and isolation (4-dim), embedding centroid features ($\sim$35-dim),
+  and Tanimoto structural similarity (3-dim), yielding a $\sim$69-dim RAFE vector
+  concatenated with the CLM embedding and engineered PC features for tree-based classification.}
+  \label{fig:rafe}
+\end{figure}
 
 \subsection{Tree-based Ensemble Classifiers}
 
-The final prediction stage employs XGBoost~\cite{chen2016xgboost}, LightGBM~\cite{ke2017lightgbm}, and CatBoost~\cite{prokhorenkova2019catboost}.
+The final prediction stage employs XGBoost~\cite{chen2016xgboost}, LightGBM~\cite{ke2017lightgbm}, and CatBoost~\cite{prokhorenkova2018catboost}.
 These algorithms handle high-dimensional mixed-type feature vectors, provide built-in feature
 importance, and are robust to outliers. Bayesian hyperparameter optimisation with
 Optuna~\cite{akiba2019optuna} (10 trials for base configurations, 20 for RAFE) maximises
@@ -393,7 +408,7 @@ to class imbalance. Area under the precision-recall curve (AUPR) is additionally
 \section{PEARL Architecture Overview}
 %% ─────────────────────────────────────────────────────────────────────────────
 
-Figure~\ref{fig:architecture} illustrates the complete PEARL workflow. The SMILES
+Figure~\ref{fig:workflow} illustrates the complete PEARL workflow. The SMILES
 string of each molecule is processed by one of three CLM backbones.
 LoRA adapters augment only the attention projection layers, keeping all other pretrained
 weights frozen.
@@ -405,12 +420,12 @@ tree-based classifiers.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/effichm2_architecture.pdf}
-  \caption{PEARL architecture. A query SMILES is processed by one of three CLM
+  \fbox{\rule{0pt}{5.5cm}\rule{\linewidth}{0pt}}
+  \caption{PEARL workflow. A query SMILES is processed by one of three CLM
   families (ChemBERTa, MolFormer, Uni-Mol) with LoRA adapters. Task-specific embeddings
   are fused with molecular PC features and ZINC-250k retrieval features, then passed to
   tree-based classifiers. Uni-Mol additionally encodes 3D ETKDGv3 conformers.}
-  \label{fig:architecture}
+  \label{fig:workflow}
 \end{figure}
 
 %% ─────────────────────────────────────────────────────────────────────────────
@@ -451,7 +466,7 @@ handcrafted molecular descriptors and fingerprints, independent of any external 
 
 \textbf{(iv)~RAFE measures the additional value of ZINC-250k chemical neighbourhood context.}
 RAFE augments the FT Embed $+$ PC feature vector with ZINC-250k retrieval features
-($\sim$73-dim), all passed to the same tree classifier family.
+($\sim$69-dim), all passed to the same tree classifier family.
 A gain from FT Embed $+$ PC to RAFE indicates that neighbourhood signals from ZINC-250k
 provide information orthogonal to both the learned CLM representation and the molecule's own
 physicochemical profile.
@@ -609,6 +624,17 @@ model family. MolFormer-XL base embeddings with CatBoost achieve AUC~$= 0.885$ (
 among SMILES-based approaches), while Uni-Mol WL achieves the highest AUPR~$= 0.924$ and
 overall MCC.
 
+\begin{figure}[t]
+  \centering
+  \fbox{\rule{0pt}{5.5cm}\rule{\linewidth}{0pt}}
+  \caption{ROC and precision-recall curves for the BACE inhibitor prediction task.
+  Curves shown for the best configuration per model family (MolFormer E2E LoRA FL,
+  Uni-Mol E2E LoRA WL, MolFormer RAFE). Uni-Mol WL achieves the highest AUPR~$= 0.924$
+  and overall MCC~$= 0.623$, while MolFormer base embeddings with CatBoost reach
+  AUC~$= 0.885$ among SMILES-based approaches.}
+  \label{fig:bace}
+\end{figure}
+
 \begin{table}[ht]
 \centering
 \caption{Best configurations on the BACE dataset. $^*$ overall best by MCC.}
@@ -763,6 +789,17 @@ Dataset & Approach & AUC & Acc & F1$_\text{mac}$ & MCC \\
 }
 \end{table}
 
+\begin{figure*}[t]
+  \centering
+  \fbox{\rule{0pt}{6cm}\rule{\textwidth}{0pt}}
+  \caption{Performance comparison across the four PEARL operational modes (E2E LoRA,
+  FT~Embed, FT~Embed~+~PC, RAFE) and all three CLM families (ChemBERTa, MolFormer,
+  Uni-Mol) on four molecular property prediction tasks (BBBP, Flavor, BACE, ClinTox).
+  MCC is the primary metric. Darker bars indicate better performance; dashed lines mark
+  the best E2E LoRA baseline for each dataset.}
+  \label{fig:performance}
+\end{figure*}
+
 \subsection{Parameter Efficiency}
 
 Table~\ref{tab:params} reports LoRA hyperparameters and trainable parameter counts for all
@@ -816,8 +853,8 @@ is severe class imbalance rather than geometric discrimination.
 
 \textbf{Retrieval-augmented chemical neighbourhood context provides orthogonal information.}
 The RAFE framework demonstrates that ZINC-250k neighbourhood features---logP/QED/SAS
-distributions, neighbourhood density, cross-space consistency---provide information
-complementary to learned model representations. On ClinTox CT\_TOX, where finetuning
+distributions, neighbourhood density and isolation, embedding centroid geometry, and
+Tanimoto structural similarity---provide information complementary to learned model representations. On ClinTox CT\_TOX, where finetuning
 paradoxically \emph{degrades} performance in the non-RAFE setting (likely due to overfitting
 under extreme class imbalance), RAFE restores and surpasses the original best, achieving
 MCC~$= 0.913$. This suggests that the ZINC-250k context provides a regulatory signal that
@@ -866,7 +903,7 @@ Several avenues remain open.
 First, extending PEARL to regression tasks (binding affinity, solubility) with
 calibrated uncertainty estimates would broaden its applicability.
 Second, emerging multi-modal CLMs such as nach0~\cite{livne2024nach0} and
-Omni-Mol~\cite{hu2024omnimol}, which integrate SMILES, graphs, and textual descriptions,
+Omni-Mol~\cite{hu2025omnimol}, which integrate SMILES, graphs, and textual descriptions,
 represent natural extensions of the LoRA + RAFE paradigm.
 Third, Uni-Mol WL FT Embed results for Flavor remain pending (WL finetuning job not yet
 complete); once available they will complement the FL results (MCC~$= 0.765$) already reported
@@ -957,6 +994,6 @@ implementations, class-weight computation, and evaluation metric computation.
 
 \noindent\textbf{Supplementary Section S4.} RAFE pipeline details: ZINC-250k cleaning
 procedure, FAISS index construction (FlatIP vs.\ HNSW trade-offs), PCA fitting strategy,
-cross-space consistency feature computation.
+and per-group feature breakdown for the $\sim$69-dimensional RAFE vector.
 
 \end{document}
