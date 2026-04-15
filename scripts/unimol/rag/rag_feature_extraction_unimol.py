@@ -64,7 +64,7 @@ os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 REPO_ROOT     = Path(__file__).resolve().parent.parent.parent
-EXTRAS_ROOT   = Path("/export/cse/rmall/Raghvendra/EffiChem_Extras")
+EXTRAS_ROOT   = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 INDEX_ROOT    = EXTRAS_ROOT / "rag_indices_unimol"
 PCA_ROOT      = EXTRAS_ROOT / "rag_pca_unimol"
 EMBED_ROOT    = EXTRAS_ROOT / "unimol_embeddings"

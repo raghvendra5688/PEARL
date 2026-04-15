@@ -23,6 +23,7 @@ Usage:
 
 import argparse
 import logging
+import os
 import pickle
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -41,7 +42,7 @@ REPO_ROOT        = Path(__file__).resolve().parent.parent.parent
 CLEAN_ROOT       = REPO_ROOT / "data" / "clean"
 CONFORM_ROOT     = REPO_ROOT / "data" / "conformers"
 ZINC_CSV         = REPO_ROOT / "data" / "zinc250k" / "zinc250k_cleaned.csv"
-EXTRAS_ROOT      = Path("/export/cse/rmall/Raghvendra/EffiChem_Extras")
+EXTRAS_ROOT      = Path(os.environ.get("PEARL_EXTRAS", "/export/cse/rmall/Raghvendra/EffiChem_Extras"))
 ZINC_CONFORM_DIR = EXTRAS_ROOT / "zinc_conformers"
 LOG_DIR          = REPO_ROOT / "logs"
 
