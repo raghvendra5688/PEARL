@@ -634,31 +634,31 @@ overall MCC.
   \label{fig:bace}
 \end{figure}
 
-\begin{table}[ht]
+\begin{table*}[ht]
 \centering
-\caption{Best configurations on the BACE dataset. $^*$ overall best by MCC.}
+\caption{Best configurations on the BACE dataset. $^*$ overall best by MCC. Prec and Rec are macro-averaged.}
 \label{tab:bace}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{llllrrrr}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllrrrrrrr}
 \toprule
-Modality & CLM & Loss & ML & AUC & AUPR & Acc & MCC \\
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec & Rec \\
 \midrule
-E2E LoRA & MolFormer-XL & FL & --- & 0.872 & 0.902 & 0.789 & 0.577 \\
-E2E LoRA & MolFormer-XL & WL & --- & 0.871 & 0.897 & 0.724 & 0.476 \\
-E2E LoRA & Uni-Mol & FL & --- & 0.876 & 0.924 & 0.743 & 0.520 \\
-E2E LoRA$^*$ & Uni-Mol & WL & --- & \textbf{0.891} & \textbf{0.924} & \textbf{0.822} & \textbf{0.623} \\
+E2E LoRA & MolFormer-XL & FL & --- & 0.872 & 0.789 & 0.785 & 0.789 & 0.577 & 0.783 & 0.794 \\
+E2E LoRA & MolFormer-XL & WL & --- & 0.871 & 0.724 & 0.722 & 0.724 & 0.476 & 0.733 & 0.743 \\
+E2E LoRA & Uni-Mol & FL & --- & 0.876 & 0.743 & 0.743 & 0.743 & 0.520 & 0.755 & 0.765 \\
+E2E LoRA$^*$ & Uni-Mol & WL & --- & \textbf{0.891} & \textbf{0.822} & \textbf{0.808} & \textbf{0.822} & \textbf{0.623} & \textbf{0.823} & \textbf{0.801} \\
 \midrule
-FT Embed & MolFormer-XL & FL & CatBoost & 0.869 & 0.895 & 0.763 & 0.557 \\
-FT Embed & Uni-Mol & FL & LightGBM & 0.860 & 0.893 & 0.730 & 0.493 \\
-PC + FT Embed & MolFormer-XL & FL & XGBoost & 0.870 & 0.901 & 0.737 & 0.517 \\
+FT Embed & MolFormer-XL & FL & CatBoost & 0.869 & 0.763 & 0.762 & 0.763 & 0.557 & 0.773 & 0.784 \\
+FT Embed & Uni-Mol & FL & LightGBM & 0.860 & 0.730 & 0.729 & 0.730 & 0.493 & 0.742 & 0.751 \\
+PC + FT Embed & MolFormer-XL & FL & XGBoost & 0.870 & 0.737 & 0.736 & 0.737 & 0.517 & 0.755 & 0.762 \\
 \midrule
-RAFE & MolFormer-XL & FL & CatBoost & 0.863 & 0.892 & 0.763 & 0.557 \\
-RAFE & MolFormer-XL & WL & LightGBM & 0.858 & 0.892 & 0.770 & 0.561 \\
-RAFE & Uni-Mol & FL & XGBoost & 0.840 & 0.895 & 0.704 & 0.478 \\
+RAFE & MolFormer-XL & FL & CatBoost & 0.863 & 0.763 & 0.762 & 0.763 & 0.557 & 0.773 & 0.784 \\
+RAFE & MolFormer-XL & WL & LightGBM & 0.858 & 0.770 & 0.768 & 0.770 & 0.561 & 0.774 & 0.787 \\
+RAFE & Uni-Mol & FL & XGBoost & 0.840 & 0.704 & 0.704 & 0.704 & 0.478 & 0.739 & 0.738 \\
 \bottomrule
 \end{tabular}
 }
-\end{table}
+\end{table*}
 
 \subsection{ClinTox Dataset Results}
 

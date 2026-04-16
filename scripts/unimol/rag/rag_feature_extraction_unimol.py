@@ -139,8 +139,15 @@ def parse_embedding_column(series: pd.Series) -> Tuple[np.ndarray, List[int]]:
 
 
 # ── FAISS index loading ───────────────────────────────────────────────────────
-def load_index_on_gpu(index_path: Path, gpu_id: int = 0) -> faiss.Index:
+def load_index_on_gpu(index_path: Path, gpu_id: int = 0,
+                      use_gpu: bool = True) -> faiss.Index:
     cpu_index = faiss.read_index(str(index_path))
+    if not use_gpu:
+        logging.info(
+            f"  Index loaded on CPU (--no-gpu): "
+            f"{cpu_index.ntotal} vectors, d={cpu_index.d}"
+        )
+        return cpu_index
     res       = faiss.StandardGpuResources()
     gpu_index = faiss.index_cpu_to_gpu(res, gpu_id, cpu_index)
     logging.info(
@@ -297,6 +304,8 @@ def main() -> None:
     )
     parser.add_argument("--dataset", required=True, choices=VALID_DATASETS)
     parser.add_argument("--gpu-id",  type=int, default=0)
+    parser.add_argument("--no-gpu",  action="store_true",
+                        help="Use CPU Faiss index (avoids CUDA kernel issues)")
     args = parser.parse_args()
     dataset = args.dataset
 
@@ -346,7 +355,8 @@ def main() -> None:
         logging.info(f"\n{'='*50}")
         logging.info(f"Model: {col_name}")
 
-        index = load_index_on_gpu(index_path, gpu_id=args.gpu_id)
+        index = load_index_on_gpu(index_path, gpu_id=args.gpu_id,
+                                  use_gpu=not args.no_gpu)
 
         fitted_pca: Optional[PCA] = None
         if pca_path.exists():
