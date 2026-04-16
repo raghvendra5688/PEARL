@@ -543,7 +543,7 @@ RAFE & Uni-Mol & FL & XGBoost & 0.928 & 0.943 & 0.891 & 0.872 & 0.891 & 0.773 & 
 
 Table~\ref{tab:flavor} presents results on the multi-class Flavor dataset.
 E2E LoRA finetuning of MolFormer-XL with weighted loss achieves MCC~$= 0.801$,
-F1$_\text{mac} = 0.809$, and AUC~$= 0.975$, with balanced precision and recall.
+F1$_\text{mac} = 0.809$, AUC~$= 0.975$, Prec~$= 0.802$, and Rec~$= 0.817$.
 
 The RAFE framework (MolFormer-XL WL + CatBoost) achieves MCC~$= 0.804$, marginally
 \emph{exceeding} E2E LoRA, while using tree-based classifiers on the augmented feature
@@ -552,13 +552,13 @@ information for distinguishing multi-class taste profiles: logP differences betw
 hydrophobic ZINC neighbourhood of bitter compounds versus the hydrophilic neighbourhood
 of sweet/sour compounds complement the CLM's learned representations.
 
-Uni-Mol achieves MCC~$= 0.776$ with weighted loss, competitive with but below MolFormer,
+Uni-Mol achieves MCC~$= 0.795$ with weighted loss (Prec~$= 0.747$, Rec~$= 0.848$),
+competitive with but below MolFormer,
 indicating that 3D geometric information does not provide a strong additional signal for
 flavour prediction compared to SMILES-based representations.
 Uni-Mol FT Embed FL (XGBoost) achieves MCC~$= 0.765$, Acc~$= 0.866$, F1$_\text{mac} = 0.731$,
-matching Uni-Mol E2E LoRA WL (MCC~$= 0.776$) closely and slightly outperforming E2E LoRA FL
-(MCC~$= 0.765$), demonstrating that finetuned 3D embeddings alone capture competitive taste
-representations without end-to-end gradient flow.
+falling below Uni-Mol E2E LoRA FL (MCC~$= 0.790$) and WL (MCC~$= 0.795$), demonstrating
+that end-to-end gradient flow provides a meaningful benefit for 3D taste representation.
 Uni-Mol RAFE FL (CatBoost) achieves MCC~$= 0.764$, Acc~$= 0.866$, F1$_\text{mac} = 0.714$,
 while WL (CatBoost) achieves MCC~$= 0.761$, F1$_\text{mac} = 0.737$---WL's minority-class
 upweighting yields superior macro-averaged balance, particularly for the rarest umami class
@@ -566,29 +566,28 @@ upweighting yields superior macro-averaged balance, particularly for the rarest 
 
 \begin{table*}[t]
 \centering
-\caption{Best performing configurations on the Flavor (FART) dataset. RAFE results include
-per-class AUPR for the five taste categories: bitter (C0), sweet (C1), sour (C2),
-umami (C3), undefined (C4).}
+\caption{Best performing configurations on the Flavor (FART) dataset.
+Prec and Rec are macro-averaged. AUC is one-vs-rest macro ROC AUC.}
 \label{tab:flavor}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{llllrrrrr}
+\begin{tabular}{llllrrrrrrr}
 \toprule
-Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC \\
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec & Rec \\
 \midrule
-E2E LoRA$^*$ & MolFormer-XL & WL & --- & \textbf{0.975} & 0.892 & 0.809 & 0.892 & 0.801 \\
-E2E LoRA & ChemBERTa-77M MTR & WL & --- & 0.964 & 0.890 & 0.780 & 0.890 & 0.802 \\
-E2E LoRA & Uni-Mol & FL & --- & 0.966 & 0.868 & 0.770 & 0.868 & 0.765 \\
-E2E LoRA & Uni-Mol & WL & --- & 0.967 & 0.874 & 0.772 & 0.874 & 0.776 \\
+E2E LoRA$^*$ & MolFormer-XL & WL & --- & \textbf{0.975} & 0.892 & \textbf{0.809} & 0.892 & 0.801 & 0.802 & 0.817 \\
+E2E LoRA & ChemBERTa-77M MTR & WL & --- & 0.964 & 0.890 & 0.780 & 0.890 & 0.802 & 0.780 & 0.786 \\
+E2E LoRA & Uni-Mol & FL & --- & 0.969 & 0.883 & 0.771 & 0.883 & 0.790 & 0.767 & 0.781 \\
+E2E LoRA & Uni-Mol & WL & --- & 0.973 & 0.885 & 0.783 & 0.885 & 0.795 & 0.747 & \textbf{0.848} \\
 \midrule
-FT Embed & MolFormer-XL & WL & LightGBM & 0.970 & 0.882 & 0.783 & 0.882 & 0.787 \\
-FT Embed & Uni-Mol & FL & XGBoost & 0.950 & 0.866 & 0.731 & 0.866 & 0.765 \\
-PC + FT Embed & MolFormer-XL & WL & LightGBM & 0.967 & 0.883 & 0.798 & 0.883 & 0.789 \\
+FT Embed & MolFormer-XL & WL & LightGBM & 0.970 & 0.882 & 0.783 & 0.882 & 0.787 & 0.800 & 0.778 \\
+FT Embed & Uni-Mol & FL & XGBoost & 0.950 & 0.866 & 0.731 & 0.866 & 0.765 & 0.756 & 0.735 \\
+PC + FT Embed & MolFormer-XL & WL & LightGBM & 0.967 & 0.883 & 0.798 & 0.883 & 0.789 & 0.852 & 0.779 \\
 \midrule
-RAFE & ChemBERTa-77M MTR & FL & CatBoost & 0.824 & 0.886 & 0.741 & 0.886 & 0.798 \\
-RAFE & MolFormer-XL & FL & LightGBM & 0.811 & 0.889 & 0.788 & 0.889 & 0.793 \\
-RAFE & MolFormer-XL & WL & LightGBM & 0.831 & 0.892 & \textbf{0.794} & 0.892 & 0.798 \\
-RAFE & MolFormer-XL & WL & CatBoost & 0.837 & \textbf{0.893} & 0.774 & \textbf{0.893} & \textbf{0.804} \\
-RAFE & Uni-Mol & FL & CatBoost & --- & 0.866 & 0.714 & 0.866 & 0.764 \\
+RAFE & ChemBERTa-77M MTR & FL & CatBoost & 0.969 & 0.886 & 0.741 & 0.886 & 0.798 & 0.731 & 0.756 \\
+RAFE & MolFormer-XL & FL & LightGBM & 0.953 & 0.889 & 0.788 & 0.889 & 0.793 & 0.818 & 0.768 \\
+RAFE & MolFormer-XL & WL & LightGBM & 0.964 & 0.892 & 0.794 & 0.892 & 0.798 & 0.825 & 0.775 \\
+RAFE & MolFormer-XL & WL & CatBoost & 0.963 & \textbf{0.893} & 0.774 & \textbf{0.893} & \textbf{0.804} & \textbf{0.868} & 0.749 \\
+RAFE & Uni-Mol & FL & CatBoost & 0.931 & 0.866 & 0.714 & 0.866 & 0.764 & 0.704 & 0.731 \\
 \bottomrule
 \end{tabular}
 }

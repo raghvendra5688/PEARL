@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "Read(//export/cse/rmall/Raghvendra/**)",
+      "Bash(awk '{print \"state=\"$8, \"cpu=\"$3\"% mem=\"$4\"%\"}')",
+      "Bash(awk '{print \"pid=\"$2, \"state=\"$8, \"cpu=\"$3\"% mem=\"$4\"%\", \"elapsed=\"$10}')",
+      "Bash(awk '{print \"pid=\"$2, \"state=\"$8, \"cpu=\"$3\"% cputime=\"$10}')"
     ]
   }
 }
