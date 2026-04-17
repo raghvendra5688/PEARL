@@ -1,4 +1,6 @@
-\documentclass[12pt,a4paper]{article}
+
+
+\documentclass[9pt,a4paper]{article}
 
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
@@ -17,13 +19,14 @@
 \usepackage{adjustbox}
 \geometry{a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 
-\renewcommand{\arraystretch}{1.05}
+\renewcommand{\arraystretch}{1.0}
+\setlength{\tabcolsep}{4pt}
 
 \title{\textbf{Supplementary Material}\\[4pt]
 {\large PEARL: Parameter-Efficient Adaptation with
 Retrieval-Augmented Learning for Molecular Property Prediction}}
 
-\author{}
+\author{Raghvendra Mall}
 \date{}
 
 \begin{document}
@@ -32,10 +35,12 @@ Retrieval-Augmented Learning for Molecular Property Prediction}}
 \newpage
 
 %% =============================================================================
+\phantomsection\addcontentsline{toc}{section}{Supplementary Tables}
 \section*{Supplementary Tables}
 %% =============================================================================
 
 %% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Table S1: 473-Dimensional Physicochemical Feature Vector}
 \subsection*{Table S1: 473-Dimensional Physicochemical Feature Vector}
 %% -----------------------------------------------------------------------------
 
@@ -49,7 +54,6 @@ RDKit descriptors are drawn from \texttt{Descriptors.descList} after removing
 on drug-like molecules (BCUT descriptors, partial-charge extrema, $\chi$-series,
 Kappa indices, etc.).
 
-\vspace{6pt}
 \begin{table}[h]
 \centering
 \caption{The 473-dimensional PC feature vector: RDKit-derived molecular descriptors,
@@ -135,16 +139,16 @@ MACCS structural keys & 167 & Fingerprint \\
 \newpage
 
 %% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Table S2: Full BBBP Ablation}
 \subsection*{Table S2: Full BBBP Ablation}
 %% -----------------------------------------------------------------------------
 
 All modality $\times$ CLM $\times$ loss $\times$ ML combinations on the BBBP
-(Blood--Brain Barrier Permeability) dataset.
+(Blood-Brain Barrier Permeability) dataset.
 Abbreviations: MLM = ChemBERTa-77M-MLM, MTR = ChemBERTa-77M-MTR,
 MF = MolFormer-XL, UM = Uni-Mol; CB = CatBoost, LGB = LightGBM, XGB = XGBoost.
 
-\begin{landscape}
-\begin{footnotesize}
+\begin{scriptsize}
 \begin{longtable}{lllcrrrrrr}
 \caption{Full BBBP ablation results.}
 \label{tab:s2_bbbp} \\
@@ -244,12 +248,12 @@ RAFE & UM  & WL & CB  & 0.932 & 0.880 & 0.860 & 0.880 & 0.748 & 0.913 \\
 RAFE & UM  & WL & LGB & 0.932 & 0.865 & 0.839 & 0.865 & 0.716 & 0.904 \\
 RAFE & UM  & WL & XGB & 0.929 & 0.870 & 0.846 & 0.870 & 0.726 & 0.907 \\
 \end{longtable}
-\end{footnotesize}
-\end{landscape}
+\end{scriptsize}
 
 \newpage
 
 %% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Table S3: Full Flavor (FART) Ablation}
 \subsection*{Table S3: Full Flavor (FART) Ablation}
 %% -----------------------------------------------------------------------------
 
@@ -260,8 +264,7 @@ AUC (macro one-vs-rest) is available for E2E LoRA, FT Embed, and PC+FT rows;
 ``---'' for RAFE rows.
 Rec column omitted for space; see text for analysis.
 
-\begin{landscape}
-\begin{footnotesize}
+\begin{scriptsize}
 \begin{longtable}{lllcrrrr}
 \caption{Full Flavor ablation results.}
 \label{tab:s3_flavor} \\
@@ -269,11 +272,14 @@ Rec column omitted for space; see text for analysis.
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & MCC \\
 \midrule
 \endfirsthead
-\multicolumn{8}{l}{\footnotesize\textit{(continued)}} \\
+\multicolumn{8}{l}{\footnotesize\textit{(continued from previous page)}} \\
 \toprule
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & MCC \\
 \midrule
 \endhead
+\midrule
+\multicolumn{8}{r}{\footnotesize\textit{(continued on next page)}} \\
+\endfoot
 \bottomrule
 \endlastfoot
 %% E2E LoRA
@@ -355,12 +361,12 @@ RAFE & UM  & WL & CB  & --- & 0.865 & 0.737 & 0.761 \\
 RAFE & UM  & WL & LGB & --- & 0.799 & 0.653 & 0.677 \\
 RAFE & UM  & WL & XGB & --- & 0.849 & 0.670 & 0.719 \\
 \end{longtable}
-\end{footnotesize}
-\end{landscape}
+\end{scriptsize}
 
 \newpage
 
 %% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Table S4: Full ClinTox Ablation (FDA\_APPROVED Label)}
 \subsection*{Table S4: Full ClinTox Ablation (FDA\_APPROVED Label)}
 %% -----------------------------------------------------------------------------
 
@@ -368,8 +374,7 @@ Full ablation for the ClinTox FDA\_APPROVED binary label.
 Test set: 143 compounds (136 FDA-approved, 7 FDA-rejected).
 The class imbalance (95.1\% majority) explains the large variation in MCC across methods.
 
-\begin{landscape}
-\begin{footnotesize}
+\begin{scriptsize}
 \begin{longtable}{lllcrrrrrr}
 \caption{Full ClinTox ablation results for the FDA\_APPROVED label.}
 \label{tab:s4_clintox} \\
@@ -377,11 +382,14 @@ The class imbalance (95.1\% majority) explains the large variation in MCC across
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
 \midrule
 \endfirsthead
-\multicolumn{10}{l}{\footnotesize\textit{(continued)}} \\
+\multicolumn{10}{l}{\footnotesize\textit{(continued from previous page)}} \\
 \toprule
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
 \midrule
 \endhead
+\midrule
+\multicolumn{10}{r}{\footnotesize\textit{(continued on next page)}} \\
+\endfoot
 \bottomrule
 \endlastfoot
 %% E2E LoRA
@@ -466,19 +474,18 @@ RAFE & UM  & WL & CB  & 0.982 & 0.888 & 0.702 & 0.888 & 0.505 & 0.652 \\
 RAFE & UM  & WL & LGB & 0.967 & 0.902 & 0.723 & 0.902 & 0.547 & 0.667 \\
 RAFE & UM  & WL & XGB & 0.983 & 0.951 & 0.803 & 0.951 & 0.633 & 0.746 \\
 \end{longtable}
-\end{footnotesize}
-\end{landscape}
+\end{scriptsize}
 
 \newpage
 
 %% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Table S5: Full BACE Ablation}
 \subsection*{Table S5: Full BACE Ablation}
 %% -----------------------------------------------------------------------------
 
 Full ablation for the BACE (BACE-1 inhibitor classification) dataset.
 
-\begin{landscape}
-\begin{footnotesize}
+\begin{scriptsize}
 \begin{longtable}{lllcrrrrrr}
 \caption{Full BACE ablation results.}
 \label{tab:s5_bace} \\
@@ -486,11 +493,14 @@ Full ablation for the BACE (BACE-1 inhibitor classification) dataset.
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
 \midrule
 \endfirsthead
-\multicolumn{10}{l}{\footnotesize\textit{(continued)}} \\
+\multicolumn{10}{l}{\footnotesize\textit{(continued from previous page)}} \\
 \toprule
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
 \midrule
 \endhead
+\midrule
+\multicolumn{10}{r}{\footnotesize\textit{(continued on next page)}} \\
+\endfoot
 \bottomrule
 \endlastfoot
 %% E2E LoRA
@@ -575,12 +585,12 @@ RAFE & UM  & WL & CB  & 0.842 & 0.704 & 0.704 & 0.704 & 0.453 & 0.724 \\
 RAFE & UM  & WL & LGB & 0.807 & 0.684 & 0.684 & 0.684 & 0.424 & 0.711 \\
 RAFE & UM  & WL & XGB & 0.822 & 0.704 & 0.704 & 0.704 & 0.461 & 0.729 \\
 \end{longtable}
-\end{footnotesize}
-\end{landscape}
+\end{scriptsize}
 
 \newpage
 
 %% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Table S6: LoRA Parameter Efficiency Analysis}
 \subsection*{Table S6: LoRA Parameter Efficiency Analysis}
 %% -----------------------------------------------------------------------------
 
@@ -590,7 +600,7 @@ Trainable\% refers to the fraction of total model parameters that are updated du
 finetuning. Reduction\% = 100 $-$ Trainable\%.
 Uni-Mol (~47M parameters) uses the same sweep protocol ($r \in \{4,8,16,32\}$,
 $\alpha \in \{8,16,32,64\}$, dropout $\in \{0.0, 0.1, 0.2\}$) targeting
-\texttt{in\_proj} layers; best configurations achieve $<5\%$ trainable parameters
+\texttt{in\_proj} layers; best configurations achieve <$5\%$ trainable parameters
 across all tasks.
 
 \begin{table}[h]
@@ -637,32 +647,27 @@ Flavor & WL & MolFormer-XL       & 4  & 64  & 0.1 & 45{,}560{,}069 & 1{,}625{,}0
 \newpage
 
 %% =============================================================================
+\phantomsection\addcontentsline{toc}{section}{Supplementary Sections}
 \section*{Supplementary Sections}
 %% =============================================================================
 
 %% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Section S1: Zero-Shot vs.\ Full Finetuning}
 \subsection*{Section S1: Zero-Shot vs.\ Full Finetuning}
 %% -----------------------------------------------------------------------------
 
 \paragraph{Zero-shot evaluation.}
 Zero-shot performance of CLMs on molecular property prediction tasks is generally
-poor for binary/multi-class classification because the models were pretrained to
-reconstruct SMILES tokens (masked-language modelling) or predict molecular properties
-via regression (multi-task regression), not to output class labels.
-Without finetuning, CLM representations encode general molecular structure but lack
-task-specific discriminative features.
+poor for binary/multi-class classification because the models were pretrained to reconstruct SMILES tokens (masked-language modelling) or predict molecular properties via regression (multi-task regression), not to output class labels. Without finetuning, CLM representations encode general molecular structure but lack task-specific discriminative features.
 Empirically, zero-shot linear probes on ClinTox and BACE achieve MCC~$< 0.1$ for
-ChemBERTa models not specifically pre-trained on toxicity data, confirming that task
-alignment is essential.
+ChemBERTa models not specifically pre-trained on toxicity data, confirming that task alignment is essential.
 
 \paragraph{Full finetuning vs.\ LoRA.}
-Full finetuning updates all model parameters for the downstream task, maximising
-task-specific adaptation but incurring high memory cost ($\mathcal{O}(|\theta|)$
-gradient storage) and risking catastrophic forgetting of pre-trained chemical knowledge.
+Full finetuning updates all model parameters for the downstream task, maximizing task-specific adaptation but incurring high memory cost ($\mathcal{O}(|\theta|)$ gradient storage) and risking catastrophic forgetting of pre-trained chemical knowledge.
 
 Low-Rank Adaptation (LoRA) decomposes the weight update $\Delta W \in \mathbb{R}^{d \times k}$
 as the product $BA$ where $B \in \mathbb{R}^{d \times r}$, $A \in \mathbb{R}^{r \times k}$
-with $r \ll \min(d, k)$, reducing trainable parameters by 76--97\% without degrading
+with $r \ll \min(d, k)$, reducing trainable parameters by $76-97\%$ without degrading
 predictive accuracy.
 Across all four PEARL datasets, LoRA-finetuned models match or exceed full finetuning
 benchmarks reported in prior work (MolFormer WL BBBP MCC~$= 0.797$; Uni-Mol WL BACE
@@ -670,15 +675,15 @@ MCC~$= 0.623$), confirming that the task-relevant weight update lives in a low-r
 subspace.
 
 \paragraph{Comparison to reported baselines.}
-MolFormer-XL full finetuning on BBBP achieves MCC~$\approx 0.79$ in the original
-paper~\cite{ross2022molformer}, matching our LoRA results (MCC~$= 0.797$) while using
-only 6--9\% of parameters.
-ChemBERTa-2 full finetuning on ClinTox achieves AUROC~$= 0.97$--$0.99$ in the
+MolFormer-XL full finetuning on BBBP achieves MCC~$\approx 0.79$ in the original paper~\cite{ross2022molformer}, matching our LoRA results (MCC~$= 0.797$) while using
+only $6-9\%$ of parameters.
+ChemBERTa-2 full finetuning on ClinTox achieves AUROC~$= 0.97$-$0.99$ in the
 original benchmark~\cite{ahmad2022chemberta2}; our LoRA MolFormer FL achieves
-AUROC~$= 0.993$ with 3.44\% trainable parameters.
+AUROC~$= 0.993$ with $3.44\%$ trainable parameters.
 
 %% -----------------------------------------------------------------------------
-\subsection*{Section S2: LoRA for Uni-Mol --- Mathematical Formulation and
+\phantomsection\addcontentsline{toc}{subsection}{Section S2: LoRA for Uni-Mol - Mathematical Formulation and Implementation Details}
+\subsection*{Section S2: LoRA for Uni-Mol - Mathematical Formulation and
 Implementation Details}
 %% -----------------------------------------------------------------------------
 
@@ -721,7 +726,8 @@ During training, the data loader reads cached conformers; cache misses fall back
 to on-the-fly generation.
 
 %% -----------------------------------------------------------------------------
-\subsection*{Section S3: PEARL Custom Trainer --- Loss Functions, Class Weights,
+\phantomsection\addcontentsline{toc}{subsection}{Section S3: PEARL Custom Trainer - Loss Functions, Class Weights, and Evaluation}
+\subsection*{Section S3: PEARL Custom Trainer - Loss Functions, Class Weights,
 and Evaluation}
 %% -----------------------------------------------------------------------------
 
@@ -734,15 +740,15 @@ PEARL implements two loss functions selectable per run:
   with $\gamma = 2$ and $\alpha_t$ set by class frequency.
   The $(1 - p_t)^\gamma$ modulating factor down-weights easy examples and focuses
   training on hard, misclassified samples.
-  FL is particularly effective for tasks with moderate class imbalance and challenging
-  examples (e.g., BACE inhibitor classification).
+  FL is particularly effective for tasks with challenging
+  examples (e.g., ClinTox classification).
 
 \item \textbf{Weighted Cross-Entropy (WL).}
   $\mathcal{L}_\text{WL} = -\sum_c w_c \log p_c$
   with class weight $w_c = N / (C \cdot n_c)$, where $N$ is total training samples,
   $C$ is the number of classes, and $n_c$ is the count for class $c$.
   Weighting the loss by inverse class frequency is preferred for severe imbalance
-  (BBBP, Flavor multi-class, ClinTox) where FL's hard-example focus is less critical
+  (BBBP and Flavor multi-class) where FL's hard-example focus is less critical
   than correcting the class prior.
 \end{itemize}
 
@@ -764,10 +770,11 @@ All results report:
     macro-averaged precision and recall.
 \end{itemize}
 All metrics are computed on a held-out test set unseen during training and
-hyperparameter optimisation.
+hyperparameter optimization.
 Optuna (20 trials, TPE sampler) is used for ML-stage hyperparameter search.
 
 %% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Section S4: RAFE Pipeline Details}
 \subsection*{Section S4: RAFE Pipeline Details}
 %% -----------------------------------------------------------------------------
 
@@ -777,7 +784,7 @@ The raw dataset is cleaned by: (i)~removing molecules that cannot be parsed by
 RDKit; (ii)~standardising SMILES with RDKit MolStandardise; (iii)~computing
 LogP, QED, and SAS (Synthetic Accessibility Score) for each molecule.
 The cleaned library is embedded using each task-specific finetuned model
-(ChemBERTa, MolFormer, or Uni-Mol with LoRA weights) and normalised to unit $\ell_2$ norm.
+(ChemBERTa, MolFormer, or Uni-Mol with LoRA weights) and normalized to unit $\ell_2$ norm.
 
 \paragraph{FAISS index construction.}
 For each (dataset, CLM variant, loss) combination, a separate FAISS
@@ -785,21 +792,17 @@ For each (dataset, CLM variant, loss) combination, a separate FAISS
 $\ell_2$-normalised vectors) is built over the ZINC-250k embeddings.
 For large embedding dimensions (Uni-Mol: 2560~dim), HNSW (\texttt{IndexHNSWFlat})
 with $M = 32$, $\texttt{efSearch} = 64$ is also evaluated; FlatIP is preferred
-for accuracy-critical tasks (BACE), while HNSW provides a 3--5$\times$ speedup
+for accuracy-critical tasks (BACE), while HNSW provides a $3$-$5\times$ speedup
 with $< 0.5\%$ recall drop for retrieval tasks.
 FAISS indices are built once and stored as \texttt{.index} files to avoid redundant
 re-embedding of ZINC-250k.
 
 \paragraph{PCA fitting strategy.}
-The 57-dimensional (SMILES models) or 60-dimensional (Uni-Mol) RAFE vector includes
-a 32-dimensional PCA-compressed centroid of the $k=10$ nearest ZINC-250k neighbours
-in embedding space.
-PCA is fitted on the \emph{training} split only and applied without re-fitting to
-the validation and test splits, preventing any data leakage from retrieval.
+The 69-dimensional RAFE vector includes a 32-dimensional PCA-compressed centroid of the $k=10$ nearest ZINC-250k neighbours in embedding space.
+PCA is fitted on the \emph{training} split only and applied without re-fitting to the validation and test splits, preventing any data leakage from retrieval.
 
 \paragraph{Per-group feature breakdown.}
-The final RAFE feature vector (57 dims for SMILES models; 60 dims for Uni-Mol) is
-composed of the following groups:
+The final RAFE feature vector is composed of the following groups:
 
 \begin{table}[h]
 \centering
@@ -822,23 +825,21 @@ Embedding centroid (PCA-32) & 34 &
 Tanimoto structural similarity & 3 &
   tanimoto\_k1 (nearest neighbour), tanimoto\_k5\_mean,
   scaffold\_match\_frac\_k10 (Murcko scaffold overlap). \\
-\midrule
-\textbf{Total (SMILES)} & \textbf{57 -- 60\footnotemark} & \\
+%\midrule
+%\textbf{Total (SMILES)} & \textbf{57 - 60\footnotemark} & \\
 \bottomrule
 \end{tabular}
 \end{table}
-\footnotetext{Exact count varies slightly by model variant (57 for MolFormer/ChemBERTa, 60 for Uni-Mol) due to minor differences in centroid PCA dimensionality and supplementary stat groups.}
+%\footnotetext{Exact count varies slightly by model variant (57 for MolFormer/ChemBERTa, 60 for Uni-Mol) due to minor differences in centroid PCA dimensionality and supplementary stat groups.}
 
-The full RAFE feature vector is concatenated with the finetuned molecular embedding
-and the 473-dimensional PC feature vector before passing to the tree-based classifier.
+The full RAFE feature vector is concatenated with the finetuned molecular embedding and the 473-dimensional PC feature vector before passing to the tree-based classifier. 
 For SMILES models (embedding dim 512 or 768), the final input to the ML stage is:
-$[\text{FT embed} \| \text{PC}_{473} \| \text{RAFE}_{57}]$, yielding 1042~dims for
-MolFormer (512+473+57) and 1298~dims for ChemBERTa (768+473+57).
+$[\text{FT embed} \| \text{PC}_{473} \| \text{RAFE}]$, yielding 1054~dims for
+MolFormer (512+473+69) and 1310~dims for ChemBERTa (768+473+69).
 For Uni-Mol (embedding dim 2560), the input is
-$[\text{FT embed}_{2560} \| \text{PC}_{476} \| \text{RAFE}_{60}] = 3096$ dims,
-consistent with the logged feature matrix shape.
+$[\text{FT embed}_{2560} \| \text{PC}_{473} \| \text{RAFE}] = 3102$ dims.
 
-\bibliographystyle{unsrtnat}
+\bibliographystyle{unsrt}
 \bibliography{PEARL_references}
 
 \end{document}
