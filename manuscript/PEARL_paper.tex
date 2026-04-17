@@ -1,11 +1,70 @@
-\documentclass[twocolumn,a4paper,10pt]{article}
+
+%% bare_conf.tex
+%% V1.4b
+%% 2015/08/26
+%% by Michael Shell
+%% See:
+%% http://www.michaelshell.org/
+%% for current contact information.
+%%
+%% This is a skeleton file demonstrating the use of IEEEtran.cls
+%% (requires IEEEtran.cls version 1.8b or later) with an IEEE
+%% conference paper.
+%%
+%% Support sites:
+%% http://www.michaelshell.org/tex/ieeetran/
+%% http://www.ctan.org/pkg/ieeetran
+%% and
+%% http://www.ieee.org/
+
+%%*************************************************************************
+%% Legal Notice:
+%% This code is offered as-is without any warranty either expressed or
+%% implied; without even the implied warranty of MERCHANTABILITY or
+%% FITNESS FOR A PARTICULAR PURPOSE! 
+%% User assumes all risk.
+%% In no event shall the IEEE or any contributor to this code be liable for
+%% any damages or losses, including, but not limited to, incidental,
+%% consequential, or any other damages, resulting from the use or misuse
+%% of any information contained here.
+%%
+%% All comments are the opinions of their respective authors and are not
+%% necessarily endorsed by the IEEE.
+%%
+%% This work is distributed under the LaTeX Project Public License (LPPL)
+%% ( http://www.latex-project.org/ ) version 1.3, and may be freely used,
+%% distributed and modified. A copy of the LPPL, version 1.3, is included
+%% in the base LaTeX documentation of all distributions of LaTeX released
+%% 2003/12/01 or later.
+%% Retain all contribution notices and credits.
+%% ** Modified files should be clearly indicated as such, including  **
+%% ** renaming them and changing author support contact information. **
+%%*************************************************************************
+
+
+% *** Authors should verify (and, if needed, correct) their LaTeX system  ***
+% *** with the testflow diagnostic prior to trusting their LaTeX platform ***
+% *** with production work. The IEEE's font choices and paper sizes can   ***
+% *** trigger bugs that do not appear when using other class files.       ***                          ***
+% The testflow support page is at:
+% http://www.michaelshell.org/tex/testflow/
+
+
+
+\documentclass[9pt,twocolumn,conference]{IEEEtran}
+% Some Computer Society conferences also require the compsoc mode option,
+% but others use the standard conference format.
+%
+% If IEEEtran.cls has not been installed into the LaTeX system files,
+% manually specify the path to it like:
+% \documentclass[conference]{../sty/IEEEtran}
 
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{hyperref}
 \usepackage{graphicx}
 \usepackage{url}
-\usepackage[numbers,sort&compress]{natbib}
+\usepackage{breakurl}
 \usepackage{multirow}
 \usepackage{array}
 \usepackage{xcolor}
@@ -13,568 +72,616 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{microtype}
-\geometry{a4paper, top=2cm, bottom=2cm, left=1.8cm, right=1.8cm, columnsep=0.6cm}
 
-\setlength{\parskip}{2pt}
 
-\title{\textbf{PEARL: Parameter-Efficient Adaptation with
-Retrieval-Augmented Learning for Molecular Property Prediction}\\[4pt]
-{\large Integrating LoRA, 3D Molecular Representations, and Chemical
-Neighbourhood Retrieval across ChemBERTa, MolFormer, and Uni-Mol}}
 
-\author{
-Kavya Agrawal$^{1}$ \quad Harsha Harod$^{1}$ \quad Ines Simeone$^{2}$ \quad
-Michele Ceccarelli$^{3}$ \quad Halima Bensmail$^{5}$ \quad
-Sukrit Gupta$^{1}$ \quad Raghvendra Mall$^{4,5}$\\[4pt]
-{\small $^{1}$Center for Applied Research in Data Science, IIT Ropar, Punjab, India}\quad
-{\small $^{2}$Humanitas Research, Rozzano, Italy}\\
-{\small $^{3}$Sylvester Cancer Center, University of Miami, Florida, U.S.A}\\
-{\small $^{4}$Technology Innovation Institute, Abu Dhabi, U.A.E.}\quad
-{\small $^{5}$Qatar Computing Research Institute, HBKU, Doha, Qatar}\\[2pt]
-\texttt{ramall@hbku.edu.qa, raghvendramall@ieee.org}
-}
+% Some very useful LaTeX packages include:
+% (uncomment the ones you want to load)
 
-\date{Received: 10 March 2026 \quad|\quad Revised: \quad|\quad Accepted:}
+
+% *** MISC UTILITY PACKAGES ***
+%
+%\usepackage{ifpdf}
+% Heiko Oberdiek's ifpdf.sty is very useful if you need conditional
+% compilation based on whether the output is pdf or dvi.
+% usage:
+% \ifpdf
+%   % pdf code
+% \else
+%   % dvi code
+% \fi
+% The latest version of ifpdf.sty can be obtained from:
+% http://www.ctan.org/pkg/ifpdf
+% Also, note that IEEEtran.cls V1.7 and later provides a builtin
+% \ifCLASSINFOpdf conditional that works the same way.
+% When switching from latex to pdflatex and vice-versa, the compiler may
+% have to be run twice to clear warning/error messages.
+
+
+
+
+
+
+% *** CITATION PACKAGES ***
+%
+%\usepackage{cite}
+% cite.sty was written by Donald Arseneau
+% V1.6 and later of IEEEtran pre-defines the format of the cite.sty package
+% \cite{} output to follow that of the IEEE. Loading the cite package will
+% result in citation numbers being automatically sorted and properly
+% "compressed/ranged". e.g., [1], [9], [2], [7], [5], [6] without using
+% cite.sty will become [1], [2], [5]--[7], [9] using cite.sty. cite.sty's
+% \cite will automatically add leading space, if needed. Use cite.sty's
+% noadjust option (cite.sty V3.8 and later) if you want to turn this off
+% such as if a citation ever needs to be enclosed in parenthesis.
+% cite.sty is already installed on most LaTeX systems. Be sure and use
+% version 5.0 (2009-03-20) and later if using hyperref.sty.
+% The latest version can be obtained at:
+% http://www.ctan.org/pkg/cite
+% The documentation is contained in the cite.sty file itself.
+
+
+
+
+
+
+% *** GRAPHICS RELATED PACKAGES ***
+%
+\ifCLASSINFOpdf
+  % \usepackage[pdftex]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../pdf/}{../jpeg/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+  % or other class option (dvipsone, dvipdf, if not using dvips). graphicx
+  % will default to the driver specified in the system graphics.cfg if no
+  % driver is specified.
+  % \usepackage[dvips]{graphicx}
+  % declare the path(s) where your graphic files are
+  % \graphicspath{{../eps/}}
+  % and their extensions so you won't have to specify these with
+  % every instance of \includegraphics
+  % \DeclareGraphicsExtensions{.eps}
+\fi
+% graphicx was written by David Carlisle and Sebastian Rahtz. It is
+% required if you want graphics, photos, etc. graphicx.sty is already
+% installed on most LaTeX systems. The latest version and documentation
+% can be obtained at: 
+% http://www.ctan.org/pkg/graphicx
+% Another good source of documentation is "Using Imported Graphics in
+% LaTeX2e" by Keith Reckdahl which can be found at:
+% http://www.ctan.org/pkg/epslatex
+%
+% latex, and pdflatex in dvi mode, support graphics in encapsulated
+% postscript (.eps) format. pdflatex in pdf mode supports graphics
+% in .pdf, .jpeg, .png and .mps (metapost) formats. Users should ensure
+% that all non-photo figures use a vector format (.eps, .pdf, .mps) and
+% not a bitmapped formats (.jpeg, .png). The IEEE frowns on bitmapped formats
+% which can result in "jaggedy"/blurry rendering of lines and letters as
+% well as large increases in file sizes.
+%
+% You can find documentation about the pdfTeX application at:
+% http://www.tug.org/applications/pdftex
+
+
+
+
+
+% *** MATH PACKAGES ***
+%
+%\usepackage{amsmath}
+% A popular package from the American Mathematical Society that provides
+% many useful and powerful commands for dealing with mathematics.
+%
+% Note that the amsmath package sets \interdisplaylinepenalty to 10000
+% thus preventing page breaks from occurring within multiline equations. Use:
+%\interdisplaylinepenalty=2500
+% after loading amsmath to restore such page breaks as IEEEtran.cls normally
+% does. amsmath.sty is already installed on most LaTeX systems. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/amsmath
+
+
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+% algorithmic.sty was written by Peter Williams and Rogerio Brito.
+% This package provides an algorithmic environment fo describing algorithms.
+% You can use the algorithmic environment in-text or within a figure
+% environment to provide for a floating algorithm. Do NOT use the algorithm
+% floating environment provided by algorithm.sty (by the same authors) or
+% algorithm2e.sty (by Christophe Fiorio) as the IEEE does not use dedicated
+% algorithm float types and packages that provide these will not provide
+% correct IEEE style captions. The latest version and documentation of
+% algorithmic.sty can be obtained at:
+% http://www.ctan.org/pkg/algorithms
+% Also of interest may be the (relatively newer and more customizable)
+% algorithmicx.sty package by Szasz Janos:
+% http://www.ctan.org/pkg/algorithmicx
+
+
+
+
+% *** ALIGNMENT PACKAGES ***
+%
+%\usepackage{array}
+% Frank Mittelbach's and David Carlisle's array.sty patches and improves
+% the standard LaTeX2e array and tabular environments to provide better
+% appearance and additional user controls. As the default LaTeX2e table
+% generation code is lacking to the point of almost being broken with
+% respect to the quality of the end results, all users are strongly
+% advised to use an enhanced (at the very least that provided by array.sty)
+% set of table tools. array.sty is already installed on most systems. The
+% latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/array
+
+
+% IEEEtran contains the IEEEeqnarray family of commands that can be used to
+% generate multiline equations as well as matrices, tables, etc., of high
+% quality.
+
+
+
+
+% *** SUBFIGURE PACKAGES ***
+%\ifCLASSOPTIONcompsoc
+%  \usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+%\else
+%  \usepackage[caption=false,font=footnotesize]{subfig}
+%\fi
+% subfig.sty, written by Steven Douglas Cochran, is the modern replacement
+% for subfigure.sty, the latter of which is no longer maintained and is
+% incompatible with some LaTeX packages including fixltx2e. However,
+% subfig.sty requires and automatically loads Axel Sommerfeldt's caption.sty
+% which will override IEEEtran.cls' handling of captions and this will result
+% in non-IEEE style figure/table captions. To prevent this problem, be sure
+% and invoke subfig.sty's "caption=false" package option (available since
+% subfig.sty version 1.3, 2005/06/28) as this is will preserve IEEEtran.cls
+% handling of captions.
+% Note that the Computer Society format requires a larger sans serif font
+% than the serif footnote size font used in traditional IEEE formatting
+% and thus the need to invoke different subfig.sty package options depending
+% on whether compsoc mode has been enabled.
+%
+% The latest version and documentation of subfig.sty can be obtained at:
+% http://www.ctan.org/pkg/subfig
+
+
+
+
+% *** FLOAT PACKAGES ***
+%
+%\usepackage{fixltx2e}
+% fixltx2e, the successor to the earlier fix2col.sty, was written by
+% Frank Mittelbach and David Carlisle. This package corrects a few problems
+% in the LaTeX2e kernel, the most notable of which is that in current
+% LaTeX2e releases, the ordering of single and double column floats is not
+% guaranteed to be preserved. Thus, an unpatched LaTeX2e can allow a
+% single column figure to be placed prior to an earlier double column
+% figure.
+% Be aware that LaTeX2e kernels dated 2015 and later have fixltx2e.sty's
+% corrections already built into the system in which case a warning will
+% be issued if an attempt is made to load fixltx2e.sty as it is no longer
+% needed.
+% The latest version and documentation can be found at:
+% http://www.ctan.org/pkg/fixltx2e
+
+
+%\usepackage{stfloats}
+% stfloats.sty was written by Sigitas Tolusis. This package gives LaTeX2e
+% the ability to do double column floats at the bottom of the page as well
+% as the top. (e.g., "\begin{figure*}[!b]" is not normally possible in
+% LaTeX2e). It also provides a command:
+%\fnbelowfloat
+% to enable the placement of footnotes below bottom floats (the standard
+% LaTeX2e kernel puts them above bottom floats). This is an invasive package
+% which rewrites many portions of the LaTeX2e float routines. It may not work
+% with other packages that modify the LaTeX2e float routines. The latest
+% version and documentation can be obtained at:
+% http://www.ctan.org/pkg/stfloats
+% Do not use the stfloats baselinefloat ability as the IEEE does not allow
+% \baselineskip to stretch. Authors submitting work to the IEEE should note
+% that the IEEE rarely uses double column equations and that authors should try
+% to avoid such use. Do not be tempted to use the cuted.sty or midfloat.sty
+% packages (also by Sigitas Tolusis) as the IEEE does not format its papers in
+% such ways.
+% Do not attempt to use stfloats with fixltx2e as they are incompatible.
+% Instead, use Morten Hogholm'a dblfloatfix which combines the features
+% of both fixltx2e and stfloats:
+%
+% \usepackage{dblfloatfix}
+% The latest version can be found at:
+% http://www.ctan.org/pkg/dblfloatfix
+
+
+
+
+% *** PDF, URL AND HYPERLINK PACKAGES ***
+%
+%\usepackage{url}
+% url.sty was written by Donald Arseneau. It provides better support for
+% handling and breaking URLs. url.sty is already installed on most LaTeX
+% systems. The latest version and documentation can be obtained at:
+% http://www.ctan.org/pkg/url
+% Basically, \url{my_url_here}.
+
+
+
+
+% *** Do not adjust lengths that control margins, column widths, etc. ***
+% *** Do not use packages that alter fonts (such as pslatex).         ***
+% There should be no need to do such things with IEEEtran.cls V1.6 and later.
+% (Unless specifically asked to do so by the journal or conference you plan
+% to submit to, of course. )
+
+
+% correct bad hyphenation here
+\hyphenation{op-tical net-works semi-conduc-tor}
+
 
 \begin{document}
+%
+% paper title
+% Titles are generally capitalized except for words such as a, an, and, as,
+% at, but, by, for, in, nor, of, on, or, the, to and up, which are usually
+% not capitalized unless they are the first or last word of the title.
+% Linebreaks \\ can be used within to get better formatting as desired.
+% Do not put math or special symbols in the title.
+\title{PEARL: Parameter-Efficient Adaptation with Retrieval-Augmented Learning for Molecular Property Prediction}
 
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{Raghvendra Mall}
+\IEEEauthorblockA{Qatar Computing Research Institute\\ Hamad Bin Khalifa University\\
+Doha, Qatar\\
+Email: raghvendramall@ieee.org}
+}
+% \and
+% \IEEEauthorblockN{Homer Simpson}
+% \IEEEauthorblockA{Twentieth Century Fox\\
+% Springfield, USA\\
+% Email: homer@thesimpsons.com}
+% \and
+% \IEEEauthorblockN{James Kirk\\ and Montgomery Scott}
+% \IEEEauthorblockA{Starfleet Academy\\
+% San Francisco, California 96678--2391\\
+% Telephone: (800) 555--1212\\
+% Fax: (888) 555--1212}}
+
+% conference papers do not typically use \thanks and this command
+% is locked out in conference mode. If really needed, such as for
+% the acknowledgment of grants, issue a \IEEEoverridecommandlockouts
+% after \documentclass
+
+% for over three affiliations, or if they all won't fit within the width
+% of the page, use this alternative format:
+% 
+%\author{\IEEEauthorblockN{Michael Shell\IEEEauthorrefmark{1},
+%Homer Simpson\IEEEauthorrefmark{2},
+%James Kirk\IEEEauthorrefmark{3}, 
+%Montgomery Scott\IEEEauthorrefmark{3} and
+%Eldon Tyrell\IEEEauthorrefmark{4}}
+%\IEEEauthorblockA{\IEEEauthorrefmark{1}School of Electrical and Computer Engineering\\
+%Georgia Institute of Technology,
+%Atlanta, Georgia 30332--0250\\ Email: see http://www.michaelshell.org/contact.html}
+%\IEEEauthorblockA{\IEEEauthorrefmark{2}Twentieth Century Fox, Springfield, USA\\
+%Email: homer@thesimpsons.com}
+%\IEEEauthorblockA{\IEEEauthorrefmark{3}Starfleet Academy, San Francisco, California 96678-2391\\
+%Telephone: (800) 555--1212, Fax: (888) 555--1212}
+%\IEEEauthorblockA{\IEEEauthorrefmark{4}Tyrell Inc., 123 Replicant Street, Los Angeles, California 90210--4321}}
+
+
+
+
+% use for special paper notices
+%\IEEEspecialpapernotice{(Invited Paper)}
+
+
+
+
+% make the title area
 \maketitle
+
+% As a general rule, do not put math, special symbols or citations
+% in the abstract
+\begin{abstract}
+
+Molecular property prediction demands representations that capture both the sequential chemistry encoded in SMILES strings and the three-dimensional geometry that governs binding and toxicity. Yet no systematic benchmark has directly compared parameter-efficient adaptation of 1D chemical language models such as ChemBERTa and MolFormer against a SE(3)-equivariant 3D point-cloud model (Uni-Mol) across diverse property-prediction tasks, nor examined
+whether retrieval-augmented context can bridge the gap between these representation classes. \\
+
+\textbf{Methods}: We introduce PEARL (\textbf{P}arameter-\textbf{E}fficient \textbf{A}daptation with
+\textbf{R}etrieval-augmented \textbf{L}earning), a framework that (i)~provides this comprehensive benchmark by applying Low-Rank Adapters (LoRA) uniformly across all three model families, and (ii)~introduces a novel Retrieval-Augmented Feature Enhancement (RAFE) pipeline that enriches predictions with chemical neighborhood context retrieved from a $249,455$-molecule ZINC-250k knowledge base, providing an interpretable, task-agnostic
+signal orthogonal to any single model's learned representation.\\
+
+\textbf{Results:} Uni-Mol, which encodes explicit 3D atomic coordinates via a SE(3)-equivariant Transformer, achieves the highest performance on the BACE inhibitor task (MCC$=0.623$, AUC$=0.891$), representing an $8\%$ MCC improvement over MolFormer. On blood-brain barrier permeability prediction (BBBP), RAFE with MolFormer achieves MCC$=0.798$, matching end-to-end LoRA (MCC$=0.797$) while providing an interpretable chemical-space context signal. On the five-class Flavor (FART) task, RAFE with MolFormer surpasses end-to-end LoRA (MCC$=0.804$ vs.\ $0.801$), showing that ZINC-250k neighborhood context provides complementary information even for multi-class taste prediction.
+All models achieve $75$-$96\%$ parameter reduction via LoRA. \\
+
+\noindent\textbf{Availability:}
+Code is available at \burl{https://github.com/raghvendra5688/PEARL}.
+\end{abstract}
+
 
 \noindent\textbf{Keywords:} PEARL $|$ Parameter-Efficient Finetuning $|$ Chemical Language Models $|$
 Low-Rank Adaptation $|$ 3D Molecular Representations $|$ Retrieval-Augmented Generation $|$
 Molecular Properties $|$ Computational Drug Discovery
 
-\begin{abstract}
-\noindent\textbf{Motivation:}
-Molecular property prediction demands representations that capture both the sequential
-chemistry encoded in SMILES strings and the three-dimensional geometry that governs
-binding and toxicity.
-Yet no systematic benchmark has directly compared parameter-efficient adaptation of
-1D chemical language models---ChemBERTa and MolFormer---against a SE(3)-equivariant
-3D point-cloud model (Uni-Mol) across diverse property-prediction tasks, nor examined
-whether retrieval-augmented context can bridge the gap between these representation classes.
-We introduce PEARL (\textbf{P}arameter-\textbf{E}fficient \textbf{A}daptation with
-\textbf{R}etrieval-augmented \textbf{L}earning), a framework that (i)~provides this
-comprehensive benchmark by applying Low-Rank Adapters (LoRA) uniformly across all three
-model families, and (ii)~introduces a novel Retrieval-Augmented Feature Enhancement (RAFE)
-pipeline that enriches predictions with chemical neighbourhood context retrieved from a
-249,455-molecule ZINC-250k knowledge base---providing an interpretable, task-agnostic
-signal orthogonal to any single model's learned representation.
 
-\noindent\textbf{Results:}
-Uni-Mol, which encodes explicit 3D atomic coordinates via a SE(3)-equivariant Transformer,
-achieves the highest performance on the BACE inhibitor task (MCC~$= 0.623$, AUC~$= 0.891$),
-representing an 8\% MCC improvement over MolFormer.
-On blood-brain barrier permeability prediction (BBBP), RAFE with MolFormer achieves
-MCC~$= 0.798$, matching end-to-end LoRA (MCC~$= 0.797$) while providing an interpretable
-chemical-space context signal.
-On the five-class Flavor (FART) task, RAFE with MolFormer surpasses end-to-end LoRA
-(MCC~$= 0.804$ vs.\ $0.801$), showing that ZINC-250k neighbourhood context provides
-complementary information even for multi-class taste prediction.
-All models achieve 75--96\% parameter reduction via LoRA.
 
-\noindent\textbf{Availability:}
-Code is available at \href{https://github.com/raghvendra5688/PEARL}{github.com/raghvendra5688/PEARL}.
-\end{abstract}
 
-%% ─────────────────────────────────────────────────────────────────────────────
+% For peer review papers, you can put extra information on the cover
+% page as needed:
+% \ifCLASSOPTIONpeerreview
+% \begin{center} \bfseries EDICS Category: 3-BBND \end{center}
+% \fi
+%
+% For peerreview papers, this IEEEtran command inserts a page break and
+% creates the second title. It will be ignored for other modes.
+\IEEEpeerreviewmaketitle
+
+
+
 \section{Introduction}
-%% ─────────────────────────────────────────────────────────────────────────────
+The study of molecular structure-property relationships has been central to advances in computational drug discovery. Although traditional quantitative structure-activity relationship (QSAR) methods rely on handcrafted molecular descriptors, deep learning techniques, particularly transformer-based architectures~\cite{vaswani2017attention}, enable end-to-end learning of molecular representations directly from their Simplified Molecular Input Line Entry System (SMILES) sequences. This has catalysed the development of chemical language models (CLMs) pretrained on massive molecular corpora, now rivaling experimental approaches in predicting properties such as toxicity, solubility, and bio-ctivity~\cite{ahmad2022chemberta2,huang2020deeppurpose}.
 
-The study of molecular structure--property relationships has been central to advances in
-computational drug discovery. Although traditional quantitative structure--activity relationship
-(QSAR) methods rely on handcrafted molecular descriptors, deep learning techniques, particularly
-transformer-based architectures~\cite{vaswani2017attention}, enable end-to-end learning of
-molecular representations directly from their Simplified Molecular Input Line Entry System
-(SMILES) sequences. This has catalysed the development of chemical language models (CLMs)
-pretrained on massive molecular corpora, now rivalling experimental approaches in predicting
-properties such as toxicity, solubility, and bio-activity~\cite{ahmad2022chemberta2,huang2020deeppurpose}.
+Despite their promise, two critical challenges persist: (1) CLMs process SMILES as flat token sequences and therefore lack explicit inductive biases for three-dimensional molecular geometry, which is fundamental to binding affinity and enzyme inhibition; and (2) the computational cost of fine-tuning $\mathcal{O}(10^8)$-parameter CLMs for each specialized task remains prohibitive in resource-constrained settings.
 
-Despite their promise, two critical challenges persist: (1)~CLMs process SMILES as flat token
-sequences and therefore lack explicit inductive biases for three-dimensional molecular geometry,
-which is fundamental to binding affinity and enzyme inhibition; and (2)~the computational cost
-of fine-tuning $\mathcal{O}(10^8)$-parameter CLMs for each specialised task remains prohibitive
-in resource-constrained settings.
+This work addresses both challenges through a systematic study of three model families: MolFormer~\cite{ross2022molformer}, ChemBERTa-2~\cite{ahmad2022chemberta2}, and Uni-Mol~\cite{zhou2023unimol}, a SE(3)-equivariant Transformer that operates directly on explicit 3D atomic coordinates. We apply Low-Rank Adaptation (LoRA)~\cite{hu2021lora} to all three families, dramatically reducing trainable parameters while preserving or exceeding the performance of full finetuning.
 
-This work addresses both challenges through a systematic study of three model families:
-MolFormer~\cite{ross2022molformer}, ChemBERTa-2~\cite{ahmad2022chemberta2}, and
-Uni-Mol~\cite{zhou2023unimol}---a SE(3)-equivariant Transformer that operates directly on
-explicit 3D atomic coordinates.
-We apply Low-Rank Adaptation (LoRA)~\cite{hu2021lora} to all three families, dramatically
-reducing trainable parameters while preserving or exceeding the performance of full finetuning.
-
-In addition, we introduce a \emph{Retrieval-Augmented Feature Enhancement} (RAFE) framework
-that uses task-specific finetuned embeddings to retrieve nearest chemical neighbours from
-ZINC-250k~\cite{gomez2018automatic}, a 249,455-molecule drug-like library, via GPU-accelerated
-FAISS indices~\cite{johnson2021faiss}.
-The physicochemical neighbourhood context derived from these retrievals (logP, QED, and SAS
-distributions) provides an orthogonal, label-free signal that complements learned model
-representations.
+In addition, we introduce a \emph{Retrieval-Augmented Feature Enhancement} (RAFE) framework that uses task-specific finetuned embeddings to retrieve nearest chemical neighbors from ZINC-250k~\cite{gomez2018automatic}, a $249,455$-molecule drug-like library, via GPU-accelerated FAISS indices~\cite{johnson2021faiss}. The physico-chemical neighborhood context derived from these retrievals (logP, QED, and SAS distributions) provides an orthogonal, label-free signal that complements learned model representations.
 
 Our key contributions are:
 \begin{itemize}
-  \item A hybrid framework, \textbf{PEARL}, that supports three CLM families
-        (ChemBERTa, MolFormer, Uni-Mol) with LoRA finetuning, achieving 75--96\% parameter
-        reduction across all model sizes.
-  \item A \textbf{3D geometry-aware} molecular property predictor via Uni-Mol LoRA, which
-        yields the best BACE inhibitor classification performance (MCC~$= 0.623$) across all
-        methods studied.
-  \item A \textbf{Retrieval-Augmented Feature Enhancement} (RAFE) framework using ZINC-250k
-        as an external, leakage-free knowledge base, establishing a new state of the art on
-        ClinTox toxicity prediction (MCC~$= 0.913$) and matching end-to-end LoRA on BBBP.
-  \item Comprehensive ablation across four molecular property prediction datasets, two loss
-        functions, and three tree-based ensemble classifiers, demonstrating task-dependent
-        optimal strategies.
+  \item A hybrid framework, \textbf{PEARL}, that supports three CLM families (ChemBERTa, MolFormer, Uni-Mol) with LoRA finetuning, achieving $75$-$96\%$ parameter reduction across all model sizes.
+  \item A \textbf{3D geometry-aware} molecular property predictor via Uni-Mol LoRA, which yields the best BACE inhibitor classification performance (MCC$=0.623$) across all methods studied.
+  \item A \textbf{Retrieval-Augmented Feature Enhancement} (RAFE) framework using ZINC-250k as an external, leakage-free knowledge base, establishing a new state of the art on a five-class Flavor prediction (MCC$=0.804$) and matching end-to-end LoRA on blood brain barrier prediction.
+  \item Comprehensive ablation across four molecular property prediction datasets, two loss functions, and three tree-based ensemble classifiers, highlighting task-dependent optimal strategies.
+  \item We made all the code publicly available for the community at \url{https://github.com/raghvendra5688/PEARL}.
 \end{itemize}
 
-All code is publicly available at \url{https://github.com/raghvendra5688/PEARL}.
+Figure~\ref{fig:workflow} illustrates the complete PEARL workflow. The molecular dataset is processed by one of three CLM backbones. LoRA adapters augment only the attention projection layers, keeping all other pretrained weights frozen. For Uni-Mol, 3D conformers (SE(3)) are pre-generated via ETKDGv3 + MMFF94 and cached.
+The finetuned model provides both end-to-end predictions and task-specific embeddings. These embeddings are optionally concatenated with engineered PC features and with ZINC-250k RAFE features retrieved via FAISS indices, and the resulting feature vector is fed to Optuna-tuned tree-based classifiers.
 
+\begin{figure*}[!ht]
+  \centering
+  \includegraphics[width=0.9\textwidth]{Optimal-Design-layout/Figures/PEARL_workflow.pdf}
+  \caption{PEARL workflow. Molecules are processed by one of three CLM families (ChemBERTa, MolFormer, Uni-Mol) with LoRA adapters. Task-specific embeddings are fused with molecular PC features and ZINC-250k retrieval features, then passed to tree-based classifiers. Uni-Mol additionally encodes 3D ETKDGv3 conformers via SE(3) representation.}
+  \label{fig:workflow}
+\end{figure*}
 %% ─────────────────────────────────────────────────────────────────────────────
 \section{Materials and Methods}
 %% ─────────────────────────────────────────────────────────────────────────────
 
 \subsection{Data Collection and Curation}
+The \textbf{Blood-Brain Barrier Penetration (BBBP)} dataset was originally curated in~\cite{martins2012bayesian} for predicting barrier permeability and contains over $2,000$ compounds with binary labels, integrated into the MoleculeNet~\cite{wu2018moleculenet} benchmark. \textbf{ClinTox} is part of the MoleculeNet benchmark~\cite{wu2018moleculenet}. The dataset contains 1,476 drugs that either failed clinical trials due to toxicity or succeeded, along with FDA approval status. FDA-approved drugs originate from the SWEETLEAD database~\cite{novick2013sweetlead}, while toxicity-failed candidates derive from the Aggregate Analysis of Clinical Trials (AACT).
 
-\begin{itemize}
-\item The \textbf{Blood-Brain Barrier Penetration (BBBP)} dataset was originally curated
-  in~\cite{martins2012bayesian} for predicting barrier permeability and contains over 2,000
-  compounds with binary labels, integrated into the MoleculeNet~\cite{wu2018moleculenet} benchmark.
-\item \textbf{ClinTox} is part of the MoleculeNet benchmark~\cite{wu2018moleculenet}.
-  The dataset contains 1,476 drugs that either failed clinical trials due to toxicity or succeeded,
-  along with FDA approval status. FDA-approved drugs originate from the SWEETLEAD
-  database~\cite{novick2013sweetlead}, while toxicity-failed candidates derive from the Aggregate
-  Analysis of Clinical Trials (AACT).
-\item The \textbf{Flavor Analysis and Recognition Transformer (FART)} dataset,
-  introduced in~\cite{zimmermann2024fart}, is a multi-class taste prediction corpus of 15,025
-  compounds annotated as \textit{bitter}, \textit{sour}, \textit{sweet}, \textit{umami},
-  and \textit{undefined}.
-\item The \textbf{BACE} dataset is part of MoleculeNet~\cite{wu2018moleculenet} and contains
-  experimentally measured binding results for 1,513 inhibitors of human $\beta$-secretase~1
-  (BACE-1), with binary activity labels. Dataset splits were curated using the DeepChem
-  reference implementation~\cite{ramsundar2019deep}.
-\end{itemize}
-
-BBBP and ClinTox datasets are sourced from the IBM MolFormer repository and underwent
-validity checks, duplicate removal, and class-ambiguity filtering.
-
+The \textbf{Flavor Analysis and Recognition Transformer (FART)} dataset, introduced in~\cite{zimmermann2024fart}, is a multi-class taste prediction corpus of $15,025$ compounds annotated as \textit{bitter}, \textit{sour}, \textit{sweet}, \textit{umami}, and \textit{undefined}. The \textbf{BACE} dataset is part of MoleculeNet~\cite{wu2018moleculenet} and contains experimentally measured binding results for $1,513$ inhibitors of human $\beta$-secretase~1 (BACE-1), with binary activity labels. Dataset splits were curated using the DeepChem reference implementation~\cite{ramsundar2019deep}. BBBP and ClinTox datasets are sourced from the IBM MolFormer repository and underwent validity checks, duplicate removal, and class-ambiguity filtering.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Data Splits and Class Distribution}
-
-BBBP, ClinTox, and BACE employ scaffold-based splits~\cite{ramsundar2019deep} using an
-80:10:10 train/validation/test ratio. BBBP exhibits moderate class imbalance (78.8\% permeable
-in training). ClinTox faces severe imbalance: non-toxic compounds dominate at 92.3\% (CT\_TOX).
-The Flavor dataset uses the curated splits provided in~\cite{zimmermann2024fart}, with
-pronounced multi-class skew (sweet~41\%, bitter~32\%, sour~11\%, umami~4\%, undefined~12\%).
-BACE is the most balanced, with 54.3\% inactive and 45.7\% active compounds.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+BBBP, ClinTox, and BACE employ scaffold-based splits~\cite{ramsundar2019deep} using an 80:10:10 train/validation/test ratio. BBBP exhibits moderate class imbalance (78.8\% permeable in training). ClinTox faces severe imbalance: non-toxic compounds dominate at $92.3\%$. The Flavor dataset uses the curated splits provided in~\cite{zimmermann2024fart}, with pronounced multi-class skew (sweet $41\%$, bitter $32\%$, sour $11\%$, umami $4\%$, undefined $12\%$). BACE is the most balanced, with $54.3\%$ inactive and $45.7\%$ active compounds.
 
 \subsection{Pretrained Chemical Language Models}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{ChemBERTa-2}~\cite{ahmad2022chemberta2} builds upon ChemBERTa~\cite{chithrananda2020chemberta} via a RoBERTa-style architecture trained on $77$ million canonical SMILES from PubChem~\cite{kim2023pubchem}. Two pretraining strategies are used: Masked Language Modeling (MLM) and Multi-Task Regression (MTR) on $200$ molecular
+property tasks. We use the two 77M-parameter variants, denoted \textbf{ChemBERTa-77M~MLM} and \textbf{ChemBERTa-77M~MTR}, each producing 384-dimensional embeddings.
 
-\textbf{ChemBERTa-2}~\cite{ahmad2022chemberta2} builds upon
-ChemBERTa~\cite{chithrananda2020chemberta} via a RoBERTa-style architecture trained on 77
-million canonical SMILES from PubChem~\cite{kim2023pubchem}. Two pretraining strategies are
-used: Masked Language Modeling (MLM) and Multi-Task Regression (MTR) on 200 molecular
-property tasks. We use the two 77M-parameter variants, denoted \textbf{ChemBERTa-77M~MLM}
-and \textbf{ChemBERTa-77M~MTR}, producing 384-dimensional embeddings.
+\textbf{MolFormer}~\cite{ross2022molformer} is a scalable CLM that learns representations from SMILES without 3D geometry. It uses a transformer with linear attention (FAVOR+)~\cite{choromanski2021rethinking}, rotary positional embeddings~\cite{heo2024rotary}, and efficient distributed training~\cite{isard2009distributed}, enabling pretraining on $1.1\times 10^{9}$  molecules from PubChem~\cite{kim2023pubchem} and ZINC20~\cite{irwin2020zinc20}. We use the \textbf{MolFormer-XL-10pct-both} variant ($\approx 46$M parameters, pretrained on $10\%$ of both datasets) with 768-dimensional embeddings.
 
-\textbf{MolFormer}~\cite{ross2022molformer} is a scalable CLM that learns molecular
-representations from SMILES without 3D geometry. It uses a transformer with linear attention
-(FAVOR+)~\cite{choromanski2021rethinking}, rotary positional embeddings~\cite{heo2024rotary},
-and efficient distributed training~\cite{isard2009distributed}, enabling pretraining on 1.1
-billion molecules from PubChem~\cite{kim2023pubchem} and ZINC20~\cite{irwin2020zinc20}.
-We use the \textbf{MolFormer-XL-10pct-both} variant ($\approx 46$M parameters, pretrained on
-10\% of both datasets), producing 768-dimensional embeddings.
+\textbf{Uni-Mol}~\cite{zhou2023unimol} is a universal 3D molecular pre-trained model based on a SE(3)-equivariant Transformer with 15 attention layers. Unlike SMILES-based CLMs, Uni-Mol accepts \emph{explicit 3D atomic coordinates} generated via RDKit ETKDGv3 conformer embedding followed by MMFF94 force-field minimization.
+This geometry-aware design gives Uni-Mol inductive biases suited to structure-dependent properties such as receptor binding affinity. For PEARL, each molecule is represented as a \textbf{2560-dimensional hybrid vector}: a 512-dimensional CLS token from the SE(3)-Transformer concatenated with 2048-dimensional Morgan ECFP4 fingerprints (radius $= 2$), combining 3D structural awareness with explicit 2D topological information.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\textbf{Uni-Mol}~\cite{zhou2023unimol} is a universal 3D molecular pre-trained model
-based on a SE(3)-equivariant Transformer with 15 attention layers.
-Unlike SMILES-based CLMs, Uni-Mol accepts \emph{explicit 3D atomic coordinates} generated
-via RDKit ETKDGv3 conformer embedding followed by MMFF94 force-field minimisation.
-This geometry-aware design gives Uni-Mol inductive biases suited to structure-dependent
-properties such as receptor binding affinity.
-For PEARL, each molecule is represented as a
-\textbf{2560-dimensional hybrid vector}: a 512-dimensional CLS token from the SE(3)-Transformer
-concatenated with 2048-dimensional Morgan ECFP4 fingerprints (radius $= 2$), combining
-3D structural awareness with explicit 2D topological information.
-
-\subsection{Low-Rank Adaptation (LoRA)}
-\label{sec:lora}
-
-Low-Rank Adaptation (LoRA)~\cite{hu2021lora} introduces two trainable low-rank matrices $\mathbf{A} \in \mathbb{R}^{d \times r}$ and $\mathbf{B} \in \mathbb{R}^{r \times d}$ alongside
-frozen pretrained weight matrices $\mathbf{W} \in \mathbb{R}^{d \times d}$ in the attention
-layers, where $r \ll d$ is the rank hyperparameter. The weight update is:
+\subsection{Low-Rank Adaptation (LoRA)}\label{sec:lora}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Low-Rank Adaptation (LoRA)~\cite{hu2021lora} introduces two trainable low-rank matrices $\mathbf{A} \in \mathbb{R}^{d \times r}$ and $\mathbf{B} \in \mathbb{R}^{r \times d}$ alongside frozen pretrained weight matrices $\mathbf{W} \in \mathbb{R}^{d \times d}$ in the attention layers, where $r \ll d$ is the rank hyperparameter. The weight update is: 
 \begin{equation}
   \mathbf{W}' = \mathbf{W} + \Delta\mathbf{W}, \quad \Delta\mathbf{W} = \mathbf{A} \cdot \mathbf{B}.
 \end{equation}
-Matrix $\mathbf{A}$ is initialised from $\mathcal{N}(0, \sigma^2)$ and $\mathbf{B}$ from
-zeros, ensuring that adaptation begins from the pretrained representation.
+Matrix $\mathbf{A}$ is initialized from $\mathcal{N}(0, \sigma^2)$ and $\mathbf{B}$ from zeros, ensuring that adaptation begins from the pretrained representation.
 
-\paragraph{LoRA for ChemBERTa and MolFormer.}
-LoRA adapters are applied to the query ($\mathbf{W}^Q$), key ($\mathbf{W}^K$), and value
-($\mathbf{W}^V$) projection matrices of each attention layer. All other parameters are frozen.
-Hyperparameter search covers rank $r \in \{4, 8, 16, 32, 64\}$, LoRA scaling $\alpha \in \{8, 16, 32, 64, 128\}$, and dropout $\in \{0.0, 0.1, 0.2\}$.
+\paragraph{LoRA for ChemBERTa and MolFormer}
+LoRA adapters are applied to the query ($\mathbf{W}^Q$), key ($\mathbf{W}^K$), and value ($\mathbf{W}^V$) projection matrices of each attention layer. All other parameters are frozen. Hyperparameter search covers rank $r \in \{4, 8, 16, 32, 64\}$, LoRA scaling $\alpha \in \{8, 16, 32, 64, 128\}$, and dropout $\in \{0.0, 0.1, 0.2\}$.
 
-\paragraph{LoRA for Uni-Mol.}
-The version of \texttt{unimol\_tools} used in this work fuses $\mathbf{W}^Q$, $\mathbf{W}^K$,
-and $\mathbf{W}^V$ into a single \texttt{in\_proj} weight matrix. LoRA adapters therefore
-target \texttt{in\_proj} in every attention layer, with rank $r \in \{4, 8, 16, 32\}$ and
-$\alpha \in \{8, 16, 32, 64\}$. To preserve gradient flow through the LoRA adapters, the
-forward pass calls \texttt{\_repr.model.forward(\ldots, return\_repr=True)} directly rather
-than the inference-mode \texttt{get\_repr()} wrapper.
-Conformers for all dataset molecules are generated once before the hyperparameter sweep and
-cached as \texttt{.pkl} files, avoiding redundant ETKDGv3 calls across sweep trials.
-The \texttt{useExpTorsionAnglePrefs = False} flag prevents conformer generation failures on
-metal-coordinated SMILES.
+\paragraph{LoRA for Uni-Mol} The version of \texttt{unimol\_tools} used in this work fuses $\mathbf{W}^Q$, $\mathbf{W}^K$, and $\mathbf{W}^V$ into a single \texttt{in\_proj} weight matrix. LoRA adapters therefore
+target \texttt{in\_proj} in every attention layer, with rank $r \in \{4, 8, 16, 32\}$ and $\alpha \in \{8, 16, 32, 64\}$. To preserve gradient flow through the LoRA adapters, the forward pass calls the function `\texttt{\_repr.model.forward(\ldots, return\_repr=True)}' directly rather than the inference-mode `\texttt{get\_repr()}' wrapper.
 
-\paragraph{Training details.}
-All models use AdamW with cosine-annealing learning rate schedules. The encoder (LoRA adapters)
-receives the base learning rate; the classification head receives $5\times$ the base rate.
-Gradient clipping ($\text{max\_norm} = 1.0$) is applied over all parameters. Early stopping
-monitors validation MCC with patience of 5 epochs. Bayesian hyperparameter optimisation with
-WandB sweeps (20--30 trials per dataset) optimises validation MCC.
+\begin{figure}[!htb]
+  \centering
+  \includegraphics[width=0.48\textwidth]{Optimal-Design-layout/Figures/LoRA_FineTuning.pdf}
+  \caption{Low-Rank Adaptation (LoRA) Architecture. A low-rank adaptation framework fine-tunes frozen transformer weights (Q/K/V layers) using trainable low-rank matrices (A, B), enabling efficient adaptation to task-specific molecular datasets (ClinTox, BBBP, BACE, Flavor).} %with lightweight classification heads for binary and multiclass property prediction.}
+  \label{fig:lora-architecture}
+\end{figure}
+Conformers for all dataset molecules are generated once before the hyperparameter sweep and cached, avoiding redundant ETKDGv3 calls during hyperparameter optimization. We use necessary flags to prevent conformer generation failures for metal-coordinates SMILES. Figure \ref{fig:lora-architecture} illustrates how LoRA finetuning is implemented within our framework.
 
+\paragraph{Training details}
+All models use AdamW with cosine-annealing learning rate schedules. The encoder (LoRA adapters) receives the base learning rate; classification head receives $5\times$ the base rate. Gradient clipping ($\text{max\_norm} = 1.0$) is applied over all parameters. Early stopping monitors validation MCC with patience of 5 epochs. Bayesian hyperparameter optimization with WandB sweeps ($20$-$30$ trials per dataset) optimizes for validation MCC.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Loss Functions for Class Imbalance}
+\noindent Two loss functions address the severe class imbalance prevalent in molecular datasets, implemented via a custom extension of the HuggingFace \texttt{Trainer}.
 
-Two loss functions address the severe class imbalance prevalent in molecular datasets,
-implemented via a custom extension of the HuggingFace \texttt{Trainer}:
+\noindent \textbf{Weighted cross-entropy (WL):}\\
+$\mathcal{L}_{\text{WL}} = -\sum_{i=0}^{C-1} w_i y_i \log\hat{y}_i$, where $w_i = 1 - f_i$ (inverse class frequency). This gives the minority class higher loss contribution and is most effective for datasets like BACE and Flavor.
 
-\textbf{Weighted cross-entropy (WL):}
-$\mathcal{L}_{\text{WL}} = -\sum_{i=0}^{C-1} w_i y_i \log\hat{y}_i$,
-where $w_i = 1 - f_i$ (inverse class frequency). This gives the minority class higher loss
-contribution and is most effective for severely imbalanced datasets (BBBP, Flavor, ClinTox).
-
-\textbf{Focal loss (FL):}
-$\mathcal{L}_{\text{FL}} = -\alpha (1 - \hat{p}_i)^\gamma \log\hat{p}_i$ with $\gamma = 2$,
-which down-weights well-classified examples to focus learning on hard-to-classify boundary
-cases. This excels on relatively balanced but challenging tasks such as BACE.
-
+\noindent\textbf{Focal loss (FL):}\\
+$\mathcal{L}_{\text{FL}} = -\alpha (1 - \hat{p}_i)^\gamma \log\hat{p}_i$ with $\gamma = 2$, which down-weights well-classified examples to focus learning on hard-to-classify boundary cases. This excels on heavily imbalanced and challenging tasks such as BBBP and ClinTox.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{PEARL Architecture}
-
 PEARL defines four operational modes that form a progressive evaluation ladder:
 
-\textbf{(a)~End-to-End (E2E) LoRA finetuning.}
-The CLM backbone (ChemBERTa, MolFormer, or Uni-Mol) with LoRA adapters and a task-specific
-classification head is optimised end-to-end for each downstream task.
-For binary tasks, the head is a dense layer with sigmoid activation;
+\textbf{(a)~End-to-End (E2E) LoRA finetuning:}
+The CLM backbone (ChemBERTa, MolFormer, or Uni-Mol) with LoRA adapters and a task-specific classification head is optimized end-to-end for each downstream task. For binary tasks, the head is a dense layer with sigmoid activation;
 for multi-class tasks, a dense layer with softmax.
 
-\textbf{(b)~Finetuned Embedding Prediction (FT~Embed).}
-Task-specific embeddings are extracted from the finetuned model.
-For MolFormer, the CLS token passes through two dense layers with GELU activation (768-dim
-output). For ChemBERTa, the CLS token passes through a dense layer with tanh activation
-(384-dim). For Uni-Mol, the CLS token is concatenated with ECFP4 fingerprints (2560-dim).
-These embeddings train Optuna-tuned tree-based classifiers (XGBoost / LightGBM / CatBoost).
+\textbf{(b)~Finetuned Embedding Prediction (FT~Embed):}
+Task-specific embeddings are extracted from the finetuned model. For MolFormer, the CLS token passes through two dense layers with GELU activation (768-dim output). For ChemBERTa, the CLS token passes through a dense layer with tanh activation (384-dim). For Uni-Mol, the CLS token is concatenated with ECFP4 fingerprints (2560-dim).
+These embeddings train Optuna-tuned \cite{akiba2019optuna} tree-based classifiers (XGBoost / LightGBM / CatBoost).
 
 \textbf{(c)~FT~Embed $+$ PC (Physicochemical Feature Fusion).}
-The FT~Embed vector is concatenated with 473~domain-specific physicochemical (PC) features:
-148 RDKit molecular descriptors, 30 graph-based features (NetworkX v3.5), 128-bit Morgan
-fingerprints, and 167-bit MACCS keys (RDKit v2025.09.1). This combined vector trains the
-same tree-based classifiers without any retrieval from external databases.
-A full description of engineered features is provided in Supplementary Table~S1.
+The FT~Embed vector is concatenated with 473~domain-specific physicochemical (PC) features: 148 RDKit molecular descriptors, 30 graph-based features (NetworkX v3.5), 128-bit Morgan fingerprints, and 167-bit MACCS keys (RDKit v2025.09.1). This combined vector trains the same tree-based classifiers without any retrieval from external databases. A full description of engineered features is provided in Supplementary Table~S1.
 
 \textbf{(d)~Retrieval-Augmented Feature Enhancement (RAFE).}
-RAFE augments the FT~Embed~$+$~PC feature vector with ZINC-250k chemical neighbourhood
-features ($\sim$69-dim; see Section~\ref{sec:rafe}), yielding the full feature vector
-$[\text{CLM embeddings} \mid \text{PC features (473-dim)} \mid \text{ZINC-250k RAFE features}
-($\sim$69\text{-dim})]$, passed to the same Optuna-tuned tree-based classifiers.
+RAFE augments the FT~Embed $+$ PC feature vector with ZINC-250k chemical neighborhood features ($\sim$69-dim; see Section~\ref{sec:rafe}), yielding the full feature vector [$\text{CLM embeddings} \mid \text{PC features (473-dim)} \mid \text{ZINC-250k RAFE features} (\sim69\text{-dim})$], passed to the similar Optuna-tuned tree-based classifiers.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{RAFE}\label{sec:rafe}
+\subsubsection{Design Rationale and External Knowledge Base} \label{sec:zinc_rationale}
+Naive retrieval-augmented approaches retrieve nearest neighbors from the task-specific training set and use their labels as auxiliary features. This introduces three problems: a small retrieval pool ($\sim$1,200-12,000 molecules), training-set leakage, and circular dependencies between the retrieval space and the prediction target. 
 
-\subsection{Retrieval-Augmented Feature Enhancement (RAFE)}
-\label{sec:rafe}
+PEARL addresses all three by using \textbf{ZINC-250k}~\cite{gomez2018automatic} as the retrieval corpus i.e. a curated subset of $249,455$ drug-like molecules from the ZINC database~\cite{irwin2020zinc20} with no overlap with
+any training, validation, or test split. Each ZINC-250k molecule carries three physicochemical properties: lipophilicity (logP), Quantitative Estimate of Drug-likeness (QED, $\in [0,1]$), and Synthetic Accessibility Score (SAS, $\in [1,10]$).
 
-\subsubsection{Design Rationale and External Knowledge Base}
-\label{sec:zinc_rationale}
+ZINC-250k is chosen as the retrieval corpus for four complementary reasons: 
 
-Naive retrieval-augmented approaches retrieve nearest neighbours from the task-specific training
-set and use their labels as auxiliary features. This introduces three problems: a small retrieval
-pool ($\sim$1,200--12,000 molecules), training-set leakage, and circular dependencies between
-the retrieval space and the prediction target. PEARL addresses all three by using
-\textbf{ZINC-250k}~\cite{gomez2018automatic} as the retrieval corpus---a curated subset of
-249,455 drug-like molecules from the ZINC database~\cite{irwin2020zinc20} with no overlap with
-any training, validation, or test split. Each ZINC-250k molecule carries three physicochemical
-properties: lipophilicity (logP), Quantitative Estimate of Drug-likeness (QED, $\in [0,1]$),
-and Synthetic Accessibility Score (SAS, $\in [1,10]$).
+1. \textbf{Scale and diversity:} $249,455$ drug-like molecules span a broad region of chemical space, providing a dense and representative neighborhood for any query molecule from BACE, BBBP, ClinTox, or Flavor, all datasets have an at most 12,000 compounds.
 
-ZINC-250k is chosen as the retrieval corpus for four complementary reasons:
+2. \textbf{Zero leakage:} ZINC-250k has no label overlap with any training, validation, or test split used in this study. Retrieved neighbors cannot carry prediction targets, eliminating the circular dependency that plagues training-set retrieval.
 
-\begin{enumerate}
-  \item \textbf{Scale and diversity.}
-    249,455 drug-like molecules span a broad region of chemical space, providing a dense
-    and representative neighbourhood for any query molecule from BACE, BBBP, ClinTox, or
-    Flavor---datasets with at most 12,000 compounds.
+3. \textbf{Label-free property signal:} logP, QED, and SAS are computed directly from SMILES without biological assay data. Their distributions in the local neighborhood of a query molecule characterize its physico-chemical environment in a way that is complementary to the molecule's own PC features and to the CLM's learned representation.
 
-  \item \textbf{Zero leakage.}
-    ZINC-250k has no label overlap with any training, validation, or test split used in this
-    study. Retrieved neighbours cannot carry prediction targets, eliminating the circular
-    dependency that plagues training-set retrieval.
+4. \textbf{Model-family independence:} ZINC-250k is embedded independently by each finetuned CLM variant (ChemBERTa, MolFormer, Uni-Mol), yielding model-specific FAISS indices. RAFE features are therefore always expressed in the same geometric space as the query molecule's embedding, ensuring neighborhood statistics remain geometrically coherent with the representations passed to the downstream classifier.
 
-  \item \textbf{Label-free property signal.}
-    logP, QED, and SAS are computed directly from SMILES without biological assay data.
-    Their distributions in the local neighbourhood of a query molecule characterise its
-    physicochemical environment in a way that is complementary to the molecule's own
-    PC features and to the CLM's learned representation.
-
-  \item \textbf{Model-family independence.}
-    ZINC-250k is embedded independently by each finetuned CLM variant (ChemBERTa, MolFormer,
-    Uni-Mol), yielding model-specific FAISS indices. RAFE features are therefore always
-    expressed in the same geometric space as the query molecule's embedding, ensuring
-    neighbourhood statistics remain geometrically coherent with the representations
-    passed to the downstream classifier.
-\end{enumerate}
-
-The core insight is that the logP/QED/SAS \emph{distributions of retrieved nearest ZINC
-neighbours} characterise the local chemical space around a query molecule in a label-free,
-leakage-free manner that complements the molecule's own PC features:
+The core insight is that the logP/QED/SAS \emph{distributions of retrieved nearest ZINC neighbors} characterize the local chemical space around a query molecule in a label-free, leakage-free manner that complements the molecule's own PC features:
 (i)~BBB-permeable molecules cluster in high-logP, high-QED ZINC regions~(BBBP);
-(ii)~BACE inhibitors reside in drug-like, easily-synthesisable ZINC neighbourhoods~(BACE);
-(iii)~clinically toxic compounds often exhibit unusual logP profiles and heterogeneous
-physicochemical environments~(ClinTox);
-(iv)~bitter compounds cluster in hydrophobic ZINC regions, while sweet/sour
-compounds occupy hydrophilic regions~(Flavor).
+(ii)~BACE inhibitors reside in drug-like, easily-synthesizable ZINC neighborhoods~(BACE);
+(iii)~clinically toxic compounds often exhibit unusual logP profiles and heterogeneous physicochemical environments~(ClinTox);
+(iv)~bitter compounds cluster in hydrophobic ZINC regions, while sweet/sour compounds occupy hydrophilic regions~(Flavor).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Vector Indexing with FAISS}
+ZINC-250k molecules are embedded using task-specific finetuned model variants across all three CLM families: six SMILES-based variants (ChemBERTa-MLM $\times$ 2 loss, ChemBERTa-MTR $\times$ 2 loss, MolFormer $\times$ 2 loss) and two Uni-Mol variants (FL and WL), yielding 32 embedding matrices in total (8 models $\times$ 4 datasets).
 
-ZINC-250k molecules are embedded using task-specific finetuned model variants across all three
-CLM families: six SMILES-based variants (ChemBERTa-MLM $\times$ 2 loss,
-ChemBERTa-MTR $\times$ 2 loss, MolFormer $\times$ 2 loss) and two Uni-Mol variants
-(FL and WL), yielding 32 embedding matrices in total (8 models $\times$ 4 datasets).
-SMILES-based embeddings are 768-dimensional CLS tokens; Uni-Mol embeddings are
-2560-dimensional hybrid vectors (512-dim SE(3)-Transformer CLS concatenated with
-2048-dim ECFP4 fingerprints).
-Embeddings are L2-normalised and indexed with FAISS
-\texttt{GpuIndexFlatIP}~\cite{johnson2021faiss}---a GPU-accelerated exact cosine-similarity
+SMILES-based embeddings are 768-dimensional CLS tokens; Uni-Mol embeddings are 2560-dimensional hybrid vectors (512-dim SE(3)-Transformer CLS concatenated with 2048-dim ECFP4 fingerprints). Embeddings are L2-normalized and indexed with FAISS \texttt{GpuIndexFlatIP}~\cite{johnson2021faiss}, a GPU-accelerated exact cosine-similarity
 search that achieves sub-2~ms query latency at 249k$\times$768 on a single GPU.
-Indices are serialised as CPU \texttt{IndexFlatIP} files for portable, server-free retrieval.
+Indices are serialized as CPU \texttt{IndexFlatIP} files for portable, fast retrieval.
 
-\subsubsection{Chemical Neighbourhood Feature Extraction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsubsection{Chemical neighborhood Feature Extraction}
 
-For every molecule in every split (train, validation, test), each FAISS index is queried
-with $k \in \{10, 20\}$ nearest ZINC-250k neighbours. The following feature groups are
-extracted:
+For every molecule in every split (train, validation, test), each FAISS index is queried with $k \in \{10, 20\}$ nearest ZINC-250k neighbors. The following feature groups are extracted:
 
-\textbf{(a) Physicochemical neighbourhood profile ($\sim$27 features).}
-Mean and standard deviation of logP, QED, and SAS across $k = 10$ and $k = 20$ neighbours,
-plus similarity-weighted means (e.g.\ $\overline{\text{logP}}_w = \sum_i s_i \cdot
-\text{logP}_i / \sum_i s_i$ where $s_i$ is cosine similarity to the $i$-th neighbour).
+\textbf{(a) Physico-chemical neighborhood profile ($\sim$27 features).}
+Mean and standard deviation of logP, QED, and SAS across $k = 10$ and $k = 20$ neighbors, plus similarity-weighted means (e.g.\ $\overline{\text{logP}}_w = \sum_i s_i \cdot
+\text{logP}_i / \sum_i s_i$ where $s_i$ is cosine similarity to the $i$-th neighbor).
 
-\textbf{(b) Neighbourhood density and isolation (4 features).}
-Cosine similarity to the nearest ZINC neighbour ($\texttt{zinc\_nearest\_sim}$),
-mean and standard deviation of similarities across $k = 10$ neighbours, and Shannon entropy
-of the quantised similarity distribution. Molecules with low \texttt{zinc\_nearest\_sim}
-are isolated in chemical space and their predictions are inherently less certain.
+\textbf{(b) neighborhood density and isolation (4 features).}
+Cosine similarity to the nearest ZINC neighbor ($\texttt{zinc\_nearest\_sim}$),
+mean and standard deviation of similarities across $k = 10$ neighbors, and Shannon entropy of the quantized similarity distribution. Molecules with low \texttt{zinc\_nearest\_sim} are isolated in chemical space and their predictions are inherently less certain.
 
 \textbf{(c) Embedding centroid features ($\sim$35 features).}
-The mean of $k = 10$ neighbour embeddings forms a centroid; PCA fitted on training-split
-centroids compresses this to 32 dimensions. Additional features capture cosine similarity of
-the query to its centroid and the spread (mean L2 distance of neighbours from the centroid).
+The mean of $k = 10$ neighbor embeddings forms a centroid; PCA fitted on training-split centroids compresses this to 32 dimensions. Additional features capture cosine similarity of the query to its centroid and the spread (mean and standard deviation of L2 distance of neighbors from the centroid).
 
 \textbf{(d) Tanimoto structural similarity (3 features).}
-Tanimoto coefficients of Morgan fingerprints (radius~$= 2$, 128-bit) between the query and
-its top-1 and top-5 ZINC neighbours, plus the fraction of top-10 neighbours sharing the same
-Murcko scaffold.
+Tanimoto coefficients of Morgan fingerprints (radius~$= 2$, 128-bit) between the query and its top-1 and top-5 ZINC neighbors, plus the fraction of top-10 neighbors sharing the same Murcko scaffold.
 
-The four groups yield a $\sim$69-dimensional RAFE feature vector per molecule.
-The full augmented feature vector is:
-$[\text{CLM embeddings} \mid \text{PC features (473-dim)} \mid \text{ZINC RAFE features}
-($\sim$69\text{-dim})]$.
+The four groups yield a 69-dimensional RAFE feature vector per molecule. The full augmented feature vector is:
+[$\text{CLM embeddings} \mid \text{PC features (473-dim)} \mid \text{ZINC RAFE features}
+(69\text{-dim})$].
 
 \begin{figure}[t]
   \centering
-  \fbox{\rule{0pt}{6cm}\rule{\linewidth}{0pt}}
-  \caption{Retrieval-Augmented Feature Enhancement (RAFE) pipeline. A query molecule is
-  embedded by a task-specific finetuned CLM; the embedding is used to retrieve $k$ nearest
-  chemical neighbours from the ZINC-250k FAISS index. Four feature groups are extracted:
-  physicochemical neighbourhood profile (logP, QED, SAS distributions; $\sim$27-dim),
-  neighbourhood density and isolation (4-dim), embedding centroid features ($\sim$35-dim),
-  and Tanimoto structural similarity (3-dim), yielding a $\sim$69-dim RAFE vector
-  concatenated with the CLM embedding and engineered PC features for tree-based classification.}
+  \includegraphics[width=0.49\textwidth]{Optimal-Design-layout/Figures/RAFE_Framework.pdf}
+  \caption{Retrieval-Augmented Feature Enhancement (RAFE) pipeline. A query molecule is embedded by a task-specific finetuned CLM; the embedding is used to retrieve $k$ nearest chemical neighbors from the ZINC-250k FAISS index. Four feature groups are extracted: physico-chemical neighborhood profile (logP, QED, SAS distributions; $\sim$27-dim), neighborhood density and isolation (4-dim), embedding centroid features ($\sim$35-dim), and Tanimoto structural similarity (3-dim), yielding a 69-dim RAFE vector concatenated with the CLM embedding and engineered PC features for tree-based classification.}
   \label{fig:rafe}
 \end{figure}
 
 \subsection{Tree-based Ensemble Classifiers}
-
-The final prediction stage employs XGBoost~\cite{chen2016xgboost}, LightGBM~\cite{ke2017lightgbm}, and CatBoost~\cite{prokhorenkova2018catboost}.
-These algorithms handle high-dimensional mixed-type feature vectors, provide built-in feature
-importance, and are robust to outliers. Bayesian hyperparameter optimisation with
-Optuna~\cite{akiba2019optuna} (10 trials for base configurations, 20 for RAFE) maximises
-validation MCC via stratified 5-fold cross-validation. Class imbalance is handled via
-\texttt{scale\_pos\_weight} (XGBoost), \texttt{class\_weight="balanced"} (LightGBM), and
-\texttt{auto\_class\_weights="Balanced"} (CatBoost).
-
+The final prediction stage employs XGBoost~\cite{chen2016xgboost}, LightGBM~\cite{ke2017lightgbm}, and CatBoost~\cite{prokhorenkova2018catboost}. These algorithms handle high-dimensional mixed-type feature vectors, provide built-in feature importance, and are robust to outliers. Bayesian hyperparameter optimization was performed with Optuna~\cite{akiba2019optuna} ($20$ trials for each configuration) maximizing validation MCC via stratified 5-fold cross-validation. Class imbalance is handled via \texttt{scale\_pos\_weight} (XGBoost), \texttt{class\_weight="balanced"} (LightGBM), and \texttt{auto\_class\_weights="Balanced"} (CatBoost) attributes for respective classifier.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Evaluation Metrics}
-
-Performance is evaluated using accuracy (Acc), area under the ROC curve (AUC), Matthews
-correlation coefficient (MCC), precision (Prec), recall (Rec), and F1-macro (F1$_\text{mac}$)
-/ F1-micro (F1$_\text{mic}$). MCC is the primary optimisation target due to its robustness
-to class imbalance. Area under the precision-recall curve (AUPR) is additionally reported.
-
-%% ─────────────────────────────────────────────────────────────────────────────
-\section{PEARL Architecture Overview}
-%% ─────────────────────────────────────────────────────────────────────────────
-
-Figure~\ref{fig:workflow} illustrates the complete PEARL workflow. The SMILES
-string of each molecule is processed by one of three CLM backbones.
-LoRA adapters augment only the attention projection layers, keeping all other pretrained
-weights frozen.
-For Uni-Mol, 3D conformers are pre-generated via ETKDGv3 + MMFF94 and cached.
-The finetuned model provides both end-to-end predictions and task-specific embeddings.
-These embeddings are optionally concatenated with engineered PC features and with ZINC-250k
-RAFE features retrieved via FAISS indices, and the resulting feature vector is fed to Optuna-tuned
-tree-based classifiers.
-
-\begin{figure}[t]
-  \centering
-  \fbox{\rule{0pt}{5.5cm}\rule{\linewidth}{0pt}}
-  \caption{PEARL workflow. A query SMILES is processed by one of three CLM
-  families (ChemBERTa, MolFormer, Uni-Mol) with LoRA adapters. Task-specific embeddings
-  are fused with molecular PC features and ZINC-250k retrieval features, then passed to
-  tree-based classifiers. Uni-Mol additionally encodes 3D ETKDGv3 conformers.}
-  \label{fig:workflow}
-\end{figure}
+Performance is evaluated using accuracy (Acc), area under the ROC curve (AUC), Matthews correlation coefficient (MCC), precision (Prec), recall (Rec), and F1-macro (F1$_\text{mac}$) / F1-micro (F1$_\text{mic}$). MCC is the primary optimization target due to its robustness to class imbalance. %Area under the precision-recall curve (AUPR) is additionally reported.
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \section{Experimental Results}
 %% ─────────────────────────────────────────────────────────────────────────────
+Results are organised around the four PEARL operational modes described in Section~2.4: 
+(i)~\textbf{E2E LoRA}- End-to-end LoRA finetuning of the CLM backbone; 
+(ii)~\textbf{FT Embed}- Optuna-tuned tree classifiers on frozen finetuned embeddings;
+(iii)~\textbf{FT Embed $+$ PC}- FT Embed augmented with 473-dim physicochemical features, without ZINC-250k retrieval;
+(iv)~\textbf{RAFE}- FT Embed $+$ PC further augmented with ZINC-250k neighborhood features. For each mode we report the best-performing CLM variant and, where applicable, tree model. Full ablation tables appear in the Supplementary Material.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Sequence of Comparisons}\label{sec:comparison_sequence}
+The four PEARL modes form an evaluation ladder that isolates the contribution of each component:
 
-Results are organised around the four PEARL operational modes described in Section~2.4:
-(i)~\textbf{E2E LoRA}---end-to-end LoRA finetuning of the CLM backbone;
-(ii)~\textbf{FT Embed}---Optuna-tuned tree classifiers on frozen finetuned embeddings;
-(iii)~\textbf{FT Embed $+$ PC}---FT Embed augmented with 473-dim physicochemical features,
-without ZINC-250k retrieval;
-(iv)~\textbf{RAFE}---FT Embed $+$ PC further augmented with ZINC-250k neighbourhood features.
-For each mode we report the best-performing CLM variant and, where applicable, tree model.
-Full ablation tables appear in the Supplementary Material.
+\textbf{(i)~E2E LoRA establishes the performance ceiling} achievable by fully differentiable gradient flow through the CLM backbone.  Because LoRA adapters and the classification head are optimized jointly, the model can learn task-specific representations end-to-end. E2E LoRA results are therefore treated as the upper bound for each CLM family and dataset.
 
-\subsection{Sequence of Comparisons}
-\label{sec:comparison_sequence}
+\textbf{(ii)~FT Embed quantifies how much embedding quality alone contributes.} Here, the finetuned model is frozen after training; its CLS token embedding is extracted and passed to an Optuna-tuned tree classifier (XGBoost / LightGBM / CatBoost). Any gap between FT Embed and E2E LoRA reflects information that can only be recovered through
+end-to-end gradient flow i.e., representations that emerge from joint task-head optimization but are not fully preserved in the frozen CLS token.
 
-The four PEARL modes form a deliberate evaluation ladder that isolates the contribution
-of each component:
+\textbf{(iii)~FT Embed $+$ PC isolates the contribution of physicochemical feature engineering.} The frozen embedding is augmented with 473 engineered PC features and passed to the same tree classifier. A gain over FT Embed reflects the additional discriminative power of handcrafted molecular descriptors and fingerprints, independent of any external retrieval.
 
-\textbf{(i)~E2E LoRA establishes the performance ceiling} achievable by fully differentiable
-gradient flow through the CLM backbone.  Because LoRA adapters and the classification head
-are optimised jointly, the model can learn task-specific representations end-to-end.
-E2E LoRA results are therefore treated as the upper bound for each CLM family and dataset.
+\textbf{(iv)~RAFE measures the additional value of ZINC-250k chemical neighborhood context.} RAFE augments the FT Embed $+$ PC feature vector with ZINC-250k retrieval features (69-dim), all passed to the same tree classifier family. A gain from FT Embed $+$ PC to RAFE indicates that neighborhood signals from ZINC-250k provide information orthogonal to both the learned CLM representation and the molecule's own physicochemical profile. A lack of gain (or degradation) indicates that the task is primarily driven by geometry-critical or training-distribution-specific signals that retrieval cannot replicate.
 
-\textbf{(ii)~FT Embed quantifies how much embedding quality alone contributes.}
-Here, the finetuned model is frozen after training; its CLS token embedding is extracted and
-passed to an Optuna-tuned tree classifier (XGBoost / LightGBM / CatBoost).
-Any gap between FT Embed and E2E LoRA reflects information that can only be recovered through
-end-to-end gradient flow---i.e., representations that emerge from joint task-head optimisation
-but are not fully preserved in the frozen CLS token.
-
-\textbf{(iii)~FT Embed $+$ PC isolates the contribution of physicochemical feature engineering.}
-The frozen embedding is augmented with 473 engineered PC features and passed to the same
-tree classifier. A gain over FT Embed reflects the additional discriminative power of
-handcrafted molecular descriptors and fingerprints, independent of any external retrieval.
-
-\textbf{(iv)~RAFE measures the additional value of ZINC-250k chemical neighbourhood context.}
-RAFE augments the FT Embed $+$ PC feature vector with ZINC-250k retrieval features
-($\sim$69-dim), all passed to the same tree classifier family.
-A gain from FT Embed $+$ PC to RAFE indicates that neighbourhood signals from ZINC-250k
-provide information orthogonal to both the learned CLM representation and the molecule's own
-physicochemical profile.
-A lack of gain (or degradation) indicates that the task is primarily driven by geometry-critical
-or training-distribution-specific signals that retrieval cannot replicate.
-
-This ladder allows us to attribute performance differences to four distinct sources:
-(a)~the quality of the underlying pre-trained CLM, (b)~the fidelity of the frozen embedding,
-(c)~the discriminative power of engineered PC features, and
-(d)~the neighbourhood context contributed by ZINC-250k.
-The per-dataset results in the following subsections are discussed in this light.
-
+This ladder allows us to attribute performance differences to four distinct sources: \\
+(a)~the quality of the underlying pre-trained CLM, (b)~the fidelity of the frozen embedding, (c)~the discriminative power of engineered PC features, and (d)~the neighborhood context contributed by ZINC-250k. The per-dataset results in the following subsections are discussed in this light.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{BBBP Dataset Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Table~\ref{tab:bbbp} presents the best configuration per modality and CLM family for BBBP. E2E LoRA finetuning of MolFormer-XL with weighted loss achieves optimal overall performance
+(MCC~$= 0.797$, AUC~$= 0.948$, F1$_\text{macro} = 0.898$), matching the best previously reported result for this dataset.
 
-Table~\ref{tab:bbbp} presents the best configuration per modality and CLM family for BBBP.
-E2E LoRA finetuning of MolFormer-XL with weighted loss achieves optimal overall performance
-(MCC~$= 0.797$, AUC~$= 0.948$, F1$_\text{mic} = 0.906$), matching the best previously reported result for this dataset.
+Uni-Mol with weighted loss achieves MCC~$= 0.774$ and AUC~$= 0.943$, demonstrating that 3D geometry-aware representations are highly competitive on BBBP, despite this task being conventionally attributed to 2D physicochemical properties such as logP and molecular weight. Uni-Mol FT Embed (WL + CatBoost) achieves MCC~$= 0.720$, AUC~$= 0.918$ and is much worse than the more informative MolFormer FT Embed (FL + XGBoost) which achieves MCC~$=0.787$ and AUC~$=0.935$. Applying RAFE to Uni-Mol embeddings (FL + XGBoost) improves this to MCC~$= 0.773$,
+AUC~$= 0.928$ which is marginally below Uni-Mol E2E LoRA (MCC~$= 0.774$) while using only tree-based classifiers, and narrowing the gap with MolFormer RAFE (MCC~$= 0.798$).
 
-Uni-Mol with weighted loss achieves MCC~$= 0.774$ and AUC~$= 0.943$, demonstrating that
-3D geometry-aware representations are highly competitive on BBBP, despite this task being
-conventionally attributed to 2D physicochemical properties such as logP and molecular weight.
-Uni-Mol FT Embed (WL + CatBoost) achieves MCC~$= 0.720$, AUC~$= 0.918$---competitive
-with MolFormer FT Embed while using 3D-geometry-derived embeddings.
-Applying RAFE to Uni-Mol embeddings (FL + XGBoost) improves this to MCC~$= 0.773$,
-AUC~$= 0.928$---marginally below Uni-Mol E2E LoRA (MCC~$= 0.774$) while using only
-tree-based classifiers, and narrowing the gap with MolFormer RAFE (MCC~$= 0.798$).
-
-The RAFE framework (MolFormer-XL FL + XGBoost) achieves MCC~$= 0.798$---\emph{matching} the
-E2E LoRA result while using a tree-based classifier rather than end-to-end neural finetuning.
-Importantly, RAFE provides an interpretable neighbourhood context signal: the high mean logP
-of retrieved ZINC-250k neighbours (associated with BBB-permeable molecules) directly explains
-the prediction.
-Adding PC features to finetuned embeddings without RAFE (PC + FT Embed,
-MolFormer WL + CatBoost: MCC~$= 0.773$) is outperformed by both E2E LoRA and RAFE,
-suggesting that ZINC-250k neighbourhood context contributes information orthogonal to the
-molecule's own PC features.
+The RAFE framework (MolFormer-XL FL + XGBoost) achieves MCC~$= 0.798$ - \emph{matching} the E2E LoRA result while using a tree-based classifier rather than end-to-end neural finetuning. Importantly, RAFE provides an interpretable neighborhood context signal: the high mean logP of retrieved ZINC-250k neighbors (associated with BBB-permeable molecules) directly explaining the prediction. Adding PC features to finetuned embeddings without RAFE (PC + FT Embed, MolFormer WL + CatBoost: MCC~$= 0.773$) is outperformed by both E2E LoRA and RAFE, suggesting that ZINC-250k neighborhood context contributes information orthogonal to the molecule's own PC features.
 
 \begin{table*}[t]
 \centering
-\caption{Best performing configurations for each modality and CLM on the BBBP dataset.
-$^*$ denotes the top-performing method by average metric. RAFE = FT~Embed~+~PC~+~ZINC-250k
-retrieval features.}
+\caption{Best performing configurations for each modality and CLM on the BBBP dataset. $^*$, $^+$ denotes the top and second-best performing method by average metric. RAFE = FT~Embed~+~PC~+~ZINC-250k retrieval features.}
 \label{tab:bbbp}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{lllllrrrrrrr}
 \toprule
-Modality & CLM & Loss & ML & AUC & AUPR & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec & Rec \\
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec & Rec \\
 \midrule
-E2E LoRA & ChemBERTa-77M MLM & FL & --- & 0.923 & --- & 0.880 & 0.851 & 0.865 & 0.739 & 0.889 & 0.851 \\
-E2E LoRA & ChemBERTa-77M MTR & FL & --- & 0.921 & --- & 0.870 & 0.843 & 0.854 & 0.715 & 0.873 & 0.843 \\
-E2E LoRA$^*$ & MolFormer-XL & WL & --- & 0.948 & --- & 0.906 & 0.898 & 0.906 & 0.797 & 0.901 & 0.896 \\
-E2E LoRA & Uni-Mol & FL & --- & 0.944 & 0.949 & 0.880 & 0.873 & 0.880 & 0.747 & 0.868 & 0.878 \\
-E2E LoRA & Uni-Mol & WL & --- & 0.943 & 0.955 & 0.896 & 0.887 & 0.896 & 0.774 & 0.890 & 0.885 \\
+E2E LoRA & ChemBERTa-77M MLM & FL & --- & 0.923 & 0.880 & 0.851 & 0.865 & 0.739 & 0.889 & 0.851 \\
+E2E LoRA & ChemBERTa-77M MTR & FL & --- & 0.921 & 0.870 & 0.843 & 0.854 & 0.715 & 0.873 & 0.843 \\
+E2E LoRA$^*$ & MolFormer-XL & WL & --- & 0.948 & \textbf{0.906} & \textbf{0.898} & \textbf{0.906} & 0.797 & 0.901 & \textbf{0.896} \\
+%E2E LoRA & Uni-Mol & FL & --- & 0.944 &  0.880 & 0.873 & 0.880 & 0.747 & 0.868 & 0.878 \\
+E2E LoRA & Uni-Mol & WL & --- & 0.943 & 0.896 & 0.887 & 0.896 & 0.774 & 0.890 & 0.885 \\
 \midrule
-FT Embed & ChemBERTa-77M MLM & FL & LightGBM & 0.905 & --- & 0.896 & 0.882 & 0.896 & 0.776 & 0.911 & 0.866 \\
-FT Embed & MolFormer-XL & FL & XGBoost & 0.935 & --- & 0.901 & 0.888 & 0.901 & 0.787 & 0.914 & 0.873 \\
-FT Embed & Uni-Mol & FL & XGBoost & 0.917 & 0.939 & 0.865 & 0.842 & 0.865 & 0.709 & 0.889 & 0.823 \\
-FT Embed & Uni-Mol & WL & CatBoost & 0.918 & 0.917 & 0.865 & 0.838 & 0.865 & 0.720 & 0.912 & 0.814 \\
+FT Embed & ChemBERTa-77M MLM & FL & LightGBM & 0.905 &  0.896 & 0.882 & 0.896 & 0.776 & 0.911 & 0.866 \\
+FT Embed & MolFormer-XL & FL & XGBoost & 0.935 & 0.901 & 0.888 & 0.901 & 0.787 & 0.914 & 0.873 \\
+%FT Embed & Uni-Mol & FL & XGBoost & 0.917 &  0.865 & 0.842 & 0.865 & 0.709 & 0.889 & 0.823 \\
+FT Embed & Uni-Mol & WL & CatBoost & 0.918 & 0.865 & 0.838 & 0.865 & 0.720 & 0.912 & 0.814 \\
 \midrule
-PC + FT Embed & ChemBERTa-77M MLM & FL & LightGBM & 0.888 & --- & 0.891 & 0.875 & 0.891 & 0.765 & 0.907 & 0.859 \\
-PC + FT Embed & MolFormer-XL & FL & LightGBM & 0.934 & --- & 0.901 & 0.887 & 0.901 & 0.789 & 0.920 & 0.870 \\
-PC + FT Embed & MolFormer-XL & WL & CatBoost & 0.951 & --- & 0.896 & 0.884 & 0.896 & 0.773 & 0.902 & 0.872 \\
+PC + FT Embed & ChemBERTa-77M MLM & FL & LightGBM & 0.888 & 0.891 & 0.875 & 0.891 & 0.765 & 0.907 & 0.859 \\
+PC + FT Embed & MolFormer-XL & FL & LightGBM & 0.934 & 0.901 & 0.887 & 0.901 & 0.789 & 0.920 & 0.870 \\
+PC + FT Embed & MolFormer-XL & WL & CatBoost & \textbf{0.951} & 0.896 & 0.884 & 0.896 & 0.773 & 0.902 & 0.872 \\
 \midrule
-RAFE & ChemBERTa-77M MLM & FL & LightGBM & 0.926 & 0.942 & 0.896 & 0.882 & 0.896 & 0.776 & 0.911 & 0.866 \\
-RAFE & MolFormer-XL & FL & XGBoost & \textbf{0.940} & 0.940 & \textbf{0.906} & \textbf{0.895} & \textbf{0.906} & \textbf{0.798} & 0.918 & 0.881 \\
-RAFE & MolFormer-XL & WL & CatBoost & 0.946 & \textbf{0.960} & 0.885 & 0.872 & 0.885 & 0.750 & 0.889 & 0.861 \\
-RAFE & Uni-Mol & FL & XGBoost & 0.928 & 0.943 & 0.891 & 0.872 & 0.891 & 0.773 & 0.927 & 0.850 \\
+RAFE & ChemBERTa-77M MLM & FL & LightGBM & 0.926 & 0.896 & 0.882 & 0.896 & 0.776 & 0.911 & 0.866 \\
+RAFE$^+$ & MolFormer-XL & FL & XGBoost & 0.940 & \textbf{0.906} & 0.895 & \textbf{0.906} & \textbf{0.798} & 0.918 & 0.881 \\
+RAFE & MolFormer-XL & WL & CatBoost & 0.946 & 0.885 & 0.872 & 0.885 & 0.750 & 0.889 & 0.861 \\
+RAFE & Uni-Mol & FL & XGBoost & 0.928 & 0.891 & 0.872 & 0.891 & 0.773 & \textbf{0.927} & 0.850 \\
 \bottomrule
 \end{tabular}
 }
 \end{table*}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Flavor Dataset Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Flavor Dataset Results}
+Table~\ref{tab:flavor} presents results on the multi-class Flavor dataset. E2E LoRA finetuning of MolFormer-XL with weighted loss achieves MCC~$= 0.801$, F1$_\text{macro} = 0.809$, AUC~$= 0.975$, Prec~$= 0.802$, and Rec~$= 0.817$.
 
-Table~\ref{tab:flavor} presents results on the multi-class Flavor dataset.
-E2E LoRA finetuning of MolFormer-XL with weighted loss achieves MCC~$= 0.801$,
-F1$_\text{mac} = 0.809$, AUC~$= 0.975$, Prec~$= 0.802$, and Rec~$= 0.817$.
+The RAFE framework (MolFormer-XL WL + CatBoost) achieves MCC~$= 0.804$, marginally \emph{exceeding} E2E LoRA, while using tree-based classifiers on the augmented feature vector. This suggests that ZINC-250k neighborhood context contributes orthogonal information for distinguishing multi-class taste profiles: logP differences between the
+hydrophobic ZINC neighborhood of bitter compounds versus the hydrophilic neighborhood of sweet/sour compounds complement the CLM's learned representations.
 
-The RAFE framework (MolFormer-XL WL + CatBoost) achieves MCC~$= 0.804$, marginally
-\emph{exceeding} E2E LoRA, while using tree-based classifiers on the augmented feature
-vector. This suggests that ZINC-250k neighbourhood context contributes orthogonal
-information for distinguishing multi-class taste profiles: logP differences between the
-hydrophobic ZINC neighbourhood of bitter compounds versus the hydrophilic neighbourhood
-of sweet/sour compounds complement the CLM's learned representations.
-
-Uni-Mol achieves MCC~$= 0.795$ with weighted loss (Prec~$= 0.747$, Rec~$= 0.848$),
-competitive with but below MolFormer,
-indicating that 3D geometric information does not provide a strong additional signal for
-flavour prediction compared to SMILES-based representations.
-Uni-Mol FT Embed FL (XGBoost) achieves MCC~$= 0.765$, Acc~$= 0.866$, F1$_\text{mac} = 0.731$,
-falling below Uni-Mol E2E LoRA FL (MCC~$= 0.790$) and WL (MCC~$= 0.795$), demonstrating
-that end-to-end gradient flow provides a meaningful benefit for 3D taste representation.
-Uni-Mol RAFE FL (CatBoost) achieves MCC~$= 0.764$, Acc~$= 0.866$, F1$_\text{mac} = 0.714$,
-while WL (CatBoost) achieves MCC~$= 0.761$, F1$_\text{mac} = 0.737$---WL's minority-class
-upweighting yields superior macro-averaged balance, particularly for the rarest umami class
-(AUPR: WL $= 0.507$ vs FL $= 0.379$), while FL edges ahead on overall MCC.
+Uni-Mol achieves MCC~$= 0.795$ with weighted loss (Prec~$= 0.747$, Rec~$= 0.848$), competitive with but below MolFormer-XL, indicating that 3D geometric information does not provide a strong additional signal for flavour prediction compared to SMILES-based representations. Uni-Mol FT Embed FL (XGBoost) achieves MCC~$= 0.765$, Acc~$= 0.866$, F1$_\text{mac} = 0.731$, falling below Uni-Mol E2E LoRA FL (MCC~$= 0.790$) and WL (MCC~$= 0.795$), demonstrating that end-to-end gradient flow provides a meaningful benefit for 3D taste representation. Uni-Mol RAFE FL (CatBoost) achieves MCC~$= 0.764$, Acc~$= 0.866$, F1$_\text{mac} = 0.714$, while WL (CatBoost) achieves MCC~$= 0.761$, F1$_\text{mac} = 0.737$ suggesting WL's minority-class upweighting yields superior macro-averaged balance, particularly for the rarest umami class (AUPR: WL $= 0.507$ vs FL $= 0.379$), while FL edges ahead on overall MCC.
 
 \begin{table*}[t]
 \centering
-\caption{Best performing configurations on the Flavor (FART) dataset.
-Prec and Rec are macro-averaged. AUC is one-vs-rest macro ROC AUC.}
+\caption{Best performing configurations on the Flavor (FART) dataset. Prec and Rec are macro-averaged. AUC is one-vs-rest macro ROC AUC. $^{*}$, $^+$ denotes the top and second-best performing method by average metric.}
 \label{tab:flavor}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llllrrrrrrr}
 \toprule
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec & Rec \\
 \midrule
-E2E LoRA$^*$ & MolFormer-XL & WL & --- & \textbf{0.975} & 0.892 & \textbf{0.809} & 0.892 & 0.801 & 0.802 & 0.817 \\
+E2E LoRA$^+$ & MolFormer-XL & WL & --- & \textbf{0.975} & 0.892 & \textbf{0.809} & 0.892 & 0.801 & 0.802 & 0.817 \\
 E2E LoRA & ChemBERTa-77M MTR & WL & --- & 0.964 & 0.890 & 0.780 & 0.890 & 0.802 & 0.780 & 0.786 \\
 E2E LoRA & Uni-Mol & FL & --- & 0.969 & 0.883 & 0.771 & 0.883 & 0.790 & 0.767 & 0.781 \\
 E2E LoRA & Uni-Mol & WL & --- & 0.973 & 0.885 & 0.783 & 0.885 & 0.795 & 0.747 & \textbf{0.848} \\
@@ -586,53 +693,33 @@ PC + FT Embed & MolFormer-XL & WL & LightGBM & 0.967 & 0.883 & 0.798 & 0.883 & 0
 RAFE & ChemBERTa-77M MTR & FL & CatBoost & 0.969 & 0.886 & 0.741 & 0.886 & 0.798 & 0.731 & 0.756 \\
 RAFE & MolFormer-XL & FL & LightGBM & 0.953 & 0.889 & 0.788 & 0.889 & 0.793 & 0.818 & 0.768 \\
 RAFE & MolFormer-XL & WL & LightGBM & 0.964 & 0.892 & 0.794 & 0.892 & 0.798 & 0.825 & 0.775 \\
-RAFE & MolFormer-XL & WL & CatBoost & 0.963 & \textbf{0.893} & 0.774 & \textbf{0.893} & \textbf{0.804} & \textbf{0.868} & 0.749 \\
+RAFE$^*$ & MolFormer-XL & WL & CatBoost & 0.963 & \textbf{0.893} & 0.774 & \textbf{0.893} & \textbf{0.804} & \textbf{0.868} & 0.749 \\
 RAFE & Uni-Mol & FL & CatBoost & 0.931 & 0.866 & 0.714 & 0.866 & 0.764 & 0.704 & 0.731 \\
 \bottomrule
 \end{tabular}
 }
 \end{table*}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{BACE Dataset Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Table~\ref{tab:bace} compares key configurations on the BACE inhibitor prediction task. BACE is the most challenging dataset (MCC $< 0.65$ across most methods), consistent with the difficulty of generalizing to novel chemical scaffolds in a binding-affinity prediction task.
 
-Table~\ref{tab:bace} compares key configurations on the BACE inhibitor prediction task.
-BACE is the most challenging dataset (MCC $< 0.65$ across most methods), consistent with the
-difficulty of generalising to novel chemical scaffolds in a binding-affinity prediction task.
+\textbf{Uni-Mol with weighted loss achieves the best overall performance} (MCC~$= 0.623$, AUC~$= 0.891$, Acc~$= 0.822$), representing an improvement of $8\%$ in MCC over the next best E2E LoRA MolFormer FL (MCC~$= 0.577$, AUC~$= 0.872$). This improvement is consistent with the hypothesis that 3D geometry-aware representations
+provide superior inductive biases for binding affinity tasks: BACE-1 inhibitor activity is driven by ligand-receptor complementarity in three-dimensional space.
 
-\textbf{Uni-Mol with weighted loss achieves the best overall performance} (MCC~$= 0.623$,
-AUC~$= 0.891$, Acc~$= 0.822$), representing an improvement of 8\% in MCC over the previous
-best E2E LoRA MolFormer FL (MCC~$= 0.577$, AUC~$= 0.872$).
-This improvement is consistent with the hypothesis that 3D geometry-aware representations
-provide superior inductive biases for binding affinity tasks: BACE-1 inhibitor activity is
-driven by ligand--receptor complementarity in three-dimensional space.
+The RAFE framework with MolFormer-XL WL + LightGBM achieves MCC~$= 0.561$, intermediate between the finetuned-embedding-only result (MCC~$= 0.557$) and E2E LoRA (MCC~$= 0.577$). Adding PC features to finetuned embeddings provides minimal improvement over RAFE alone, consistent with the finding that LoRA-adapted representations already capture task-relevant molecular properties. Uni-Mol FT Embed (FL + LightGBM) achieves MCC~$= 0.493$, AUC~$= 0.860$, which is substantially below Uni-Mol E2E LoRA (MCC~$= 0.623$), confirming that end-to-end 3D gradient flow is
+essential for binding affinity prediction and cannot be fully recovered at the embedding stage. Uni-Mol RAFE (FL + XGBoost, MCC~$= 0.478$, AUC~$= 0.840$) modestly improves over Uni-Mol FT Embed but remains well below Uni-Mol E2E LoRA, reaffirming that geometry-critical tasks benefit most from fully differentiable 3D encoding.
 
-The RAFE framework with MolFormer-XL WL + LightGBM achieves MCC~$= 0.561$, intermediate
-between the finetuned-embedding-only result (MCC~$= 0.557$) and E2E LoRA (MCC~$= 0.577$).
-Adding PC features to finetuned embeddings provides minimal improvement over RAFE alone,
-consistent with the finding that LoRA-adapted representations already capture
-task-relevant molecular properties.
-Uni-Mol FT Embed (FL + LightGBM) achieves MCC~$= 0.493$, AUC~$= 0.860$---substantially
-below Uni-Mol E2E LoRA (MCC~$= 0.623$)---confirming that end-to-end 3D gradient flow is
-essential for binding affinity prediction and cannot be fully recovered at the embedding stage.
-Uni-Mol RAFE (FL + XGBoost, MCC~$= 0.478$, AUC~$= 0.840$) modestly improves over
-Uni-Mol FT Embed but remains well below Uni-Mol E2E LoRA, reaffirming that
-geometry-critical tasks benefit most from fully differentiable 3D encoding.
+Figure~\ref{fig:bace} shows ROC and precision-recall curves for the best configuration per model family. MolFormer-XL base embeddings with CatBoost achieve AUC~$= 0.885$ (the highest among SMILES-based approaches), while Uni-Mol WL achieves the highest AUPR~$= 0.924$ and overall MCC.
 
-Figure~\ref{fig:bace} shows ROC and precision-recall curves for the best configuration per
-model family. MolFormer-XL base embeddings with CatBoost achieve AUC~$= 0.885$ (the highest
-among SMILES-based approaches), while Uni-Mol WL achieves the highest AUPR~$= 0.924$ and
-overall MCC.
-
-\begin{figure}[t]
+\begin{figure*}[!ht]
   \centering
-  \fbox{\rule{0pt}{5.5cm}\rule{\linewidth}{0pt}}
-  \caption{ROC and precision-recall curves for the BACE inhibitor prediction task.
-  Curves shown for the best configuration per model family (MolFormer E2E LoRA FL,
-  Uni-Mol E2E LoRA WL, MolFormer RAFE). Uni-Mol WL achieves the highest AUPR~$= 0.924$
-  and overall MCC~$= 0.623$, while MolFormer base embeddings with CatBoost reach
+  \includegraphics[width=0.49\textwidth]{Optimal-Design-layout/Figures/bace_roc.pdf}
+  \includegraphics[width=0.49\textwidth]{Optimal-Design-layout/Figures/bace_pr.pdf}
+  \caption{ROC and precision-recall curves for the BACE inhibitor prediction task. (a) Curves shown for the best configuration per model family (MolFormer E2E LoRA FL, Uni-Mol E2E LoRA WL, MolFormer RAFE). Uni-Mol WL achieves the highest AUPR~$= 0.924$ and overall MCC~$= 0.623$, while MolFormer base embeddings with CatBoost reach
   AUC~$= 0.885$ among SMILES-based approaches.}
   \label{fig:bace}
-\end{figure}
+\end{figure*}
 
 \begin{table*}[ht]
 \centering
@@ -659,167 +746,59 @@ RAFE & Uni-Mol & FL & XGBoost & 0.840 & 0.704 & 0.704 & 0.704 & 0.478 & 0.739 & 
 \end{tabular}
 }
 \end{table*}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{ClinTox Dataset Results}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Table~\ref{tab:clintox} presents results for the FDA\_APPROVED label. FT~Embed with ChemBERTa-77M MLM FL + CatBoost achieves the overall best performance (MCC~$= 0.850$, Acc~$= 0.986$, F1$_\text{macro} = 0.925$), indicating
+that ChemBERTa's masked-language pre-training on SMILES captures FDA-approval-relevant chemical patterns that CatBoost can exploit directly without retrieval augmentation. E2E LoRA (MolFormer FL) achieves MCC~$= 0.786$, while ChemBERTa MTR WL LoRA reaches MCC~$= 0.750$. Uni-Mol E2E LoRA (FL, MCC~$= 0.282$) performs substantially below
+SMILES-based models, indicating that 3D geometric features cannot encapsulate meaningful representation for FDA approval classification.
 
-Table~\ref{tab:clintox} presents results for the CT\_TOX (clinical toxicity) and FDA\_APPROVED
-tasks.
+Adding PC features to FT embeddings (PC + FT Embed, ChemBERTa MLM WL + LightGBM: MCC~$= 0.786$) reaches E2E LoRA parity without retrieval. RAFE (ChemBERTa MLM WL + LightGBM: MCC~$= 0.827$; MolFormer FL + XGBoost: MCC~$= 0.827$) further improves by adding ZINC-250k neighborhood context. Uni-Mol RAFE (WL + XGBoost: MCC~$= 0.633$) substantially
+outperforms Uni-Mol E2E LoRA (MCC~$= 0.282$), demonstrating that ZINC-250k retrieval compensates for 3D geometry's limited transferability to toxicity prediction.
 
-The \textbf{RAFE framework with MolFormer-XL FL + CatBoost establishes a new state of the art}
-on the CT\_TOX task: MCC~$= 0.913$, AUC~$= 0.986$, Acc~$= 0.986$, F1$_\text{mac} = 0.955$---
-surpassing E2E LoRA (MolFormer FL, MCC~$= 0.786$) by 12.7\% and FT~Embed (MolFormer FL,
-MCC~$= 0.827$) by 8.6\%, the largest RAFE gain across all four datasets.
-This result is particularly notable because ClinTox uniquely benefits from ZINC-250k
-neighbourhood context: the retrieval pipeline identifies atypical logP/SAS signatures
-associated with clinically toxic compounds that are not captured by finetuned embeddings alone.
-
-Uni-Mol E2E LoRA performs poorly on ClinTox (MCC~$\leq 0.282$), due to extreme class
-imbalance ($>$90\% non-toxic) combined with the small dataset size, making it difficult to
-learn a reliable 3D conformer-based toxicity signal end-to-end.
-However, Uni-Mol FT Embed (FL + CatBoost) substantially recovers performance
-(MCC~$= 0.460$, AUC~$= 0.923$, AUPR~$= 0.996$), and Uni-Mol RAFE with weighted loss
-(WL + XGBoost) achieves MCC~$= 0.633$, AUC~$= 0.983$, AUPR~$= 0.999$,
-Acc~$= 0.951$---demonstrating that ZINC-250k neighbourhood context compensates for E2E
-training limitations under severe class imbalance, and that weighted-loss embeddings better
-capture the physicochemical signatures of clinically toxic compounds for retrieval.
-
-For FDA\_APPROVED, ChemBERTa-MLM WL + LightGBM via RAFE achieves
-AUC~$= 0.992$, AUPR~$= 1.000$, and MCC~$= 0.827$.
-
-\begin{table}[ht]
+\begin{table*}[t]
 \centering
-\caption{Best configurations on the ClinTox dataset. Results shown for CT\_TOX (toxicity)
-and FDA\_APPROVED labels. $^*$ overall best by MCC.}
+\caption{Best configurations per modality on the ClinTox FDA\_APPROVED label.
+$^*$ overall best by MCC. Prec and Rec are macro-averaged.}
 \label{tab:clintox}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{llllllrrr}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llll rrrrrrrr}
 \toprule
-Task & Modality & CLM & Loss & ML & AUC & AUPR & Acc & MCC \\
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec & Rec \\
 \midrule
-\multirow{8}{*}{CT\_TOX}
- & E2E LoRA & MolFormer-XL & FL & --- & 0.993 & --- & 0.972 & 0.786 \\
- & E2E LoRA & Uni-Mol & FL & --- & 0.904 & 0.995 & 0.867 & 0.282 \\
- & E2E LoRA & Uni-Mol & WL & --- & 0.802 & 0.988 & 0.937 & 0.276 \\
- & FT Embed & Uni-Mol & FL & CatBoost & 0.923 & 0.996 & 0.853 & 0.460 \\
- & RAFE & ChemBERTa-MLM & WL & LightGBM & 0.989 & 0.939 & 0.979 & 0.869 \\
- & RAFE & MolFormer-XL & FL & LightGBM & 0.997 & 0.975 & 0.979 & 0.867 \\
- & RAFE$^*$ & MolFormer-XL & FL & CatBoost & 0.986 & 0.931 & \textbf{0.986} & \textbf{0.913} \\
- & RAFE & Uni-Mol & WL & XGBoost & 0.983 & 0.999 & 0.951 & 0.633 \\
+E2E LoRA & ChemBERTa-77M MLM & FL & --- & 0.987 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 & 0.978 \\
+E2E LoRA & ChemBERTa-77M MTR & WL & --- & 0.987 &  0.965 & 0.859 & 0.965 & 0.750 & 0.792 & 0.982 \\
+E2E LoRA & MolFormer-XL & FL & --- & \textbf{0.993} &  0.972 & 0.881 & 0.972 & 0.786 & 0.818 & 0.985 \\
+E2E LoRA & Uni-Mol & FL & --- & 0.904 & 0.867 & 0.612 & 0.867 & 0.282 & 0.588 & 0.727 \\
 \midrule
-\multirow{4}{*}{\small FDA\_APP.}
- & E2E LoRA & MolFormer-XL & FL & --- & 0.993 & --- & 0.972 & 0.786 \\
- & FT Embed & MolFormer-XL & FL & XGBoost & 0.987 & --- & 0.979 & 0.827 \\
- & RAFE & ChemBERTa-MLM & WL & LightGBM & 0.992 & 1.000 & 0.979 & 0.827 \\
- & RAFE & MolFormer-XL & FL & XGBoost & 0.988 & 0.999 & 0.979 & 0.827 \\
+FT Embed$^*$ & ChemBERTa-77M MLM & FL & CatBoost & 0.987 & \textbf{0.986} & \textbf{0.925} & \textbf{0.986} & \textbf{0.850} & \textbf{0.925} & 0.925 \\
+FT Embed & MolFormer-XL & FL & LightGBM & 0.987 & 0.979 & 0.906 & 0.979 & 0.827 & 0.850 & \textbf{0.989} \\
+FT Embed & Uni-Mol & FL & CatBoost & 0.923 & 0.853 & 0.658 & 0.853 & 0.460 & 0.625 & 0.923 \\
+\midrule
+PC + FT Embed & ChemBERTa-77M MLM & WL & LightGBM & 0.989 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 & 0.985 \\
+PC + FT Embed & MolFormer-XL & FL & CatBoost & 0.991 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 & 0.978 \\
+\midrule
+RAFE & ChemBERTa-77M MLM & WL & LightGBM & 0.992 & 0.979 & 0.906 & 0.979 & 0.827 & 0.850 & \textbf{0.989} \\
+RAFE & MolFormer-XL & FL & XGBoost & 0.988 & 0.979 & 0.906 & 0.979 & 0.827 & 0.850 & \textbf{0.989} \\
+RAFE & Uni-Mol & WL & XGBoost & 0.983 & 0.951 & 0.803 & 0.951 & 0.633 & 0.746 & 0.907 \\
 \bottomrule
 \end{tabular}
 }
-\end{table}
-
-\subsection{Retrieval-Augmented Feature Enhancement Analysis}
-
-Table~\ref{tab:rafe_summary} provides a consolidated comparison of all four PEARL modes
-across all four datasets: E2E LoRA, FT~Embed (frozen embeddings only), FT~Embed+PC
-(embeddings with 473-dim physicochemical features, no ZINC-250k retrieval), and RAFE
-(full retrieval-augmented pipeline), including Uni-Mol variants.
-
-For BBBP, MolFormer RAFE (MCC~$= 0.798$) essentially ties E2E LoRA (MCC~$= 0.797$),
-demonstrating that an interpretable tree-based approach with chemical neighbourhood context
-can match neural end-to-end finetuning. Uni-Mol RAFE FL (MCC~$= 0.773$) is nearly equivalent
-to Uni-Mol E2E LoRA (MCC~$= 0.774$) using only a tree-based classifier, and narrows the gap
-with MolFormer RAFE substantially (from $\Delta = 0.024$ at E2E to $\Delta = 0.025$ at RAFE).
-For Flavor, MolFormer RAFE marginally improves over E2E LoRA (MCC~$= 0.804$ vs.\ $0.801$),
-while Uni-Mol FT Embed FL (XGBoost, MCC~$= 0.765$) closely matches Uni-Mol E2E LoRA FL
-(MCC~$= 0.765$), confirming that finetuned 3D features transfer well to tree classifiers
-for multi-class taste prediction.
-Uni-Mol RAFE FL (MCC~$= 0.764$) falls marginally below FT Embed FL, confirming
-that ZINC-250k retrieval provides no additional benefit for 3D geometry in taste prediction.
-For BACE, Uni-Mol E2E (MCC~$= 0.623$) substantially outperforms all RAFE configurations
-(MolFormer RAFE: $0.561$; Uni-Mol RAFE FL: $0.478$), confirming that geometry-critical tasks
-require end-to-end 3D gradient flow.
-For ClinTox CT\_TOX, MolFormer RAFE delivers the largest improvement over E2E LoRA (MCC~$= 0.913$ vs.\ $0.786$),
-and Uni-Mol RAFE with weighted loss (WL + XGBoost, MCC~$= 0.633$) dramatically outperforms
-Uni-Mol E2E LoRA (MCC~$= 0.282$), showing that weighted-loss embeddings better encode the
-physicochemical signature of toxic compounds for ZINC-250k retrieval.
-
-\begin{table}[ht]
-\centering
-\caption{Summary comparison of the four PEARL modes across all four datasets (best MCC per
-approach). E2E LoRA results use the best CLM variant per dataset. FT~Embed and FT~Embed+PC
-use MolFormer-XL unless otherwise noted. ``RAFE best (MolFormer)'' uses MolFormer-XL
-embeddings. ``Uni-Mol RAFE'' uses 2560-dim Uni-Mol hybrid embeddings.}
-\label{tab:rafe_summary}
-\resizebox{\columnwidth}{!}{%
-\begin{tabular}{lrrrrr}
-\toprule
-Dataset & Approach & AUC & Acc & F1$_\text{mac}$ & MCC \\
-\midrule
-\multirow{6}{*}{BBBP}
- & E2E LoRA (MolFormer WL)    & 0.948 & 0.906 & 0.898 & 0.797 \\
- & Uni-Mol E2E (WL)           & 0.943 & 0.896 & 0.887 & 0.774 \\
- & FT Embed (MolFormer FL)    & 0.935 & 0.901 & 0.888 & 0.787 \\
- & FT Embed+PC (MolFormer FL) & 0.934 & 0.901 & 0.887 & 0.789 \\
- & RAFE best (MolFormer)      & 0.940 & 0.906 & 0.895 & \textbf{0.798} \\
- & Uni-Mol RAFE (FL)          & 0.928 & 0.891 & 0.872 & 0.773 \\
-\midrule
-\multirow{6}{*}{Flavor}
- & E2E LoRA (MolFormer WL)    & 0.975 & 0.892 & 0.809 & 0.801 \\
- & Uni-Mol E2E (WL)           & 0.967 & 0.874 & 0.772 & 0.776 \\
- & FT Embed (MolFormer WL)    & 0.970 & 0.882 & 0.783 & 0.787 \\
- & FT Embed+PC (MolFormer WL) & 0.967 & 0.883 & 0.798 & 0.789 \\
- & RAFE best (MolFormer)      & 0.837 & 0.893 & 0.774 & \textbf{0.804} \\
- & Uni-Mol RAFE (FL)          & ---   & 0.866 & 0.714 & 0.764 \\
-\midrule
-\multirow{6}{*}{BACE}
- & E2E LoRA (MolFormer FL)    & 0.872 & 0.789 & 0.785 & 0.577 \\
- & Uni-Mol E2E (WL)           & 0.891 & 0.822 & 0.808 & \textbf{0.623} \\
- & FT Embed (MolFormer FL)    & 0.869 & 0.763 & ---   & 0.557 \\
- & FT Embed+PC (MolFormer FL) & 0.870 & 0.737 & ---   & 0.517 \\
- & RAFE best (MolFormer)      & 0.858 & 0.770 & 0.768 & 0.561 \\
- & Uni-Mol RAFE (FL)          & 0.840 & 0.704 & 0.704 & 0.478 \\
-\midrule
-\multirow{4}{*}{ClinTox}
- & Uni-Mol E2E (FL)        & 0.904 & 0.867 & 0.612 & 0.282 \\
- & FT Embed best (MolFormer) & 0.987 & 0.979 & 0.906 & 0.827 \\
- & RAFE best (MolFormer)   & 0.986 & 0.986 & 0.955 & \textbf{0.913} \\
- & Uni-Mol RAFE (WL)       & 0.983 & 0.951 & 0.803 & 0.633 \\
-\bottomrule
-\end{tabular}
-}
-\end{table}
-
-\begin{figure*}[t]
-  \centering
-  \fbox{\rule{0pt}{6cm}\rule{\textwidth}{0pt}}
-  \caption{Performance comparison across the four PEARL operational modes (E2E LoRA,
-  FT~Embed, FT~Embed~+~PC, RAFE) and all three CLM families (ChemBERTa, MolFormer,
-  Uni-Mol) on four molecular property prediction tasks (BBBP, Flavor, BACE, ClinTox).
-  MCC is the primary metric. Darker bars indicate better performance; dashed lines mark
-  the best E2E LoRA baseline for each dataset.}
-  \label{fig:performance}
-\end{figure*}
-
+\end{table*}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Parameter Efficiency}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+Table~\ref{tab:params} reports LoRA hyperparameters and trainable parameter counts for all model families across the four tasks. ChemBERTa variants (3.4M base parameters) achieve reductions of $76-94\%$ depending on rank; MolFormer-XL ($\approx 46$M parameters) achieves $84-97\%$ reduction. For Uni-Mol (rank $r \in \{4,8,16,32\}$), LoRA targets only the \texttt{in\_proj} weight in $15$ attention layers, yielding a particularly efficient adaptation with $<5\%$ trainable parameters for the lowest-rank configurations.
 
-Table~\ref{tab:params} reports LoRA hyperparameters and trainable parameter counts for all
-model families across the four tasks. ChemBERTa variants (3.4M base parameters) achieve
-reductions of 76--94\% depending on rank; MolFormer-XL ($\approx 46$M parameters) achieves
-84--97\% reduction.
-For Uni-Mol (rank $r \in \{4,8,16,32\}$), LoRA targets only the \texttt{in\_proj}
-weight in 15 attention layers, yielding a particularly efficient adaptation with $<5\%$
-trainable parameters for the lowest-rank configurations.
-
-Full parameter counts are tabulated in Supplementary Table~S6.
-
-\begin{table}[ht]
+%Full parameter counts are tabulated in Supplementary Table~S6.
+\begin{table}[!ht]
 \centering
-\caption{Selected LoRA configurations illustrating the range of parameter efficiency.
-Trainable~\% = 100 $\times$ trainable / total parameters.}
+\caption{Selected LoRA configurations illustrating the range of parameter efficiency. Trainable~\% = 100 $\times$ trainable / total parameters.}
 \label{tab:params}
 \resizebox{\columnwidth}{!}{%
 \begin{tabular}{llllrrrr}
 \toprule
-Dataset & Model & $r$ & $\alpha$ & Total & Trainable & \% & \% Red. \\
+Dataset & Model & $r$ & $\alpha$ & Total & Trainable & Trainable \% & \% Reduction \\
 \midrule
 BACE   & ChemBERTa-MLM & 4  & 32  & 3.43M & 205K  & 5.66  & 94.34 \\
 BACE   & ChemBERTa-MTR & 32 & 128 & 3.43M & 606K  & 15.03 & 84.97 \\
@@ -836,129 +815,57 @@ Flavor & MolFormer-XL  & 4  & 64  & 45.6M & 1.63M & 3.44  & 96.56 \\
 %% ─────────────────────────────────────────────────────────────────────────────
 \section{Discussion \& Conclusion}
 %% ─────────────────────────────────────────────────────────────────────────────
+PEARL extends parameter-efficient molecular property prediction in two directions that address limitations of SMILES-only, single-modality CLM finetuning. 
 
-PEARL extends parameter-efficient molecular property prediction in two directions that
-address limitations of SMILES-only, single-modality CLM finetuning.
+\textbf{3D geometry matters for binding-affinity tasks:}
+Uni-Mol's SE(3)-equivariant architecture provides the most accurate BACE inhibitor classification (MCC~$= 0.623$ vs.\ $0.577$ for the best SMILES-based approach). BACE-1 inhibitor activity is governed by three-dimensional ligand--receptor complementarity, and the inductive biases of a geometry-aware transformer are therefore well-matched to this task. The hybrid 2560-dimensional representation (512-dim 3D CLS token plus 2048-dim ECFP4) balances 3D structural awareness with explicit 2D topological information. Conversely, Uni-Mol does not improve on SMILES-based models for ClinTox, where the primary challenge is severe class imbalance rather than geometric discrimination.
 
-\textbf{3D geometry matters for binding-affinity tasks.}
-Uni-Mol's SE(3)-equivariant architecture provides the most accurate BACE inhibitor
-classification (MCC~$= 0.623$ vs.\ $0.577$ for the best SMILES-based approach).
-BACE-1 inhibitor activity is governed by three-dimensional ligand--receptor complementarity,
-and the inductive biases of a geometry-aware transformer are therefore well-matched to this
-task. The hybrid 2560-dimensional representation (512-dim 3D CLS token plus 2048-dim ECFP4)
-balances 3D structural awareness with explicit 2D topological information. Conversely,
-Uni-Mol does not improve on SMILES-based models for ClinTox, where the primary challenge
-is severe class imbalance rather than geometric discrimination.
+\textbf{Retrieval-augmented chemical neighborhood context provides orthogonal information:}
+The RAFE framework demonstrates that ZINC-250k neighborhood features such as logP/QED/SAS distributions, neighborhood density and isolation, embedding centroid geometry, and Tanimoto structural similarity, provides information complementary to learned model representations. On BBBP, RAFE achieves MCC~$= 0.798$, essentially matching E2E LoRA (MCC~$= 0.797$) with a fully interpretable tree-based pipeline. On ClinTox FDA\_APPROVED, RAFE (ChemBERTa MLM WL + LightGBM: MCC~$= 0.827$; MolFormer FL + XGBoost: MCC~$= 0.827$) improves over both E2E LoRA (MolFormer FL: MCC~$= 0.786$) and PC + FT Embed (MCC~$= 0.786$) by supplying ZINC-250k neighborhood context for approval prediction. Notably, FT Embed with ChemBERTa MLM FL + CatBoost (MCC~$= 0.850$) outperforms RAFE on
+this task, suggesting that ChemBERTa's SMILES-based pretraining already encodes approval-relevant chemical patterns that frozen embeddings capture directly, and that ZINC-250k retrieval provides diminishing returns when the base representation is already well-aligned with the task. Uni-Mol RAFE (WL + XGBoost: MCC~$= 0.633$) nonetheless
+substantially outperforms Uni-Mol E2E LoRA (MCC~$= 0.282$) for ClinTox, confirming that retrieval augmentation compensates effectively when end-to-end 3D learning fails under severe class imbalance.
 
-\textbf{Retrieval-augmented chemical neighbourhood context provides orthogonal information.}
-The RAFE framework demonstrates that ZINC-250k neighbourhood features---logP/QED/SAS
-distributions, neighbourhood density and isolation, embedding centroid geometry, and
-Tanimoto structural similarity---provide information complementary to learned model representations. On ClinTox CT\_TOX, where finetuning
-paradoxically \emph{degrades} performance in the non-RAFE setting (likely due to overfitting
-under extreme class imbalance), RAFE restores and surpasses the original best, achieving
-MCC~$= 0.913$. This suggests that the ZINC-250k context provides a regulatory signal that
-helps the model identify the unusual physicochemical profiles of clinical toxic compounds
-without overfitting to the small labelled dataset. On BBBP, RAFE achieves MCC~$= 0.798$,
-essentially matching E2E LoRA (MCC~$= 0.797$) with a fully interpretable tree-based pipeline.
+\textbf{Task-dependent optimal strategies persist:} Several consistent patterns emerge across the expanded study:
+(i)~MolFormer consistently outperforms ChemBERTa across all experimental conditions and tasks; 
+(ii)~weighted loss excels on severely imbalanced datasets (BBBP, Flavor), while focal
+loss is optimal for challenging tasks (ClinTox); 
+(iii)~adding PC features to finetuned embeddings provides minimal improvement over finetuned embeddings alone, because LoRA adaptation effectively internalises task-relevant molecular properties;
+(iv)~for ClinTox, base embeddings combined with PC features remain a strong baseline, and RAFE is needed to outperform them with finetuned representations to achieve best Recall.
 
-\textbf{Task-dependent optimal strategies persist.}
-Several consistent patterns emerge across the expanded study:
-(i)~MolFormer consistently outperforms ChemBERTa across all experimental conditions and tasks;
-(ii)~weighted loss excels on severely imbalanced datasets (BBBP, Flavor, ClinTox), while focal
-loss is optimal for challenging but relatively balanced tasks (BACE);
-(iii)~adding PC features to finetuned embeddings provides minimal improvement over finetuned
-embeddings alone, because LoRA adaptation effectively internalises task-relevant molecular
-properties;
-(iv)~for ClinTox, base embeddings combined with PC features remain a strong baseline, and
-RAFE is needed to outperform them with finetuned representations.
+\textbf{Parameter efficiency:}
+LoRA achieves $75-97\%$ parameter reduction across all three model families without sacrificing performance. The smallest effective configurations (MolFormer-XL at $r = 4$, $\alpha = 64$ for Flavor and ClinTox, $3.44\%$ trainable) are particularly noteworthy: they demonstrate that the intrinsic task-relevant subspace of a $46$M-parameter molecular transformer can be captured with fewer than 1.7M additional parameters.
 
-\textbf{Parameter efficiency.}
-LoRA achieves 75--97\% parameter reduction across all three model families without sacrificing
-performance. The smallest effective configurations (MolFormer-XL at $r = 4$, $\alpha = 64$
-for Flavor and ClinTox, 3.44\% trainable) are particularly noteworthy: they demonstrate that
-the intrinsic task-relevant subspace of a 46M-parameter molecular transformer can be captured
-with fewer than 1.7M additional parameters.
+\textbf{Uni-Mol RAFE: geometry-aware retrieval amplifies performance selectively:} 
+Applying RAFE to Uni-Mol 2560-dim embeddings reveals a consistent, task-dependent pattern, with loss function choice critically influencing retrieval quality. For BBBP, Uni-Mol RAFE FL (MCC~$= 0.773$) nearly matches Uni-Mol E2E LoRA (MCC~$= 0.774$) using only a tree-based classifier, and narrows the gap with MolFormer RAFE (MCC~$= 0.798$) using focal-loss embeddings augmented with ZINC-250k retrieved neighbors with the highest-logP physicochemical profiles characteristic of BBB-permeable compounds.
+For BACE inhibition, a geometry-critical task, Uni-Mol E2E LoRA (MCC~$= 0.623$) remains substantially superior to both Uni-Mol FT Embed (MCC~$= 0.493$) and Uni-Mol RAFE FL (MCC~$= 0.478$), confirming that end-to-end 3D gradient flow is irreplaceable for binding affinity prediction and cannot be recovered through retrieval.
+For ClinTox, Uni-Mol RAFE \emph{with weighted loss} (WL + XGBoost, MCC~$= 0.633$, AUC~$= 0.983$) dramatically outperforms both Uni-Mol E2E LoRA (MCC~$= 0.282$) and the FL variant (best MCC~$= 0.547$). This can be attributed to weighted-loss training upweighting the minority toxic class during finetuning, producing embeddings that retrieve ZINC-250k neighbors with atypical logP/SAS profiles characteristic of clinically toxic compounds, providing a reliable surrogate signal where end-to-end 3D learning fails under extreme class imbalance.
 
-\textbf{Uni-Mol RAFE: geometry-aware retrieval amplifies performance selectively.}
-Applying RAFE to Uni-Mol 2560-dim embeddings reveals a consistent, task-dependent pattern,
-with loss function choice critically influencing retrieval quality.
-For BBBP, Uni-Mol RAFE FL (MCC~$= 0.773$) nearly matches Uni-Mol E2E LoRA (MCC~$= 0.774$)
-using only a tree-based classifier, and narrows the gap with MolFormer RAFE (MCC~$= 0.798$)---
-focal-loss embeddings retrieve ZINC-250k neighbours with the highest-logP physicochemical
-profiles characteristic of BBB-permeable compounds.
-For BACE---the geometry-critical task---Uni-Mol E2E LoRA (MCC~$= 0.623$) remains
-substantially superior to both Uni-Mol FT Embed (MCC~$= 0.493$) and Uni-Mol RAFE FL
-(MCC~$= 0.478$), confirming that end-to-end 3D gradient flow is irreplaceable for
-binding affinity prediction and cannot be recovered through retrieval.
-For ClinTox, Uni-Mol RAFE \emph{with weighted loss} (WL + XGBoost, MCC~$= 0.633$, AUC~$= 0.983$)
-dramatically outperforms both Uni-Mol E2E LoRA (MCC~$= 0.282$) and the FL variant
-(best MCC~$= 0.547$)---weighted-loss training upweights the minority toxic class during
-finetuning, producing embeddings that retrieve ZINC-250k neighbours with atypical logP/SAS
-profiles characteristic of clinically toxic compounds, providing a reliable surrogate signal
-where end-to-end 3D learning fails under extreme class imbalance.
+\textbf{Future directions:}
+Some avenues still remain open-ended. First, extending PEARL to regression tasks (binding affinity, solubility) with calibrated uncertainty estimates would broaden its applicability. Secondly, emerging multi-modal CLMs such as nach0~\cite{livne2024nach0} and Omni-Mol~\cite{hu2025omnimol}, which integrate SMILES, graphs, and textual descriptions, represent natural extensions of the LoRA + RAFE paradigm. 
 
-\textbf{Future directions.}
-Several avenues remain open.
-First, extending PEARL to regression tasks (binding affinity, solubility) with
-calibrated uncertainty estimates would broaden its applicability.
-Second, emerging multi-modal CLMs such as nach0~\cite{livne2024nach0} and
-Omni-Mol~\cite{hu2025omnimol}, which integrate SMILES, graphs, and textual descriptions,
-represent natural extensions of the LoRA + RAFE paradigm.
-Third, Uni-Mol WL FT Embed results for Flavor remain pending (WL finetuning job not yet
-complete); once available they will complement the FL results (MCC~$= 0.765$) already reported
-and enable a direct FL-vs-WL comparison for tree classifiers on 3D embeddings in multi-class
-taste prediction.
-
-In conclusion, PEARL establishes a practical framework for molecular property
-prediction that combines parameter-efficient 3D and SMILES-based finetuning with
-retrieval-augmented chemical neighbourhood context.
-By achieving state-of-the-art performance on ClinTox toxicity prediction and BACE inhibitor
-classification while reducing trainable parameters by 75--97\%, PEARL enables
-resource-constrained laboratories to deploy high-performance molecular AI tools.
+In conclusion, PEARL establishes a practical framework for molecular property prediction that combines parameter-efficient 3D and SMILES-based finetuning with retrieval-augmented chemical neighborhood context. By achieving state-of-the-art performance on ClinTox toxicity prediction and BACE inhibitor classification while reducing trainable parameters by $75-97\%$, PEARL enables resource-constrained laboratories to deploy high-performance molecular AI tools.
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \section*{Key Points}
 %% ─────────────────────────────────────────────────────────────────────────────
 
 \begin{itemize}
-  \item PEARL applies LoRA to three CLM families---ChemBERTa, MolFormer, and Uni-Mol---
-        achieving 75--97\% parameter reduction while matching or exceeding full finetuning.
-  \item Uni-Mol's SE(3)-equivariant 3D representations achieve the best BACE inhibitor
-        classification (MCC~$= 0.623$), an 8\% improvement over the best SMILES-based method.
-  \item The RAFE framework with ZINC-250k neighbourhood context sets a new state of the art on
-        ClinTox toxicity prediction (CT\_TOX MCC~$= 0.913$) and matches E2E LoRA on BBBP
-        (MCC~$= 0.798$) with a fully interpretable tree-based pipeline.
-  \item MolFormer consistently outperforms ChemBERTa; weighted loss excels on imbalanced
-        datasets while focal loss is optimal for balanced, challenging tasks (BACE).
-  \item Adding PC features to finetuned embeddings provides minimal benefit, as LoRA-adapted
-        models already internalise task-relevant molecular properties.
+  \item PEARL applies LoRA to three CLM families - ChemBERTa, MolFormer, and Uni-Mol, achieving $75-97\%$ parameter reduction while matching or exceeding full finetuning.
+  \item Uni-Mol's SE(3)-equivariant 3D representations achieve the best BACE inhibitor classification (MCC~$= 0.623$), an 8\% improvement over the best SMILES-based method.
+  \item MolFormer consistently outperforms ChemBERTa; weighted loss excels on imbalanced datasets while focal loss is optimal for challenging tasks like ClinTox.
+  \item Adding PC features to finetuned embeddings provides minimal benefit, as LoRA-adapted models already internalise task-relevant molecular properties.
 \end{itemize}
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \section*{Acknowledgments}
 %% ─────────────────────────────────────────────────────────────────────────────
-
-The authors thank the Qatar National Library (QNL) for their support in providing resources
-and funding the APC.
+We thank the Qatar National Library (QNL) for their support in providing resources and funding the APC.
 
 \section*{Funding Sources}
-This research did not receive any specific grant from funding agencies in the public,
-commercial, or not-for-profit sectors.
+This research did not receive any specific grant from funding agencies in the public, commercial, or not-for-profit sectors.
 
 \section*{Conflicts of Interest}
-The authors declare no competing financial interests. R.M.\ is Scientific Advisor at Eternal,
-U.A.E.
-
-\section*{Author Contributions}
-K.A.\ and H.H.\ contributed to Methods, Experiments, Validation, Writing -- original draft.
-I.S.\ contributed to Investigation, Writing -- review \& editing.
-M.C.\ and H.B.\ participated in Investigation, Infrastructure, Writing -- review \& editing.
-S.G.\ participated in Conceptualization, Project Supervision, Validation, Writing -- review \& editing.
-R.M.\ conceived, conceptualised, supervised the project, contributed in Method, Writing -- review \& editing.
-
-%% ─────────────────────────────────────────────────────────────────────────────
-\bibliographystyle{plainnat}
-\bibliography{PEARL_references}
+The authors declare no competing financial interests. R.M.\ is Scientific Advisor at Eternal, U.A.E.
 
 %% ─────────────────────────────────────────────────────────────────────────────
 \appendix
@@ -974,7 +881,7 @@ loss $\times$ ML combinations.
 
 \noindent\textbf{Supplementary Table S3.} Full Flavor (FART) ablation including per-class AUPR.
 
-\noindent\textbf{Supplementary Table S4.} Full ClinTox ablation for CT\_TOX and FDA\_APPROVED.
+\noindent\textbf{Supplementary Table S4.} Full ClinTox ablation for FDA\_APPROVED.
 
 \noindent\textbf{Supplementary Table S5.} Full BACE ablation.
 
@@ -993,6 +900,33 @@ implementations, class-weight computation, and evaluation metric computation.
 
 \noindent\textbf{Supplementary Section S4.} RAFE pipeline details: ZINC-250k cleaning
 procedure, FAISS index construction (FlatIP vs.\ HNSW trade-offs), PCA fitting strategy,
-and per-group feature breakdown for the $\sim$69-dimensional RAFE vector.
+and per-group feature breakdown for the 69-dimensional RAFE vector.
 
+% trigger a \newpage just before the given reference
+% number - used to balance the columns on the last page
+% adjust value as needed - may need to be readjusted if
+% the document is modified later
+%\IEEEtriggeratref{8}
+% The "triggered" command can be changed if desired:
+%\IEEEtriggercmd{\enlargethispage{-5in}}
+
+% references section
+
+% can use a bibliography generated by BibTeX as a .bbl file
+% BibTeX documentation can be easily obtained at:
+% http://mirror.ctan.org/biblio/bibtex/contrib/doc/
+% The IEEEtran BibTeX style support page is at:
+% http://www.michaelshell.org/tex/ieeetran/bibtex/
+%\bibliographystyle{IEEEtran}
+% argument is your BibTeX string definitions and bibliography database(s)
+%\bibliography{IEEEabrv,../bib/paper}
+%
+% <OR> manually copy in the resultant .bbl file
+% set second argument of \begin to the number of references
+% (used to reserve space for the reference number labels box)
+%% ─────────────────────────────────────────────────────────────────────────────
+\bibliographystyle{plain}
+\bibliography{PEARL_references}
+
+% that's all folks
 \end{document}

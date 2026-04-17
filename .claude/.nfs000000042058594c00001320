@@ -9,9 +9,7 @@
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\('model_type:', d.get\\('model_type'\\)\\); print\\('num_labels:', d.get\\('num_labels'\\)\\); print\\('architectures:', d.get\\('architectures'\\)\\)\")",
       "Read(//export/cse/rmall/Raghvendra/PEARL/**)",
       "Read(//export/home/rmall/.cache/huggingface/**)",
-      "Bash(xargs ls *)",
-      "Bash(xargs -I{} sh -c 'echo \"=== {} ===\"; head -2 {}')",
-      "Bash(python3)"
+      "Bash(xargs ls *)"
     ]
   }
 }

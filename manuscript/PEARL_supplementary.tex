@@ -1,0 +1,844 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{rotating}
+\usepackage{lscape}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{geometry}
+\usepackage{caption}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage{adjustbox}
+\geometry{a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\renewcommand{\arraystretch}{1.05}
+
+\title{\textbf{Supplementary Material}\\[4pt]
+{\large PEARL: Parameter-Efficient Adaptation with
+Retrieval-Augmented Learning for Molecular Property Prediction}}
+
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\tableofcontents
+\newpage
+
+%% =============================================================================
+\section*{Supplementary Tables}
+%% =============================================================================
+
+%% -----------------------------------------------------------------------------
+\subsection*{Table S1: 473-Dimensional Physicochemical Feature Vector}
+%% -----------------------------------------------------------------------------
+
+The physicochemical (PC) feature vector concatenates four descriptor groups computed
+with RDKit~3.x and NetworkX~3.x.
+Morgan fingerprints are computed at radius 2 with 128 bits using
+\texttt{GetMorganGenerator}; MACCS keys use the standard 167-bit MACCS key
+definition (\texttt{MACCSkeys.GenMACCSKeys}).
+RDKit descriptors are drawn from \texttt{Descriptors.descList} after removing
+68 features found to be numerically unstable, redundant, or near-zero variance
+on drug-like molecules (BCUT descriptors, partial-charge extrema, $\chi$-series,
+Kappa indices, etc.).
+
+\vspace{6pt}
+\begin{table}[h]
+\centering
+\caption{The 473-dimensional PC feature vector: RDKit-derived molecular descriptors,
+NetworkX graph features, Morgan fingerprints, and MACCS keys.}
+\label{tab:s1_pc_features}
+\scriptsize
+\begin{adjustbox}{max width=1.0\linewidth}
+\begin{tabular}{|l|c|r|}
+\toprule
+\textbf{Feature Name} & \textbf{Count} & \textbf{Type} \\
+\midrule
+MaxAbsEStateIndex & 1 & Descriptor \\
+MinAbsEStateIndex & 1 & Descriptor \\
+MinEStateIndex & 1 & Descriptor \\
+qed & 1 & Descriptor \\
+SPS & 1 & Descriptor \\
+MolWt & 1 & Physico-chemical \\
+FpDensityMorgan1 & 1 & Descriptor \\
+AvgIpc & 1 & Descriptor \\
+BalabanJ & 1 & Descriptor \\
+Ipc & 1 & Descriptor \\
+Kappa2 & 1 & Descriptor \\
+PEOE\_VSA & 14 & Descriptor \\
+SMR\_VSA & 10 & Descriptor \\
+SlogP\_VSA & 12 & Descriptor \\
+TPSA & 1 & Descriptor \\
+EState\_VSA & 11 & Descriptor \\
+VSA\_EState & 10 & Descriptor \\
+NHOHCount & 1 & Physico-chemical \\
+NumAliphaticCarbocycles & 1 & Physico-chemical \\
+NumAliphaticHeterocycles & 1 & Physico-chemical \\
+NumAliphaticRings & 1 & Physico-chemical \\
+NumAmideBonds & 1 & Physico-chemical \\
+NumAromaticHeterocycles & 1 & Physico-chemical \\
+NumAtomStereoCenters & 1 & Physico-chemical \\
+NumBridgeheadAtoms & 1 & Physico-chemical \\
+NumHAcceptors & 1 & Physico-chemical \\
+NumHeteroatoms & 1 & Physico-chemical \\
+NumHeterocycles & 1 & Physico-chemical \\
+NumRotatableBonds & 1 & Physico-chemical \\
+NumSaturatedCarbocycles & 1 & Physico-chemical \\
+NumSaturatedHeterocycles & 1 & Physico-chemical \\
+NumSaturatedRings & 1 & Physico-chemical \\
+NumSpiroAtoms & 1 & Physico-chemical \\
+NumUnspecifiedAtomStereoCenters & 1 & Physico-chemical \\
+RingCount & 1 & Physico-chemical \\
+MolLogP & 1 & Physico-chemical \\
+Fraction of Functional Groups (\texttt{fr\_*}) & 62 & Physico-chemical \\
+\midrule
+graph\_diameter & 1 & Graph \\
+avg\_shortest\_path & 1 & Graph \\
+num\_cycles & 1 & Graph \\
+num\_chains & 1 & Graph \\
+clustering\_coefficients & 1 & Graph \\
+avg\_degree\_centrality & 1 & Graph \\
+avg\_eigen\_centrality & 1 & Graph \\
+avg\_betweenness\_centrality & 1 & Graph \\
+avg\_load\_centrality & 1 & Graph \\
+wiener\_index & 1 & Graph \\
+max\_degree & 1 & Graph \\
+closeness\_mean & 1 & Graph \\
+katz\_centrality\_std & 1 & Graph \\
+betweenness\_mean & 1 & Graph \\
+betweenness\_std & 1 & Graph \\
+eigenvector\_mean & 1 & Graph \\
+ring features (num\_aromatic, non\_aromatic, saturated, aliphatic, total) & 5 & Graph \\
+heteroatom\_ratio & 1 & Graph \\
+num\_aromatic\_rings & 1 & Graph \\
+num\_non\_aromatic\_rings & 1 & Graph \\
+average\_atoms (C, O, S, N) & 4 & Graph \\
+num\_single\_bonds & 1 & Graph \\
+num\_double\_bonds & 1 & Graph \\
+\midrule
+Morgan circular fingerprint (radius 2, 128 bits) & 128 & Fingerprint \\
+MACCS structural keys & 167 & Fingerprint \\
+\midrule
+\textbf{Total} & \textbf{473} & \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+\end{table}
+
+\newpage
+
+%% -----------------------------------------------------------------------------
+\subsection*{Table S2: Full BBBP Ablation}
+%% -----------------------------------------------------------------------------
+
+All modality $\times$ CLM $\times$ loss $\times$ ML combinations on the BBBP
+(Blood--Brain Barrier Permeability) dataset.
+Abbreviations: MLM = ChemBERTa-77M-MLM, MTR = ChemBERTa-77M-MTR,
+MF = MolFormer-XL, UM = Uni-Mol; CB = CatBoost, LGB = LightGBM, XGB = XGBoost.
+
+\begin{landscape}
+\begin{footnotesize}
+\begin{longtable}{lllcrrrrrr}
+\caption{Full BBBP ablation results.}
+\label{tab:s2_bbbp} \\
+\toprule
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
+\midrule
+\endfirsthead
+\multicolumn{10}{l}{\footnotesize\textit{(continued from previous page)}} \\
+\toprule
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
+\midrule
+\endhead
+\midrule
+\multicolumn{10}{r}{\footnotesize\textit{(continued on next page)}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+%% E2E LoRA
+E2E LoRA & MLM & FL & --- & 0.923 & 0.880 & 0.865 & 0.880 & 0.739 & 0.889 \\
+E2E LoRA & MTR & FL & --- & 0.921 & 0.870 & 0.854 & 0.870 & 0.715 & 0.873 \\
+E2E LoRA & MF  & FL & --- & 0.936 & 0.896 & 0.881 & 0.896 & 0.778 & 0.916 \\
+E2E LoRA & MLM & WL & --- & 0.929 & 0.875 & 0.862 & 0.875 & 0.727 & 0.871 \\
+E2E LoRA & MTR & WL & --- & 0.906 & 0.854 & 0.836 & 0.854 & 0.680 & 0.856 \\
+E2E LoRA & MF  & WL & --- & 0.948 & 0.906 & 0.898 & 0.906 & 0.797 & 0.901 \\
+E2E LoRA & UM  & FL & --- & 0.944 & 0.880 & 0.873 & 0.880 & 0.747 & 0.868 \\
+E2E LoRA & UM  & WL & --- & 0.943 & 0.896 & 0.887 & 0.896 & 0.774 & 0.890 \\
+\midrule
+%% FT Embed
+FT Embed & MLM & FL & CB  & 0.925 & 0.885 & 0.871 & 0.885 & 0.751 & 0.893 \\
+FT Embed & MLM & FL & LGB & 0.905 & 0.896 & 0.882 & 0.896 & 0.776 & 0.911 \\
+FT Embed & MLM & FL & XGB & 0.909 & 0.875 & 0.857 & 0.875 & 0.730 & 0.890 \\
+FT Embed & MLM & WL & CB  & 0.927 & 0.870 & 0.853 & 0.870 & 0.716 & 0.877 \\
+FT Embed & MLM & WL & LGB & 0.915 & 0.870 & 0.853 & 0.870 & 0.716 & 0.877 \\
+FT Embed & MLM & WL & XGB & 0.921 & 0.875 & 0.855 & 0.875 & 0.734 & 0.903 \\
+FT Embed & MTR & FL & CB  & 0.926 & 0.854 & 0.838 & 0.854 & 0.680 & 0.850 \\
+FT Embed & MTR & FL & LGB & 0.902 & 0.865 & 0.846 & 0.865 & 0.704 & 0.873 \\
+FT Embed & MTR & FL & XGB & 0.923 & 0.854 & 0.833 & 0.854 & 0.681 & 0.865 \\
+FT Embed & MTR & WL & CB  & 0.911 & 0.865 & 0.849 & 0.865 & 0.703 & 0.865 \\
+FT Embed & MTR & WL & LGB & 0.887 & 0.859 & 0.842 & 0.859 & 0.692 & 0.861 \\
+FT Embed & MTR & WL & XGB & 0.905 & 0.849 & 0.829 & 0.849 & 0.668 & 0.852 \\
+FT Embed & MF  & FL & CB  & 0.936 & 0.885 & 0.872 & 0.885 & 0.750 & 0.889 \\
+FT Embed & MF  & FL & LGB & 0.935 & 0.885 & 0.868 & 0.885 & 0.756 & 0.909 \\
+FT Embed & MF  & FL & XGB & 0.935 & 0.901 & 0.888 & 0.901 & 0.787 & 0.914 \\
+FT Embed & MF  & WL & CB  & 0.949 & 0.880 & 0.864 & 0.880 & 0.741 & 0.894 \\
+FT Embed & MF  & WL & LGB & 0.945 & 0.875 & 0.857 & 0.875 & 0.730 & 0.890 \\
+FT Embed & MF  & WL & XGB & 0.948 & 0.870 & 0.850 & 0.870 & 0.718 & 0.887 \\
+FT Embed & UM  & FL & CB  & 0.915 & 0.859 & 0.837 & 0.859 & 0.696 & 0.879 \\
+FT Embed & UM  & FL & LGB & 0.915 & 0.844 & 0.813 & 0.844 & 0.668 & 0.883 \\
+FT Embed & UM  & FL & XGB & 0.917 & 0.865 & 0.842 & 0.865 & 0.709 & 0.889 \\
+FT Embed & UM  & WL & CB  & 0.918 & 0.865 & 0.838 & 0.865 & 0.720 & 0.912 \\
+FT Embed & UM  & WL & LGB & 0.913 & 0.859 & 0.841 & 0.859 & 0.692 & 0.865 \\
+FT Embed & UM  & WL & XGB & 0.916 & 0.849 & 0.822 & 0.849 & 0.676 & 0.878 \\
+\midrule
+%% PC + FT Embed
+PC+FT & MLM & FL & CB  & 0.928 & 0.875 & 0.860 & 0.875 & 0.727 & 0.877 \\
+PC+FT & MLM & FL & LGB & 0.888 & 0.891 & 0.875 & 0.891 & 0.765 & 0.907 \\
+PC+FT & MLM & FL & XGB & 0.917 & 0.875 & 0.857 & 0.875 & 0.730 & 0.890 \\
+PC+FT & MLM & WL & CB  & 0.928 & 0.870 & 0.850 & 0.870 & 0.718 & 0.887 \\
+PC+FT & MLM & WL & LGB & 0.920 & 0.870 & 0.853 & 0.870 & 0.716 & 0.877 \\
+PC+FT & MLM & WL & XGB & 0.923 & 0.859 & 0.840 & 0.859 & 0.693 & 0.869 \\
+PC+FT & MTR & FL & CB  & 0.928 & 0.854 & 0.838 & 0.854 & 0.680 & 0.850 \\
+PC+FT & MTR & FL & LGB & 0.909 & 0.844 & 0.823 & 0.844 & 0.657 & 0.848 \\
+PC+FT & MTR & FL & XGB & 0.923 & 0.859 & 0.841 & 0.859 & 0.692 & 0.865 \\
+PC+FT & MTR & WL & CB  & 0.914 & 0.859 & 0.844 & 0.859 & 0.692 & 0.858 \\
+PC+FT & MTR & WL & LGB & 0.886 & 0.849 & 0.827 & 0.849 & 0.670 & 0.861 \\
+PC+FT & MTR & WL & XGB & 0.897 & 0.854 & 0.833 & 0.854 & 0.681 & 0.865 \\
+PC+FT & MF  & FL & CB  & 0.931 & 0.901 & 0.888 & 0.901 & 0.787 & 0.914 \\
+PC+FT & MF  & FL & LGB & 0.934 & 0.901 & 0.887 & 0.901 & 0.789 & 0.920 \\
+PC+FT & MF  & FL & XGB & 0.937 & 0.885 & 0.871 & 0.885 & 0.751 & 0.893 \\
+PC+FT & MF  & WL & CB  & 0.951 & 0.896 & 0.884 & 0.896 & 0.773 & 0.902 \\
+PC+FT & MF  & WL & LGB & 0.945 & 0.885 & 0.869 & 0.885 & 0.754 & 0.903 \\
+PC+FT & MF  & WL & XGB & 0.949 & 0.875 & 0.856 & 0.875 & 0.732 & 0.896 \\
+\midrule
+%% RAFE
+RAFE & MLM & FL & CB  & 0.927 & 0.875 & 0.858 & 0.875 & 0.728 & 0.886 \\
+RAFE & MLM & FL & LGB & 0.926 & 0.896 & 0.882 & 0.896 & 0.776 & 0.911 \\
+RAFE & MLM & FL & XGB & 0.926 & 0.875 & 0.857 & 0.875 & 0.730 & 0.890 \\
+RAFE & MLM & WL & CB  & 0.925 & 0.870 & 0.853 & 0.870 & 0.716 & 0.877 \\
+RAFE & MLM & WL & LGB & 0.921 & 0.865 & 0.844 & 0.865 & 0.707 & 0.883 \\
+RAFE & MLM & WL & XGB & 0.916 & 0.875 & 0.856 & 0.875 & 0.732 & 0.896 \\
+RAFE & MTR & FL & CB  & 0.934 & 0.854 & 0.836 & 0.854 & 0.680 & 0.856 \\
+RAFE & MTR & FL & LGB & 0.914 & 0.854 & 0.837 & 0.854 & 0.680 & 0.853 \\
+RAFE & MTR & FL & XGB & 0.919 & 0.849 & 0.829 & 0.849 & 0.668 & 0.852 \\
+RAFE & MTR & WL & CB  & 0.917 & 0.870 & 0.854 & 0.870 & 0.715 & 0.873 \\
+RAFE & MTR & WL & LGB & 0.879 & 0.859 & 0.842 & 0.859 & 0.692 & 0.861 \\
+RAFE & MTR & WL & XGB & 0.901 & 0.854 & 0.836 & 0.854 & 0.680 & 0.856 \\
+RAFE & MF  & FL & CB  & 0.937 & 0.901 & 0.889 & 0.901 & 0.785 & 0.910 \\
+RAFE & MF  & FL & LGB & 0.935 & 0.891 & 0.876 & 0.891 & 0.763 & 0.902 \\
+RAFE & MF  & FL & XGB & 0.940 & 0.906 & 0.895 & 0.906 & 0.798 & 0.918 \\
+RAFE & MF  & WL & CB  & 0.946 & 0.885 & 0.872 & 0.885 & 0.750 & 0.889 \\
+RAFE & MF  & WL & LGB & 0.943 & 0.880 & 0.862 & 0.880 & 0.743 & 0.900 \\
+RAFE & MF  & WL & XGB & 0.950 & 0.870 & 0.850 & 0.870 & 0.718 & 0.887 \\
+RAFE & UM  & FL & CB  & 0.917 & 0.880 & 0.860 & 0.880 & 0.748 & 0.913 \\
+RAFE & UM  & FL & LGB & 0.928 & 0.885 & 0.865 & 0.885 & 0.762 & 0.924 \\
+RAFE & UM  & FL & XGB & 0.928 & 0.891 & 0.872 & 0.891 & 0.773 & 0.927 \\
+RAFE & UM  & WL & CB  & 0.932 & 0.880 & 0.860 & 0.880 & 0.748 & 0.913 \\
+RAFE & UM  & WL & LGB & 0.932 & 0.865 & 0.839 & 0.865 & 0.716 & 0.904 \\
+RAFE & UM  & WL & XGB & 0.929 & 0.870 & 0.846 & 0.870 & 0.726 & 0.907 \\
+\end{longtable}
+\end{footnotesize}
+\end{landscape}
+
+\newpage
+
+%% -----------------------------------------------------------------------------
+\subsection*{Table S3: Full Flavor (FART) Ablation}
+%% -----------------------------------------------------------------------------
+
+Five-class taste prediction task.
+Flavor classes (alphabetical encoding): 0 = Bitter, 1 = Sour, 2 = Sweet, 3 = Umami,
+4 = Undefined.
+AUC (macro one-vs-rest) is available for E2E LoRA, FT Embed, and PC+FT rows;
+``---'' for RAFE rows.
+Rec column omitted for space; see text for analysis.
+
+\begin{landscape}
+\begin{footnotesize}
+\begin{longtable}{lllcrrrr}
+\caption{Full Flavor ablation results.}
+\label{tab:s3_flavor} \\
+\toprule
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & MCC \\
+\midrule
+\endfirsthead
+\multicolumn{8}{l}{\footnotesize\textit{(continued)}} \\
+\toprule
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & MCC \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+%% E2E LoRA
+E2E LoRA & MLM & FL & --- & 0.959 & 0.881 & 0.691 & 0.772 \\
+E2E LoRA & MTR & FL & --- & 0.963 & 0.891 & 0.728 & 0.795 \\
+E2E LoRA & MF  & FL & --- & 0.971 & 0.889 & 0.789 & 0.792 \\
+E2E LoRA & MLM & WL & --- & 0.975 & 0.882 & 0.734 & 0.785 \\
+E2E LoRA & MTR & WL & --- & 0.964 & 0.890 & 0.780 & 0.802 \\
+E2E LoRA & MF  & WL & --- & 0.975 & 0.892 & 0.809 & 0.801 \\
+E2E LoRA & UM  & FL & --- & 0.969 & 0.883 & 0.771 & 0.790 \\
+E2E LoRA & UM  & WL & --- & 0.973 & 0.885 & 0.783 & 0.795 \\
+\midrule
+%% FT Embed
+FT Embed & MLM & FL & CB  & 0.963 & 0.872 & 0.724 & 0.772 \\
+FT Embed & MLM & FL & LGB & 0.963 & 0.873 & 0.727 & 0.775 \\
+FT Embed & MLM & FL & XGB & 0.962 & 0.872 & 0.731 & 0.773 \\
+FT Embed & MLM & WL & CB  & 0.973 & 0.877 & 0.726 & 0.783 \\
+FT Embed & MLM & WL & LGB & 0.971 & 0.877 & 0.739 & 0.783 \\
+FT Embed & MLM & WL & XGB & 0.971 & 0.877 & 0.717 & 0.783 \\
+FT Embed & MTR & FL & CB  & 0.969 & 0.878 & 0.719 & 0.786 \\
+FT Embed & MTR & FL & LGB & 0.956 & 0.877 & 0.716 & 0.786 \\
+FT Embed & MTR & FL & XGB & 0.953 & 0.881 & 0.738 & 0.793 \\
+FT Embed & MTR & WL & CB  & 0.972 & 0.879 & 0.731 & 0.789 \\
+FT Embed & MTR & WL & LGB & 0.964 & 0.879 & 0.742 & 0.789 \\
+FT Embed & MTR & WL & XGB & 0.962 & 0.878 & 0.714 & 0.787 \\
+FT Embed & MF  & FL & CB  & 0.966 & 0.874 & 0.764 & 0.778 \\
+FT Embed & MF  & FL & LGB & 0.950 & 0.879 & 0.766 & 0.779 \\
+FT Embed & MF  & FL & XGB & 0.960 & 0.875 & 0.764 & 0.776 \\
+FT Embed & MF  & WL & CB  & 0.957 & 0.879 & 0.741 & 0.787 \\
+FT Embed & MF  & WL & LGB & 0.970 & 0.882 & 0.783 & 0.787 \\
+FT Embed & MF  & WL & XGB & 0.969 & 0.879 & 0.749 & 0.785 \\
+FT Embed & UM  & FL & CB  & 0.934 & 0.855 & 0.698 & 0.749 \\
+FT Embed & UM  & FL & LGB & 0.949 & 0.857 & 0.684 & 0.752 \\
+FT Embed & UM  & FL & XGB & 0.950 & 0.866 & 0.731 & 0.765 \\
+\midrule
+%% PC + FT Embed
+PC+FT & MLM & FL & CB  & 0.961 & 0.872 & 0.723 & 0.771 \\
+PC+FT & MLM & FL & LGB & 0.939 & 0.844 & 0.700 & 0.732 \\
+PC+FT & MLM & FL & XGB & 0.925 & 0.775 & 0.624 & 0.655 \\
+PC+FT & MLM & WL & CB  & 0.971 & 0.879 & 0.736 & 0.786 \\
+PC+FT & MLM & WL & LGB & 0.947 & 0.756 & 0.644 & 0.641 \\
+PC+FT & MLM & WL & XGB & 0.954 & 0.837 & 0.682 & 0.730 \\
+PC+FT & MTR & FL & CB  & 0.965 & 0.878 & 0.727 & 0.785 \\
+PC+FT & MTR & FL & LGB & 0.935 & 0.843 & 0.709 & 0.739 \\
+PC+FT & MTR & FL & XGB & 0.919 & 0.756 & 0.633 & 0.643 \\
+PC+FT & MTR & WL & CB  & 0.964 & 0.885 & 0.754 & 0.798 \\
+PC+FT & MTR & WL & LGB & 0.948 & 0.886 & 0.742 & 0.800 \\
+PC+FT & MTR & WL & XGB & 0.933 & 0.766 & 0.648 & 0.656 \\
+PC+FT & MF  & FL & CB  & 0.964 & 0.874 & 0.775 & 0.778 \\
+PC+FT & MF  & FL & LGB & 0.961 & 0.881 & 0.781 & 0.783 \\
+PC+FT & MF  & FL & XGB & 0.960 & 0.866 & 0.759 & 0.763 \\
+PC+FT & MF  & WL & CB  & 0.958 & 0.888 & 0.772 & 0.801 \\
+PC+FT & MF  & WL & LGB & 0.967 & 0.883 & 0.798 & 0.789 \\
+PC+FT & MF  & WL & XGB & 0.965 & 0.882 & 0.785 & 0.789 \\
+\midrule
+%% RAFE
+RAFE & MLM & FL & CB  & --- & 0.875 & 0.728 & 0.777 \\
+RAFE & MLM & FL & LGB & --- & 0.865 & 0.718 & 0.763 \\
+RAFE & MLM & FL & XGB & --- & 0.875 & 0.690 & 0.764 \\
+RAFE & MLM & WL & CB  & --- & 0.871 & 0.726 & 0.774 \\
+RAFE & MLM & WL & LGB & --- & 0.772 & 0.659 & 0.661 \\
+RAFE & MLM & WL & XGB & --- & 0.885 & 0.707 & 0.783 \\
+RAFE & MTR & FL & CB  & --- & 0.886 & 0.741 & 0.798 \\
+RAFE & MTR & FL & LGB & --- & 0.882 & 0.716 & 0.791 \\
+RAFE & MTR & FL & XGB & --- & 0.887 & 0.724 & 0.789 \\
+RAFE & MTR & WL & CB  & --- & 0.884 & 0.760 & 0.795 \\
+RAFE & MTR & WL & LGB & --- & 0.888 & 0.757 & 0.803 \\
+RAFE & MTR & WL & XGB & --- & 0.884 & 0.764 & 0.782 \\
+RAFE & MF  & FL & CB  & --- & 0.885 & 0.782 & 0.790 \\
+RAFE & MF  & FL & LGB & --- & 0.889 & 0.788 & 0.793 \\
+RAFE & MF  & FL & XGB & --- & 0.886 & 0.772 & 0.786 \\
+RAFE & MF  & WL & CB  & --- & 0.893 & 0.774 & 0.804 \\
+RAFE & MF  & WL & LGB & --- & 0.892 & 0.794 & 0.798 \\
+RAFE & MF  & WL & XGB & --- & 0.891 & 0.771 & 0.794 \\
+RAFE & UM  & FL & CB  & --- & 0.866 & 0.714 & 0.764 \\
+RAFE & UM  & FL & LGB & --- & 0.768 & 0.615 & 0.638 \\
+RAFE & UM  & FL & XGB & --- & 0.851 & 0.669 & 0.722 \\
+RAFE & UM  & WL & CB  & --- & 0.865 & 0.737 & 0.761 \\
+RAFE & UM  & WL & LGB & --- & 0.799 & 0.653 & 0.677 \\
+RAFE & UM  & WL & XGB & --- & 0.849 & 0.670 & 0.719 \\
+\end{longtable}
+\end{footnotesize}
+\end{landscape}
+
+\newpage
+
+%% -----------------------------------------------------------------------------
+\subsection*{Table S4: Full ClinTox Ablation (FDA\_APPROVED Label)}
+%% -----------------------------------------------------------------------------
+
+Full ablation for the ClinTox FDA\_APPROVED binary label.
+Test set: 143 compounds (136 FDA-approved, 7 FDA-rejected).
+The class imbalance (95.1\% majority) explains the large variation in MCC across methods.
+
+\begin{landscape}
+\begin{footnotesize}
+\begin{longtable}{lllcrrrrrr}
+\caption{Full ClinTox ablation results for the FDA\_APPROVED label.}
+\label{tab:s4_clintox} \\
+\toprule
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
+\midrule
+\endfirsthead
+\multicolumn{10}{l}{\footnotesize\textit{(continued)}} \\
+\toprule
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+%% E2E LoRA
+E2E LoRA & MLM & FL & --- & 0.987 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+E2E LoRA & MLM & WL & --- & 0.988 & 0.951 & 0.820 & 0.951 & 0.689 & 0.750 \\
+E2E LoRA & MTR & FL & --- & 0.985 & 0.958 & 0.822 & 0.958 & 0.664 & 0.769 \\
+E2E LoRA & MTR & WL & --- & 0.987 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+E2E LoRA & MF  & FL & --- & 0.993 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 \\
+E2E LoRA & MF  & WL & --- & 0.982 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+E2E LoRA & UM  & FL & --- & 0.904 & 0.867 & 0.612 & 0.867 & 0.282 & 0.588 \\
+E2E LoRA & UM  & WL & --- & 0.802 & 0.937 & 0.637 & 0.937 & 0.276 & 0.648 \\
+\midrule
+%% FT Embed
+FT Embed & MLM & FL & CB  & 0.987 & 0.986 & 0.925 & 0.986 & 0.850 & 0.925 \\
+FT Embed & MLM & FL & LGB & 0.985 & 0.972 & 0.868 & 0.972 & 0.742 & 0.830 \\
+FT Embed & MLM & FL & XGB & 0.988 & 0.958 & 0.822 & 0.958 & 0.664 & 0.769 \\
+FT Embed & MLM & WL & CB  & 0.989 & 0.951 & 0.820 & 0.951 & 0.689 & 0.750 \\
+FT Embed & MLM & WL & LGB & 0.993 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 \\
+FT Embed & MLM & WL & XGB & 0.986 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+FT Embed & MTR & FL & CB  & 0.994 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+FT Embed & MTR & FL & LGB & 0.986 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+FT Embed & MTR & FL & XGB & 0.986 & 0.951 & 0.820 & 0.951 & 0.689 & 0.750 \\
+FT Embed & MTR & WL & CB  & 0.989 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+FT Embed & MTR & WL & LGB & 0.981 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+FT Embed & MTR & WL & XGB & 0.983 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+FT Embed & MF  & FL & CB  & 0.987 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+FT Embed & MF  & FL & LGB & 0.987 & 0.979 & 0.906 & 0.979 & 0.827 & 0.850 \\
+FT Embed & MF  & FL & XGB & 0.987 & 0.979 & 0.906 & 0.979 & 0.827 & 0.850 \\
+FT Embed & MF  & WL & CB  & 0.984 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+FT Embed & MF  & WL & LGB & 0.981 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+FT Embed & MF  & WL & XGB & 0.979 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+FT Embed & UM  & FL & CB  & 0.923 & 0.853 & 0.658 & 0.853 & 0.460 & 0.625 \\
+FT Embed & UM  & FL & LGB & 0.917 & 0.895 & 0.671 & 0.895 & 0.402 & 0.631 \\
+FT Embed & UM  & FL & XGB & 0.896 & 0.916 & 0.677 & 0.916 & 0.379 & 0.642 \\
+FT Embed & UM  & WL & CB  & 0.914 & 0.846 & 0.633 & 0.846 & 0.387 & 0.607 \\
+FT Embed & UM  & WL & LGB & 0.847 & 0.909 & 0.666 & 0.909 & 0.362 & 0.631 \\
+FT Embed & UM  & WL & XGB & 0.825 & 0.874 & 0.619 & 0.874 & 0.293 & 0.593 \\
+\midrule
+%% PC + FT Embed
+PC+FT & MLM & FL & CB  & 0.988 & 0.951 & 0.803 & 0.951 & 0.633 & 0.746 \\
+PC+FT & MLM & FL & LGB & 0.988 & 0.951 & 0.803 & 0.951 & 0.633 & 0.746 \\
+PC+FT & MLM & FL & XGB & 0.988 & 0.958 & 0.822 & 0.958 & 0.664 & 0.769 \\
+PC+FT & MLM & WL & CB  & 0.991 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+PC+FT & MLM & WL & LGB & 0.989 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 \\
+PC+FT & MLM & WL & XGB & 0.985 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 \\
+PC+FT & MTR & FL & CB  & 0.995 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 \\
+PC+FT & MTR & FL & LGB & 0.989 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+PC+FT & MTR & FL & XGB & 0.986 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+PC+FT & MTR & WL & CB  & 0.985 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 \\
+PC+FT & MTR & WL & LGB & 0.994 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 \\
+PC+FT & MTR & WL & XGB & 0.986 & 0.972 & 0.881 & 0.972 & 0.786 & 0.818 \\
+PC+FT & MF  & FL & CB  & 0.991 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+PC+FT & MF  & FL & LGB & 0.979 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+PC+FT & MF  & FL & XGB & 0.986 & 0.958 & 0.839 & 0.958 & 0.717 & 0.769 \\
+PC+FT & MF  & WL & CB  & 0.983 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+PC+FT & MF  & WL & LGB & 0.982 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+PC+FT & MF  & WL & XGB & 0.979 & 0.965 & 0.859 & 0.965 & 0.750 & 0.792 \\
+\midrule
+%% RAFE
+RAFE & MLM & FL & CB  & 0.981 & 0.958 & 0.873 & 0.958 & 0.746 & 0.873 \\
+RAFE & MLM & FL & LGB & 0.918 & 0.944 & 0.818 & 0.944 & 0.639 & 0.845 \\
+RAFE & MLM & FL & XGB & 0.954 & 0.965 & 0.890 & 0.965 & 0.782 & 0.905 \\
+RAFE & MLM & WL & CB  & 0.983 & 0.965 & 0.898 & 0.965 & 0.796 & 0.885 \\
+RAFE & MLM & WL & LGB & 0.989 & 0.979 & 0.934 & 0.979 & 0.869 & 0.951 \\
+RAFE & MLM & WL & XGB & 0.983 & 0.972 & 0.915 & 0.972 & 0.831 & 0.915 \\
+RAFE & MTR & FL & CB  & 0.981 & 0.972 & 0.915 & 0.972 & 0.831 & 0.915 \\
+RAFE & MTR & FL & LGB & 0.980 & 0.979 & 0.934 & 0.979 & 0.869 & 0.951 \\
+RAFE & MTR & FL & XGB & 0.975 & 0.965 & 0.898 & 0.965 & 0.796 & 0.885 \\
+RAFE & MTR & WL & CB  & 0.969 & 0.979 & 0.934 & 0.979 & 0.869 & 0.951 \\
+RAFE & MTR & WL & LGB & 0.982 & 0.979 & 0.934 & 0.979 & 0.869 & 0.951 \\
+RAFE & MTR & WL & XGB & 0.973 & 0.979 & 0.934 & 0.979 & 0.869 & 0.951 \\
+RAFE & MF  & FL & CB  & 0.986 & 0.986 & 0.955 & 0.986 & 0.913 & 0.992 \\
+RAFE & MF  & FL & LGB & 0.997 & 0.979 & 0.929 & 0.979 & 0.867 & 0.989 \\
+RAFE & MF  & FL & XGB & 0.995 & 0.979 & 0.929 & 0.979 & 0.867 & 0.989 \\
+RAFE & MF  & WL & CB  & 0.992 & 0.972 & 0.915 & 0.972 & 0.831 & 0.915 \\
+RAFE & MF  & WL & LGB & 0.994 & 0.972 & 0.915 & 0.972 & 0.831 & 0.915 \\
+RAFE & MF  & WL & XGB & 0.996 & 0.972 & 0.915 & 0.972 & 0.831 & 0.915 \\
+RAFE & UM  & FL & CB  & 0.974 & 0.916 & 0.746 & 0.916 & 0.580 & 0.684 \\
+RAFE & UM  & FL & LGB & 0.963 & 0.867 & 0.656 & 0.867 & 0.418 & 0.621 \\
+RAFE & UM  & FL & XGB & 0.965 & 0.874 & 0.683 & 0.874 & 0.493 & 0.640 \\
+RAFE & UM  & WL & CB  & 0.982 & 0.888 & 0.702 & 0.888 & 0.505 & 0.652 \\
+RAFE & UM  & WL & LGB & 0.967 & 0.902 & 0.723 & 0.902 & 0.547 & 0.667 \\
+RAFE & UM  & WL & XGB & 0.983 & 0.951 & 0.803 & 0.951 & 0.633 & 0.746 \\
+\end{longtable}
+\end{footnotesize}
+\end{landscape}
+
+\newpage
+
+%% -----------------------------------------------------------------------------
+\subsection*{Table S5: Full BACE Ablation}
+%% -----------------------------------------------------------------------------
+
+Full ablation for the BACE (BACE-1 inhibitor classification) dataset.
+
+\begin{landscape}
+\begin{footnotesize}
+\begin{longtable}{lllcrrrrrr}
+\caption{Full BACE ablation results.}
+\label{tab:s5_bace} \\
+\toprule
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
+\midrule
+\endfirsthead
+\multicolumn{10}{l}{\footnotesize\textit{(continued)}} \\
+\toprule
+Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+%% E2E LoRA
+E2E LoRA & MLM & FL & --- & 0.812 & 0.651 & 0.651 & 0.651 & 0.384 & 0.695 \\
+E2E LoRA & MTR & FL & --- & 0.846 & 0.724 & 0.721 & 0.724 & 0.463 & 0.727 \\
+E2E LoRA & MF  & FL & --- & 0.872 & 0.789 & 0.785 & 0.789 & 0.577 & 0.783 \\
+E2E LoRA & MLM & WL & --- & 0.850 & 0.737 & 0.736 & 0.737 & 0.510 & 0.751 \\
+E2E LoRA & MTR & WL & --- & 0.815 & 0.724 & 0.722 & 0.724 & 0.463 & 0.727 \\
+E2E LoRA & MF  & WL & --- & 0.871 & 0.724 & 0.722 & 0.724 & 0.476 & 0.733 \\
+E2E LoRA & UM  & FL & --- & 0.876 & 0.743 & 0.743 & 0.743 & 0.520 & 0.755 \\
+E2E LoRA & UM  & WL & --- & 0.891 & 0.822 & 0.808 & 0.822 & 0.623 & 0.823 \\
+\midrule
+%% FT Embed
+FT Embed & MLM & FL & CB  & 0.823 & 0.678 & 0.678 & 0.678 & 0.414 & 0.706 \\
+FT Embed & MLM & FL & LGB & 0.811 & 0.671 & 0.671 & 0.671 & 0.389 & 0.692 \\
+FT Embed & MLM & FL & XGB & 0.825 & 0.671 & 0.671 & 0.671 & 0.404 & 0.702 \\
+FT Embed & MLM & WL & CB  & 0.851 & 0.717 & 0.717 & 0.717 & 0.480 & 0.737 \\
+FT Embed & MLM & WL & LGB & 0.835 & 0.711 & 0.710 & 0.711 & 0.471 & 0.733 \\
+FT Embed & MLM & WL & XGB & 0.841 & 0.711 & 0.710 & 0.711 & 0.471 & 0.733 \\
+FT Embed & MTR & FL & CB  & 0.847 & 0.711 & 0.709 & 0.711 & 0.449 & 0.720 \\
+FT Embed & MTR & FL & LGB & 0.845 & 0.717 & 0.716 & 0.717 & 0.459 & 0.725 \\
+FT Embed & MTR & FL & XGB & 0.845 & 0.684 & 0.684 & 0.684 & 0.416 & 0.706 \\
+FT Embed & MTR & WL & CB  & 0.818 & 0.691 & 0.690 & 0.691 & 0.419 & 0.706 \\
+FT Embed & MTR & WL & LGB & 0.820 & 0.671 & 0.671 & 0.671 & 0.382 & 0.688 \\
+FT Embed & MTR & WL & XGB & 0.792 & 0.697 & 0.697 & 0.697 & 0.429 & 0.711 \\
+FT Embed & MF  & FL & CB  & 0.869 & 0.763 & 0.762 & 0.763 & 0.557 & 0.773 \\
+FT Embed & MF  & FL & LGB & 0.869 & 0.737 & 0.736 & 0.737 & 0.517 & 0.755 \\
+FT Embed & MF  & FL & XGB & 0.866 & 0.750 & 0.749 & 0.750 & 0.537 & 0.764 \\
+FT Embed & MF  & WL & CB  & 0.848 & 0.757 & 0.755 & 0.757 & 0.540 & 0.765 \\
+FT Embed & MF  & WL & LGB & 0.860 & 0.763 & 0.762 & 0.763 & 0.550 & 0.769 \\
+FT Embed & MF  & WL & XGB & 0.856 & 0.757 & 0.755 & 0.757 & 0.540 & 0.765 \\
+FT Embed & UM  & FL & CB  & 0.861 & 0.717 & 0.717 & 0.717 & 0.488 & 0.742 \\
+FT Embed & UM  & FL & LGB & 0.860 & 0.730 & 0.729 & 0.730 & 0.493 & 0.742 \\
+FT Embed & UM  & FL & XGB & 0.844 & 0.691 & 0.691 & 0.691 & 0.434 & 0.715 \\
+FT Embed & UM  & WL & CB  & 0.826 & 0.697 & 0.697 & 0.697 & 0.443 & 0.720 \\
+FT Embed & UM  & WL & LGB & 0.811 & 0.697 & 0.697 & 0.697 & 0.443 & 0.720 \\
+FT Embed & UM  & WL & XGB & 0.816 & 0.691 & 0.690 & 0.691 & 0.419 & 0.706 \\
+\midrule
+%% PC + FT Embed
+PC+FT & MLM & FL & CB  & 0.822 & 0.684 & 0.684 & 0.684 & 0.424 & 0.711 \\
+PC+FT & MLM & FL & LGB & 0.819 & 0.664 & 0.664 & 0.664 & 0.395 & 0.698 \\
+PC+FT & MLM & FL & XGB & 0.819 & 0.671 & 0.671 & 0.671 & 0.396 & 0.697 \\
+PC+FT & MLM & WL & CB  & 0.849 & 0.717 & 0.717 & 0.717 & 0.480 & 0.737 \\
+PC+FT & MLM & WL & LGB & 0.829 & 0.717 & 0.717 & 0.717 & 0.480 & 0.737 \\
+PC+FT & MLM & WL & XGB & 0.854 & 0.704 & 0.704 & 0.704 & 0.461 & 0.729 \\
+PC+FT & MTR & FL & CB  & 0.853 & 0.711 & 0.709 & 0.711 & 0.449 & 0.720 \\
+PC+FT & MTR & FL & LGB & 0.849 & 0.697 & 0.697 & 0.697 & 0.429 & 0.711 \\
+PC+FT & MTR & FL & XGB & 0.844 & 0.704 & 0.703 & 0.704 & 0.439 & 0.715 \\
+PC+FT & MTR & WL & CB  & 0.819 & 0.691 & 0.690 & 0.691 & 0.419 & 0.706 \\
+PC+FT & MTR & WL & LGB & 0.804 & 0.684 & 0.684 & 0.684 & 0.409 & 0.702 \\
+PC+FT & MTR & WL & XGB & 0.792 & 0.691 & 0.691 & 0.691 & 0.434 & 0.715 \\
+PC+FT & MF  & FL & CB  & 0.866 & 0.757 & 0.755 & 0.757 & 0.540 & 0.765 \\
+PC+FT & MF  & FL & LGB & 0.869 & 0.717 & 0.717 & 0.717 & 0.473 & 0.733 \\
+PC+FT & MF  & FL & XGB & 0.870 & 0.737 & 0.736 & 0.737 & 0.517 & 0.755 \\
+PC+FT & MF  & WL & CB  & 0.839 & 0.757 & 0.755 & 0.757 & 0.534 & 0.761 \\
+PC+FT & MF  & WL & LGB & 0.857 & 0.763 & 0.762 & 0.763 & 0.550 & 0.769 \\
+PC+FT & MF  & WL & XGB & 0.856 & 0.750 & 0.748 & 0.750 & 0.524 & 0.756 \\
+\midrule
+%% RAFE
+RAFE & MLM & FL & CB  & 0.818 & 0.678 & 0.678 & 0.678 & 0.406 & 0.702 \\
+RAFE & MLM & FL & LGB & 0.816 & 0.664 & 0.664 & 0.664 & 0.395 & 0.698 \\
+RAFE & MLM & FL & XGB & 0.812 & 0.684 & 0.684 & 0.684 & 0.416 & 0.706 \\
+RAFE & MLM & WL & CB  & 0.850 & 0.717 & 0.717 & 0.717 & 0.480 & 0.737 \\
+RAFE & MLM & WL & LGB & 0.830 & 0.717 & 0.717 & 0.717 & 0.480 & 0.737 \\
+RAFE & MLM & WL & XGB & 0.850 & 0.717 & 0.717 & 0.717 & 0.480 & 0.737 \\
+RAFE & MTR & FL & CB  & 0.847 & 0.717 & 0.716 & 0.717 & 0.466 & 0.729 \\
+RAFE & MTR & FL & LGB & 0.815 & 0.724 & 0.722 & 0.724 & 0.476 & 0.733 \\
+RAFE & MTR & FL & XGB & 0.847 & 0.724 & 0.723 & 0.724 & 0.483 & 0.737 \\
+RAFE & MTR & WL & CB  & 0.822 & 0.691 & 0.690 & 0.691 & 0.419 & 0.706 \\
+RAFE & MTR & WL & LGB & 0.790 & 0.684 & 0.684 & 0.684 & 0.409 & 0.702 \\
+RAFE & MTR & WL & XGB & 0.807 & 0.697 & 0.697 & 0.697 & 0.443 & 0.719 \\
+RAFE & MF  & FL & CB  & 0.863 & 0.763 & 0.762 & 0.763 & 0.557 & 0.773 \\
+RAFE & MF  & FL & LGB & 0.875 & 0.737 & 0.736 & 0.737 & 0.517 & 0.755 \\
+RAFE & MF  & FL & XGB & 0.873 & 0.743 & 0.743 & 0.743 & 0.527 & 0.760 \\
+RAFE & MF  & WL & CB  & 0.842 & 0.757 & 0.755 & 0.757 & 0.534 & 0.761 \\
+RAFE & MF  & WL & LGB & 0.858 & 0.770 & 0.768 & 0.770 & 0.561 & 0.774 \\
+RAFE & MF  & WL & XGB & 0.854 & 0.757 & 0.755 & 0.757 & 0.534 & 0.761 \\
+RAFE & UM  & FL & CB  & 0.846 & 0.704 & 0.704 & 0.704 & 0.453 & 0.724 \\
+RAFE & UM  & FL & LGB & 0.839 & 0.704 & 0.704 & 0.704 & 0.469 & 0.734 \\
+RAFE & UM  & FL & XGB & 0.840 & 0.704 & 0.704 & 0.704 & 0.478 & 0.739 \\
+RAFE & UM  & WL & CB  & 0.842 & 0.704 & 0.704 & 0.704 & 0.453 & 0.724 \\
+RAFE & UM  & WL & LGB & 0.807 & 0.684 & 0.684 & 0.684 & 0.424 & 0.711 \\
+RAFE & UM  & WL & XGB & 0.822 & 0.704 & 0.704 & 0.704 & 0.461 & 0.729 \\
+\end{longtable}
+\end{footnotesize}
+\end{landscape}
+
+\newpage
+
+%% -----------------------------------------------------------------------------
+\subsection*{Table S6: LoRA Parameter Efficiency Analysis}
+%% -----------------------------------------------------------------------------
+
+Optimal LoRA hyperparameters and parameter counts for ChemBERTa-77M and MolFormer-XL
+(determined by Bayesian sweep via Weights \& Biases).
+Trainable\% refers to the fraction of total model parameters that are updated during
+finetuning. Reduction\% = 100 $-$ Trainable\%.
+Uni-Mol (~47M parameters) uses the same sweep protocol ($r \in \{4,8,16,32\}$,
+$\alpha \in \{8,16,32,64\}$, dropout $\in \{0.0, 0.1, 0.2\}$) targeting
+\texttt{in\_proj} layers; best configurations achieve $<5\%$ trainable parameters
+across all tasks.
+
+\begin{table}[h]
+\centering
+\caption{LoRA parameter efficiency for ChemBERTa-77M and MolFormer-XL.}
+\label{tab:s6_lora}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llllrrrrrr}
+\toprule
+Dataset & Loss & Model & $r$ & $\alpha$ & Dropout & Total Params & Trainable & Train.\% & Reduc.\% \\
+\midrule
+BACE & FL & ChemBERTa-77M MLM & 4  & 32  & 0.0 & 3{,}428{,}210 & 205{,}826 & 5.66 & 94.34 \\
+BACE & FL & ChemBERTa-77M MTR & 32 & 128 & 0.2 & 3{,}428{,}210 & 606{,}338 & 15.03 & 84.97 \\
+BACE & FL & MolFormer-XL       & 64 & 128 & 0.2 & 45{,}557{,}762 & 8{,}260{,}610 & 15.35 & 84.65 \\
+BACE & WL & ChemBERTa-77M MLM & 16 & 128 & 0.1 & 3{,}428{,}210 & 377{,}474 & 9.92 & 90.08 \\
+BACE & WL & ChemBERTa-77M MTR & 4  & 128 & 0.0 & 3{,}428{,}210 & 205{,}826 & 5.66 & 94.34 \\
+BACE & WL & MolFormer-XL       & 32 & 8   & 0.0 & 45{,}557{,}762 & 4{,}721{,}666 & 9.39 & 90.61 \\
+\midrule
+BBBP & FL & ChemBERTa-77M MLM & 64 & 32  & 0.0 & 3{,}428{,}210 & 1{,}064{,}066 & 23.69 & 76.31 \\
+BBBP & FL & ChemBERTa-77M MTR & 16 & 128 & 0.2 & 3{,}428{,}210 & 377{,}474 & 9.92 & 90.08 \\
+BBBP & FL & MolFormer-XL       & 32 & 8   & 0.0 & 45{,}557{,}762 & 4{,}721{,}666 & 9.39 & 90.61 \\
+BBBP & WL & ChemBERTa-77M MLM & 64 & 32  & 0.0 & 3{,}428{,}210 & 1{,}064{,}066 & 23.69 & 76.31 \\
+BBBP & WL & ChemBERTa-77M MTR & 16 & 32  & 0.2 & 3{,}428{,}210 & 377{,}474 & 9.92 & 90.08 \\
+BBBP & WL & MolFormer-XL       & 16 & 16  & 0.0 & 45{,}557{,}762 & 2{,}952{,}194 & 6.09 & 93.91 \\
+\midrule
+ClinTox & FL & ChemBERTa-77M MLM & 4  & 32  & 0.1 & 3{,}428{,}210 & 205{,}826 & 5.66 & 94.34 \\
+ClinTox & FL & ChemBERTa-77M MTR & 4  & 32  & 0.2 & 3{,}428{,}210 & 205{,}826 & 5.66 & 94.34 \\
+ClinTox & FL & MolFormer-XL       & 4  & 32  & 0.2 & 45{,}557{,}762 & 1{,}625{,}090 & 3.44 & 96.56 \\
+ClinTox & WL & ChemBERTa-77M MLM & 4  & 128 & 0.2 & 3{,}428{,}210 & 205{,}826 & 5.66 & 94.34 \\
+ClinTox & WL & ChemBERTa-77M MTR & 64 & 16  & 0.2 & 3{,}428{,}210 & 1{,}064{,}066 & 23.69 & 76.31 \\
+ClinTox & WL & MolFormer-XL       & 64 & 128 & 0.0 & 45{,}557{,}762 & 8{,}260{,}610 & 15.35 & 84.65 \\
+\midrule
+Flavor & FL & ChemBERTa-77M MLM & 64 & 128 & 0.0 & 3{,}429{,}365 & 1{,}064{,}066 & 23.69 & 76.31 \\
+Flavor & FL & ChemBERTa-77M MTR & 16 & 128 & 0.2 & 3{,}429{,}365 & 377{,}474 & 9.92 & 90.08 \\
+Flavor & FL & MolFormer-XL       & 8  & 32  & 0.0 & 45{,}560{,}069 & 2{,}067{,}458 & 4.34 & 95.66 \\
+Flavor & WL & ChemBERTa-77M MLM & 64 & 64  & 0.2 & 3{,}429{,}365 & 1{,}064{,}066 & 23.69 & 76.31 \\
+Flavor & WL & ChemBERTa-77M MTR & 32 & 128 & 0.2 & 3{,}429{,}365 & 606{,}338 & 15.03 & 84.97 \\
+Flavor & WL & MolFormer-XL       & 4  & 64  & 0.1 & 45{,}560{,}069 & 1{,}625{,}090 & 3.44 & 96.56 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+\newpage
+
+%% =============================================================================
+\section*{Supplementary Sections}
+%% =============================================================================
+
+%% -----------------------------------------------------------------------------
+\subsection*{Section S1: Zero-Shot vs.\ Full Finetuning}
+%% -----------------------------------------------------------------------------
+
+\paragraph{Zero-shot evaluation.}
+Zero-shot performance of CLMs on molecular property prediction tasks is generally
+poor for binary/multi-class classification because the models were pretrained to
+reconstruct SMILES tokens (masked-language modelling) or predict molecular properties
+via regression (multi-task regression), not to output class labels.
+Without finetuning, CLM representations encode general molecular structure but lack
+task-specific discriminative features.
+Empirically, zero-shot linear probes on ClinTox and BACE achieve MCC~$< 0.1$ for
+ChemBERTa models not specifically pre-trained on toxicity data, confirming that task
+alignment is essential.
+
+\paragraph{Full finetuning vs.\ LoRA.}
+Full finetuning updates all model parameters for the downstream task, maximising
+task-specific adaptation but incurring high memory cost ($\mathcal{O}(|\theta|)$
+gradient storage) and risking catastrophic forgetting of pre-trained chemical knowledge.
+
+Low-Rank Adaptation (LoRA) decomposes the weight update $\Delta W \in \mathbb{R}^{d \times k}$
+as the product $BA$ where $B \in \mathbb{R}^{d \times r}$, $A \in \mathbb{R}^{r \times k}$
+with $r \ll \min(d, k)$, reducing trainable parameters by 76--97\% without degrading
+predictive accuracy.
+Across all four PEARL datasets, LoRA-finetuned models match or exceed full finetuning
+benchmarks reported in prior work (MolFormer WL BBBP MCC~$= 0.797$; Uni-Mol WL BACE
+MCC~$= 0.623$), confirming that the task-relevant weight update lives in a low-rank
+subspace.
+
+\paragraph{Comparison to reported baselines.}
+MolFormer-XL full finetuning on BBBP achieves MCC~$\approx 0.79$ in the original
+paper~\cite{ross2022molformer}, matching our LoRA results (MCC~$= 0.797$) while using
+only 6--9\% of parameters.
+ChemBERTa-2 full finetuning on ClinTox achieves AUROC~$= 0.97$--$0.99$ in the
+original benchmark~\cite{ahmad2022chemberta2}; our LoRA MolFormer FL achieves
+AUROC~$= 0.993$ with 3.44\% trainable parameters.
+
+%% -----------------------------------------------------------------------------
+\subsection*{Section S2: LoRA for Uni-Mol --- Mathematical Formulation and
+Implementation Details}
+%% -----------------------------------------------------------------------------
+
+\paragraph{Architecture background.}
+Uni-Mol~\cite{zhou2023unimol} is a SE(3)-equivariant Transformer operating on
+3D atomic coordinate inputs.
+Each attention layer computes
+$\text{Attn}(Q, K, V) = \text{softmax}\!\left(\tfrac{QK^\top}{\sqrt{d_k}}\right)V$
+where the projection matrices $W_Q, W_K, W_V, W_O \in \mathbb{R}^{d \times d}$
+are merged into a single \texttt{in\_proj} weight matrix of shape
+$\mathbb{R}^{3d \times d}$ in the PyTorch implementation
+(where $d = 512$ for the base Uni-Mol model).
+
+\paragraph{LoRA targeting.}
+For Uni-Mol, LoRA adapters are applied exclusively to the \texttt{in\_proj} weight
+matrices of all self-attention layers.
+Each adapter decomposes $\Delta W_{\texttt{in\_proj}} \approx B\,A$ with
+$B \in \mathbb{R}^{3d \times r}$, $A \in \mathbb{R}^{r \times d}$, scaling by
+$\alpha / r$ at inference.
+This targeting is preferred over query-only or query+value targeting because
+the merged \texttt{in\_proj} encodes $Q$, $K$, and $V$ projections jointly;
+adapting only part of it creates gradient flow asymmetries that degrade convergence.
+
+\paragraph{Gradient flow preservation.}
+SE(3)-equivariant message passing in Uni-Mol depends on pair distances computed
+from explicit 3D coordinates.
+To preserve equivariance, only the attention projection weights are adapted;
+distance-based pair encodings ($\boldsymbol{\phi}(\|r_i - r_j\|)$) are kept frozen.
+The gradient from the downstream classification loss flows through the LoRA adapter
+and into the conformer features, providing indirect adaptation of the 3D representation.
+
+\paragraph{Conformer caching.}
+Uni-Mol requires 3D conformers generated by ETKDGv3~+ MMFF94 relaxation (RDKit).
+Conformer generation is computationally expensive ($\sim$0.5~s per molecule for
+flexible drug-like compounds).
+To avoid redundant computation across training epochs and evaluation splits,
+conformers are pre-generated once and stored as
+\texttt{.pkl} archives keyed by canonical SMILES.
+During training, the data loader reads cached conformers; cache misses fall back
+to on-the-fly generation.
+
+%% -----------------------------------------------------------------------------
+\subsection*{Section S3: PEARL Custom Trainer --- Loss Functions, Class Weights,
+and Evaluation}
+%% -----------------------------------------------------------------------------
+
+\paragraph{Loss functions.}
+PEARL implements two loss functions selectable per run:
+
+\begin{itemize}[leftmargin=2em]
+\item \textbf{Focal Loss (FL).}
+  $\mathcal{L}_\text{FL}(p_t) = -\alpha_t (1 - p_t)^\gamma \log p_t$
+  with $\gamma = 2$ and $\alpha_t$ set by class frequency.
+  The $(1 - p_t)^\gamma$ modulating factor down-weights easy examples and focuses
+  training on hard, misclassified samples.
+  FL is particularly effective for tasks with moderate class imbalance and challenging
+  examples (e.g., BACE inhibitor classification).
+
+\item \textbf{Weighted Cross-Entropy (WL).}
+  $\mathcal{L}_\text{WL} = -\sum_c w_c \log p_c$
+  with class weight $w_c = N / (C \cdot n_c)$, where $N$ is total training samples,
+  $C$ is the number of classes, and $n_c$ is the count for class $c$.
+  Weighting the loss by inverse class frequency is preferred for severe imbalance
+  (BBBP, Flavor multi-class, ClinTox) where FL's hard-example focus is less critical
+  than correcting the class prior.
+\end{itemize}
+
+\paragraph{Class weight computation.}
+For binary tasks, scale\_pos\_weight = $n_\text{neg} / n_\text{pos}$ is passed to
+tree-based classifiers (XGBoost, LightGBM, CatBoost) during ML-stage training,
+matching the class imbalance correction applied during CLM finetuning.
+This ensures end-to-end consistency: the CLM embedding was tuned with the same
+class prior correction as the downstream tree classifier.
+
+\paragraph{Evaluation metrics.}
+All results report:
+\begin{itemize}[leftmargin=2em]
+  \item \textbf{MCC} (Matthews Correlation Coefficient): primary ranking metric,
+    robust to class imbalance.
+  \item \textbf{AUC}: area under the ROC curve; macro one-vs-rest for multi-class.
+  \item \textbf{F1$_\text{mac}$} / \textbf{F1$_\text{mic}$}: macro-/micro-averaged F1.
+  \item \textbf{Accuracy, Precision$_\text{mac}$, Recall$_\text{mac}$}:
+    macro-averaged precision and recall.
+\end{itemize}
+All metrics are computed on a held-out test set unseen during training and
+hyperparameter optimisation.
+Optuna (20 trials, TPE sampler) is used for ML-stage hyperparameter search.
+
+%% -----------------------------------------------------------------------------
+\subsection*{Section S4: RAFE Pipeline Details}
+%% -----------------------------------------------------------------------------
+
+\paragraph{ZINC-250k preparation.}
+ZINC-250k~\cite{gomez2018automatic} contains 249{,}455 drug-like molecules.
+The raw dataset is cleaned by: (i)~removing molecules that cannot be parsed by
+RDKit; (ii)~standardising SMILES with RDKit MolStandardise; (iii)~computing
+LogP, QED, and SAS (Synthetic Accessibility Score) for each molecule.
+The cleaned library is embedded using each task-specific finetuned model
+(ChemBERTa, MolFormer, or Uni-Mol with LoRA weights) and normalised to unit $\ell_2$ norm.
+
+\paragraph{FAISS index construction.}
+For each (dataset, CLM variant, loss) combination, a separate FAISS
+\texttt{IndexFlatIP} (exact inner-product, equivalent to cosine similarity for
+$\ell_2$-normalised vectors) is built over the ZINC-250k embeddings.
+For large embedding dimensions (Uni-Mol: 2560~dim), HNSW (\texttt{IndexHNSWFlat})
+with $M = 32$, $\texttt{efSearch} = 64$ is also evaluated; FlatIP is preferred
+for accuracy-critical tasks (BACE), while HNSW provides a 3--5$\times$ speedup
+with $< 0.5\%$ recall drop for retrieval tasks.
+FAISS indices are built once and stored as \texttt{.index} files to avoid redundant
+re-embedding of ZINC-250k.
+
+\paragraph{PCA fitting strategy.}
+The 57-dimensional (SMILES models) or 60-dimensional (Uni-Mol) RAFE vector includes
+a 32-dimensional PCA-compressed centroid of the $k=10$ nearest ZINC-250k neighbours
+in embedding space.
+PCA is fitted on the \emph{training} split only and applied without re-fitting to
+the validation and test splits, preventing any data leakage from retrieval.
+
+\paragraph{Per-group feature breakdown.}
+The final RAFE feature vector (57 dims for SMILES models; 60 dims for Uni-Mol) is
+composed of the following groups:
+
+\begin{table}[h]
+\centering
+\caption{RAFE feature vector composition.}
+\label{tab:s4_rafe_features}
+\begin{tabular}{lrp{8cm}}
+\toprule
+Feature Group & Dims & Description \\
+\midrule
+Physicochemical profile & 27 &
+  Mean \& std of logP, QED, SAS over $k{=}10$ and $k{=}20$ neighbours (12 dims);
+  similarity-weighted mean logP, QED, SAS at $k{=}10$ and $k{=}20$ (6 dims);
+  additional weighted SAS stats (3 dims); logP std at $k{=}20$ (3 dims); SAS
+  neighbourhood stats (3 dims). \\
+Neighbourhood density \& isolation & 5 &
+  nearest\_sim, k10\_sim\_mean, k10\_sim\_std, k20\_sim\_mean, k20\_sim\_std. \\
+Embedding centroid (PCA-32) & 34 &
+  Centroid of the $k{=}10$ ZINC-250k neighbour embeddings, PCA-compressed to
+  32 dims (fit on train), plus sim\_to\_centroid and centroid\_spread. \\
+Tanimoto structural similarity & 3 &
+  tanimoto\_k1 (nearest neighbour), tanimoto\_k5\_mean,
+  scaffold\_match\_frac\_k10 (Murcko scaffold overlap). \\
+\midrule
+\textbf{Total (SMILES)} & \textbf{57 -- 60\footnotemark} & \\
+\bottomrule
+\end{tabular}
+\end{table}
+\footnotetext{Exact count varies slightly by model variant (57 for MolFormer/ChemBERTa, 60 for Uni-Mol) due to minor differences in centroid PCA dimensionality and supplementary stat groups.}
+
+The full RAFE feature vector is concatenated with the finetuned molecular embedding
+and the 473-dimensional PC feature vector before passing to the tree-based classifier.
+For SMILES models (embedding dim 512 or 768), the final input to the ML stage is:
+$[\text{FT embed} \| \text{PC}_{473} \| \text{RAFE}_{57}]$, yielding 1042~dims for
+MolFormer (512+473+57) and 1298~dims for ChemBERTa (768+473+57).
+For Uni-Mol (embedding dim 2560), the input is
+$[\text{FT embed}_{2560} \| \text{PC}_{476} \| \text{RAFE}_{60}] = 3096$ dims,
+consistent with the logged feature matrix shape.
+
+\bibliographystyle{unsrtnat}
+\bibliography{PEARL_references}
+
+\end{document}
