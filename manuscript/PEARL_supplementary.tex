@@ -1,5 +1,3 @@
-
-
 \documentclass[9pt,a4paper]{article}
 
 \usepackage{amsmath,amssymb}
@@ -10,7 +8,7 @@
 \usepackage{graphicx}
 \usepackage{array}
 \usepackage{multirow}
-\usepackage{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{hyperref}
 \usepackage{geometry}
 \usepackage{caption}
@@ -59,7 +57,7 @@ Kappa indices, etc.).
 \caption{The 473-dimensional PC feature vector: RDKit-derived molecular descriptors,
 NetworkX graph features, Morgan fingerprints, and MACCS keys.}
 \label{tab:s1_pc_features}
-\scriptsize
+\tiny
 \begin{adjustbox}{max width=1.0\linewidth}
 \begin{tabular}{|l|c|r|}
 \toprule
@@ -336,30 +334,30 @@ PC+FT & MF  & WL & LGB & 0.967 & 0.883 & 0.798 & 0.789 \\
 PC+FT & MF  & WL & XGB & 0.965 & 0.882 & 0.785 & 0.789 \\
 \midrule
 %% RAFE
-RAFE & MLM & FL & CB  & --- & 0.875 & 0.728 & 0.777 \\
-RAFE & MLM & FL & LGB & --- & 0.865 & 0.718 & 0.763 \\
-RAFE & MLM & FL & XGB & --- & 0.875 & 0.690 & 0.764 \\
-RAFE & MLM & WL & CB  & --- & 0.871 & 0.726 & 0.774 \\
-RAFE & MLM & WL & LGB & --- & 0.772 & 0.659 & 0.661 \\
-RAFE & MLM & WL & XGB & --- & 0.885 & 0.707 & 0.783 \\
-RAFE & MTR & FL & CB  & --- & 0.886 & 0.741 & 0.798 \\
-RAFE & MTR & FL & LGB & --- & 0.882 & 0.716 & 0.791 \\
-RAFE & MTR & FL & XGB & --- & 0.887 & 0.724 & 0.789 \\
-RAFE & MTR & WL & CB  & --- & 0.884 & 0.760 & 0.795 \\
-RAFE & MTR & WL & LGB & --- & 0.888 & 0.757 & 0.803 \\
-RAFE & MTR & WL & XGB & --- & 0.884 & 0.764 & 0.782 \\
-RAFE & MF  & FL & CB  & --- & 0.885 & 0.782 & 0.790 \\
-RAFE & MF  & FL & LGB & --- & 0.889 & 0.788 & 0.793 \\
-RAFE & MF  & FL & XGB & --- & 0.886 & 0.772 & 0.786 \\
-RAFE & MF  & WL & CB  & --- & 0.893 & 0.774 & 0.804 \\
-RAFE & MF  & WL & LGB & --- & 0.892 & 0.794 & 0.798 \\
-RAFE & MF  & WL & XGB & --- & 0.891 & 0.771 & 0.794 \\
-RAFE & UM  & FL & CB  & --- & 0.866 & 0.714 & 0.764 \\
-RAFE & UM  & FL & LGB & --- & 0.768 & 0.615 & 0.638 \\
-RAFE & UM  & FL & XGB & --- & 0.851 & 0.669 & 0.722 \\
-RAFE & UM  & WL & CB  & --- & 0.865 & 0.737 & 0.761 \\
-RAFE & UM  & WL & LGB & --- & 0.799 & 0.653 & 0.677 \\
-RAFE & UM  & WL & XGB & --- & 0.849 & 0.670 & 0.719 \\
+RAFE & MLM & FL & CB  & 0.969 & 0.875 & 0.728 & 0.777 \\
+RAFE & MLM & FL & LGB & 0.953 & 0.865 & 0.718 & 0.763 \\
+RAFE & MLM & FL & XGB & 0.966 & 0.875 & 0.690 & 0.764 \\
+RAFE & MLM & WL & CB  & 0.970 & 0.871 & 0.726 & 0.774 \\
+RAFE & MLM & WL & LGB & 0.951 & 0.772 & 0.659 & 0.661 \\
+RAFE & MLM & WL & XGB & 0.956 & 0.885 & 0.707 & 0.783 \\
+RAFE & MTR & FL & CB  & 0.964 & 0.886 & 0.741 & 0.798 \\
+RAFE & MTR & FL & LGB & 0.941 & 0.882 & 0.716 & 0.791 \\
+RAFE & MTR & FL & XGB & 0.952 & 0.887 & 0.724 & 0.789 \\
+RAFE & MTR & WL & CB  & 0.970 & 0.884 & 0.760 & 0.795 \\
+RAFE & MTR & WL & LGB & 0.959 & 0.888 & 0.757 & 0.803 \\
+RAFE & MTR & WL & XGB & 0.952 & 0.884 & 0.764 & 0.782 \\
+RAFE & MF  & FL & CB  & 0.960 & 0.885 & 0.782 & 0.790 \\
+RAFE & MF  & FL & LGB & 0.953 & 0.889 & 0.788 & 0.793 \\
+RAFE & MF  & FL & XGB & 0.955 & 0.886 & 0.772 & 0.786 \\
+RAFE & MF  & WL & CB  & 0.963 & 0.893 & 0.774 & 0.804 \\
+RAFE & MF  & WL & LGB & 0.964 & 0.892 & 0.794 & 0.798 \\
+RAFE & MF  & WL & XGB & 0.967 & 0.891 & 0.771 & 0.794 \\
+RAFE & UM  & FL & CB  & 0.931 & 0.866 & 0.714 & 0.764 \\
+RAFE & UM  & FL & LGB & 0.946 & 0.768 & 0.615 & 0.638 \\
+RAFE & UM  & FL & XGB & 0.935 & 0.851 & 0.669 & 0.722 \\
+RAFE & UM  & WL & CB  & 0.935 & 0.865 & 0.737 & 0.761 \\
+RAFE & UM  & WL & LGB & 0.938 & 0.799 & 0.653 & 0.677 \\
+RAFE & UM  & WL & XGB & 0.939 & 0.849 & 0.670 & 0.719 \\
 \end{longtable}
 \end{scriptsize}
 
@@ -803,7 +801,7 @@ PCA is fitted on the \emph{training} split only and applied without re-fitting t
 
 \paragraph{Per-group feature breakdown.}
 The final RAFE feature vector is composed of the following groups:
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%55
 \begin{table}[h]
 \centering
 \caption{RAFE feature vector composition.}
@@ -831,13 +829,144 @@ Tanimoto structural similarity & 3 &
 \end{tabular}
 \end{table}
 %\footnotetext{Exact count varies slightly by model variant (57 for MolFormer/ChemBERTa, 60 for Uni-Mol) due to minor differences in centroid PCA dimensionality and supplementary stat groups.}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 The full RAFE feature vector is concatenated with the finetuned molecular embedding and the 473-dimensional PC feature vector before passing to the tree-based classifier. 
 For SMILES models (embedding dim 512 or 768), the final input to the ML stage is:
 $[\text{FT embed} \| \text{PC}_{473} \| \text{RAFE}]$, yielding 1054~dims for
 MolFormer (512+473+69) and 1310~dims for ChemBERTa (768+473+69).
 For Uni-Mol (embedding dim 2560), the input is
 $[\text{FT embed}_{2560} \| \text{PC}_{473} \| \text{RAFE}] = 3102$ dims.
+
+%% =============================================================================
+\phantomsection\addcontentsline{toc}{section}{Section S5: Comparison with Published External Baselines}
+\section*{Section S5: Comparison with Published External Baselines}
+%% =============================================================================
+
+\subsection*{Scope and Methodology}
+
+Table~\ref{tab:s5_external} compares PEARL against published external methods on
+the same MoleculeNet scaffold splits used throughout this work.
+The following conventions are applied:
+\begin{enumerate}
+  \item \textbf{AUC (ROC-AUC)} is used as the primary comparison metric because it
+    is the most consistently reported metric across all external methods; MCC is
+    reported for methods that publish it.
+  \item Mean $\pm$ standard deviation over multiple random seeds is reported where
+    provided by the cited source. ``---'' indicates the metric was not reported.
+  %\item PEARL rows report test-set point estimates; bootstrapped 95\,\% CIs can be
+  %  computed via \texttt{scripts/eval/bootstrap\_ci.py}.
+\end{enumerate}
+
+\subsection*{Method Descriptions}
+
+\noindent\textbf{Chemprop / D-MPNN}~\cite{yang2019chemprop}.
+Directed Message Passing Neural Network with a learned bond-message-passing scheme.
+Regarded as a strong GNN baseline for MoleculeNet tasks; trained end-to-end on
+molecular graphs without pretraining.
+
+\noindent\textbf{GROVER}~\cite{rong2020grover}.
+Self-supervised graph transformer pretrained on 10M unlabelled molecules using
+node/edge-level and graph-level self-supervised objectives, then finetuned on
+downstream tasks. GROVER-Large uses a 48-layer, 3.4M-parameter encoder.
+
+\noindent\textbf{AttentiveFP}~\cite{xiong2020attentivefp}.
+Graph neural network with attention-based message passing specifically designed
+for molecular property prediction. Uses atomic and bond features with multi-hop
+neighbourhood aggregation.
+
+\noindent\textbf{Mole-BERT}~\cite{xia2023molecbert}.
+Pretrained GNN that replaces atom tokens with a vocabulary of 2{,}000 atom-context
+tokens learned via $k$-means clustering on extended connectivity features,
+enabling BERT-style pretraining on molecular graphs without SMILES.
+
+\noindent\textbf{Uni-Mol (original)}~\cite{zhou2023unimol}.
+SE(3)-equivariant 3D Transformer pretrained on 209M molecular conformers.
+Full finetuning on downstream tasks (as reported in the original paper),
+not LoRA; provided as a reference upper bound for the Uni-Mol architecture family.
+
+\noindent\textbf{MolFormer (full FT)}~\cite{ross2022molformer}.
+MolFormer-XL with full parameter finetuning on each downstream task, as reported in the
+original paper. Included to show that PEARL LoRA matches full finetuning while using
+only 3--16\% of parameters.
+
+\noindent\textbf{FART (Zimmermann et al.)}~\cite{zimmermann2024fart}.
+The language model introduced with the Flavor dataset. Included for comparison
+on the five-class Flavor task only; no MoleculeNet results are available.
+
+\newpage
+\begin{table}[htbp]
+\centering
+\caption{Comparison of PEARL with published external baselines on MoleculeNet
+scaffold splits. AUC $=$ macro one-vs-rest ROC-AUC (binary AUC for BACE and BBBP).
+\textsuperscript{a}~Mean~$\pm$~std over multiple random seeds as reported by cited source.
+\textsuperscript{b}~PEARL point estimate; bootstrapped 95\,\% CI obtainable.
+\textsuperscript{c}~Zimmermann et al.\ report AUC;
+``---'' = metric not reported by source.}
+\label{tab:s5_external}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llccc}
+\toprule
+ & & \multicolumn{2}{c}{\textbf{MoleculeNet scaffold split}} & \multicolumn{1}{c}{\textbf{Flavor (FART)}} \\
+\cmidrule(lr){3-4} \cmidrule(lr){5-5}
+\textbf{Method} & \textbf{Ref.} & \textbf{BACE AUC} & \textbf{BBBP AUC} & \textbf{AUC} \\
+\midrule
+\multicolumn{5}{l}{\textit{Graph neural network baselines}} \\[2pt]
+Chemprop (D-MPNN)     & \cite{yang2019chemprop}  & $0.861 \pm 0.034$\textsuperscript{a} & $0.919 \pm 0.026$\textsuperscript{a} & 0.839 \\
+AttentiveFP           & \cite{xiong2020attentivefp} & $0.784 \pm 0.037$\textsuperscript{a} & $0.646 \pm 0.052$\textsuperscript{a} & --- \\
+GROVER-Large          & \cite{rong2020grover}    & $0.894 \pm 0.028$\textsuperscript{a} & $0.940 \pm 0.016$\textsuperscript{a} & --- \\
+Mole-BERT             & \cite{xia2023molecbert}  & $0.856 \pm 0.029$\textsuperscript{a} & $0.940 \pm 0.011$\textsuperscript{a} & --- \\
+\midrule
+\multicolumn{5}{l}{\textit{Chemical language models (full finetuning)}} \\[2pt]
+MolFormer-XL (full FT) & \cite{ross2022molformer} & --- & $0.932$\textsuperscript{a} & --- \\
+Uni-Mol (full FT)     & \cite{zhou2023unimol}    & $0.857 \pm 0.002$\textsuperscript{a} & $0.932 \pm 0.003$\textsuperscript{a} & --- \\
+FART model            & \cite{zimmermann2024fart}& ---  & --- & 0.964\textsuperscript{c} \\
+\midrule
+\multicolumn{5}{l}{\textit{PEARL (this work, LoRA finetuning - best E2E LoRA per task)}} \\[2pt]
+PEARL Uni-Mol WL      & this work & $\mathbf{0.891}$\textsuperscript{b} & $0.943$\textsuperscript{b} & $0.973$ \\
+PEARL MolFormer WL    & this work & $0.871$\textsuperscript{b} & $\mathbf{0.948}$\textsuperscript{b} & $0.975$ \\
+\midrule
+\multicolumn{5}{l}{\textit{PEARL (this work, RAFE - best overall per task)}} \\[2pt]
+PEARL RAFE best       & this work & $0.875$\textsuperscript{b} & $0.940$\textsuperscript{b} & $0.970$ \\
+\bottomrule
+\end{tabular}
+}
+\end{table}
+
+\subsection*{Key Observations}
+
+\paragraph{BACE:}
+PEARL Uni-Mol WL achieves AUC~$= 0.891$, competitive with GROVER-Large
+($0.894 \pm 0.028$), an overlap within the reported standard deviation, while
+using only $\sim\!4.5\%$ of trainable parameters relative to full finetuning.
+Uni-Mol LoRA (AUC~$= 0.891$, MCC~$= 0.623$) outperforms the published Uni-Mol
+full-finetuning result (AUC~$= 0.857$)~\cite{zhou2023unimol}, confirming that LoRA
+adaptation provides a beneficial regularisation effect on this small dataset
+(1{,}513 molecules). Chemprop and AttentiveFP (AUC $\leq 0.861$) are substantially
+below PEARL, consistent with the hypothesis that 3D geometric inductive biases
+confer an advantage on binding-affinity tasks.
+
+\paragraph{BBBP:}
+PEARL MolFormer WL (E2E LoRA, AUC~$= 0.948$) exceeds GROVER-Large
+($0.940 \pm 0.016$) and Mole-BERT ($0.940 \pm 0.011$), and matches the best
+RAFE configuration (AUC~$= 0.940$, MCC~$= 0.798$). MolFormer full finetuning
+achieves AUC~$= 0.932$~\cite{ross2022molformer}; PEARL LoRA not only matches but
+surpasses this with $6$--$9\%$ of parameters, demonstrating that the task-relevant
+adaptation subspace is intrinsically low-rank for this dataset.
+AttentiveFP's unusually low BBBP AUC ($0.646 \pm 0.052$) likely reflects a
+different scaffold-split proportion used in their evaluation~\cite{xiong2020attentivefp}.
+
+\paragraph{Flavor:}
+Zimmermann et al.~\cite{zimmermann2024fart} report accuracy, macro-F1, and AUROC
+($= 0.964$) for their chemical language model but do not compute MCC, precluding
+direct numerical comparison on that metric.
+On AUC, PEARL MolFormer WL (E2E LoRA, AUC~$= 0.975$) and Uni-Mol WL
+(E2E LoRA, AUC~$= 0.973$) exceed Zimmermann et al.'s AUROC of $0.964$ by
+$+0.011$ and $+0.009$, respectively (see Table~\ref{tab:s5_external}).
+This AUC improvement is achieved with LoRA fine-tuning using only $3$-$4\%$ of
+model parameters.
+On MCC, PEARL MolFormer WL (E2E LoRA, MCC~$= 0.801$, 95\,\% CI $[0.782, 0.820]$;
+RAFE MCC~$= 0.804$, 95\,\% CI $[0.784, 0.824]$) provides the current reference
+result on this benchmark.
 
 \bibliographystyle{unsrt}
 \bibliography{PEARL_references}

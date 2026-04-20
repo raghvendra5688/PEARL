@@ -11,15 +11,7 @@
       "Read(//export/home/rmall/.cache/huggingface/**)",
       "Bash(xargs ls *)",
       "Bash(xargs -I{} sh -c 'echo \"=== {} ===\"; head -2 {}')",
-      "Bash(python3)",
-      "Bash(python3 -m json.tool)",
-      "Bash(python scripts/eval/bootstrap_ci.py all-datasets)",
-      "Bash(python3 scripts/eval/bootstrap_ci.py all-datasets)",
-      "Read(//export/**)",
-      "Read(//export/cse/rmall/**)",
-      "Read(//proc/**)",
-      "Bash(/usr/bin/python3 --version)",
-      "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3 scripts/eval/bootstrap_ci.py all-datasets)"
+      "Bash(python3)"
     ]
   }
 }
