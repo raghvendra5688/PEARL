@@ -392,7 +392,7 @@ Email: raghvendramall@ieee.org}
 % in the abstract
 \begin{abstract}
 
-Molecular property prediction demands representations that capture both the sequential chemistry encoded in SMILES strings and the three-dimensional geometry that governs binding and toxicity. Yet no systematic benchmark has directly compared parameter-efficient adaptation of 1D chemical language models such as ChemBERTa and MolFormer against a SE(3)-equivariant 3D point-cloud model (Uni-Mol) across diverse property-prediction tasks, nor examined
+Molecular property prediction demands representations that capture both the sequential chemistry encoded in SMILES strings and the three-dimensional geometry that governs binding and toxicity. Yet, to our knowledge, no systematic benchmark has directly compared parameter-efficient adaptation of 1D chemical language models such as ChemBERTa and MolFormer against a SE(3)-equivariant 3D point-cloud model (Uni-Mol) across diverse property-prediction tasks, nor examined
 whether retrieval-augmented context can bridge the gap between these representation classes. \\
 
 \textbf{Methods}: We introduce PEARL (\textbf{P}arameter-\textbf{E}fficient \textbf{A}daptation with
@@ -439,7 +439,7 @@ Our key contributions are:
 \begin{itemize}
   \item A hybrid framework, \textbf{PEARL}, that supports three CLM families (ChemBERTa, MolFormer, Uni-Mol) with LoRA finetuning, achieving $75$-$96\%$ parameter reduction across all model sizes.
   \item A \textbf{3D geometry-aware} molecular property predictor via Uni-Mol LoRA, which yields the best BACE inhibitor classification performance (MCC$=0.623$) across all methods studied.
-  \item A \textbf{Retrieval-Augmented Feature Enhancement} (RAFE) framework using ZINC-250k as an external, leakage-free knowledge base, establishing a new state of the art on a five-class Flavor prediction (MCC$=0.804$) and matching end-to-end LoRA on blood brain barrier prediction.
+  \item A \textbf{Retrieval-Augmented Feature Enhancement} (RAFE) framework using ZINC-250k as an external, leakage-free knowledge base; PEARL achieves MCC$=0.804$ on five-class Flavor prediction (statistically indistinguishable from E2E LoRA at MCC$=0.801$; overlapping 95\,\% CIs) and MCC$=0.798$ on BBBP, matching end-to-end LoRA while providing interpretable chemical-neighborhood context.
   \item Comprehensive ablation across four molecular property prediction datasets, two loss functions, and three tree-based ensemble classifiers, highlighting task-dependent optimal strategies.
   \item We made all the code publicly available for the community at \url{https://github.com/raghvendra5688/PEARL}.
 \end{itemize}
@@ -453,6 +453,33 @@ The finetuned model provides both end-to-end predictions and task-specific embed
   \caption{PEARL workflow. Molecules are processed by one of three CLM families (ChemBERTa, MolFormer, Uni-Mol) with LoRA adapters. Task-specific embeddings are fused with molecular PC features and ZINC-250k retrieval features, then passed to tree-based classifiers. Uni-Mol additionally encodes 3D ETKDGv3 conformers via SE(3) representation.}
   \label{fig:workflow}
 \end{figure*}
+%% ─────────────────────────────────────────────────────────────────────────────
+\section{Related Work}
+%% ─────────────────────────────────────────────────────────────────────────────
+
+\textbf{Chemical language models.}
+ChemBERTa~\cite{chithrananda2020chemberta} and ChemBERTa-2~\cite{ahmad2022chemberta2} adapted BERT-style masked language modelling to SMILES, establishing the template for CLM pretraining on large molecular corpora.
+MolFormer~\cite{ross2022molformer} scaled this to $1.1\times10^9$ molecules using linear attention.
+Uni-Mol~\cite{zhou2023unimol} departed from SMILES by operating on explicit 3D atomic coordinates via an SE(3)-equivariant transformer, achieving state-of-the-art results on MoleculeNet through full finetuning.
+Multi-modal models such as MolT5~\cite{edwards2022molt5}, nach0~\cite{livne2024nach0}, and Omni-Mol~\cite{hu2025omnimol} further integrate SMILES, graphs, and natural language, but systematic evaluation under parameter-efficient training conditions remains limited.
+
+\textbf{Parameter-efficient finetuning (PEFT) for molecular CLMs.}
+LoRA~\cite{hu2021lora} introduced low-rank weight updates for large language models; PEFT methods have since been evaluated for molecular tasks.
+Balne et al.~\cite{balne2024peft} and Xu et al.~\cite{xu2023peftreview} survey PEFT strategies broadly, including adapter layers, prefix tuning, and LoRA, while
+Fu et al.~\cite{fu2023effectiveness} assess their effectiveness in NLP.
+Most closely related to PEARL is EffiChem~\cite{harod2025effichem}, our prior work that demonstrates efficient LoRA-based adaptation of 1D CLMs (ChemBERTa, MolFormer) for molecular property prediction.
+PEARL extends EffiChem in two directions: (i)~it adds Uni-Mol, a 3D SE(3)-equivariant model, enabling the first direct LoRA comparison between 1D SMILES-based and 3D geometry-aware CLMs on identical scaffold splits; and (ii)~it introduces the RAFE pipeline, which augments frozen CLM embeddings with label-free chemical neighborhood features from an external knowledge base.
+To our knowledge, no prior work combines PEFT with leakage-free retrieval augmentation across both 1D and 3D molecular representations.
+
+\textbf{Retrieval-augmented methods in molecular ML.}
+Generative RAG~\cite{lewis2020rag} conditions a language model on retrieved documents; molecular analogues typically retrieve labeled training-set molecules as auxiliary signals, introducing leakage and a small retrieval pool.
+KPGT~\cite{liu2022kpgt} injects knowledge-graph attributes into graph-transformer pretraining but retrieval occurs at pretraining time from the training corpus itself.
+PEARL's RAFE differs: it retrieves from a fixed external corpus (ZINC-250k, 249{,}455 molecules) at inference time, extracts label-free physicochemical statistics as tree-classifier features, and applies to any CLM family without retraining.
+
+\textbf{GNNs and 3D representations.}
+Chemprop~\cite{yang2019chemprop}, AttentiveFP~\cite{xiong2020attentivefp}, GROVER~\cite{rong2020grover}, and Mole-BERT~\cite{xia2023molecbert} demonstrate the strength of graph-based molecular representations.
+PEARL includes these as external baselines in Supplementary Section~S5 and treats Uni-Mol as the 3D representative, benchmarking all approaches under identical scaffold splits to isolate the contribution of geometry-aware representations.
+
 %% ─────────────────────────────────────────────────────────────────────────────
 \section{Materials and Methods}
 %% ─────────────────────────────────────────────────────────────────────────────
@@ -530,7 +557,9 @@ RAFE augments the FT~Embed $+$ PC feature vector with ZINC-250k chemical neighbo
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{RAFE}\label{sec:rafe}
 \subsubsection{Design Rationale and External Knowledge Base} \label{sec:zinc_rationale}
-Naive retrieval-augmented approaches retrieve nearest neighbors from the task-specific training set and use their labels as auxiliary features. This introduces three problems: a small retrieval pool ($\sim$1,200-12,000 molecules), training-set leakage, and circular dependencies between the retrieval space and the prediction target. 
+Naive retrieval-augmented approaches retrieve nearest neighbors from the task-specific training set and use their labels as auxiliary features. This introduces three problems: a small retrieval pool ($\sim$1,200-12,000 molecules), training-set leakage, and circular dependencies between the retrieval space and the prediction target.
+
+\noindent\textbf{Note on terminology.} Unlike generative RAG~\cite{lewis2020rag}, where retrieved passages are injected into a language model prompt, RAFE does not pass retrieved content to any neural model. Retrieved ZINC-250k neighbors serve solely as a source of label-free physicochemical statistics (logP, QED, SAS distributions, structural similarity) that are featurised and concatenated with the molecular embedding before a tree-based classifier. The ``retrieval-augmented'' framing refers to the use of an external knowledge base at inference time, not to in-context generation. 
 
 PEARL addresses all three by using \textbf{ZINC-250k}~\cite{gomez2018automatic} as the retrieval corpus i.e. a curated subset of $249,455$ drug-like molecules from the ZINC database~\cite{irwin2020zinc20} with no overlap with
 any training, validation, or test split. Each ZINC-250k molecule carries three physicochemical properties: lipophilicity (logP), Quantitative Estimate of Drug-likeness (QED, $\in [0,1]$), and Synthetic Accessibility Score (SAS, $\in [1,10]$).

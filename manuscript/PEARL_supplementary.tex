@@ -955,6 +955,26 @@ adaptation subspace is intrinsically low-rank for this dataset.
 AttentiveFP's unusually low BBBP AUC ($0.646 \pm 0.052$) likely reflects a
 different scaffold-split proportion used in their evaluation~\cite{xiong2020attentivefp}.
 
+\paragraph{ClinTox:}
+Direct numerical comparison of PEARL's ClinTox results against published external baselines
+requires a caveat: BBBP and ClinTox in this work are sourced from the IBM MolFormer
+repository~\cite{ross2022molformer} and underwent additional validity checks, duplicate removal,
+and class-ambiguity filtering, which may produce slightly different scaffold splits from
+those used in MoleculeNet-based evaluations.
+With that caveat, published AUC values on the FDA\_APPROVED label from MoleculeNet scaffold
+splits are: Chemprop~$0.864 \pm 0.061$~\cite{yang2019chemprop},
+AttentiveFP~$0.933 \pm 0.020$~\cite{xiong2020attentivefp},
+GROVER-Large~$0.944 \pm 0.021$~\cite{rong2020grover},
+Mole-BERT~$0.917 \pm 0.029$~\cite{xia2023molecbert}, and
+Uni-Mol (full FT)~$0.926 \pm 0.014$~\cite{zhou2023unimol}.
+PEARL E2E LoRA (MolFormer FL, AUC~$= 0.993$) and RAFE (MolFormer FL + CatBoost,
+AUC~$= 0.986$, MCC~$= 0.913$, 95\,\% CI $[0.867, 0.959]$) substantially exceed these
+reference values; however, given the split-difference caveat, we do not claim a strict
+state-of-the-art on the standard MoleculeNet ClinTox benchmark.
+Notably, Uni-Mol E2E LoRA (AUC~$= 0.904$, MCC~$= 0.282$) performs far below SMILES-based
+models on this task, consistent with 3D geometry providing no advantage for toxicity prediction
+driven primarily by severe class imbalance rather than by structural binding-site complementarity.
+
 \paragraph{Flavor:}
 Zimmermann et al.~\cite{zimmermann2024fart} report accuracy, macro-F1, and AUROC
 ($= 0.964$) for their chemical language model but do not compute MCC, precluding
