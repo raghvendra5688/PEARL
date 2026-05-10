@@ -1,0 +1,8 @@
+{
+  "n_total": 2254,
+  "n_valid_predictions": 2254,
+  "accuracy": 0.8784,
+  "f1_macro": 0.7048,
+  "f1_micro": 0.8784,
+  "mcc": 0.77
+}

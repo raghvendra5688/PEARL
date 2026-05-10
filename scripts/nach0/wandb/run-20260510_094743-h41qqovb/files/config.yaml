@@ -1,0 +1,130 @@
+_wandb:
+    value:
+        cli_version: 0.23.1
+        e:
+            4qvpufar22hc3xf35u5c4qypnedm9888:
+                args:
+                    - --sweep
+                    - --sweep-trials
+                    - "20"
+                    - --sweep-epochs
+                    - "10"
+                    - --epochs
+                    - "10"
+                    - --batch-size
+                    - "16"
+                    - --max-input-len
+                    - "512"
+                    - --wandb-project
+                    - nach0-flavor-ft
+                codePath: scripts/nach0/nach0_flavor_finetune.py
+                codePathLocal: nach0_flavor_finetune.py
+                cpu_count: 96
+                cpu_count_logical: 192
+                cudaVersion: "13.1"
+                disk:
+                    /:
+                        total: "214643507200"
+                        used: "54048219136"
+                email: raghvendra5688@gmail.com
+                executable: /export/home/rmall/micromamba/envs/effichem/bin/python3
+                git:
+                    commit: 9f6deea614c583ec32fd2fe33bfd7942e2d95dfc
+                    remote: https://github.com/raghvendra5688/PEARL.git
+                gpu: NVIDIA H200
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Hopper
+                      cudaCores: 16896
+                      memoryTotal: "150754820096"
+                      name: NVIDIA H200
+                      uuid: GPU-70a1be9a-8186-f292-c62e-dd00f91c0212
+                host: crirdchpxd003
+                memory:
+                    total: "2163961491456"
+                os: Linux-5.19.0-45-generic-x86_64-with-glibc2.35
+                program: /export/cse/rmall/Raghvendra/PEARL/scripts/nach0/nach0_flavor_finetune.py
+                python: CPython 3.10.19
+                root: /export/cse/rmall/Raghvendra/PEARL/scripts/nach0
+                slurm:
+                    cluster_name: slurm
+                    conf: /cm/shared/apps/slurm/var/etc/slurm/slurm.conf
+                    cpus_on_node: "8"
+                    cpus_per_task: "8"
+                    gpus_on_node: "1"
+                    gtids: "0"
+                    job_account: h200
+                    job_cpus_per_node: "8"
+                    job_gid: "1980760577"
+                    job_gpus: "1"
+                    job_id: "295670"
+                    job_name: nach0_flavor_ft
+                    job_nodelist: crirdchpxd003
+                    job_num_nodes: "1"
+                    job_partition: gpu-H200
+                    job_qos: h200_qos
+                    job_uid: "1980770078"
+                    job_user: rmall
+                    jobid: "295670"
+                    localid: "0"
+                    mem_per_node: "64000"
+                    nnodes: "1"
+                    node_aliases: (null)
+                    nodeid: "0"
+                    nodelist: crirdchpxd003
+                    nprocs: "1"
+                    ntasks: "1"
+                    prio_process: "0"
+                    procid: "0"
+                    submit_dir: /export/cse/rmall/Raghvendra/PEARL/scripts/nach0
+                    submit_host: panther-login
+                    task_pid: "3603511"
+                    tasks_per_node: "1"
+                    topology_addr: crirdchpxd003
+                    topology_addr_pattern: node
+                    working_cluster: slurm:cribrighthead01:6817:9472:109
+                startedAt: "2026-05-10T06:47:43.656690Z"
+                writerId: 4qvpufar22hc3xf35u5c4qypnedm9888
+        m: []
+        python_version: 3.10.19
+        t:
+            "1":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 53
+                - 71
+                - 98
+            "2":
+                - 1
+                - 5
+                - 11
+                - 41
+                - 49
+                - 53
+                - 71
+                - 98
+            "3":
+                - 2
+                - 14
+            "4": 3.10.19
+            "5": 0.23.1
+            "6": 4.57.3
+            "8":
+                - 2
+            "12": 0.23.1
+            "13": linux-x86_64
+batch_size:
+    value: 8
+lora_alpha_mult:
+    value: 2
+lora_dropout:
+    value: 0.05
+lora_r:
+    value: 4
+lr:
+    value: 8.445444637680424e-06
+weight_decay:
+    value: 0.01

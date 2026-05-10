@@ -1,0 +1,66 @@
+2026-05-10 09:17:51,212 | INFO | 
+2026-05-10 09:17:51,213 | INFO | =================================================================
+2026-05-10 09:17:51,213 | INFO |   Nach0 LoRA Flavor Fine-tuning
+2026-05-10 09:17:51,213 | INFO |   Mode    : WandB sweep → full train
+2026-05-10 09:17:51,214 | INFO |   Device  : cuda
+2026-05-10 09:17:51,214 | INFO |   Outputs : /export/cse/rmall/Raghvendra/PEARL/results/nach0/flavor_ft
+2026-05-10 09:17:51,214 | INFO |   Weights : /export/cse/rmall/Raghvendra/EffiChem_Extras/nach0/flavor_ft
+2026-05-10 09:17:51,214 | INFO |   CLI args: {'epochs': 10, 'batch_size': 16, 'lr': 0.0001, 'weight_decay': 0.01, 'grad_clip': 1.0, 'lora_r': 16, 'max_input_len': 512, 'num_workers': 4, 'output_dir': '/export/cse/rmall/Raghvendra/PEARL/results/nach0/flavor_ft', 'sweep': True, 'sweep_trials': 20, 'sweep_epochs': 10, 'wandb_project': 'nach0-flavor-ft'}
+2026-05-10 09:17:51,214 | INFO | =================================================================
+2026-05-10 09:17:51,214 | INFO | 
+2026-05-10 09:17:51,214 | INFO | =================================================================
+2026-05-10 09:17:51,214 | INFO |   [1/5] Loading datasets from /export/cse/rmall/Raghvendra/PEARL/data/clean/flavor_datasets
+2026-05-10 09:17:51,214 | INFO | =================================================================
+2026-05-10 09:17:51,618 | INFO |     train : 10517 molecules  (train_clean.csv)
+2026-05-10 09:17:51,685 | INFO |     valid : 2254 molecules  (valid_clean.csv)
+2026-05-10 09:17:51,769 | INFO |     test  : 2254 molecules  (test_clean.csv)
+2026-05-10 09:17:51,769 | INFO |   Sizes — train: 10517 | valid: 2254 | test: 2254  (loaded in 0.6s)
+2026-05-10 09:17:51,769 | INFO | 
+2026-05-10 09:17:51,769 | INFO | =================================================================
+2026-05-10 09:17:51,769 | INFO |   [2/5] Hyperparameter selection
+2026-05-10 09:17:51,770 | INFO | =================================================================
+2026-05-10 09:17:51,770 | INFO | 
+2026-05-10 09:17:51,770 | INFO | =================================================================
+2026-05-10 09:17:51,770 | INFO |   [SWEEP] WandB Bayesian hyperparameter sweep
+2026-05-10 09:17:51,770 | INFO |   Project         : nach0-flavor-ft
+2026-05-10 09:17:51,770 | INFO |   Trials          : 20
+2026-05-10 09:17:51,770 | INFO |   Epochs per trial: 10
+2026-05-10 09:17:51,771 | INFO | =================================================================
+2026-05-10 09:17:51,771 | INFO | 
+2026-05-10 09:17:51,771 | INFO |   Pre-loading train/valid datasets for sweep …
+2026-05-10 09:17:51,832 | INFO |     train : 10517 molecules  (train_clean.csv)
+2026-05-10 09:17:51,848 | INFO |     valid : 2254 molecules  (valid_clean.csv)
+2026-05-10 09:17:51,849 | INFO |   Dataset sizes — train: 10517 | valid: 2254
+2026-05-10 09:18:00,038 | INFO |   Sweep created: https://wandb.ai/raghvendra5688/nach0-flavor-ft/sweeps/euomq60s
+2026-05-10 09:18:00,038 | INFO |   Starting 20 trials …
+2026-05-10 09:18:12,479 | INFO | --- Sweep trial dopojsr7 | r=4  alpha=4  dropout=0.00  lr=2.08e-05  wd=0.000  bs=16 ---
+2026-05-10 09:18:12,480 | INFO |     Loading insilicomedicine/nach0_base …
+2026-05-10 09:18:32,185 | INFO |     LoRA: r=4  alpha=4  dropout=0.00  target=[q, v]
+2026-05-10 09:21:35,750 | INFO |   Trial ep 1/10 | train=4.9668 | val=0.8464 | acc=0.6652 | mcc=0.0000 | 182.7s
+2026-05-10 09:24:27,342 | INFO |   Trial ep 2/10 | train=0.6859 | val=0.3801 | acc=0.6646 | mcc=0.0078 | 171.6s
+2026-05-10 09:27:18,751 | INFO |   Trial ep 3/10 | train=0.4809 | val=0.3156 | acc=0.7019 | mcc=0.2883 | 171.4s
+2026-05-10 09:30:07,488 | INFO |   Trial ep 4/10 | train=0.4374 | val=0.2937 | acc=0.7263 | mcc=0.3787 | 168.7s
+2026-05-10 09:32:56,941 | INFO |   Trial ep 5/10 | train=0.4116 | val=0.2796 | acc=0.7458 | mcc=0.4518 | 169.5s
+2026-05-10 09:35:45,810 | INFO |   Trial ep 6/10 | train=0.3958 | val=0.2725 | acc=0.7564 | mcc=0.4829 | 168.9s
+2026-05-10 09:38:42,315 | INFO |   Trial ep 7/10 | train=0.3840 | val=0.2662 | acc=0.7609 | mcc=0.4938 | 176.5s
+2026-05-10 09:41:38,969 | INFO |   Trial ep 8/10 | train=0.3762 | val=0.2640 | acc=0.7622 | mcc=0.5001 | 176.7s
+2026-05-10 09:44:35,394 | INFO |   Trial ep 9/10 | train=0.3762 | val=0.2632 | acc=0.7626 | mcc=0.5023 | 176.4s
+2026-05-10 09:47:29,552 | INFO |   Trial ep 10/10 | train=0.3741 | val=0.2632 | acc=0.7626 | mcc=0.5023 | 174.2s
+2026-05-10 09:47:29,556 | INFO |   Trial done | best_mcc=0.5023
+2026-05-10 09:47:46,435 | INFO | --- Sweep trial h41qqovb | r=4  alpha=8  dropout=0.05  lr=8.45e-06  wd=0.010  bs=8 ---
+2026-05-10 09:47:46,437 | INFO |     Loading insilicomedicine/nach0_base …
+2026-05-10 09:47:50,048 | INFO |     LoRA: r=4  alpha=8  dropout=0.05  target=[q, v]
+2026-05-10 09:53:34,519 | INFO |   Trial ep 1/10 | train=4.7049 | val=0.8085 | acc=0.6652 | mcc=0.0000 | 344.1s
+2026-05-10 09:59:18,809 | INFO |   Trial ep 2/10 | train=0.6690 | val=0.3740 | acc=0.6659 | mcc=0.0496 | 344.3s
+2026-05-10 10:05:03,984 | INFO |   Trial ep 3/10 | train=0.4854 | val=0.3229 | acc=0.6912 | mcc=0.2403 | 345.2s
+2026-05-10 10:10:49,797 | INFO |   Trial ep 4/10 | train=0.4344 | val=0.2974 | acc=0.7272 | mcc=0.3879 | 345.8s
+2026-05-10 10:16:33,928 | INFO |   Trial ep 5/10 | train=0.4142 | val=0.2831 | acc=0.7471 | mcc=0.4511 | 344.1s
+2026-05-10 10:22:10,072 | INFO |   Trial ep 6/10 | train=0.3983 | val=0.2756 | acc=0.7511 | mcc=0.4656 | 336.1s
+2026-05-10 10:27:44,222 | INFO |   Trial ep 7/10 | train=0.3818 | val=0.2720 | acc=0.7551 | mcc=0.4772 | 334.1s
+2026-05-10 10:33:16,255 | INFO |   Trial ep 8/10 | train=0.3815 | val=0.2694 | acc=0.7551 | mcc=0.4779 | 332.0s
+2026-05-10 10:38:56,812 | INFO |   Trial ep 9/10 | train=0.3820 | val=0.2678 | acc=0.7573 | mcc=0.4853 | 340.6s
+2026-05-10 10:44:19,725 | INFO |   Trial ep 10/10 | train=0.3789 | val=0.2677 | acc=0.7582 | mcc=0.4880 | 322.9s
+2026-05-10 10:44:19,729 | INFO |   Trial done | best_mcc=0.4880
+2026-05-10 10:44:29,177 | INFO | --- Sweep trial z7kaej8d | r=4  alpha=8  dropout=0.00  lr=6.01e-06  wd=0.050  bs=16 ---
+2026-05-10 10:44:29,178 | INFO |     Loading insilicomedicine/nach0_base …
+2026-05-10 10:44:32,415 | INFO |     LoRA: r=4  alpha=8  dropout=0.00  target=[q, v]

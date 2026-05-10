@@ -1,0 +1,19 @@
+2026-05-10 05:45:23,704 | INFO | Device: cuda | Args: {'epochs': 10, 'batch_size': 16, 'lr': 0.0001, 'weight_decay': 0.01, 'max_input_len': 512, 'num_workers': 4}
+2026-05-10 05:45:23,785 | INFO | Split train : 10517 molecules  (train_clean.csv)
+2026-05-10 05:45:23,807 | INFO | Split valid : 2254 molecules  (valid_clean.csv)
+2026-05-10 05:45:23,826 | INFO | Split test  : 2254 molecules  (test_clean.csv)
+2026-05-10 05:45:23,826 | INFO | Loading insilicomedicine/nach0_base …
+2026-05-10 05:45:50,670 | INFO | Nach0 parameters: 247642368 total
+2026-05-10 05:45:50,958 | INFO | Starting instruction fine-tuning …
+2026-05-10 06:16:51,370 | INFO | Best model saved → /export/cse/rmall/Raghvendra/EffiChem_Extras/nach0/flavor/best_model
+2026-05-10 06:16:51,373 | INFO | Running predict() on test set …
+2026-05-10 06:17:08,823 | INFO | Test metrics:
+{
+  "n_total": 2254,
+  "n_valid_predictions": 2254,
+  "accuracy": 0.8962,
+  "f1_macro": 0.7587,
+  "f1_micro": 0.8962,
+  "mcc": 0.8021
+}
+2026-05-10 06:17:08,845 | INFO | All outputs saved to /export/cse/rmall/Raghvendra/PEARL/results/nach0/flavor

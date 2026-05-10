@@ -19,7 +19,9 @@
       "Read(//export/cse/rmall/**)",
       "Read(//proc/**)",
       "Bash(/usr/bin/python3 --version)",
-      "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3 scripts/eval/bootstrap_ci.py all-datasets)"
+      "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3 scripts/eval/bootstrap_ci.py all-datasets)",
+      "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3.10 -c \"import ast; ast.parse\\(open\\('/export/cse/rmall/Raghvendra/PEARL/scripts/nach0/nach0_flavor.py'\\).read\\(\\)\\); print\\('OK'\\)\")",
+      "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3.10 -c ' *)"
     ]
   }
 }
