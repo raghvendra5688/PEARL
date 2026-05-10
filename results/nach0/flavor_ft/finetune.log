@@ -64,3 +64,4 @@
 2026-05-10 10:44:29,177 | INFO | --- Sweep trial z7kaej8d | r=4  alpha=8  dropout=0.00  lr=6.01e-06  wd=0.050  bs=16 ---
 2026-05-10 10:44:29,178 | INFO |     Loading insilicomedicine/nach0_base …
 2026-05-10 10:44:32,415 | INFO |     LoRA: r=4  alpha=8  dropout=0.00  target=[q, v]
+2026-05-10 10:47:26,065 | INFO |   Trial ep 1/10 | train=6.8784 | val=4.4862 | acc=0.0000 | mcc=0.0000 | 173.4s
