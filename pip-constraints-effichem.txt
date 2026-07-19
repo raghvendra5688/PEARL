@@ -1,0 +1,14 @@
+# Pins for packages the LoRA finetuning pipeline (scripts/smiles/finetuning,
+# scripts/unimol/finetuning) depends on. Used as `pip install -c
+# pip-constraints-effichem.txt <pkg>` so any new install's dependency resolver
+# either respects these versions or fails loudly, instead of silently
+# downgrading them (as PyTDC's transitive deps did on 2026-07-19).
+transformers==4.57.3
+accelerate==1.12.0
+datasets==4.4.2
+evaluate==0.4.6
+tokenizers==0.22.2
+torch==2.5.0
+torchvision==0.20.0+cu124
+peft==0.18.1
+rdkit==2025.9.4

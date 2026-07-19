@@ -43,13 +43,15 @@ from rdkit import Chem
 from rdkit.Chem import Descriptors, rdmolops, MACCSkeys
 from rdkit.Chem.rdFingerprintGenerator import GetMorganGenerator
 
+from scipy.stats import spearmanr
+
 from sklearn.preprocessing import LabelEncoder, label_binarize
 from sklearn.utils.class_weight import compute_sample_weight
-from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.model_selection import StratifiedKFold, KFold, cross_val_score
 from sklearn.metrics import (
     accuracy_score, f1_score, roc_auc_score, precision_score, recall_score,
     matthews_corrcoef, roc_curve, precision_recall_curve, average_precision_score,
-    make_scorer,
+    make_scorer, mean_squared_error, mean_absolute_error, r2_score,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent
@@ -89,6 +91,33 @@ DATASET_CONFIG = {
         "smiles_col": "Standardized SMILES",
         "label_col": "Canonicalized Taste",
         "task": "multiclass",
+    },
+    # TDC ADMET Group additions (see scripts/data_curation/tdc_data_curation.py).
+    "herg": {
+        "clean_dir": CLEAN_ROOT / "herg_datasets",
+        "smiles_col": "Standardized SMILES",
+        "label_col": "hERG_Inhib",
+        "task": "binary",
+    },
+    "dili": {
+        "clean_dir": CLEAN_ROOT / "dili_datasets",
+        "smiles_col": "Standardized SMILES",
+        "label_col": "DILI_Label",
+        "task": "binary",
+    },
+    "caco2": {
+        "clean_dir": CLEAN_ROOT / "caco2_datasets",
+        "smiles_col": "Standardized SMILES",
+        "label_col": "Caco2_LogPapp",
+        "task": "regression",
+        "target_transform": None,  # already log-scale (log Papp) per TDC convention
+    },
+    "half_life": {
+        "clean_dir": CLEAN_ROOT / "half_life_datasets",
+        "smiles_col": "Standardized SMILES",
+        "label_col": "Half_Life_Hours",
+        "task": "regression",
+        "target_transform": "log1p",  # heavy-tailed (max=1200h, mean=19h)
     },
 }
 
@@ -329,6 +358,18 @@ def load_or_compute_features(dataset: str, split: str, cfg: Dict[str, Any]) -> p
     return feat_df
 
 
+def apply_target_transform(y: np.ndarray, transform: Optional[str]) -> np.ndarray:
+    if transform == "log1p":
+        return np.log1p(y)
+    return y
+
+
+def invert_target_transform(y: np.ndarray, transform: Optional[str]) -> np.ndarray:
+    if transform == "log1p":
+        return np.expm1(y)
+    return y
+
+
 def optimize_model(
     trial: optuna.Trial, model_type: str, X_train: np.ndarray, y_train: np.ndarray,
     sample_weights: np.ndarray, task: str, n_classes: int,
@@ -340,6 +381,32 @@ def optimize_model(
     }
 
     try:
+        if task == "regression":
+            if model_type == "xgb":
+                model = xgb.XGBRegressor(
+                    objective="reg:squarederror", random_state=RANDOM_SEED,
+                    tree_method="hist", n_jobs=N_JOBS, **params,
+                )
+            elif model_type == "lgb":
+                model = lgb.LGBMRegressor(
+                    objective="regression", random_state=RANDOM_SEED,
+                    n_jobs=N_JOBS, verbosity=-1, **params,
+                )
+            else:
+                model = cb.CatBoostRegressor(
+                    loss_function="RMSE", random_seed=RANDOM_SEED,
+                    verbose=0, thread_count=N_JOBS, **params,
+                )
+
+            cv = KFold(n_splits=5, shuffle=True, random_state=RANDOM_SEED)
+            fold_scores = []
+            for train_idx, val_idx in cv.split(X_train):
+                model.fit(X_train[train_idx], y_train[train_idx], sample_weight=sample_weights[train_idx])
+                y_pred = model.predict(X_train[val_idx])
+                rmse = np.sqrt(mean_squared_error(y_train[val_idx], y_pred))
+                fold_scores.append(-rmse)
+            return float(np.mean(fold_scores))
+
         if model_type == "xgb":
             objective = "multi:softprob" if task == "multiclass" else "binary:logistic"
             extra = {"num_class": n_classes} if task == "multiclass" else {}
@@ -362,7 +429,6 @@ def optimize_model(
             )
 
         cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=RANDOM_SEED)
-        mcc_scorer = make_scorer(matthews_corrcoef)
         fold_scores = []
         for train_idx, val_idx in cv.split(X_train, y_train):
             w_fold = sample_weights[train_idx]
@@ -384,11 +450,28 @@ def run_optimization(model_type: str, X_train, y_train, sample_weights, task, n_
         lambda t: optimize_model(t, model_type, X_train, y_train, sample_weights, task, n_classes),
         n_trials=OPTUNA_TRIALS,
     )
-    logging.info(f"{model_type} optimization complete. Best MCC: {study.best_value:.4f}")
+    score_name = "-RMSE" if task == "regression" else "MCC"
+    logging.info(f"{model_type} optimization complete. Best {score_name}: {study.best_value:.4f}")
     return study.best_params
 
 
 def build_model(name: str, task: str, n_classes: int, params: Dict[str, Any]):
+    if task == "regression":
+        if name == "XGBoost":
+            return xgb.XGBRegressor(
+                objective="reg:squarederror", random_state=RANDOM_SEED,
+                tree_method="hist", n_jobs=N_JOBS, **params,
+            )
+        if name == "LightGBM":
+            return lgb.LGBMRegressor(
+                objective="regression", random_state=RANDOM_SEED,
+                n_jobs=N_JOBS, verbosity=-1, **params,
+            )
+        return cb.CatBoostRegressor(
+            loss_function="RMSE", random_seed=RANDOM_SEED,
+            verbose=0, thread_count=N_JOBS, **params,
+        )
+
     if name == "XGBoost":
         objective = "multi:softprob" if task == "multiclass" else "binary:logistic"
         extra = {"num_class": n_classes} if task == "multiclass" else {}
@@ -412,14 +495,34 @@ def build_model(name: str, task: str, n_classes: int, params: Dict[str, Any]):
 
 def train_and_evaluate(
     name: str, model: Any, X_train, y_train, X_test, y_test, sample_weights,
-    task: str, n_classes: int, out_dir: Path, dataset: str,
+    task: str, n_classes: int, out_dir: Path, dataset: str, target_transform: Optional[str] = None,
 ) -> np.ndarray:
     logging.info(f"Training {name} for {dataset} (PC-only)")
     model.fit(X_train, y_train, sample_weight=sample_weights)
 
     y_pred = model.predict(X_test)
-    y_proba = model.predict_proba(X_test)
 
+    (out_dir / "metrics").mkdir(parents=True, exist_ok=True)
+    (out_dir / "models").mkdir(parents=True, exist_ok=True)
+    import joblib
+    joblib.dump(model, out_dir / "models" / f"{name}.pkl")
+
+    if task == "regression":
+        # y_test is already on the ORIGINAL scale; invert y_pred (fit on transformed target) to match.
+        y_pred_orig = invert_target_transform(y_pred, target_transform)
+        rmse = np.sqrt(mean_squared_error(y_test, y_pred_orig))
+        metrics = {
+            "RMSE": round(rmse, 4),
+            "MAE": round(mean_absolute_error(y_test, y_pred_orig), 4),
+            "R2": round(r2_score(y_test, y_pred_orig), 4),
+            "Spearman": round(float(spearmanr(y_test, y_pred_orig).correlation), 4),
+        }
+        logging.info(f"[{dataset} | PC-only] {name} metrics: {metrics}")
+        with open(out_dir / "metrics" / f"{name}_metrics.json", "w") as f:
+            json.dump(metrics, f, indent=2)
+        return y_pred_orig
+
+    y_proba = model.predict_proba(X_test)
     if task == "multiclass":
         auc = roc_auc_score(y_test, y_proba, multi_class="ovr", average="macro")
     else:
@@ -435,14 +538,8 @@ def train_and_evaluate(
         "MCC": round(matthews_corrcoef(y_test, y_pred), 3),
     }
     logging.info(f"[{dataset} | PC-only] {name} metrics: {metrics}")
-
-    (out_dir / "metrics").mkdir(parents=True, exist_ok=True)
-    (out_dir / "models").mkdir(parents=True, exist_ok=True)
     with open(out_dir / "metrics" / f"{name}_metrics.json", "w") as f:
         json.dump(metrics, f, indent=2)
-
-    import joblib
-    joblib.dump(model, out_dir / "models" / f"{name}.pkl")
 
     return y_proba if task == "multiclass" else y_proba[:, 1]
 
@@ -488,6 +585,25 @@ def plot_binary_curves(predictions: Dict[str, np.ndarray], y_test: np.ndarray, d
         plt.savefig(out_dir / "PR_Curves" / "pr_all_models.pdf", dpi=300, bbox_inches='tight')
 
 
+def plot_regression_scatter(predictions: Dict[str, np.ndarray], y_test: np.ndarray, dataset: str, out_dir: Path) -> None:
+    with plot_context():
+        fig, axes = plt.subplots(1, len(predictions), figsize=(5 * len(predictions), 5), sharey=True)
+        if len(predictions) == 1:
+            axes = [axes]
+        lo, hi = y_test.min(), y_test.max()
+        for ax, (name, pred) in zip(axes, predictions.items()):
+            r2 = r2_score(y_test, pred)
+            ax.scatter(y_test, pred, alpha=0.5, s=15, color=MODEL_COLORS.get(name, "tab:blue"))
+            ax.plot([lo, hi], [lo, hi], "k--", linewidth=1)
+            ax.set_title(f"{name} (R2={r2:.3f})")
+            ax.set_xlabel("Actual")
+        axes[0].set_ylabel("Predicted")
+        fig.suptitle(f"{dataset.upper()} PC-Only Predicted vs. Actual")
+        plt.tight_layout()
+        (out_dir / "Scatter_Plots").mkdir(parents=True, exist_ok=True)
+        plt.savefig(out_dir / "Scatter_Plots" / "pred_vs_actual.pdf", dpi=300, bbox_inches='tight')
+
+
 def run_dataset(dataset: str) -> Dict[str, Dict[str, Any]]:
     cfg = DATASET_CONFIG[dataset]
     task = cfg["task"]
@@ -502,6 +618,7 @@ def run_dataset(dataset: str) -> Dict[str, Dict[str, Any]]:
     train_df, valid_df, test_df = splits["train"], splits["valid"], splits["test"]
 
     label_encoder = None
+    target_transform = cfg.get("target_transform")
     if task == "multiclass":
         label_encoder = LabelEncoder()
         label_encoder.fit(pd.concat([train_df[cfg["label_col"]], valid_df[cfg["label_col"]], test_df[cfg["label_col"]]]))
@@ -509,6 +626,13 @@ def run_dataset(dataset: str) -> Dict[str, Dict[str, Any]]:
         y_test = label_encoder.transform(test_df[cfg["label_col"]])
         n_classes = len(label_encoder.classes_)
         logging.info(f"Classes: {list(label_encoder.classes_)}")
+    elif task == "regression":
+        y_train_orig = train_df[cfg["label_col"]].astype(float).values
+        y_train = apply_target_transform(y_train_orig, target_transform)
+        y_test = test_df[cfg["label_col"]].astype(float).values  # kept on ORIGINAL scale for evaluation
+        n_classes = 0
+        logging.info(f"Target transform: {target_transform} | y_train range (transformed) "
+                      f"[{y_train.min():.3f}, {y_train.max():.3f}]")
     else:
         y_train = train_df[cfg["label_col"]].astype(int).values
         y_test = test_df[cfg["label_col"]].astype(int).values
@@ -519,7 +643,10 @@ def run_dataset(dataset: str) -> Dict[str, Dict[str, Any]]:
     X_test = test_df[feature_cols].values.astype(np.float32)
     logging.info(f"Feature matrix shapes | Train={X_train.shape}, Test={X_test.shape}")
 
-    sample_weights = compute_sample_weight(class_weight="balanced", y=y_train)
+    if task == "regression":
+        sample_weights = np.ones(len(y_train), dtype=np.float32)
+    else:
+        sample_weights = compute_sample_weight(class_weight="balanced", y=y_train)
 
     best_params = {
         "XGBoost": run_optimization("xgb", X_train, y_train, sample_weights, task, n_classes),
@@ -536,7 +663,7 @@ def run_dataset(dataset: str) -> Dict[str, Dict[str, Any]]:
         model = build_model(name, task, n_classes, best_params[name])
         proba = train_and_evaluate(
             name, model, X_train, y_train, X_test, y_test, sample_weights,
-            task, n_classes, out_dir, dataset,
+            task, n_classes, out_dir, dataset, target_transform,
         )
         predictions[name] = proba
         with open(out_dir / "metrics" / f"{name}_metrics.json") as f:
@@ -544,6 +671,8 @@ def run_dataset(dataset: str) -> Dict[str, Dict[str, Any]]:
 
     if task == "binary":
         plot_binary_curves(predictions, y_test, dataset, out_dir)
+    elif task == "regression":
+        plot_regression_scatter(predictions, y_test, dataset, out_dir)
 
     logging.info(f"PC-Only baseline complete for {dataset}: {all_metrics}")
     return all_metrics
@@ -569,8 +698,18 @@ def main():
     for dataset, model_metrics in summary.items():
         for model_name, metrics in model_metrics.items():
             rows.append({"Dataset": dataset, "Model": model_name, **metrics})
-    summary_df = pd.DataFrame(rows)
-    summary_df.to_csv(OUTPUT_ROOT / "pc_only_summary.csv", index=False)
+    new_df = pd.DataFrame(rows)
+
+    summary_path = OUTPUT_ROOT / "pc_only_summary.csv"
+    if summary_path.exists():
+        # Merge rather than overwrite: separate --dataset invocations (e.g. run in
+        # parallel per-dataset) must not clobber each other's rows in the shared summary.
+        existing_df = pd.read_csv(summary_path)
+        existing_df = existing_df[~existing_df["Dataset"].isin(datasets)]
+        summary_df = pd.concat([existing_df, new_df], ignore_index=True)
+    else:
+        summary_df = new_df
+    summary_df.to_csv(summary_path, index=False)
     print(summary_df.to_string(index=False))
 
 

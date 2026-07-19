@@ -1,0 +1,47 @@
+{
+  "herg": {
+    "tdc_name": "hERG_Karim",
+    "task": "binary",
+    "smiles_col": "Standardized SMILES",
+    "label_col": "hERG_Inhib",
+    "split_sizes": {
+      "train": 9411,
+      "valid": 1344,
+      "test": 2690
+    }
+  },
+  "dili": {
+    "tdc_name": "DILI",
+    "task": "binary",
+    "smiles_col": "Standardized SMILES",
+    "label_col": "DILI_Label",
+    "split_sizes": {
+      "train": 332,
+      "valid": 47,
+      "test": 96
+    }
+  },
+  "caco2": {
+    "tdc_name": "Caco2_Wang",
+    "task": "regression",
+    "smiles_col": "Standardized SMILES",
+    "label_col": "Caco2_LogPapp",
+    "split_sizes": {
+      "train": 637,
+      "valid": 91,
+      "test": 182
+    }
+  },
+  "half_life": {
+    "tdc_name": "Half_Life_Obach",
+    "task": "regression",
+    "smiles_col": "Standardized SMILES",
+    "label_col": "Half_Life_Hours",
+    "outlier_removal": "iqr_log1p",
+    "split_sizes": {
+      "train": 459,
+      "valid": 62,
+      "test": 133
+    }
+  }
+}
