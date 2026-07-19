@@ -27,7 +27,9 @@
       "Bash(export MAMBA_EXE='/export/home/rmall/.local/bin/micromamba')",
       "Bash(export MAMBA_ROOT_PREFIX='/export/home/rmall/micromamba')",
       "Read(//export/home/rmall/.local/bin/**)",
-      "Bash(/export/home/rmall/.local/bin/micromamba env *)"
+      "Bash(/export/home/rmall/.local/bin/micromamba env *)",
+      "Bash(nvidia-smi --query-gpu=index,name,memory.used,utilization.gpu --format=csv)",
+      "Bash(bash -c ' *)"
     ]
   }
 }
