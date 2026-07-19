@@ -21,7 +21,13 @@
       "Bash(/usr/bin/python3 --version)",
       "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3 scripts/eval/bootstrap_ci.py all-datasets)",
       "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3.10 -c \"import ast; ast.parse\\(open\\('/export/cse/rmall/Raghvendra/PEARL/scripts/nach0/nach0_flavor.py'\\).read\\(\\)\\); print\\('OK'\\)\")",
-      "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3.10 -c ' *)"
+      "Bash(/export/home/rmall/micromamba/envs/effichem/bin/python3.10 -c ' *)",
+      "Bash(python3 -c \"import rdkit, networkx, optuna, xgboost, lightgbm, catboost, sklearn, pandas, numpy; print\\('all core deps OK'\\)\")",
+      "Bash(conda env *)",
+      "Bash(export MAMBA_EXE='/export/home/rmall/.local/bin/micromamba')",
+      "Bash(export MAMBA_ROOT_PREFIX='/export/home/rmall/micromamba')",
+      "Read(//export/home/rmall/.local/bin/**)",
+      "Bash(/export/home/rmall/.local/bin/micromamba env *)"
     ]
   }
 }

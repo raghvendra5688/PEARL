@@ -13,10 +13,12 @@ four benchmark datasets (BACE, BBBP, ClinTox, Flavor):
 | **FT Embed** | Optuna-tuned XGB/LGBM/CatBoost classifiers on CLS-token embeddings extracted from the finetuned CLM |
 | **FT Embed+PC** | Same as FT Embed, but the embedding is concatenated with 473-dim physicochemical (PC) features (148 RDKit descriptors, 30 graph features, 128-bit Morgan fingerprints, 167-bit MACCS keys) |
 | **RAFE** | FT Embed+PC further augmented with ~73-dim ZINC-250k chemical-neighbourhood features via FAISS retrieval (Retrieval-Augmented Feature Enhancement) |
+| **PC-Only** *(ablation)* | Same PC feature vector as FT Embed+PC, but with **no CLM embedding at all** — isolates how much the CLM contributes over classical descriptors. See Step 4c. |
 
 The progression E2E LoRA → FT Embed → FT Embed+PC → RAFE forms an ablation ladder that isolates
 each component's contribution: finetuning quality, physicochemical feature engineering, and
-retrieval-based neighbourhood signal from the 249,455-molecule ZINC-250k knowledge base.
+retrieval-based neighbourhood signal from the 249,455-molecule ZINC-250k knowledge base. The
+PC-Only baseline is a zero-CLM control point added alongside this ladder.
 
 ---
 
@@ -280,6 +282,26 @@ sbatch bash/unimol/run_unimol_ft_modelling.sh
 ```
 
 Output: `results/ft_embeddings/{Dataset}_FT_Results/{model}/{split}/metrics.json`
+
+---
+
+### Step 4c — PC-Only Baseline  [Ablation: no CLM embedding]
+
+Trains Optuna-tuned XGBoost / LightGBM / CatBoost on the 473-dim engineered
+physicochemical (PC) feature vector alone (RDKit descriptors, graph features,
+Morgan fingerprints, MACCS keys) — **no CLM embedding of any kind**. Computed
+directly from `data/clean/`, so it does not require any LoRA-finetuned checkpoint
+or the externally-hosted `PEARL_EXTRAS` artifacts. This isolates how much of FT
+Embed+PC's performance comes from the CLM embedding versus classical descriptors.
+
+```bash
+python scripts/smiles/ml/pc_only_modelling.py --dataset {bace|bbbp|clintox|flavor|all}
+```
+
+Output: `results/pc_only/{DATASET}_PC_Only_Results/metrics/{model}_metrics.json`,
+consolidated summary at `results/pc_only/pc_only_summary.csv`.
+PC features are cached at `data/pc_only_features/{dataset}/{split}_pc_features.csv`
+after the first run.
 
 ---
 
