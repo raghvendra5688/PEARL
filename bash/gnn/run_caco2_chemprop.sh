@@ -8,7 +8,7 @@
 #SBATCH --mem=64000
 #SBATCH -A H200
 #SBATCH -q h200_qos
-#SBATCH -x crirdchpxd002
+#SBATCH -w crirdchpxd002
 
 export MAMBA_EXE='/export/home/rmall/.local/bin/micromamba';
 export MAMBA_ROOT_PREFIX='/export/home/rmall/micromamba';

@@ -1,0 +1,2 @@
+Task,Mean mcc,Standard deviation mcc,Fold 0 mcc,Mean auc,Standard deviation auc,Fold 0 auc,Mean accuracy,Standard deviation accuracy,Fold 0 accuracy,Mean f1,Standard deviation f1,Fold 0 f1
+target,0.5880554401268867,0.0,0.5880554401268867,0.8930434782608696,0.0,0.8930434782608696,0.7916666666666666,0.0,0.7916666666666666,0.8148148148148148,0.0,0.8148148148148148

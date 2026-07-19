@@ -1,0 +1,472 @@
+Command line
+python /export/home/rmall/micromamba/envs/effichem/bin/chemprop_train --data_path /export/qcai-omics/Raghvendra/PEARL/data/gnn_tmp/chemprop/clintox/train.csv --separate_val_path /export/qcai-omics/Raghvendra/PEARL/data/gnn_tmp/chemprop/clintox/valid.csv --separate_test_path /export/qcai-omics/Raghvendra/PEARL/data/gnn_tmp/chemprop/clintox/test.csv --smiles_columns smiles --target_columns target --dataset_type classification --metric mcc --extra_metrics auc accuracy f1 --epochs 50 --depth 2 --hidden_size 300 --ffn_num_layers 3 --dropout 0.048351039198609044 --save_dir /export/qcai-omics/Raghvendra/PEARL/results/gnn/chemprop/CLINTOX_Chemprop_Results/final_model --gpu 0 --seed 42 --pytorch_seed 42 --save_preds --quiet --class_balance
+Args
+{'activation': 'ReLU',
+ 'adding_bond_types': True,
+ 'adding_h': False,
+ 'aggregation': 'mean',
+ 'aggregation_norm': 100,
+ 'atom_constraints': [],
+ 'atom_descriptor_scaling': True,
+ 'atom_descriptors': None,
+ 'atom_descriptors_path': None,
+ 'atom_descriptors_size': 0,
+ 'atom_features_size': 0,
+ 'atom_messages': False,
+ 'atom_targets': [],
+ 'batch_size': 50,
+ 'bias': False,
+ 'bias_solvent': False,
+ 'bond_constraints': [],
+ 'bond_descriptor_scaling': True,
+ 'bond_descriptors': None,
+ 'bond_descriptors_path': None,
+ 'bond_descriptors_size': 0,
+ 'bond_features_size': 0,
+ 'bond_targets': [],
+ 'cache_cutoff': 10000,
+ 'checkpoint_dir': None,
+ 'checkpoint_frzn': None,
+ 'checkpoint_path': None,
+ 'checkpoint_paths': None,
+ 'class_balance': True,
+ 'config_path': None,
+ 'constraints_path': None,
+ 'crossval_index_dir': None,
+ 'crossval_index_file': None,
+ 'crossval_index_sets': None,
+ 'cuda': True,
+ 'data_path': '/export/qcai-omics/Raghvendra/PEARL/data/gnn_tmp/chemprop/clintox/train.csv',
+ 'data_weights_path': None,
+ 'dataset_type': 'classification',
+ 'depth': 2,
+ 'depth_solvent': 3,
+ 'device': device(type='cuda', index=0),
+ 'dropout': 0.048351039198609044,
+ 'empty_cache': False,
+ 'ensemble_size': 1,
+ 'epochs': 50,
+ 'evidential_regularization': 0,
+ 'explicit_h': False,
+ 'extra_metrics': ['auc', 'accuracy', 'f1'],
+ 'features_generator': None,
+ 'features_only': False,
+ 'features_path': None,
+ 'features_scaling': True,
+ 'features_size': None,
+ 'ffn_hidden_size': 300,
+ 'ffn_num_layers': 3,
+ 'final_lr': 0.0001,
+ 'folds_file': None,
+ 'freeze_first_only': False,
+ 'frzn_ffn_layers': 0,
+ 'gpu': 0,
+ 'grad_clip': None,
+ 'hidden_size': 300,
+ 'hidden_size_solvent': 300,
+ 'ignore_columns': None,
+ 'init_lr': 0.0001,
+ 'is_atom_bond_targets': False,
+ 'keeping_atom_map': False,
+ 'log_frequency': 10,
+ 'loss_function': 'binary_cross_entropy',
+ 'max_data_size': None,
+ 'max_lr': 0.001,
+ 'metric': 'mcc',
+ 'metrics': ['mcc', 'auc', 'accuracy', 'f1'],
+ 'minimize_score': False,
+ 'mpn_shared': False,
+ 'multiclass_num_classes': 3,
+ 'no_adding_bond_types': False,
+ 'no_atom_descriptor_scaling': False,
+ 'no_bond_descriptor_scaling': False,
+ 'no_cache_mol': False,
+ 'no_cuda': False,
+ 'no_features_scaling': False,
+ 'no_shared_atom_bond_ffn': False,
+ 'num_folds': 1,
+ 'num_lrs': 1,
+ 'num_tasks': 1,
+ 'num_workers': 8,
+ 'number_of_molecules': 1,
+ 'overwrite_default_atom_features': False,
+ 'overwrite_default_bond_features': False,
+ 'phase_features_path': None,
+ 'pytorch_seed': 42,
+ 'quiet': True,
+ 'reaction': False,
+ 'reaction_mode': 'reac_diff',
+ 'reaction_solvent': False,
+ 'resume_experiment': False,
+ 'save_dir': '/export/qcai-omics/Raghvendra/PEARL/results/gnn/chemprop/CLINTOX_Chemprop_Results/final_model',
+ 'save_preds': True,
+ 'save_smiles_splits': False,
+ 'seed': 42,
+ 'separate_test_atom_descriptors_path': None,
+ 'separate_test_bond_descriptors_path': None,
+ 'separate_test_constraints_path': None,
+ 'separate_test_features_path': None,
+ 'separate_test_path': '/export/qcai-omics/Raghvendra/PEARL/data/gnn_tmp/chemprop/clintox/test.csv',
+ 'separate_test_phase_features_path': None,
+ 'separate_val_atom_descriptors_path': None,
+ 'separate_val_bond_descriptors_path': None,
+ 'separate_val_constraints_path': None,
+ 'separate_val_features_path': None,
+ 'separate_val_path': '/export/qcai-omics/Raghvendra/PEARL/data/gnn_tmp/chemprop/clintox/valid.csv',
+ 'separate_val_phase_features_path': None,
+ 'shared_atom_bond_ffn': True,
+ 'show_individual_scores': False,
+ 'smiles_columns': ['smiles'],
+ 'spectra_activation': 'exp',
+ 'spectra_phase_mask_path': None,
+ 'spectra_target_floor': 1e-08,
+ 'split_key_molecule': 0,
+ 'split_sizes': [1.0, 0.0, 0.0],
+ 'split_type': 'random',
+ 'target_columns': ['target'],
+ 'target_weights': None,
+ 'task_names': ['target'],
+ 'test': False,
+ 'test_fold_index': None,
+ 'train_data_size': None,
+ 'undirected': False,
+ 'use_input_features': False,
+ 'val_fold_index': None,
+ 'warmup_epochs': 2.0,
+ 'weights_ffn_num_layers': 2}
+Setting molecule featurization parameters to default.
+Loading data
+Warning: 3 SMILES are invalid.
+Number of tasks = 1
+Fold 0
+Splitting data with seed 42
+Class sizes
+target 0: 6.85%, 1: 93.15%
+Total size = 1,182 | train size = 1,182 | val size = 148 | test size = 143
+With class_balance, effective train size = 162
+Building model 0
+MoleculeModel(
+  (sigmoid): Sigmoid()
+  (encoder): MPN(
+    (encoder): ModuleList(
+      (0): MPNEncoder(
+        (dropout): Dropout(p=0.048351039198609044, inplace=False)
+        (act_func): ReLU()
+        (W_i): Linear(in_features=147, out_features=300, bias=False)
+        (W_h): Linear(in_features=300, out_features=300, bias=False)
+        (W_o): Linear(in_features=433, out_features=300, bias=True)
+      )
+    )
+  )
+  (readout): Sequential(
+    (0): Dropout(p=0.048351039198609044, inplace=False)
+    (1): Linear(in_features=300, out_features=300, bias=True)
+    (2): ReLU()
+    (3): Dropout(p=0.048351039198609044, inplace=False)
+    (4): Linear(in_features=300, out_features=300, bias=True)
+    (5): ReLU()
+    (6): Dropout(p=0.048351039198609044, inplace=False)
+    (7): Linear(in_features=300, out_features=1, bias=True)
+  )
+)
+Number of parameters = 445,501
+Moving model to cuda
+Epoch 0
+Validation mcc = 0.018426
+Validation auc = 0.491197
+Validation accuracy = 0.229730
+Validation f1 = 0.337209
+Epoch 1
+Validation mcc = -0.035657
+Validation auc = 0.547535
+Validation accuracy = 0.567568
+Validation f1 = 0.719298
+Epoch 2
+Validation mcc = 0.062986
+Validation auc = 0.548709
+Validation accuracy = 0.500000
+Validation f1 = 0.654206
+Epoch 3
+Loss = 6.1298e-01, PNorm = 38.1151, GNorm = 0.5028, lr_0 = 3.7391e-04
+Validation mcc = 0.062986
+Validation auc = 0.553404
+Validation accuracy = 0.500000
+Validation f1 = 0.654206
+Epoch 4
+Validation mcc = 0.079747
+Validation auc = 0.559272
+Validation accuracy = 0.540541
+Validation f1 = 0.690909
+Epoch 5
+Validation mcc = 0.105095
+Validation auc = 0.570423
+Validation accuracy = 0.445946
+Validation f1 = 0.598039
+Epoch 6
+Loss = 6.7949e-01, PNorm = 38.1483, GNorm = 1.5512, lr_0 = 6.0870e-04
+Validation mcc = 0.112876
+Validation auc = 0.619131
+Validation accuracy = 0.466216
+Validation f1 = 0.618357
+Epoch 7
+Validation mcc = 0.284752
+Validation auc = 0.785211
+Validation accuracy = 0.905405
+Validation f1 = 0.949275
+Epoch 8
+Validation mcc = 0.071566
+Validation auc = 0.695423
+Validation accuracy = 0.148649
+Validation f1 = 0.202532
+Epoch 9
+Loss = 6.3650e-01, PNorm = 38.1905, GNorm = 1.1185, lr_0 = 8.4348e-04
+Validation mcc = 0.136807
+Validation auc = 0.779930
+Validation accuracy = 0.777027
+Validation f1 = 0.871595
+Epoch 10
+Validation mcc = 0.137038
+Validation auc = 0.724178
+Validation accuracy = 0.527027
+Validation f1 = 0.675926
+Epoch 11
+Validation mcc = 0.245753
+Validation auc = 0.784624
+Validation accuracy = 0.736486
+Validation f1 = 0.842105
+Epoch 12
+Loss = 5.8260e-01, PNorm = 38.2866, GNorm = 1.1003, lr_0 = 9.8963e-04
+Validation mcc = 0.243772
+Validation auc = 0.794601
+Validation accuracy = 0.817568
+Validation f1 = 0.896552
+Epoch 13
+Validation mcc = 0.200038
+Validation auc = 0.808685
+Validation accuracy = 0.662162
+Validation f1 = 0.788136
+Epoch 14
+Validation mcc = 0.338070
+Validation auc = 0.911385
+Validation accuracy = 0.837838
+Validation f1 = 0.908397
+Epoch 15
+Loss = 5.2371e-01, PNorm = 38.4037, GNorm = 0.8944, lr_0 = 9.6516e-04
+Validation mcc = 0.214066
+Validation auc = 0.910211
+Validation accuracy = 0.560811
+Validation f1 = 0.703196
+Epoch 16
+Validation mcc = 0.142414
+Validation auc = 0.866784
+Validation accuracy = 0.364865
+Validation f1 = 0.505263
+Epoch 17
+Validation mcc = 0.140223
+Validation auc = 0.865610
+Validation accuracy = 0.358108
+Validation f1 = 0.497354
+Epoch 18
+Loss = 5.3179e-01, PNorm = 38.5599, GNorm = 3.2015, lr_0 = 9.4131e-04
+Validation mcc = 0.105808
+Validation auc = 0.863850
+Validation accuracy = 0.250000
+Validation f1 = 0.358382
+Epoch 19
+Validation mcc = 0.377760
+Validation auc = 0.922535
+Validation accuracy = 0.939189
+Validation f1 = 0.967972
+Epoch 20
+Validation mcc = 0.120817
+Validation auc = 0.885563
+Validation accuracy = 0.297297
+Validation f1 = 0.422222
+Epoch 21
+Loss = 4.7098e-01, PNorm = 38.6750, GNorm = 1.5013, lr_0 = 9.1804e-04
+Validation mcc = 0.308146
+Validation auc = 0.899648
+Validation accuracy = 0.810811
+Validation f1 = 0.891473
+Epoch 22
+Validation mcc = 0.222957
+Validation auc = 0.897887
+Validation accuracy = 0.581081
+Validation f1 = 0.720721
+Epoch 23
+Validation mcc = 0.245753
+Validation auc = 0.878521
+Validation accuracy = 0.736486
+Validation f1 = 0.842105
+Epoch 24
+Loss = 3.9211e-01, PNorm = 38.8264, GNorm = 4.0371, lr_0 = 8.9348e-04
+Validation mcc = 0.250566
+Validation auc = 0.875000
+Validation accuracy = 0.743243
+Validation f1 = 0.846774
+Epoch 25
+Validation mcc = 0.232281
+Validation auc = 0.891432
+Validation accuracy = 0.601351
+Validation f1 = 0.737778
+Epoch 26
+Validation mcc = 0.308146
+Validation auc = 0.900822
+Validation accuracy = 0.810811
+Validation f1 = 0.891473
+Epoch 27
+Loss = 3.9982e-01, PNorm = 38.9407, GNorm = 1.9102, lr_0 = 8.7140e-04
+Loss = 4.3756e-01, PNorm = 38.9498, GNorm = 1.3851, lr_0 = 8.6958e-04
+Validation mcc = 0.235495
+Validation auc = 0.932512
+Validation accuracy = 0.608108
+Validation f1 = 0.743363
+Epoch 28
+Validation mcc = 0.330084
+Validation auc = 0.907277
+Validation accuracy = 0.831081
+Validation f1 = 0.904215
+Epoch 29
+Validation mcc = 0.283486
+Validation auc = 0.937207
+Validation accuracy = 0.695946
+Validation f1 = 0.811715
+Epoch 30
+Loss = 3.1014e-01, PNorm = 39.0514, GNorm = 0.6038, lr_0 = 8.4986e-04
+Loss = 1.3945e-01, PNorm = 39.0611, GNorm = 1.6359, lr_0 = 8.4809e-04
+Validation mcc = 0.315149
+Validation auc = 0.911385
+Validation accuracy = 0.817568
+Validation f1 = 0.895753
+Epoch 31
+Validation mcc = 0.343647
+Validation auc = 0.927230
+Validation accuracy = 0.777027
+Validation f1 = 0.868526
+Epoch 32
+Validation mcc = 0.316025
+Validation auc = 0.932512
+Validation accuracy = 0.743243
+Validation f1 = 0.845528
+Epoch 33
+Loss = 3.8461e-01, PNorm = 39.1680, GNorm = 1.8602, lr_0 = 8.2713e-04
+Validation mcc = 0.355244
+Validation auc = 0.907864
+Validation accuracy = 0.851351
+Validation f1 = 0.916667
+Epoch 34
+Validation mcc = 0.186950
+Validation auc = 0.918427
+Validation accuracy = 0.493243
+Validation f1 = 0.641148
+Epoch 35
+Validation mcc = 0.294953
+Validation auc = 0.887911
+Validation accuracy = 0.797297
+Validation f1 = 0.882812
+Epoch 36
+Validation mcc = 0.271308
+Validation auc = 0.875000
+Validation accuracy = 0.770270
+Validation f1 = 0.865079
+Epoch 37
+Loss = 4.3877e-01, PNorm = 39.2679, GNorm = 0.6286, lr_0 = 8.0500e-04
+Validation mcc = 0.288724
+Validation auc = 0.879108
+Validation accuracy = 0.790541
+Validation f1 = 0.878431
+Epoch 38
+Validation mcc = 0.276916
+Validation auc = 0.886737
+Validation accuracy = 0.777027
+Validation f1 = 0.869565
+Epoch 39
+Validation mcc = 0.279296
+Validation auc = 0.910211
+Validation accuracy = 0.689189
+Validation f1 = 0.806723
+Epoch 40
+Loss = 2.9373e-01, PNorm = 39.3735, GNorm = 3.0281, lr_0 = 7.8510e-04
+Validation mcc = 0.391368
+Validation auc = 0.927230
+Validation accuracy = 0.824324
+Validation f1 = 0.899225
+Epoch 41
+Validation mcc = 0.299311
+Validation auc = 0.922535
+Validation accuracy = 0.912162
+Validation f1 = 0.953069
+Epoch 42
+Validation mcc = 0.186950
+Validation auc = 0.909038
+Validation accuracy = 0.493243
+Validation f1 = 0.641148
+Epoch 43
+Loss = 4.7197e-01, PNorm = 39.4894, GNorm = 5.8290, lr_0 = 7.6570e-04
+Validation mcc = 0.420344
+Validation auc = 0.932512
+Validation accuracy = 0.925676
+Validation f1 = 0.960289
+Epoch 44
+Validation mcc = 0.222957
+Validation auc = 0.912559
+Validation accuracy = 0.581081
+Validation f1 = 0.720721
+Epoch 45
+Validation mcc = 0.308146
+Validation auc = 0.907864
+Validation accuracy = 0.810811
+Validation f1 = 0.891473
+Epoch 46
+Loss = 2.1619e-01, PNorm = 39.6050, GNorm = 0.8608, lr_0 = 7.4677e-04
+Validation mcc = 0.321212
+Validation auc = 0.916080
+Validation accuracy = 0.750000
+Validation f1 = 0.850202
+Epoch 47
+Validation mcc = 0.229122
+Validation auc = 0.924296
+Validation accuracy = 0.594595
+Validation f1 = 0.732143
+Epoch 48
+Validation mcc = 0.369756
+Validation auc = 0.932512
+Validation accuracy = 0.905405
+Validation f1 = 0.948905
+Epoch 49
+Loss = 2.9257e-01, PNorm = 39.7296, GNorm = 3.0627, lr_0 = 7.2680e-04
+Validation mcc = 0.296695
+Validation auc = 0.930164
+Validation accuracy = 0.716216
+Validation f1 = 0.826446
+Model 0 best validation mcc = 0.420344 on epoch 43
+Loading pretrained parameter "encoder.encoder.0.cached_zero_vector".
+Loading pretrained parameter "encoder.encoder.0.W_i.weight".
+Loading pretrained parameter "encoder.encoder.0.W_h.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.weight".
+Loading pretrained parameter "encoder.encoder.0.W_o.bias".
+Loading pretrained parameter "readout.1.weight".
+Loading pretrained parameter "readout.1.bias".
+Loading pretrained parameter "readout.4.weight".
+Loading pretrained parameter "readout.4.bias".
+Loading pretrained parameter "readout.7.weight".
+Loading pretrained parameter "readout.7.bias".
+Moving model to cuda
+Model 0 test mcc = 0.282016
+Model 0 test auc = 0.903361
+Model 0 test accuracy = 0.909091
+Model 0 test f1 = 0.951311
+Ensemble test mcc = 0.282016
+Ensemble test auc = 0.903361
+Ensemble test accuracy = 0.909091
+Ensemble test f1 = 0.951311
+1-fold cross validation
+	Seed 42 ==> test mcc = 0.282016
+	Seed 42 ==> test auc = 0.903361
+	Seed 42 ==> test accuracy = 0.909091
+	Seed 42 ==> test f1 = 0.951311
+Overall test mcc = 0.282016 +/- 0.000000
+Overall test auc = 0.903361 +/- 0.000000
+Overall test accuracy = 0.909091 +/- 0.000000
+Overall test f1 = 0.951311 +/- 0.000000
+Elapsed time = 0:00:31

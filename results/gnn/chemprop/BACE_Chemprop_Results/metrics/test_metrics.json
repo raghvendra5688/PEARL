@@ -1,0 +1,9 @@
+{
+  "Accuracy": 0.763,
+  "AUC": 0.855,
+  "Precision": 0.758,
+  "Recall": 0.77,
+  "F1_macro": 0.759,
+  "F1_micro": 0.763,
+  "MCC": 0.528
+}
