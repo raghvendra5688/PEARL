@@ -49,7 +49,7 @@ import logging
 import os
 from functools import partial
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 import numpy as np
 import torch
@@ -57,9 +57,11 @@ import torch.nn as nn
 import torch.nn.functional as F
 from rdkit import Chem
 from rdkit.Chem import AllChem
+from scipy.stats import spearmanr
 from sklearn.metrics import (
     matthews_corrcoef, roc_auc_score,
     precision_score, recall_score, f1_score, accuracy_score,
+    mean_absolute_error, r2_score,
 )
 from torch.optim import AdamW
 from torch.optim.lr_scheduler import CosineAnnealingLR
@@ -206,18 +208,22 @@ class MolDataset(Dataset):
         }
 
 
-def collate_fn(batch: List[Dict], padding_idx: int) -> Dict:
+def collate_fn(batch: List[Dict], padding_idx: int, regression: bool = False) -> Dict:
     """
     Collate a list of MolDataset samples into a batch dict.
 
     Pass to DataLoader via functools.partial:
         loader = DataLoader(..., collate_fn=partial(collate_fn, padding_idx=pi))
+
+    regression=True casts labels to float (a continuous target) instead of the
+    long/int dtype cross-entropy-based classification losses require.
     """
+    label_dtype = torch.float32 if regression else torch.long
     return {
         "unimol_batch": _collate_unimol_inputs(
             [b["unimol_input"] for b in batch], padding_idx
         ),
-        "labels":    torch.tensor([b["label"] for b in batch], dtype=torch.long),
+        "labels":    torch.tensor([b["label"] for b in batch], dtype=label_dtype),
         "morgan_fps": torch.tensor(
             np.stack([b["morgan_fp"] for b in batch]), dtype=torch.float32
         ),
@@ -244,6 +250,7 @@ class UniMolLoRAClassifier(nn.Module):
         self,
         num_classes:  int,
         head_dropout: float = 0.1,
+        task_type:    str = "classification",   # "classification" | "regression"
     ):
         super().__init__()
         if not UNIMOL_AVAILABLE:
@@ -251,20 +258,27 @@ class UniMolLoRAClassifier(nn.Module):
                 "unimol_tools is required. "
                 "Install: pip install unimol_tools"
             )
+        if task_type not in ("classification", "regression"):
+            raise ValueError(f"task_type must be 'classification' or 'regression', got {task_type!r}")
 
+        self.task_type   = task_type
+        # out_dim is 1 for regression (a single continuous score) regardless
+        # of num_classes -- num_classes is kept only for classification and for
+        # save()/load_finetuned_unimol() config round-tripping.
         self.num_classes = num_classes
+        out_dim = 1 if task_type == "regression" else num_classes
         # UniMolRepr is a plain Python wrapper (not nn.Module); the actual
         # nn.Module is at self._repr.model (a UniMolModel).
         self._repr = UniMolRepr(data_type="molecule", remove_hs=False)
 
-        # Classification head: 2560 → num_classes
+        # Head: 2560 → num_classes (classification) or 2560 → 1 (regression)
         self.head = nn.Sequential(
             nn.LayerNorm(COMBINED_DIM),
             nn.Dropout(head_dropout),
             nn.Linear(COMBINED_DIM, 512),
             nn.GELU(),
             nn.Dropout(head_dropout),
-            nn.Linear(512, num_classes),
+            nn.Linear(512, out_dim),
         )
 
     # ------------------------------------------------------------------
@@ -441,6 +455,18 @@ def weighted_cross_entropy(
     return F.cross_entropy(logits, labels, weight=weights)
 
 
+def mse_loss(preds: torch.Tensor, targets: torch.Tensor) -> torch.Tensor:
+    """Standard regression loss. preds: (N, 1), targets: (N,)."""
+    return F.mse_loss(preds.squeeze(-1), targets.float())
+
+
+def huber_loss(preds: torch.Tensor, targets: torch.Tensor, delta: float = 1.0) -> torch.Tensor:
+    """Robust regression loss (quadratic near 0, linear in the tails) -- less
+    sensitive than MSE to the residual outliers a right-skewed target like
+    Half_Life_Obach can produce even after log1p + IQR outlier removal."""
+    return F.huber_loss(preds.squeeze(-1), targets.float(), delta=delta)
+
+
 # ── Trainer ────────────────────────────────────────────────────────────────────
 
 class UniMolLoRATrainer:
@@ -453,7 +479,7 @@ class UniMolLoRATrainer:
     def __init__(
         self,
         model:        UniMolLoRAClassifier,
-        loss_type:    str,               # "focal" | "weighted"
+        loss_type:    str,               # "focal" | "weighted" (classification) | "mse" | "huber" (regression)
         class_counts: Optional[torch.Tensor] = None,
         lr:           float = 1e-4,
         max_epochs:   int   = 30,
@@ -462,9 +488,20 @@ class UniMolLoRATrainer:
         weight_decay: float = 1e-2,
         seed:         int   = 42,
         wandb_run     = None,
+        task_type:    str   = "classification",   # "classification" | "regression"
+        huber_delta:  float = 1.0,
     ):
+        if task_type not in ("classification", "regression"):
+            raise ValueError(f"task_type must be 'classification' or 'regression', got {task_type!r}")
+        if task_type == "regression" and loss_type not in ("mse", "huber"):
+            raise ValueError(f"regression task_type requires loss_type in {{'mse','huber'}}, got {loss_type!r}")
+        if task_type == "classification" and loss_type not in ("focal", "weighted"):
+            raise ValueError(f"classification task_type requires loss_type in {{'focal','weighted'}}, got {loss_type!r}")
+
         self.model        = model.to(DEVICE)
-        self.loss_type    = loss_type
+        self.loss_type     = loss_type
+        self.task_type      = task_type
+        self.huber_delta    = huber_delta
         self.class_counts = class_counts
         self.lr           = lr
         self.max_epochs   = max_epochs
@@ -479,6 +516,10 @@ class UniMolLoRATrainer:
     # ------------------------------------------------------------------
 
     def _loss(self, logits: torch.Tensor, labels: torch.Tensor) -> torch.Tensor:
+        if self.task_type == "regression":
+            if self.loss_type == "huber":
+                return huber_loss(logits, labels, delta=self.huber_delta)
+            return mse_loss(logits, labels)
         if self.loss_type == "focal":
             alpha = None
             if self.class_counts is not None:
@@ -525,7 +566,7 @@ class UniMolLoRATrainer:
         train_ds = MolDataset(train_smiles, train_labels, train_unimol)
         val_ds   = MolDataset(val_smiles,   val_labels,   val_unimol)
 
-        _collate = partial(collate_fn, padding_idx=padding_idx)
+        _collate = partial(collate_fn, padding_idx=padding_idx, regression=(self.task_type == "regression"))
 
         train_loader = DataLoader(
             train_ds, batch_size=self.batch_size,
@@ -546,10 +587,13 @@ class UniMolLoRATrainer:
         )
         scheduler = CosineAnnealingLR(optimizer, T_max=self.max_epochs)
 
-        best_mcc     = -1.0
+        best_score   = -float("inf")
         best_metrics = {}
         patience_cnt = 0
         best_state   = None
+        # Both "mcc" (classification) and "r2" (regression) are maximized --
+        # higher is always better, so the same tracking logic covers both.
+        score_key = "r2" if self.task_type == "regression" else "mcc"
 
         for epoch in range(self.max_epochs):
             # ── Train ──
@@ -579,25 +623,39 @@ class UniMolLoRATrainer:
 
             # ── Validate ──
             val_metrics = self._evaluate(val_loader)
-            val_mcc     = val_metrics["mcc"]
+            val_score   = val_metrics[score_key]
 
-            logging.info(
-                f"Epoch {epoch+1:3d}/{self.max_epochs} | "
-                f"loss={avg_loss:.4f} | val_mcc={val_mcc:.4f} | "
-                f"val_auc={val_metrics.get('auc', float('nan')):.4f}"
-            )
+            if self.task_type == "regression":
+                logging.info(
+                    f"Epoch {epoch+1:3d}/{self.max_epochs} | "
+                    f"loss={avg_loss:.4f} | val_r2={val_score:.4f} | "
+                    f"val_spearman={val_metrics.get('spearman', float('nan')):.4f}"
+                )
+            else:
+                logging.info(
+                    f"Epoch {epoch+1:3d}/{self.max_epochs} | "
+                    f"loss={avg_loss:.4f} | val_mcc={val_score:.4f} | "
+                    f"val_auc={val_metrics.get('auc', float('nan')):.4f}"
+                )
 
             if self.wandb_run is not None:
-                self.wandb_run.log({
-                    "epoch":           epoch + 1,
-                    "train_loss":      avg_loss,
-                    "eval/mcc_metric": val_mcc,
-                    "eval/auc":        val_metrics.get("auc", 0.0),
-                    "eval/accuracy":   val_metrics.get("accuracy", 0.0),
-                })
+                log_dict = {"epoch": epoch + 1, "train_loss": avg_loss}
+                if self.task_type == "regression":
+                    log_dict.update({
+                        "eval/r2":       val_score,
+                        "eval/spearman": val_metrics.get("spearman", 0.0),
+                        "eval/mae":      val_metrics.get("mae", 0.0),
+                    })
+                else:
+                    log_dict.update({
+                        "eval/mcc_metric": val_score,
+                        "eval/auc":        val_metrics.get("auc", 0.0),
+                        "eval/accuracy":   val_metrics.get("accuracy", 0.0),
+                    })
+                self.wandb_run.log(log_dict)
 
-            if val_mcc > best_mcc:
-                best_mcc     = val_mcc
+            if val_score > best_score:
+                best_score  = val_score
                 best_metrics = val_metrics
                 patience_cnt = 0
                 # Save both head and encoder states (encoder is not in state_dict)
@@ -610,7 +668,7 @@ class UniMolLoRATrainer:
                 if patience_cnt >= self.patience:
                     logging.info(
                         f"Early stopping at epoch {epoch+1} "
-                        f"(best MCC={best_mcc:.4f})"
+                        f"(best {score_key}={best_score:.4f})"
                     )
                     break
 
@@ -624,9 +682,39 @@ class UniMolLoRATrainer:
     # ------------------------------------------------------------------
 
     @torch.no_grad()
-    def _evaluate(self, loader: DataLoader) -> Dict:
+    def _evaluate(self, loader: DataLoader, invert_fn: Optional[Callable[[np.ndarray], np.ndarray]] = None) -> Dict:
+        """
+        invert_fn: optional target-transform inverse (e.g. np.expm1 for a log1p-
+        transformed regression target), applied to both predictions and labels
+        before computing regression metrics so R2/MAE/Spearman are reported on
+        the original scale -- matching the convention used by pc_only_modelling.py
+        / chemprop_baseline.py / gcn_baseline.py, so all baselines are comparable.
+        Ignored for classification.
+        """
         self.model.eval()
         self.model._repr.model.eval()
+
+        if self.task_type == "regression":
+            all_preds, all_labels = [], []
+            for batch in loader:
+                labels     = batch["labels"].to(DEVICE)
+                morgan_fps = batch["morgan_fps"]
+                preds, _   = self.model(batch["unimol_batch"], morgan_fps)
+                all_preds.extend(preds.squeeze(-1).cpu().tolist())
+                all_labels.extend(labels.cpu().tolist())
+
+            preds_arr  = np.array(all_preds)
+            labels_arr = np.array(all_labels)
+            if invert_fn is not None:
+                preds_arr  = invert_fn(preds_arr)
+                labels_arr = invert_fn(labels_arr)
+
+            return {
+                "mae":      float(mean_absolute_error(labels_arr, preds_arr)),
+                "r2":       float(r2_score(labels_arr, preds_arr)),
+                "spearman": float(spearmanr(labels_arr, preds_arr).correlation),
+            }
+
         all_preds, all_labels, all_probs = [], [], []
 
         for batch in loader:
@@ -703,6 +791,7 @@ class UniMolLoRATrainer:
 
         config = {
             "num_classes":  self.model.num_classes,
+            "task_type":    self.model.task_type,
             "unimol_dim":   UNIMOL_HIDDEN,
             "morgan_bits":  MORGAN_BITS,
             "combined_dim": COMBINED_DIM,
@@ -717,12 +806,43 @@ class UniMolLoRATrainer:
         logging.info(f"  Model saved to: {save_dir}")
 
 
+# ── Cross-trial best tracking ──────────────────────────────────────────────────
+
+def is_new_best(save_dir: Path, score: float) -> bool:
+    """
+    Each WandB sweep trial is a separate call to the per-dataset script's
+    run_training(), all writing to the same save_dir. Without this guard,
+    every trial unconditionally overwrites save_dir via trainer.save(), so the
+    final saved model is just whichever trial happened to run last -- not the
+    best-performing one across the sweep (unlike the HF pipeline, which
+    explicitly queries the WandB API for the best run before saving).
+
+    Persists the best validation score seen so far in a small marker file next
+    to save_dir (survives across the separate trial processes). Returns True
+    (and updates the marker) only if `score` beats the recorded best -- callers
+    should gate trainer.save(save_dir, ...) on this return value.
+    """
+    marker = save_dir.parent / f"{save_dir.name}.best_score.json"
+    best_so_far = -float("inf")
+    if marker.exists():
+        try:
+            best_so_far = json.loads(marker.read_text())["best_score"]
+        except (json.JSONDecodeError, KeyError):
+            pass
+    if score <= best_so_far:
+        return False
+    marker.parent.mkdir(parents=True, exist_ok=True)
+    marker.write_text(json.dumps({"best_score": score}))
+    return True
+
+
 # ── Model loading ──────────────────────────────────────────────────────────────
 
 def load_finetuned_unimol(
     save_dir:    Path,
     num_classes: Optional[int] = None,
     device:      torch.device  = DEVICE,
+    task_type:   Optional[str] = None,
 ) -> UniMolLoRAClassifier:
     """
     Load a previously saved UniMolLoRAClassifier from save_dir.
@@ -731,7 +851,7 @@ def load_finetuned_unimol(
     Uni-Mol encoder (unimol_encoder.pt).  If unimol_encoder.pt is missing,
     the base pretrained encoder is used and a warning is logged.
 
-    num_classes is read from config.json automatically if not supplied.
+    num_classes and task_type are read from config.json automatically if not supplied.
     """
     save_dir = Path(save_dir)
 
@@ -750,20 +870,24 @@ def load_finetuned_unimol(
             "The directory exists but training may not have completed."
         )
 
-    # Read num_classes from saved config if not provided
-    if num_classes is None:
+    # Read num_classes/task_type from saved config if not provided
+    if num_classes is None or task_type is None:
         if not config_path.exists():
             raise FileNotFoundError(
                 f"config.json not found: {config_path}\n"
-                "Pass num_classes explicitly or ensure config.json exists."
+                "Pass num_classes/task_type explicitly or ensure config.json exists."
             )
         with open(str(config_path)) as f:
             cfg = json.load(f)
-        num_classes = cfg["num_classes"]
+        if num_classes is None:
+            num_classes = cfg["num_classes"]
+        if task_type is None:
+            # Older checkpoints (pre-regression-support) have no task_type key.
+            task_type = cfg.get("task_type", "classification")
 
-    logging.info(f"Loading UniMolLoRAClassifier from {save_dir}  (num_classes={num_classes})")
+    logging.info(f"Loading UniMolLoRAClassifier from {save_dir}  (num_classes={num_classes}, task_type={task_type})")
 
-    model = UniMolLoRAClassifier(num_classes=num_classes)
+    model = UniMolLoRAClassifier(num_classes=num_classes, task_type=task_type)
 
     # Restore head weights
     state = torch.load(str(weights_path), map_location=device)

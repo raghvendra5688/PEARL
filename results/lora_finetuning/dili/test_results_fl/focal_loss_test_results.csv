@@ -1,0 +1,4 @@
+MCC,LOSS,Time,ACC,AUROC,PREC,REC,F1,F1_MICRO,RUNTIME,SAMPLE_PER_SECOND,STEPS_PER_SECOND,BEST_MODEL
+0.423,0.581,0.006,0.708,0.788,0.721,0.703,0.7,0.708,0.117,819.899,17.081,/export/qcai-omics/Raghvendra/PEARL/models/lora_training/dili/FL_Loss/DeepChem__ChemBERTa__77M__MLM/9hgrrxke
+0.624,0.467,0.005,0.812,0.886,0.813,0.811,0.812,0.812,0.114,845.4,17.613,/export/qcai-omics/Raghvendra/PEARL/models/lora_training/dili/FL_Loss/DeepChem__ChemBERTa__77M__MTR/6wqkjpl4
+0.625,0.453,0.01,0.812,0.863,0.815,0.81,0.811,0.812,0.133,724.013,15.084,/export/qcai-omics/Raghvendra/PEARL/models/lora_training/dili/FL_Loss/ibm__MoLFormer__XL__both__10pct/qxiscto9
