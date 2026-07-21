@@ -5,13 +5,13 @@
     "n_estimators": 401
   },
   "LightGBM": {
-    "max_depth": 6,
-    "learning_rate": 0.041024379490627025,
-    "n_estimators": 267
+    "max_depth": 5,
+    "learning_rate": 0.07969454818643935,
+    "n_estimators": 466
   },
   "CatBoost": {
     "max_depth": 5,
-    "learning_rate": 0.05069909895933749,
-    "n_estimators": 495
+    "learning_rate": 0.07969454818643935,
+    "n_estimators": 466
   }
 }

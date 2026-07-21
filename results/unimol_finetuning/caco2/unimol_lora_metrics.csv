@@ -1,0 +1,2 @@
+Configuration,ML_Model,R2,MAE,Spearman
+Uni-Mol (LoRA),Huber Loss,0.4108,0.4320,0.5800

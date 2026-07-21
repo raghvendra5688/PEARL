@@ -25,4 +25,5 @@ micromamba activate effichem
 export LD_LIBRARY_PATH="$MAMBA_ROOT_PREFIX/envs/effichem/lib:$LD_LIBRARY_PATH"
 
 REPO_ROOT="$(git -C "$(dirname "${BASH_SOURCE[0]}")" rev-parse --show-toplevel)"
+export OPTUNA_TRIALS=10
 python3 "$REPO_ROOT/scripts/smiles/ml/pc_only_modelling.py" --dataset caco2

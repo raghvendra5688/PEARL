@@ -1,0 +1,2 @@
+Configuration,ML_Model,AUC,AUPR,MCC,F1_macro,F1_micro,Avg_Score,Accuracy,Precision,Recall
+Uni-Mol (LoRA),Focal Loss,0.9257,,0.7079,0.8536,0.8542,,0.8542,0.8549,0.8530

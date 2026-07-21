@@ -1,0 +1,4 @@
+eval_r2,eval_loss,eval_model_preparation_time,eval_MAE,eval_RMSE,eval_Spearman,eval_runtime,eval_samples_per_second,eval_steps_per_second,best_checkpoint
+-0.1101,1.0216,0.005,7.3345,13.095,0.2724,0.1008,1318.914,29.75,/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/lora_training/half_life/HUBER_Loss/DeepChem__ChemBERTa__77M__MLM/xqzbkl10
+0.0717,0.7422,0.0063,6.3666,11.9748,0.5406,0.0776,1713.612,38.653,/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/lora_training/half_life/HUBER_Loss/DeepChem__ChemBERTa__77M__MTR/efawg7xw
+0.0698,0.8357,0.0103,7.0989,11.9868,0.4365,0.1381,962.979,21.721,/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/lora_training/half_life/HUBER_Loss/ibm__MoLFormer__XL__both__10pct/oypvp78b

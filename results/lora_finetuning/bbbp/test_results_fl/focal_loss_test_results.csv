@@ -1,0 +1,4 @@
+MCC,Accuracy,AUC,Precision,Recall,F1_macro,F1_micro,Model
+0.739,0.88,0.923,0.889,0.851,0.865,0.88,DeepChem__ChemBERTa__77M__MLM
+0.715,0.87,0.921,0.873,0.843,0.854,0.87,DeepChem__ChemBERTa__77M__MTR
+0.767,0.891,0.929,0.913,0.856,0.874,0.891,ibm__MoLFormer__XL__both__10pct

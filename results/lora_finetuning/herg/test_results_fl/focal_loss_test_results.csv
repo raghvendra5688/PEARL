@@ -1,0 +1,4 @@
+MCC,LOSS,Time,ACC,AUROC,PREC,REC,F1,F1_MICRO,RUNTIME,SAMPLE_PER_SECOND,STEPS_PER_SECOND,BEST_MODEL
+0.518,0.52,0.006,0.759,0.832,0.759,0.759,0.759,0.759,0.703,3826.922,61.174,/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/lora_training/herg/FL_Loss/DeepChem__ChemBERTa__77M__MLM/59w7c5p8
+0.539,0.492,0.003,0.769,0.846,0.77,0.769,0.769,0.769,0.641,4199.151,67.124,/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/lora_training/herg/FL_Loss/DeepChem__ChemBERTa__77M__MTR/2wyxfctn
+0.544,0.484,0.011,0.771,0.857,0.772,0.772,0.771,0.771,1.506,1785.692,28.545,/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/lora_training/herg/FL_Loss/ibm__MoLFormer__XL__both__10pct/v2vcp2td
