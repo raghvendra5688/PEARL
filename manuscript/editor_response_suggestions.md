@@ -13,6 +13,8 @@ This document lays out concrete, scoped changes to the repo and manuscript that 
 
 **If this session was interrupted, start here.** This section is a live, authoritative record of what has actually been done, what decisions were made, and exactly what to run next. Do not re-derive scope from the sections below without checking here first — those sections are the original proposal; this log is what's actually been executed against it, including scope changes made after discussion with the user.
 
+**Live results dashboard:** [PEARL Benchmark Comparison](https://claude.ai/code/artifact/0db809fb-670b-45e3-a297-73c19bb3b8d6) — all 8 datasets x PC-only/Chemprop/GCN/E2E LoRA (HF + Uni-Mol), every metric each task reports, best-in-dataset highlighted. All 6 Uni-Mol/HF LoRA sweeps are now complete (hERG FL/WL and DILI WL Uni-Mol finished 2026-07-21, extracted from `EffiChem_Extras_v2` config.json + matched WandB run history) — no pending cells remain. Current win tally: PC-only 2/8 (clintox, caco2), E2E LoRA Uni-Mol 3/8 (bace, bbbp, herg), E2E LoRA HF 1/8 (dili), Chemprop 1/8 (flavor), GCN 1/8 (half_life).
+
 ### Confirmed scope decisions (from user, do not re-ask)
 
 1. **New-dataset pipeline scope: FULL LADDER.** For each new dataset, reproduce all 4 PEARL modes (E2E LoRA across ChemBERTa-MLM, ChemBERTa-MTR, MolFormer, Uni-Mol x FL/WL losses; FT Embed; FT Embed+PC; RAFE with a fresh ZINC-250k FAISS index per dataset) plus Chemprop and a plain GCN/GIN baseline. This is the expensive option — expect this to take a long time; do not silently descope to something lighter without asking.

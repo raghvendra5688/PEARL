@@ -1,0 +1,854 @@
+<title>PEARL Benchmark — Method Comparison</title>
+<style>
+  :root {
+    --bg: #f4f6f3;
+    --surface: #ffffff;
+    --surface-2: #eaeee8;
+    --ink: #191d1a;
+    --ink-muted: #5b625d;
+    --ink-faint: #868d87;
+    --border: #dde1da;
+    --border-strong: #c7cdc2;
+    --accent: #2f6f6a;
+    --accent-ink: #ffffff;
+    --accent-wash: #e2eeec;
+    --good: #23744f;
+    --good-wash: #e3f1e9;
+    --warn: #a5701f;
+    --warn-wash: #f5ead8;
+    --pc: #45607e;
+    --chemprop: #9a5a3f;
+    --gcn: #6d5a82;
+    --lora-hf: #2f6f6a;
+    --lora-um: #b1802f;
+
+    --font-display: -apple-system, "Segoe UI", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+    --font-body: -apple-system, "Segoe UI", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "JetBrains Mono", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14171a;
+      --surface: #1b1f22;
+      --surface-2: #20252a;
+      --ink: #e8eae7;
+      --ink-muted: #9ba39d;
+      --ink-faint: #6d746e;
+      --border: #2b3033;
+      --border-strong: #383e42;
+      --accent: #5db3ac;
+      --accent-ink: #0d1a19;
+      --accent-wash: #1c2c2b;
+      --good: #4fb37e;
+      --good-wash: #17281e;
+      --warn: #d9a54f;
+      --warn-wash: #2c2417;
+      --pc: #8ba3c2;
+      --chemprop: #cf8a6d;
+      --gcn: #ab93c4;
+      --lora-hf: #5db3ac;
+      --lora-um: #d9ac5c;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #14171a; --surface: #1b1f22; --surface-2: #20252a; --ink: #e8eae7;
+    --ink-muted: #9ba39d; --ink-faint: #6d746e; --border: #2b3033; --border-strong: #383e42;
+    --accent: #5db3ac; --accent-ink: #0d1a19; --accent-wash: #1c2c2b;
+    --good: #4fb37e; --good-wash: #17281e; --warn: #d9a54f; --warn-wash: #2c2417;
+    --pc: #8ba3c2; --chemprop: #cf8a6d; --gcn: #ab93c4; --lora-hf: #5db3ac; --lora-um: #d9ac5c;
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f6f3; --surface: #ffffff; --surface-2: #eaeee8; --ink: #191d1a;
+    --ink-muted: #5b625d; --ink-faint: #868d87; --border: #dde1da; --border-strong: #c7cdc2;
+    --accent: #2f6f6a; --accent-ink: #ffffff; --accent-wash: #e2eeec;
+    --good: #23744f; --good-wash: #e3f1e9; --warn: #a5701f; --warn-wash: #f5ead8;
+    --pc: #45607e; --chemprop: #9a5a3f; --gcn: #6d5a82; --lora-hf: #2f6f6a; --lora-um: #b1802f;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg); color: var(--ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+  body { padding: 2.5rem 1.5rem 4rem; }
+  .page { max-width: 1180px; margin: 0 auto; }
+
+  /* ---------- Header ---------- */
+  header.top { margin-bottom: 2.25rem; }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-size: clamp(1.7rem, 2.6vw, 2.35rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin: 0.35rem 0 0.5rem;
+    text-wrap: balance;
+  }
+  .subtitle {
+    color: var(--ink-muted);
+    font-size: 0.98rem;
+    max-width: 62ch;
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ---------- Legend ---------- */
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.1rem;
+    margin-top: 1.35rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid var(--border);
+  }
+  .legend-item { display: flex; align-items: center; gap: 0.45rem; font-size: 0.82rem; color: var(--ink-muted); }
+  .swatch { width: 0.62rem; height: 0.62rem; border-radius: 2px; flex-shrink: 0; }
+
+  /* ---------- Summary strip ---------- */
+  .summary {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 2.5rem;
+  }
+  .stat {
+    background: var(--surface);
+    padding: 1.1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  .stat .n {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.65rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+  .stat .label {
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.02em;
+  }
+  .stat .bar { height: 3px; border-radius: 2px; margin-top: 0.15rem; }
+
+  /* ---------- Section headers ---------- */
+  section.group { margin-bottom: 2.6rem; }
+  .group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.1rem;
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--border-strong);
+  }
+  .group-head h2 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+  }
+  .group-head .hint { font-size: 0.78rem; color: var(--ink-faint); font-family: var(--font-mono); }
+
+  /* ---------- Dataset card grid ---------- */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1.1rem;
+  }
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.85rem 1rem;
+    background: var(--surface-2);
+    border-bottom: 1px solid var(--border);
+  }
+  .card-head .name { font-weight: 700; font-size: 0.95rem; }
+  .card-head .task {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tablewrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 0.83rem; }
+  thead th {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    padding: 0.55rem 0.7rem;
+    white-space: nowrap;
+  }
+  thead th:first-child { text-align: left; }
+  tbody td {
+    padding: 0.55rem 0.7rem;
+    text-align: right;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    border-top: 1px solid var(--border);
+  }
+  tbody td:first-child {
+    text-align: left;
+    font-family: var(--font-body);
+  }
+  tbody tr.pending td { color: var(--ink-faint); font-style: italic; }
+  .method {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .method .dot { width: 0.55rem; height: 0.55rem; border-radius: 2px; flex-shrink: 0; }
+  .method .sub {
+    display: block;
+    font-size: 0.7rem;
+    color: var(--ink-faint);
+    font-family: var(--font-mono);
+    margin-top: 0.1rem;
+  }
+  td.best { color: var(--good); font-weight: 700; position: relative; }
+  td.best::after {
+    content: "";
+    position: absolute;
+    left: 0.35rem; right: 0.35rem; bottom: 0.28rem;
+    height: 5px;
+    background: var(--good-wash);
+    border-radius: 3px;
+    z-index: -1;
+  }
+  .winner-badge {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    padding: 0.15rem 0.45rem;
+    border-radius: 999px;
+    background: var(--good-wash);
+    color: var(--good);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  /* ---------- Per-dataset bar-plot facets ---------- */
+  .errorbar-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.1rem;
+  }
+  @media (max-width: 780px) {
+    .errorbar-grid { grid-template-columns: 1fr; }
+  }
+  .eb-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.2rem 1.2rem;
+  }
+  .eb-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 0.9rem;
+  }
+  .eb-title { font-weight: 700; font-size: 0.92rem; }
+  .eb-metric {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+  .eb-chart {
+    position: relative;
+    height: 168px;
+    display: flex;
+    align-items: stretch;
+    gap: 0.85rem;
+    padding-left: 2.1rem;
+  }
+  .eb-yaxis {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 2.1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: var(--ink-faint);
+    text-align: right;
+    padding-right: 0.4rem;
+    pointer-events: none;
+  }
+  .eb-gridlines {
+    position: absolute;
+    left: 2.1rem; right: 0; top: 0; bottom: 0;
+  }
+  .eb-gridlines .gl {
+    position: absolute;
+    left: 0; right: 0;
+    height: 1px;
+    background: var(--border);
+    opacity: 0.7;
+  }
+  .eb-zero {
+    position: absolute;
+    left: 2.1rem; right: 0;
+    height: 1px;
+    background: var(--border-strong);
+  }
+  .eb-bars {
+    position: relative;
+    flex: 1;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.6rem;
+  }
+  .eb-col {
+    flex: 1;
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: flex-end;
+  }
+  .eb-bar {
+    position: absolute;
+    width: 100%;
+    border-radius: 4px 4px 0 0;
+    opacity: 0.85;
+  }
+  .eb-bar.negative { border-radius: 0 0 4px 4px; }
+  .eb-whisker {
+    position: absolute;
+    left: 50%;
+    width: 2px;
+    transform: translateX(-50%);
+    background: var(--ink);
+    opacity: 0.55;
+  }
+  .eb-whisker::before, .eb-whisker::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 10px;
+    height: 2px;
+    background: var(--ink);
+    opacity: 0.55;
+    transform: translateX(-50%);
+  }
+  .eb-whisker::before { top: 0; }
+  .eb-whisker::after { bottom: 0; }
+  .eb-nocirow { font-style: italic; }
+  .eb-labels {
+    display: flex;
+    gap: 0.6rem;
+    padding-left: 2.1rem;
+    margin-top: 0.5rem;
+  }
+  .eb-labels .eb-col-label {
+    flex: 1;
+    text-align: center;
+    font-size: 0.62rem;
+    color: var(--ink-muted);
+    line-height: 1.25;
+  }
+  .eb-value-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 0.66rem;
+    color: var(--ink-faint);
+    margin-top: 0.15rem;
+  }
+  .eb-caveat {
+    margin-top: 1rem;
+    padding-top: 0.8rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.74rem;
+    color: var(--ink-faint);
+    line-height: 1.5;
+  }
+
+  /* ---------- Footnotes ---------- */
+  .notes {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    display: grid;
+    gap: 0.7rem;
+  }
+  .notes h3 {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    margin: 0 0 0.4rem;
+  }
+  .notes ul { margin: 0; padding-left: 1.2rem; color: var(--ink-muted); font-size: 0.85rem; line-height: 1.6; }
+  .notes li { margin-bottom: 0.35rem; }
+  .notes code {
+    font-family: var(--font-mono);
+    background: var(--surface-2);
+    padding: 0.05rem 0.3rem;
+    border-radius: 4px;
+    font-size: 0.82em;
+  }
+
+  @media (max-width: 640px) {
+    .summary { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<div class="page">
+
+  <header class="top">
+    <div class="eyebrow">PEARL &middot; ADMET / MoleculeNet benchmark</div>
+    <h1>Every method, every dataset, every metric run so far</h1>
+    <p class="subtitle">
+      PC-only tree ensembles, Chemprop, GCN, and end-to-end LoRA finetuning (HF CLM path and Uni-Mol path)
+      compared head-to-head across all 8 benchmark datasets on the metrics each task actually reports.
+      Best value in each dataset is highlighted. All 8 datasets now have a complete run across every method.
+    </p>
+    <div class="legend">
+      <div class="legend-item"><span class="swatch" style="background:var(--pc)"></span>PC-only (best of XGBoost / LightGBM / CatBoost)</div>
+      <div class="legend-item"><span class="swatch" style="background:var(--chemprop)"></span>Chemprop</div>
+      <div class="legend-item"><span class="swatch" style="background:var(--gcn)"></span>GCN</div>
+      <div class="legend-item"><span class="swatch" style="background:var(--lora-hf)"></span>E2E LoRA — HF (ChemBERTa-MLM/MTR, MolFormer)</div>
+      <div class="legend-item"><span class="swatch" style="background:var(--lora-um)"></span>E2E LoRA — Uni-Mol (3D + fingerprint)</div>
+    </div>
+  </header>
+
+  <div class="summary">
+    <div class="stat">
+      <span class="n" style="color:var(--pc)">2</span>
+      <span class="label">datasets won by PC-only</span>
+      <span class="bar" style="background:var(--pc)"></span>
+    </div>
+    <div class="stat">
+      <span class="n" style="color:var(--chemprop)">1</span>
+      <span class="label">won by Chemprop</span>
+      <span class="bar" style="background:var(--chemprop)"></span>
+    </div>
+    <div class="stat">
+      <span class="n" style="color:var(--gcn)">1</span>
+      <span class="label">won by GCN</span>
+      <span class="bar" style="background:var(--gcn)"></span>
+    </div>
+    <div class="stat">
+      <span class="n" style="color:var(--lora-hf)">1</span>
+      <span class="label">won by E2E LoRA — HF</span>
+      <span class="bar" style="background:var(--lora-hf)"></span>
+    </div>
+    <div class="stat">
+      <span class="n" style="color:var(--lora-um)">3</span>
+      <span class="label">won by E2E LoRA — Uni-Mol</span>
+      <span class="bar" style="background:var(--lora-um)"></span>
+    </div>
+  </div>
+
+  <!-- ============ CLASSIFICATION ============ -->
+  <section class="group">
+    <div class="group-head">
+      <h2>Classification datasets</h2>
+      <span class="hint">MCC &middot; AUC &middot; Accuracy &middot; Precision &middot; Recall &middot; F1-macro &middot; F1-micro</span>
+    </div>
+    <div class="grid" id="classification-grid"></div>
+  </section>
+
+  <!-- ============ REGRESSION ============ -->
+  <section class="group">
+    <div class="group-head">
+      <h2>Regression datasets</h2>
+      <span class="hint">R&sup2; &middot; MAE &middot; Spearman</span>
+    </div>
+    <div class="grid" id="regression-grid"></div>
+  </section>
+
+  <!-- ============ PER-DATASET MEAN +/- SE BAR FACETS ============ -->
+  <section class="group">
+    <div class="group-head">
+      <h2>Mean &plusmn; standard error, by dataset</h2>
+      <span class="hint">primary metric (MCC / Spearman) &middot; bar = point estimate &middot; whisker = bootstrap SE</span>
+    </div>
+    <div class="errorbar-grid" id="errorbar-grid"></div>
+  </section>
+
+  <div class="notes">
+    <h3>Reading notes</h3>
+    <ul>
+      <li>All 5 methods now have bootstrapped 95% CIs (10,000 resamples, normal-approximation) on every dataset — see the "Mean &plusmn; standard error, by dataset" section below for the whisker view. A close point-estimate "win" (e.g. a LoRA method edging past PC-only) should still be read against the whisker overlap there before treating it as statistically confirmed.</li>
+      <li>E2E LoRA columns show the best-performing loss variant (Focal / Weighted / Huber) and base model for that dataset; the sub-label under each method name names which one.</li>
+      <li>MolFormer's bundled remote code uses Performer-style random-feature attention; evaluation now forces <code>deterministic_eval=true</code> so results are reproducible run-to-run, matching the originally trained checkpoints' saved projection weights.</li>
+    </ul>
+  </div>
+
+</div>
+
+<script>
+  const clsColors = { pc: "var(--pc)", chemprop: "var(--chemprop)", gcn: "var(--gcn)", hf: "var(--lora-hf)", um: "var(--lora-um)" };
+
+  const classification = [
+    {
+      name: "BACE", task: "binary &middot; &beta;-secretase 1 (BACE-1) inhibition",
+      rows: [
+        { key: "pc", label: "PC-only", sub: "CatBoost", MCC: 0.498, AUC: 0.850, Accuracy: 0.724, Precision: 0.746, Recall: 0.751, F1_macro: 0.723, F1_micro: 0.724 },
+        { key: "chemprop", label: "Chemprop", sub: null, MCC: 0.528, AUC: 0.855, Accuracy: 0.763, Precision: 0.758, Recall: 0.770, F1_macro: 0.759, F1_micro: 0.763 },
+        { key: "gcn", label: "GCN", sub: null, MCC: 0.447, AUC: 0.795, Accuracy: 0.717, Precision: 0.719, Recall: 0.729, F1_macro: 0.714, F1_micro: 0.717 },
+        { key: "hf", label: "E2E LoRA — HF", sub: "MolFormer, Focal Loss", MCC: 0.566, AUC: 0.868, Accuracy: 0.783, Precision: 0.777, Recall: 0.789, F1_macro: 0.779, F1_micro: 0.783 },
+        { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Weighted Loss", MCC: 0.623, AUC: 0.891, Accuracy: 0.822, Precision: 0.823, Recall: 0.801, F1_macro: 0.808, F1_micro: 0.822 },
+      ],
+    },
+    {
+      name: "BBBP", task: "binary &middot; blood-brain barrier penetration",
+      rows: [
+        { key: "pc", label: "PC-only", sub: "LightGBM", MCC: 0.759, AUC: 0.937, Accuracy: 0.885, Precision: 0.916, Recall: 0.846, F1_macro: 0.867, F1_micro: 0.885 },
+        { key: "chemprop", label: "Chemprop", sub: null, MCC: 0.620, AUC: 0.918, Accuracy: 0.807, Precision: 0.799, Recall: 0.821, F1_macro: 0.801, F1_micro: 0.807 },
+        { key: "gcn", label: "GCN", sub: null, MCC: 0.694, AUC: 0.924, Accuracy: 0.859, Precision: 0.874, Recall: 0.822, F1_macro: 0.839, F1_micro: 0.859 },
+        { key: "hf", label: "E2E LoRA — HF", sub: "MolFormer, Focal Loss", MCC: 0.767, AUC: 0.929, Accuracy: 0.891, Precision: 0.913, Recall: 0.856, F1_macro: 0.874, F1_micro: 0.891 },
+        { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Weighted Loss", MCC: 0.774, AUC: 0.943, Accuracy: 0.896, Precision: 0.890, Recall: 0.885, F1_macro: 0.887, F1_micro: 0.896 },
+      ],
+    },
+    {
+      name: "CLINTOX", task: "binary &middot; FDA approval status",
+      rows: [
+        { key: "pc", label: "PC-only", sub: "LightGBM", MCC: 0.850, AUC: 0.982, Accuracy: 0.986, Precision: 0.925, Recall: 0.925, F1_macro: 0.925, F1_micro: 0.986 },
+        { key: "chemprop", label: "Chemprop", sub: null, MCC: 0.282, AUC: 0.903, Accuracy: 0.909, Precision: 0.610, Recall: 0.681, F1_macro: 0.634, F1_micro: 0.909 },
+        { key: "gcn", label: "GCN", sub: null, MCC: 0.193, AUC: 0.888, Accuracy: 0.944, Precision: 0.645, Recall: 0.564, F1_macro: 0.586, F1_micro: 0.944 },
+        { key: "hf", label: "E2E LoRA — HF", sub: "MolFormer, Focal Loss", MCC: 0.827, AUC: 0.993, Accuracy: 0.979, Precision: 0.850, Recall: 0.989, F1_macro: 0.906, F1_micro: 0.979 },
+        { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Focal Loss", MCC: 0.282, AUC: 0.904, Accuracy: 0.867, Precision: 0.588, Recall: 0.727, F1_macro: 0.612, F1_micro: 0.867 },
+      ],
+    },
+    {
+      name: "FLAVOR", task: "5-class &middot; canonicalized taste",
+      rows: [
+        { key: "pc", label: "PC-only", sub: "XGBoost", MCC: 0.808, AUC: 0.972, Accuracy: 0.890, Precision: 0.733, Recall: 0.798, F1_macro: 0.761, F1_micro: 0.890 },
+        { key: "chemprop", label: "Chemprop", sub: null, MCC: 0.809, AUC: 0.974, Accuracy: 0.899, Precision: 0.796, Recall: 0.835, F1_macro: 0.809, F1_micro: 0.899 },
+        { key: "gcn", label: "GCN", sub: null, MCC: 0.798, AUC: 0.973, Accuracy: 0.893, Precision: 0.834, Recall: 0.800, F1_macro: 0.814, F1_micro: 0.893 },
+        { key: "hf", label: "E2E LoRA — HF", sub: "MolFormer, Weighted Loss", MCC: 0.802, AUC: 0.975, Accuracy: 0.893, Precision: 0.867, Recall: 0.749, F1_macro: 0.774, F1_micro: 0.893 },
+        { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Weighted Loss", MCC: 0.795, AUC: 0.973, Accuracy: 0.885, Precision: 0.747, Recall: 0.848, F1_macro: 0.783, F1_micro: 0.885 },
+      ],
+    },
+    {
+      name: "DILI", task: "binary &middot; drug-induced liver injury",
+      rows: [
+        { key: "pc", label: "PC-only", sub: "CatBoost", MCC: 0.765, AUC: 0.914, Accuracy: 0.875, Precision: 0.894, Recall: 0.870, F1_macro: 0.872, F1_micro: 0.875 },
+        { key: "chemprop", label: "Chemprop", sub: null, MCC: 0.588, AUC: 0.893, Accuracy: 0.792, Precision: 0.800, Recall: 0.788, F1_macro: 0.788, F1_micro: 0.792 },
+        { key: "gcn", label: "GCN", sub: null, MCC: 0.728, AUC: 0.889, Accuracy: 0.854, Precision: 0.880, Recall: 0.849, F1_macro: 0.850, F1_micro: 0.854 },
+        { key: "hf", label: "E2E LoRA — HF", sub: "ChemBERTa-MTR, Weighted Loss", MCC: 0.770, AUC: 0.911, Accuracy: 0.885, Precision: 0.886, Recall: 0.885, F1_macro: 0.885, F1_micro: 0.885 },
+        { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Focal Loss", MCC: 0.708, AUC: 0.926, Accuracy: 0.854, Precision: 0.855, Recall: 0.853, F1_macro: 0.854, F1_micro: 0.854 },
+      ],
+    },
+    {
+      name: "hERG", task: "binary &middot; cardiac ion-channel inhibition",
+      rows: [
+        { key: "pc", label: "PC-only", sub: "XGBoost", MCC: 0.604, AUC: 0.874, Accuracy: 0.802, Precision: 0.802, Recall: 0.802, F1_macro: 0.802, F1_micro: 0.802 },
+        { key: "chemprop", label: "Chemprop", sub: null, MCC: 0.558, AUC: 0.854, Accuracy: 0.779, Precision: 0.779, Recall: 0.779, F1_macro: 0.779, F1_micro: 0.779 },
+        { key: "gcn", label: "GCN", sub: null, MCC: 0.510, AUC: 0.833, Accuracy: 0.755, Precision: 0.755, Recall: 0.755, F1_macro: 0.755, F1_micro: 0.755 },
+        { key: "hf", label: "E2E LoRA — HF", sub: "MolFormer, Weighted Loss", MCC: 0.573, AUC: 0.869, Accuracy: 0.787, Precision: 0.787, Recall: 0.787, F1_macro: 0.787, F1_micro: 0.787 },
+        { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Weighted Loss", MCC: 0.6093, AUC: 0.8809, Accuracy: 0.8045, Precision: 0.8051, Recall: 0.8041, F1_macro: 0.8042, F1_micro: 0.8045 },
+      ],
+    },
+  ];
+
+  const regression = [
+    {
+      name: "CACO2", task: "regression &middot; Caco-2 permeability (log Papp)",
+      rows: [
+        { key: "pc", label: "PC-only", sub: "CatBoost", R2: 0.7444, MAE: 0.2726, Spearman: 0.8534 },
+        { key: "chemprop", label: "Chemprop", sub: null, R2: 0.5339, MAE: 0.3586, Spearman: 0.8022 },
+        { key: "gcn", label: "GCN", sub: null, R2: 0.2444, MAE: 0.4909, Spearman: 0.7327 },
+        { key: "hf", label: "E2E LoRA — HF", sub: "ChemBERTa-MTR, Huber", R2: 0.6215, MAE: 0.3395, Spearman: 0.7894 },
+        { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Huber", R2: 0.4108, MAE: 0.4320, Spearman: 0.5800 },
+      ],
+    },
+    {
+      name: "HALF_LIFE", task: "regression &middot; drug half-life (hours, log1p target)",
+      rows: [
+        { key: "pc", label: "PC-only", sub: "XGBoost", R2: 0.1096, MAE: 5.6865, Spearman: 0.5019 },
+        { key: "chemprop", label: "Chemprop", sub: null, R2: -0.0200, MAE: 6.3248, Spearman: 0.3316 },
+        { key: "gcn", label: "GCN", sub: null, R2: 0.1140, MAE: 5.9283, Spearman: 0.4183 },
+        { key: "hf", label: "E2E LoRA — HF", sub: "ChemBERTa-MTR, Huber", R2: 0.0717, MAE: 6.3666, Spearman: 0.5406 },
+        { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Huber", R2: -0.0716, MAE: 6.9373, Spearman: 0.5176 },
+      ],
+    },
+  ];
+
+  function fmt(v, higherBetter = true) {
+    if (v === null || v === undefined) return "&mdash;";
+    return v.toFixed(3);
+  }
+
+  function renderCard(ds, metrics, higherBetterMap) {
+    const bestPerMetric = {};
+    metrics.forEach(m => {
+      let best = null;
+      ds.rows.forEach(r => {
+        if (r.pending || r[m] === null || r[m] === undefined) return;
+        const hib = higherBetterMap[m] !== false;
+        if (best === null || (hib ? r[m] > best : r[m] < best)) best = r[m];
+      });
+      bestPerMetric[m] = best;
+    });
+
+    let winnerRow = null;
+    ds.rows.forEach(r => {
+      if (r.pending) return;
+      const primary = metrics[0];
+      if (r[primary] === bestPerMetric[primary]) winnerRow = r;
+    });
+
+    const head = `
+      <div class="card-head">
+        <span class="name">${ds.name}</span>
+        <span class="task">${ds.task}</span>
+      </div>`;
+
+    const headerCells = metrics.map(m => `<th>${m.replace("_", "-")}</th>`).join("");
+
+    const bodyRows = ds.rows.map(r => {
+      if (r.pending) {
+        return `<tr class="pending">
+          <td><div class="method"><span class="dot" style="background:${clsColors[r.key]}"></span>${r.label}</div></td>
+          ${metrics.map(() => `<td>not yet run</td>`).join("")}
+        </tr>`;
+      }
+      const cells = metrics.map(m => {
+        const v = r[m];
+        const isBest = v === bestPerMetric[m] && v !== null;
+        return `<td class="${isBest ? "best" : ""}">${fmt(v)}</td>`;
+      }).join("");
+      const isWinner = r === winnerRow;
+      return `<tr>
+        <td>
+          <div class="method">
+            <span class="dot" style="background:${clsColors[r.key]}"></span>
+            <div>
+              ${r.label}${isWinner ? ' <span class="winner-badge">best</span>' : ""}
+              ${r.sub ? `<span class="sub">${r.sub}</span>` : ""}
+            </div>
+          </div>
+        </td>
+        ${cells}
+      </tr>`;
+    }).join("");
+
+    return `<div class="card">
+      ${head}
+      <div class="tablewrap">
+        <table>
+          <thead><tr><th>Method</th>${headerCells}</tr></thead>
+          <tbody>${bodyRows}</tbody>
+        </table>
+      </div>
+    </div>`;
+  }
+
+  const clsMetrics = ["MCC", "AUC", "Accuracy", "Precision", "Recall", "F1_macro", "F1_micro"];
+  const clsHigherBetter = { MCC: true, AUC: true, Accuracy: true, Precision: true, Recall: true, F1_macro: true, F1_micro: true };
+  document.getElementById("classification-grid").innerHTML =
+    classification.map(ds => renderCard(ds, clsMetrics, clsHigherBetter)).join("");
+
+  const regMetrics = ["R2", "MAE", "Spearman"];
+  const regHigherBetter = { R2: true, MAE: false, Spearman: true };
+  document.getElementById("regression-grid").innerHTML =
+    regression.map(ds => renderCard(ds, regMetrics, regHigherBetter)).join("");
+
+  // ---------------- Per-dataset mean +/- SE bar facets ----------------
+  // One facet per dataset (8 total, 2-column grid). Each bar = a method's
+  // point estimate on that dataset's primary metric (MCC for classification,
+  // Spearman for regression); whisker = within-dataset bootstrap SE (10,000
+  // resamples, normal-approx: SE = (ci_hi - ci_lo) / (2 * 1.96)) where
+  // available. E2E LoRA (HF/Uni-Mol) has no CI computed yet, so those bars
+  // show no whisker. CACO2 PC-only was re-run locally (10 Optuna trials)
+  // after this session's CI backfill, so it has no CI either.
+  const barMethodMeta = [
+    { key: "pc", label: "PC-only" },
+    { key: "chemprop", label: "Chemprop" },
+    { key: "gcn", label: "GCN" },
+    { key: "hf", label: "E2E LoRA — HF" },
+    { key: "um", label: "E2E LoRA — Uni-Mol" },
+  ];
+
+  // se: (ci_hi - ci_lo) / (2 * 1.96). PC-only/Chemprop/GCN from
+  // results/{pc_only,gnn/chemprop,gnn/gcn}/*/metrics/*_ci_metrics.json.
+  // HF/Uni-Mol computed fresh by reloading each dataset's already-saved best
+  // checkpoint and bootstrapping its test-set predictions the same way (see
+  // compute_ci_hf_lora.py / compute_ci_unimol_lora.py) -- same 10,000-resample,
+  // normal-approximation protocol as every other method.
+  const datasetPanels = [
+    {
+      name: "BACE", metric: "MCC",
+      bars: {
+        pc:       { value: 0.498, se: 0.0632 },
+        chemprop: { value: 0.528, se: 0.0683 },
+        gcn:      { value: 0.447, se: 0.0707 },
+        hf:       { value: 0.566, se: 0.0658 },
+        um:       { value: 0.623, se: 0.0651 },
+      },
+    },
+    {
+      name: "BBBP", metric: "MCC",
+      bars: {
+        pc:       { value: 0.759, se: 0.0434 },
+        chemprop: { value: 0.620, se: 0.0539 },
+        gcn:      { value: 0.694, se: 0.0519 },
+        hf:       { value: 0.767, se: 0.0448 },
+        um:       { value: 0.774, se: 0.0475 },
+      },
+    },
+    {
+      name: "CLINTOX", metric: "MCC",
+      bars: {
+        pc:       { value: 0.850, se: 0.1019 },
+        chemprop: { value: 0.282, se: 0.1427 },
+        gcn:      { value: 0.193, se: 0.1810 },
+        hf:       { value: 0.827, se: 0.0756 },
+        um:       { value: 0.282, se: 0.1173 },
+      },
+    },
+    {
+      name: "FLAVOR", metric: "MCC",
+      bars: {
+        pc:       { value: 0.808, se: 0.0108 },
+        chemprop: { value: 0.809, se: 0.0115 },
+        gcn:      { value: 0.798, se: 0.0118 },
+        hf:       { value: 0.802, se: 0.0115 },
+        um:       { value: 0.795, se: 0.0113 },
+      },
+    },
+    {
+      name: "DILI", metric: "MCC",
+      bars: {
+        pc:       { value: 0.765, se: 0.0581 },
+        chemprop: { value: 0.588, se: 0.0808 },
+        gcn:      { value: 0.728, se: 0.0600 },
+        hf:       { value: 0.770, se: 0.0650 },
+        um:       { value: 0.708, se: 0.0722 },
+      },
+    },
+    {
+      name: "hERG", metric: "MCC",
+      bars: {
+        pc:       { value: 0.604, se: 0.0157 },
+        chemprop: { value: 0.558, se: 0.0160 },
+        gcn:      { value: 0.510, se: 0.0168 },
+        hf:       { value: 0.573, se: 0.0155 },
+        um:       { value: 0.609, se: 0.0154 },
+      },
+    },
+    {
+      name: "CACO2", metric: "Spearman",
+      bars: {
+        pc:       { value: 0.8534, se: 0.0211 },
+        chemprop: { value: 0.8022, se: 0.0294 },
+        gcn:      { value: 0.7327, se: 0.0342 },
+        hf:       { value: 0.7894, se: 0.0318 },
+        um:       { value: 0.5800, se: 0.0565 },
+      },
+    },
+    {
+      name: "HALF_LIFE", metric: "Spearman",
+      bars: {
+        pc:       { value: 0.5019, se: 0.0750 },
+        chemprop: { value: 0.3316, se: 0.0841 },
+        gcn:      { value: 0.4183, se: 0.0777 },
+        hf:       { value: 0.5406, se: 0.0654 },
+        um:       { value: 0.5176, se: 0.0720 },
+      },
+    },
+  ];
+
+  function barColor(key) {
+    return `var(--${key === "hf" ? "lora-hf" : key === "um" ? "lora-um" : key})`;
+  }
+
+  function renderDatasetPanel(panel) {
+    const vals = barMethodMeta.map(m => panel.bars[m.key]);
+    const extents = vals.flatMap(b => b.se != null ? [b.value - b.se, b.value + b.se] : [b.value]);
+    let domainLo = Math.min(0, ...extents);
+    let domainHi = Math.max(0, ...extents);
+    const pad = (domainHi - domainLo) * 0.15 || 0.05;
+    domainLo -= pad; domainHi += pad;
+    const span = domainHi - domainLo;
+
+    const yToPct = v => ((domainHi - v) / span) * 100; // 0% = top, 100% = bottom
+    const zeroPct = yToPct(0);
+
+    const ticks = [domainHi, (domainHi + domainLo) / 2, domainLo];
+
+    const cols = barMethodMeta.map(m => {
+      const b = panel.bars[m.key];
+      const color = barColor(m.key);
+      const top = yToPct(Math.max(b.value, 0));
+      const bottom = yToPct(Math.min(b.value, 0));
+      const isNeg = b.value < 0;
+      let whiskerHtml = "";
+      if (b.se != null) {
+        const wTop = yToPct(b.value + b.se);
+        const wBottom = yToPct(b.value - b.se);
+        whiskerHtml = `<div class="eb-whisker" style="top:${wTop}%; height:${wBottom - wTop}%; color:${color}"></div>`;
+      }
+      return {
+        bar: `<div class="eb-col">
+          <div class="eb-bar ${isNeg ? "negative" : ""}" style="top:${top}%; height:${Math.max(bottom - top, 1)}%; background:${color}"></div>
+          ${whiskerHtml}
+        </div>`,
+        label: `<div class="eb-col-label">${m.label.replace(" — ", "<br>")}
+          <span class="eb-value-label">${b.value.toFixed(3)}${b.se != null ? " ± " + b.se.toFixed(3) : ""}</span>
+        </div>`,
+      };
+    });
+
+    return `<div class="eb-card">
+      <div class="eb-head">
+        <span class="eb-title">${panel.name}</span>
+        <span class="eb-metric">${panel.metric}</span>
+      </div>
+      <div class="eb-chart">
+        <div class="eb-yaxis">${ticks.map(t => `<span>${t.toFixed(2)}</span>`).join("")}</div>
+        <div class="eb-gridlines">
+          <div class="gl" style="top:0%"></div>
+          <div class="gl" style="top:50%"></div>
+          <div class="gl" style="top:100%"></div>
+        </div>
+        <div class="eb-zero" style="top:${zeroPct}%"></div>
+        <div class="eb-bars">${cols.map(c => c.bar).join("")}</div>
+      </div>
+      <div class="eb-labels">${cols.map(c => c.label).join("")}</div>
+    </div>`;
+  }
+
+  document.getElementById("errorbar-grid").innerHTML =
+    datasetPanels.map(renderDatasetPanel).join("") +
+    `<div class="eb-caveat" style="grid-column: 1 / -1;">
+      Every bar has a whisker: within-dataset bootstrap standard error (10,000 resamples on that dataset's own
+      test set, normal-approximation). PC-only/Chemprop/GCN reuse the CIs computed during those runs (CACO2's
+      PC-only was backfilled separately after its Optuna-budget rerun); E2E LoRA (HF and Uni-Mol) whiskers were
+      computed by reloading each dataset's saved best checkpoint and bootstrapping its test-set predictions the
+      same way. Where two bars' whiskers overlap, the point-estimate ranking between them is not statistically
+      confirmed.
+    </div>`;
+</script>
