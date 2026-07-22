@@ -29,7 +29,9 @@
       "Read(//export/home/rmall/.local/bin/**)",
       "Bash(/export/home/rmall/.local/bin/micromamba env *)",
       "Bash(nvidia-smi --query-gpu=index,name,memory.used,utilization.gpu --format=csv)",
-      "Bash(bash -c ' *)"
+      "Bash(bash -c ' *)",
+      "Bash(ps -p 342483 -o pid,etime)",
+      "Bash(python3 -c \"import ast; ast.parse\\(open\\('scripts/smiles/ml/pc_feature_merge_new_datasets.py'\\).read\\(\\)\\)\")"
     ]
   }
 }
