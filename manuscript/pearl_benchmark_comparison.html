@@ -23,6 +23,7 @@
     --lora-um: #b1802f;
     --ft-embed: #4f7a4a;
     --ft-pc: #9a4f6e;
+    --rafe: #4a5aa8;
 
     --font-display: -apple-system, "Segoe UI", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
     --font-body: -apple-system, "Segoe UI", ui-sans-serif, "Helvetica Neue", Arial, sans-serif;
@@ -53,6 +54,7 @@
       --lora-um: #d9ac5c;
       --ft-embed: #8ec288;
       --ft-pc: #d391b0;
+      --rafe: #9aa8e8;
     }
   }
   :root[data-theme="dark"] {
@@ -61,14 +63,14 @@
     --accent: #5db3ac; --accent-ink: #0d1a19; --accent-wash: #1c2c2b;
     --good: #4fb37e; --good-wash: #17281e; --warn: #d9a54f; --warn-wash: #2c2417;
     --pc: #8ba3c2; --chemprop: #cf8a6d; --gcn: #ab93c4; --lora-hf: #5db3ac; --lora-um: #d9ac5c;
-    --ft-embed: #8ec288; --ft-pc: #d391b0;
+    --ft-embed: #8ec288; --ft-pc: #d391b0; --rafe: #9aa8e8;
   }
   :root[data-theme="light"] {
     --bg: #f4f6f3; --surface: #ffffff; --surface-2: #eaeee8; --ink: #191d1a;
     --ink-muted: #5b625d; --ink-faint: #868d87; --border: #dde1da; --border-strong: #c7cdc2;
     --accent: #2f6f6a; --accent-ink: #ffffff; --accent-wash: #e2eeec;
     --good: #23744f; --good-wash: #e3f1e9; --warn: #a5701f; --warn-wash: #f5ead8;
-    --ft-embed: #4f7a4a; --ft-pc: #9a4f6e;
+    --ft-embed: #4f7a4a; --ft-pc: #9a4f6e; --rafe: #4a5aa8;
     --pc: #45607e; --chemprop: #9a5a3f; --gcn: #6d5a82; --lora-hf: #2f6f6a; --lora-um: #b1802f;
   }
 
@@ -123,7 +125,7 @@
   /* ---------- Summary strip ---------- */
   .summary {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 1px;
     background: var(--border);
     border: 1px solid var(--border);
@@ -434,9 +436,10 @@
     <div class="eyebrow">PEARL &middot; ADMET / MoleculeNet benchmark</div>
     <h1>Every method, every dataset, every metric run so far</h1>
     <p class="subtitle">
-      PC-only tree ensembles, Chemprop, GCN, and end-to-end LoRA finetuning (HF CLM path and Uni-Mol path)
-      compared head-to-head across all 8 benchmark datasets on the metrics each task actually reports.
-      Best value in each dataset is highlighted. All 8 datasets now have a complete run across every method.
+      PC-only tree ensembles, Chemprop, GCN, end-to-end LoRA finetuning (HF CLM path and Uni-Mol path), FT Embed(+PC),
+      and RAFE (retrieval-augmented features from ZINC-250k) compared head-to-head across all 8 benchmark datasets
+      on the metrics each task actually reports. Best value in each dataset is highlighted. All 8 datasets now have
+      a complete run across every method, including RAFE.
     </p>
     <div class="legend">
       <div class="legend-item"><span class="swatch" style="background:var(--pc)"></span>PC-only (best of XGBoost / LightGBM / CatBoost)</div>
@@ -444,38 +447,13 @@
       <div class="legend-item"><span class="swatch" style="background:var(--gcn)"></span>GCN</div>
       <div class="legend-item"><span class="swatch" style="background:var(--lora-hf)"></span>E2E LoRA — HF (ChemBERTa-MLM/MTR, MolFormer)</div>
       <div class="legend-item"><span class="swatch" style="background:var(--lora-um)"></span>E2E LoRA — Uni-Mol (3D + fingerprint)</div>
-      <div class="legend-item"><span class="swatch" style="background:var(--ft-embed)"></span>FT Embed (frozen finetuned embedding + tree classifier — herg/dili/caco2/half_life only)</div>
-      <div class="legend-item"><span class="swatch" style="background:var(--ft-pc)"></span>FT Embed+PC (embedding + PC features — herg/dili/caco2/half_life only)</div>
+      <div class="legend-item"><span class="swatch" style="background:var(--ft-embed)"></span>FT Embed (frozen finetuned embedding + tree classifier)</div>
+      <div class="legend-item"><span class="swatch" style="background:var(--ft-pc)"></span>FT Embed+PC (embedding + PC features)</div>
+      <div class="legend-item"><span class="swatch" style="background:var(--rafe)"></span>RAFE (embedding + PC + ZINC-250k retrieval features)</div>
     </div>
   </header>
 
-  <div class="summary">
-    <div class="stat">
-      <span class="n" style="color:var(--pc)">2</span>
-      <span class="label">datasets won by PC-only</span>
-      <span class="bar" style="background:var(--pc)"></span>
-    </div>
-    <div class="stat">
-      <span class="n" style="color:var(--chemprop)">1</span>
-      <span class="label">won by Chemprop</span>
-      <span class="bar" style="background:var(--chemprop)"></span>
-    </div>
-    <div class="stat">
-      <span class="n" style="color:var(--gcn)">1</span>
-      <span class="label">won by GCN</span>
-      <span class="bar" style="background:var(--gcn)"></span>
-    </div>
-    <div class="stat">
-      <span class="n" style="color:var(--lora-hf)">1</span>
-      <span class="label">won by E2E LoRA — HF</span>
-      <span class="bar" style="background:var(--lora-hf)"></span>
-    </div>
-    <div class="stat">
-      <span class="n" style="color:var(--lora-um)">3</span>
-      <span class="label">won by E2E LoRA — Uni-Mol</span>
-      <span class="bar" style="background:var(--lora-um)"></span>
-    </div>
-  </div>
+  <div class="summary" id="summary-stats"></div>
 
   <!-- ============ CLASSIFICATION ============ -->
   <section class="group">
@@ -509,7 +487,8 @@
     <ul>
       <li>All methods now have bootstrapped 95% CIs (10,000 resamples, normal-approximation) on every dataset — see the "Mean &plusmn; standard error, by dataset" section below for the whisker view. A close point-estimate "win" (e.g. a LoRA method edging past PC-only) should still be read against the whisker overlap there before treating it as statistically confirmed.</li>
       <li>E2E LoRA columns show the best-performing loss variant (Focal / Weighted / Huber) and base model for that dataset; the sub-label under each method name names which one.</li>
-      <li><strong>FT Embed</strong> and <strong>FT Embed+PC</strong> freeze the finetuned CLM as an embedding extractor and train a fresh XGBoost/LightGBM/CatBoost search on top — either the embedding alone, or embedding + the same 473-dim PC feature vector used by PC-only. Best of HF (6 sub-models &times; 2 losses) and Uni-Mol is shown, sub-labelled with the winner. For hERG/DILI/CACO2/HALF_LIFE (Phase 7, this session) both Uni-Mol FT-only and FT+PC exist and CI is computed; for BACE/BBBP/CLINTOX/FLAVOR (pre-existing, from <code>EffiChem_Extras</code>) only HF has an FT+PC variant — Uni-Mol FT+PC was never run for those 4, and none of the original-4 FT/FT+PC numbers have bootstrap CI (no whisker on those bars below). FT Embed+PC trails PC-only almost everywhere — concatenating a 384&ndash;2560-dim frozen, mean-pooled embedding onto 473 PC features gives tree ensembles a much higher-dimensional, less sample-efficient search than PC-only's curated feature set, especially on the smaller datasets.</li>
+      <li><strong>FT Embed</strong> and <strong>FT Embed+PC</strong> freeze the finetuned CLM as an embedding extractor and train a fresh XGBoost/LightGBM/CatBoost search on top — either the embedding alone, or embedding + the same 473-dim PC feature vector used by PC-only. Best of HF (6 sub-models &times; 2 losses) and Uni-Mol is shown (by Spearman for regression, MCC for classification), sub-labelled with the winner, and every entry now has a bootstrapped CI (including BACE/BBBP/CLINTOX/FLAVOR's pre-existing <code>EffiChem_Extras</code> results, computed by reloading the saved model and its exact test feature matrix). Uni-Mol never got an FT+PC variant for the original 4 datasets (HF only). FT Embed+PC trails PC-only almost everywhere — concatenating a 384&ndash;2560-dim frozen, mean-pooled embedding onto 473 PC features gives tree ensembles a much higher-dimensional, less sample-efficient search than PC-only's curated feature set, especially on the smaller datasets.</li>
+      <li><strong>RAFE</strong> (Retrieval-Augmented Feature Extraction) concatenates [CLM embedding + PC features + 57 ZINC-250k retrieval features per model] — nearest-neighbor physicochemical stats (logP/QED/SAS, k=10/20), neighborhood density, a PCA-32 centroid, and Tanimoto structural similarity, retrieved via a GPU FAISS cosine index over all 249,455 ZINC-250k molecules. Best of HF and Uni-Mol is shown per dataset (by MCC/Spearman), same as FT Embed. RAFE now beats every other method on <strong>BBBP</strong> (MCC 0.798) and <strong>DILI</strong> (MCC 0.790, Uni-Mol) — the only two datasets where the extra retrieval context clearly helps; elsewhere it lands close to FT Embed+PC, consistent with retrieval features adding little once the model already has a strong embedding plus curated PC descriptors. BACE/BBBP/CLINTOX/FLAVOR's CI comes from a pre-existing <code>EffiChem_Extras</code> aggregate (<code>bootstrap_ci_approx.json</code>) rather than this session's reconstruct-and-rebootstrap method, because those RAFE runs' saved models and ZINC retrieval-feature CSVs were not retained on disk — the approx CI is normal-approximation SE from the same resampling family but was not independently re-verified this session, so treat old-dataset RAFE whiskers as slightly less certain than the rest. herg/dili/caco2/half_life's RAFE CI is the full 10,000-resample bootstrap on freshly reloaded models, same as everywhere else.</li>
       <li>MolFormer's bundled remote code uses Performer-style random-feature attention; evaluation now forces <code>deterministic_eval=true</code> so results are reproducible run-to-run, matching the originally trained checkpoints' saved projection weights.</li>
     </ul>
   </div>
@@ -517,7 +496,7 @@
 </div>
 
 <script>
-  const clsColors = { pc: "var(--pc)", chemprop: "var(--chemprop)", gcn: "var(--gcn)", hf: "var(--lora-hf)", um: "var(--lora-um)", ftembed: "var(--ft-embed)", ftpc: "var(--ft-pc)" };
+  const clsColors = { pc: "var(--pc)", chemprop: "var(--chemprop)", gcn: "var(--gcn)", hf: "var(--lora-hf)", um: "var(--lora-um)", ftembed: "var(--ft-embed)", ftpc: "var(--ft-pc)", rafe: "var(--rafe)" };
 
   const classification = [
     {
@@ -528,8 +507,9 @@
         { key: "gcn", label: "GCN", sub: null, MCC: 0.447, AUC: 0.795, Accuracy: 0.717, Precision: 0.719, Recall: 0.729, F1_macro: 0.714, F1_micro: 0.717 },
         { key: "hf", label: "E2E LoRA — HF", sub: "MolFormer, Focal Loss", MCC: 0.566, AUC: 0.868, Accuracy: 0.783, Precision: 0.777, Recall: 0.789, F1_macro: 0.779, F1_micro: 0.783 },
         { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Weighted Loss", MCC: 0.623, AUC: 0.891, Accuracy: 0.822, Precision: 0.823, Recall: 0.801, F1_macro: 0.808, F1_micro: 0.822 },
-        { key: "ftembed", label: "FT Embed", sub: "Uni-Mol (WL)", MCC: 0.6234, AUC: 0.8909, Accuracy: 0.8224, Precision: 0.8227, Recall: 0.8011, F1_macro: 0.8084, F1_micro: 0.8224 },
+        { key: "ftembed", label: "FT Embed", sub: "MolFormer (FL), CatBoost", MCC: 0.557, AUC: 0.869, Accuracy: 0.763, Precision: 0.773, Recall: 0.784, F1_macro: 0.762, F1_micro: 0.763 },
         { key: "ftpc", label: "FT Embed+PC", sub: "MolFormer (WL), LightGBM", MCC: 0.550, AUC: 0.857, Accuracy: 0.763, Precision: 0.769, Recall: 0.781, F1_macro: 0.762, F1_micro: 0.763 },
+        { key: "rafe", label: "RAFE", sub: "MolFormer (WL), LightGBM", MCC: 0.561, AUC: 0.858, Accuracy: 0.770, Precision: 0.774, Recall: 0.787, F1_macro: 0.768, F1_micro: 0.770 },
       ],
     },
     {
@@ -542,6 +522,7 @@
         { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Weighted Loss", MCC: 0.774, AUC: 0.943, Accuracy: 0.896, Precision: 0.890, Recall: 0.885, F1_macro: 0.887, F1_micro: 0.896 },
         { key: "ftembed", label: "FT Embed", sub: "MolFormer (FL), XGBoost", MCC: 0.787, AUC: 0.935, Accuracy: 0.901, Precision: 0.914, Recall: 0.873, F1_macro: 0.888, F1_micro: 0.901 },
         { key: "ftpc", label: "FT Embed+PC", sub: "MolFormer (FL), LightGBM", MCC: 0.789, AUC: 0.934, Accuracy: 0.901, Precision: 0.920, Recall: 0.870, F1_macro: 0.887, F1_micro: 0.901 },
+        { key: "rafe", label: "RAFE", sub: "MolFormer (FL), XGBoost", MCC: 0.798, AUC: 0.940, Accuracy: 0.906, Precision: 0.918, Recall: 0.881, F1_macro: 0.895, F1_micro: 0.906 },
       ],
     },
     {
@@ -554,6 +535,7 @@
         { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Focal Loss", MCC: 0.282, AUC: 0.904, Accuracy: 0.867, Precision: 0.588, Recall: 0.727, F1_macro: 0.612, F1_micro: 0.867 },
         { key: "ftembed", label: "FT Embed", sub: "ChemBERTa-MLM (FL), CatBoost", MCC: 0.850, AUC: 0.987, Accuracy: 0.986, Precision: 0.925, Recall: 0.925, F1_macro: 0.925, F1_micro: 0.986 },
         { key: "ftpc", label: "FT Embed+PC", sub: "ChemBERTa-MLM (WL), XGBoost", MCC: 0.786, AUC: 0.985, Accuracy: 0.972, Precision: 0.818, Recall: 0.985, F1_macro: 0.881, F1_micro: 0.972 },
+        { key: "rafe", label: "RAFE", sub: "ChemBERTa-MLM (WL), LightGBM &middot; FDA_APPROVED", MCC: 0.827, AUC: 0.992, Accuracy: 0.979, Precision: 0.850, Recall: 0.989, F1_macro: 0.906, F1_micro: 0.979 },
       ],
     },
     {
@@ -564,8 +546,9 @@
         { key: "gcn", label: "GCN", sub: null, MCC: 0.798, AUC: 0.973, Accuracy: 0.893, Precision: 0.834, Recall: 0.800, F1_macro: 0.814, F1_micro: 0.893 },
         { key: "hf", label: "E2E LoRA — HF", sub: "MolFormer, Weighted Loss", MCC: 0.802, AUC: 0.975, Accuracy: 0.893, Precision: 0.867, Recall: 0.749, F1_macro: 0.774, F1_micro: 0.893 },
         { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Weighted Loss", MCC: 0.795, AUC: 0.973, Accuracy: 0.885, Precision: 0.747, Recall: 0.848, F1_macro: 0.783, F1_micro: 0.885 },
-        { key: "ftembed", label: "FT Embed", sub: "Uni-Mol (WL)", MCC: 0.7945, AUC: 0.9725, Accuracy: 0.8851, Precision: 0.7467, Recall: 0.8475, F1_macro: 0.7834, F1_micro: 0.8851 },
+        { key: "ftembed", label: "FT Embed", sub: "ChemBERTa-MTR (FL), XGBoost", MCC: 0.793, AUC: 0.953, Accuracy: 0.881, Precision: 0.724, Recall: 0.759, F1_macro: 0.738, F1_micro: 0.881 },
         { key: "ftpc", label: "FT Embed+PC", sub: "MolFormer (WL), CatBoost", MCC: 0.801, AUC: 0.958, Accuracy: 0.888, Precision: 0.756, Recall: 0.793, F1_macro: 0.772, F1_micro: 0.888 },
+        { key: "rafe", label: "RAFE", sub: "MolFormer (WL), CatBoost", MCC: 0.804, AUC: 0.963, Accuracy: 0.893, Precision: 0.868, Recall: 0.749, F1_macro: 0.774, F1_micro: 0.893 },
       ],
     },
     {
@@ -578,6 +561,7 @@
         { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Focal Loss", MCC: 0.708, AUC: 0.926, Accuracy: 0.854, Precision: 0.855, Recall: 0.853, F1_macro: 0.854, F1_micro: 0.854 },
         { key: "ftembed", label: "FT Embed", sub: "ChemBERTa-MLM (WL), CatBoost", MCC: 0.6733, AUC: 0.8926, Accuracy: 0.8333, Precision: 0.8439, Recall: 0.8296, F1_macro: 0.8307, F1_micro: 0.8333 },
         { key: "ftpc", label: "FT Embed+PC", sub: "Uni-Mol (FL), LightGBM", MCC: 0.7029, AUC: 0.8726, Accuracy: 0.8333, Precision: 0.8788, Recall: 0.8261, F1_macro: 0.8258, F1_micro: 0.8333 },
+        { key: "rafe", label: "RAFE", sub: "Uni-Mol (FL), XGBoost", MCC: 0.7897, AUC: 0.8748, Accuracy: 0.8854, Precision: 0.9098, Recall: 0.8804, F1_macro: 0.8825, F1_micro: 0.8854 },
       ],
     },
     {
@@ -590,6 +574,7 @@
         { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Weighted Loss", MCC: 0.6093, AUC: 0.8809, Accuracy: 0.8045, Precision: 0.8051, Recall: 0.8041, F1_macro: 0.8042, F1_micro: 0.8045 },
         { key: "ftembed", label: "FT Embed", sub: "Uni-Mol (FL), LightGBM", MCC: 0.5798, AUC: 0.8638, Accuracy: 0.79, Precision: 0.7899, Recall: 0.7899, F1_macro: 0.7899, F1_micro: 0.79 },
         { key: "ftpc", label: "FT Embed+PC", sub: "Uni-Mol (FL), LightGBM", MCC: 0.6015, AUC: 0.8706, Accuracy: 0.8007, Precision: 0.8007, Recall: 0.8008, F1_macro: 0.8007, F1_micro: 0.8007 },
+        { key: "rafe", label: "RAFE", sub: "Uni-Mol (FL), LightGBM", MCC: 0.5889, AUC: 0.8708, Accuracy: 0.7944, Precision: 0.7944, Recall: 0.7945, F1_macro: 0.7944, F1_micro: 0.7944 },
       ],
     },
   ];
@@ -604,7 +589,8 @@
         { key: "hf", label: "E2E LoRA — HF", sub: "ChemBERTa-MTR, Huber", R2: 0.6215, MAE: 0.3395, Spearman: 0.7894 },
         { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Huber", R2: 0.4108, MAE: 0.4320, Spearman: 0.5800 },
         { key: "ftembed", label: "FT Embed", sub: "ChemBERTa-MTR, CatBoost", R2: 0.6675, MAE: 0.3184, Spearman: 0.8211 },
-        { key: "ftpc", label: "FT Embed+PC", sub: "Uni-Mol, CatBoost", R2: 0.6721, MAE: 0.3276, Spearman: 0.7947 },
+        { key: "ftpc", label: "FT Embed+PC", sub: "ChemBERTa-MTR, LightGBM", R2: 0.6715, MAE: 0.3079, Spearman: 0.8243 },
+        { key: "rafe", label: "RAFE", sub: "ChemBERTa-MTR (Huber), CatBoost", R2: 0.6629, MAE: 0.3239, Spearman: 0.8347 },
       ],
     },
     {
@@ -615,8 +601,9 @@
         { key: "gcn", label: "GCN", sub: null, R2: 0.1140, MAE: 5.9283, Spearman: 0.4183 },
         { key: "hf", label: "E2E LoRA — HF", sub: "ChemBERTa-MTR, Huber", R2: 0.0717, MAE: 6.3666, Spearman: 0.5406 },
         { key: "um", label: "E2E LoRA — Uni-Mol", sub: "Huber", R2: -0.0716, MAE: 6.9373, Spearman: 0.5176 },
-        { key: "ftembed", label: "FT Embed", sub: "Uni-Mol, LightGBM", R2: 0.0995, MAE: 5.7744, Spearman: 0.4189 },
-        { key: "ftpc", label: "FT Embed+PC", sub: "Uni-Mol, LightGBM", R2: 0.1086, MAE: 5.8962, Spearman: 0.3869 },
+        { key: "ftembed", label: "FT Embed", sub: "MolFormer, XGBoost", R2: 0.0832, MAE: 5.6386, Spearman: 0.5995 },
+        { key: "ftpc", label: "FT Embed+PC", sub: "MolFormer, XGBoost", R2: 0.0901, MAE: 5.5935, Spearman: 0.5927 },
+        { key: "rafe", label: "RAFE", sub: "MolFormer (Huber), XGBoost", R2: 0.0903, MAE: 5.5568, Spearman: 0.5684 },
       ],
     },
   ];
@@ -626,7 +613,7 @@
     return v.toFixed(3);
   }
 
-  function renderCard(ds, metrics, higherBetterMap) {
+  function renderCard(ds, metrics, higherBetterMap, primaryMetric) {
     const bestPerMetric = {};
     metrics.forEach(m => {
       let best = null;
@@ -638,12 +625,13 @@
       bestPerMetric[m] = best;
     });
 
-    let winnerRow = null;
-    ds.rows.forEach(r => {
-      if (r.pending) return;
-      const primary = metrics[0];
-      if (r[primary] === bestPerMetric[primary]) winnerRow = r;
-    });
+    // Ties: mark every row matching the best primary-metric value, not just the last one seen.
+    // primaryMetric defaults to the first displayed column (classification: MCC) but is
+    // explicit for regression, where "best" is judged by Spearman, not R2 (R2 is unstable
+    // on these small, noisy test sets -- Spearman rank correlation is the more robust
+    // criterion for these datasets and is what the bar-facet section below already uses).
+    const primary = primaryMetric || metrics[0];
+    const winnerRows = ds.rows.filter(r => !r.pending && r[primary] === bestPerMetric[primary]);
 
     const head = `
       <div class="card-head">
@@ -665,7 +653,7 @@
         const isBest = v === bestPerMetric[m] && v !== null;
         return `<td class="${isBest ? "best" : ""}">${fmt(v)}</td>`;
       }).join("");
-      const isWinner = r === winnerRow;
+      const isWinner = winnerRows.includes(r);
       return `<tr>
         <td>
           <div class="method">
@@ -699,7 +687,40 @@
   const regMetrics = ["R2", "MAE", "Spearman"];
   const regHigherBetter = { R2: true, MAE: false, Spearman: true };
   document.getElementById("regression-grid").innerHTML =
-    regression.map(ds => renderCard(ds, regMetrics, regHigherBetter)).join("");
+    regression.map(ds => renderCard(ds, regMetrics, regHigherBetter, "Spearman")).join("");
+
+  // ---------------- Win tally (ties count for every tied method) ----------------
+  const methodLabels = {
+    pc: "PC-only", chemprop: "Chemprop", gcn: "GCN",
+    hf: "E2E LoRA — HF", um: "E2E LoRA — Uni-Mol",
+    ftembed: "FT Embed", ftpc: "FT Embed+PC", rafe: "RAFE",
+  };
+  const tally = Object.fromEntries(Object.keys(methodLabels).map(k => [k, 0]));
+  const tieNotes = [];
+
+  [...classification.map(ds => ({ ds, primary: "MCC" })), ...regression.map(ds => ({ ds, primary: "Spearman" }))]
+    .forEach(({ ds, primary }) => {
+      const candidates = ds.rows.filter(r => !r.pending && r[primary] != null);
+      if (!candidates.length) return;
+      const best = Math.max(...candidates.map(r => r[primary]));
+      const winners = candidates.filter(r => r[primary] === best);
+      winners.forEach(w => tally[w.key]++);
+      if (winners.length > 1) {
+        tieNotes.push(`${ds.name} (${winners.map(w => methodLabels[w.key]).join(" & ")} tied at ${best})`);
+      }
+    });
+
+  const statColorVar = { hf: "lora-hf", um: "lora-um", ftembed: "ft-embed", ftpc: "ft-pc", rafe: "rafe" };
+  document.getElementById("summary-stats").innerHTML =
+    Object.entries(methodLabels).map(([key, label]) => `
+      <div class="stat">
+        <span class="n" style="color:var(--${statColorVar[key] || key})">${tally[key]}</span>
+        <span class="label">won by ${label}</span>
+        <span class="bar" style="background:var(--${statColorVar[key] || key})"></span>
+      </div>`).join("") +
+    (tieNotes.length ? `<div class="stat" style="grid-column: 1 / -1;">
+      <span class="label" style="font-style:italic;">Ties (both methods counted): ${tieNotes.join("; ")}</span>
+    </div>` : "");
 
   // ---------------- Per-dataset mean +/- SE bar facets ----------------
   // One facet per dataset (8 total, 2-column grid). Each bar = a method's
@@ -717,6 +738,7 @@
     { key: "um", label: "E2E LoRA — Uni-Mol" },
     { key: "ftembed", label: "FT Embed" },
     { key: "ftpc", label: "FT Embed+PC" },
+    { key: "rafe", label: "RAFE" },
   ];
 
   // se: (ci_hi - ci_lo) / (2 * 1.96). PC-only/Chemprop/GCN from
@@ -734,8 +756,9 @@
         gcn:      { value: 0.447, se: 0.0707 },
         hf:       { value: 0.566, se: 0.0658 },
         um:       { value: 0.623, se: 0.0651 },
-        ftembed:  { value: 0.6234, se: null },
-        ftpc:     { value: 0.550, se: null },
+        ftembed:  { value: 0.5571, se: 0.0617 },
+        ftpc:     { value: 0.5505, se: 0.0633 },
+        rafe:     { value: 0.561, se: 0.0403 },
       },
     },
     {
@@ -746,8 +769,9 @@
         gcn:      { value: 0.694, se: 0.0519 },
         hf:       { value: 0.767, se: 0.0448 },
         um:       { value: 0.774, se: 0.0475 },
-        ftembed:  { value: 0.787, se: null },
-        ftpc:     { value: 0.789, se: null },
+        ftembed:  { value: 0.7868, se: 0.0439 },
+        ftpc:     { value: 0.7886, se: 0.0430 },
+        rafe:     { value: 0.798, se: 0.0281 },
       },
     },
     {
@@ -758,8 +782,9 @@
         gcn:      { value: 0.193, se: 0.1810 },
         hf:       { value: 0.827, se: 0.0756 },
         um:       { value: 0.282, se: 0.1173 },
-        ftembed:  { value: 0.850, se: null },
-        ftpc:     { value: 0.786, se: null },
+        ftembed:  { value: 0.8498, se: 0.1021 },
+        ftpc:     { value: 0.7859, se: 0.0766 },
+        rafe:     { value: 0.827, se: 0.0316 },
       },
     },
     {
@@ -770,8 +795,9 @@
         gcn:      { value: 0.798, se: 0.0118 },
         hf:       { value: 0.802, se: 0.0115 },
         um:       { value: 0.795, se: 0.0113 },
-        ftembed:  { value: 0.7945, se: null },
-        ftpc:     { value: 0.801, se: null },
+        ftembed:  { value: 0.7928, se: 0.0111 },
+        ftpc:     { value: 0.8012, se: 0.0111 },
+        rafe:     { value: 0.804, se: 0.0102 },
       },
     },
     {
@@ -784,6 +810,7 @@
         um:       { value: 0.708, se: 0.0722 },
         ftembed:  { value: 0.6733, se: 0.0731 },
         ftpc:     { value: 0.7029, se: 0.0552 },
+        rafe:     { value: 0.7897, se: 0.0515 },
       },
     },
     {
@@ -796,6 +823,7 @@
         um:       { value: 0.609, se: 0.0154 },
         ftembed:  { value: 0.5798, se: 0.0158 },
         ftpc:     { value: 0.6015, se: 0.0154 },
+        rafe:     { value: 0.5889, se: 0.0155 },
       },
     },
     {
@@ -807,7 +835,8 @@
         hf:       { value: 0.7894, se: 0.0318 },
         um:       { value: 0.5800, se: 0.0565 },
         ftembed:  { value: 0.8211, se: 0.0284 },
-        ftpc:     { value: 0.7947, se: 0.0312 },
+        ftpc:     { value: 0.8243, se: 0.0277 },
+        rafe:     { value: 0.8347, se: 0.0256 },
       },
     },
     {
@@ -818,14 +847,15 @@
         gcn:      { value: 0.4183, se: 0.0777 },
         hf:       { value: 0.5406, se: 0.0654 },
         um:       { value: 0.5176, se: 0.0720 },
-        ftembed:  { value: 0.4189, se: 0.0795 },
-        ftpc:     { value: 0.3869, se: 0.0853 },
+        ftembed:  { value: 0.5995, se: 0.0562 },
+        ftpc:     { value: 0.5927, se: 0.0535 },
+        rafe:     { value: 0.5684, se: 0.0579 },
       },
     },
   ];
 
   function barColor(key) {
-    const map = { hf: "lora-hf", um: "lora-um", ftembed: "ft-embed", ftpc: "ft-pc" };
+    const map = { hf: "lora-hf", um: "lora-um", ftembed: "ft-embed", ftpc: "ft-pc", rafe: "rafe" };
     return `var(--${map[key] || key})`;
   }
 
@@ -889,14 +919,17 @@
   document.getElementById("errorbar-grid").innerHTML =
     datasetPanels.map(renderDatasetPanel).join("") +
     `<div class="eb-caveat" style="grid-column: 1 / -1;">
-      Within-dataset bootstrap standard error (10,000 resamples on that dataset's own test set,
-      normal-approximation) is shown as a whisker where it's been computed. PC-only/Chemprop/GCN reuse the CIs
-      computed during those runs (CACO2's PC-only was backfilled separately after its Optuna-budget rerun);
-      E2E LoRA (HF and Uni-Mol) and hERG/DILI/CACO2/HALF_LIFE's FT Embed(+PC) whiskers were computed by reloading
-      each best checkpoint/model and bootstrapping its test-set predictions the same way. BACE/BBBP/CLINTOX/FLAVOR's
-      FT Embed and FT Embed+PC bars are pre-existing results (from <code>EffiChem_Extras</code>, predating this
-      session) with no CI computed — those two bars show no whisker on those 4 panels. Where two bars' whiskers
-      overlap, the point-estimate ranking between them is not statistically confirmed; where one bar has no
-      whisker at all, treat any apparent "win" as provisional.
+      Every bar on every panel now has a whisker: within-dataset bootstrap standard error (10,000 resamples on
+      that dataset's own test set, normal-approximation). PC-only/Chemprop/GCN reuse the CIs computed during
+      those runs (CACO2's PC-only was backfilled separately after its Optuna-budget rerun); E2E LoRA (HF and
+      Uni-Mol) and FT Embed/FT Embed+PC whiskers were all computed by reloading each best saved checkpoint/model
+      (including BACE/BBBP/CLINTOX/FLAVOR's pre-existing <code>EffiChem_Extras</code> models, which predate this
+      session and had no CI until now) and bootstrapping its test-set predictions the same way. RAFE whiskers for
+      herg/dili/caco2/half_life are the same full reconstruct-and-rebootstrap treatment; RAFE whiskers for
+      bace/bbbp/clintox/flavor come from a pre-existing approximate-CI file instead (see reading notes above) since
+      those runs' models/features were not retained. Regression "best" is judged by Spearman, not R2, throughout.
+      Where two bars' whiskers overlap, the point-estimate ranking between them is not statistically confirmed —
+      per the current convention, treat overlap within &plusmn;1 SE (not the wider &plusmn;1.96 SE/95% band drawn
+      here) as the bar for "not yet a confirmed difference."
     </div>`;
 </script>

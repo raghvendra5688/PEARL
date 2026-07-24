@@ -80,3 +80,19 @@ def ci_overlap(ci_a: Dict[str, float], ci_b: Dict[str, float]) -> bool:
     """True if two CIs overlap -- matches the paper's own bar: non-overlapping
     CIs are treated as evidence of a statistically meaningful difference."""
     return not (ci_a["ci_hi"] < ci_b["ci_lo"] or ci_b["ci_hi"] < ci_a["ci_lo"])
+
+
+def se_overlap(ci_a: Dict[str, float], ci_b: Dict[str, float]) -> bool:
+    """True if two mean +/- 1 SE bands overlap.
+
+    Narrower than ci_overlap() (1 SE vs. the paper's 1.96 SE / 95% CI band),
+    per the updated evaluation convention adopted after Phase 7: comparisons
+    going forward judge "is method A really better than method B" against a
+    mean +/- 1 SE band rather than the full 95% CI, tolerating less overlap
+    before declaring a real difference. Both bands are computed from the same
+    bootstrap_ci() output -- only the comparison width changes, not how SE
+    itself is estimated.
+    """
+    lo_a, hi_a = ci_a["point"] - ci_a["se"], ci_a["point"] + ci_a["se"]
+    lo_b, hi_b = ci_b["point"] - ci_b["se"], ci_b["point"] + ci_b["se"]
+    return not (hi_a < lo_b or hi_b < lo_a)

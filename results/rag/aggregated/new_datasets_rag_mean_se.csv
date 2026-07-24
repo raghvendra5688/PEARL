@@ -1,0 +1,17 @@
+Dataset,Modality,EmbeddingModel,MLModel,Metric,Mean,SE
+HERG,hf,MolFormer_Finetuned_WL,XGBoost,MCC,0.571,0.016
+HERG,hf,MolFormer_Finetuned_WL,XGBoost,AUC,0.8646,0.007
+HERG,unimol,UniMol_FL,LightGBM,MCC,0.5889,0.0155
+HERG,unimol,UniMol_FL,LightGBM,AUC,0.8708,0.0067
+DILI,hf,ChemBERTa_77M_MLM_FL,LightGBM,MCC,0.712,0.0695
+DILI,hf,ChemBERTa_77M_MLM_FL,LightGBM,AUC,0.8887,0.0326
+DILI,unimol,UniMol_FL,XGBoost,MCC,0.7897,0.0515
+DILI,unimol,UniMol_FL,XGBoost,AUC,0.8748,0.039
+CACO2,hf,ChemBERTa_77M_MTR_Huber,CatBoost,R2,0.6629,0.0502
+CACO2,hf,ChemBERTa_77M_MTR_Huber,CatBoost,Spearman,0.8347,0.0256
+CACO2,unimol,UniMol_Huber,CatBoost,R2,0.6772,0.0471
+CACO2,unimol,UniMol_Huber,CatBoost,Spearman,0.7964,0.0317
+HALF_LIFE,hf,MolFormer_Finetuned_Huber,XGBoost,R2,0.0903,0.0655
+HALF_LIFE,hf,MolFormer_Finetuned_Huber,XGBoost,Spearman,0.5684,0.0579
+HALF_LIFE,unimol,UniMol_Huber,CatBoost,R2,0.0578,0.0363
+HALF_LIFE,unimol,UniMol_Huber,CatBoost,Spearman,0.4477,0.0751

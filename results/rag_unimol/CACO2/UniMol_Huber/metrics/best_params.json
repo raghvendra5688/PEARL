@@ -1,0 +1,17 @@
+{
+  "XGBoost": {
+    "max_depth": 3,
+    "learning_rate": 0.04158070506074978,
+    "n_estimators": 467
+  },
+  "LightGBM": {
+    "max_depth": 3,
+    "learning_rate": 0.024838700889479818,
+    "n_estimators": 439
+  },
+  "CatBoost": {
+    "max_depth": 3,
+    "learning_rate": 0.09552896679671548,
+    "n_estimators": 455
+  }
+}

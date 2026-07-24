@@ -33,6 +33,7 @@ import catboost as cb
 from sklearn.metrics import (
     accuracy_score, average_precision_score, f1_score,
     matthews_corrcoef, make_scorer, roc_auc_score,
+    precision_score, recall_score,
 )
 from sklearn.model_selection import StratifiedKFold, cross_val_score
 from sklearn.preprocessing import LabelEncoder
@@ -167,11 +168,18 @@ def train_and_evaluate(name, model, X_tr, y_tr, X_te, y_te, out_dirs, tag, n_cla
     y_pred = model.predict(X_te)
     y_prob = model.predict_proba(X_te)   # (N, n_classes)
     metrics = {
-        "Accuracy": round(float(accuracy_score(y_te, y_pred)), 3),
+        "Accuracy":  round(float(accuracy_score(y_te, y_pred)), 3),
+        "Precision": round(float(precision_score(y_te, y_pred, average="macro", zero_division=0)), 3),
+        "Recall":    round(float(recall_score(y_te, y_pred, average="macro", zero_division=0)), 3),
         "F1_macro": round(float(f1_score(y_te, y_pred, average="macro", zero_division=0)), 3),
         "F1_micro": round(float(f1_score(y_te, y_pred, average="micro", zero_division=0)), 3),
         "MCC":      round(float(matthews_corrcoef(y_te, y_pred)), 3),
     }
+    # Macro one-vs-rest AUC (matches pc_only_modelling.py's multiclass convention)
+    try:
+        metrics["AUC"] = round(float(roc_auc_score(y_te, y_prob, multi_class="ovr", average="macro")), 3)
+    except ValueError:
+        pass
     # Per-class AUPR (one-vs-rest)
     for cls_i in range(n_classes):
         y_bin = (y_te == cls_i).astype(int)
