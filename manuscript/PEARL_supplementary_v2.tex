@@ -46,7 +46,7 @@ Retrieval-Augmented Learning for Molecular Property Prediction}}
 
 The physicochemical (PC) feature vector concatenates four descriptor groups computed
 with RDKit~3.x and NetworkX~3.x. This vector, and the PC-only baseline built from it,
-is identical across all seven datasets in this revision, including the four new TDC
+is identical across all seven datasets in this revision, including the four TDC
 ADMET tasks.
 Morgan fingerprints are computed at radius 2 with 128 bits using
 \texttt{GetMorganGenerator}; MACCS keys use the standard 167-bit MACCS key
@@ -481,8 +481,8 @@ RAFE & UM  & WL & XGB & 0.822 & 0.704 & 0.704 & 0.704 & 0.461 & 0.729 \\
 \newpage
 
 %% -----------------------------------------------------------------------------
-\phantomsection\addcontentsline{toc}{subsection}{Table S5: Full hERG Ablation (New, TDC ADMET Group)}
-\subsection*{Table S5: Full hERG Ablation (New, TDC ADMET Group)}
+\phantomsection\addcontentsline{toc}{subsection}{Table S5: Full hERG Ablation (TDC ADMET Group)}
+\subsection*{Table S5: Full hERG Ablation (TDC ADMET Group)}
 %% -----------------------------------------------------------------------------
 
 Binary classification (cardiac ion-channel inhibition, $n_\text{test}=2{,}690$).
@@ -597,8 +597,8 @@ RAFE & UM  & WL & CB  & 0.861 & 0.770 & 0.770 & 0.540 & 0.770 & 0.770 \\
 \newpage
 
 %% -----------------------------------------------------------------------------
-\phantomsection\addcontentsline{toc}{subsection}{Table S6: Full DILI Ablation (New, TDC ADMET Group)}
-\subsection*{Table S6: Full DILI Ablation (New, TDC ADMET Group)}
+\phantomsection\addcontentsline{toc}{subsection}{Table S6: Full DILI Ablation (TDC ADMET Group)}
+\subsection*{Table S6: Full DILI Ablation (TDC ADMET Group)}
 %% -----------------------------------------------------------------------------
 
 Binary classification (drug-induced liver injury, $n_\text{test}=96$, the smallest
@@ -711,8 +711,8 @@ RAFE & UM  & WL & CB  & 0.889 & 0.792 & 0.787 & 0.592 & 0.806 & 0.787 \\
 \newpage
 
 %% -----------------------------------------------------------------------------
-\phantomsection\addcontentsline{toc}{subsection}{Table S7: Full Caco-2 Ablation, Regression (New, TDC ADMET Group)}
-\subsection*{Table S7: Full Caco-2 Ablation, Regression (New, TDC ADMET Group)}
+\phantomsection\addcontentsline{toc}{subsection}{Table S7: Full Caco-2 Ablation, Regression (TDC ADMET Group)}
+\subsection*{Table S7: Full Caco-2 Ablation, Regression (TDC ADMET Group)}
 %% -----------------------------------------------------------------------------
 
 Regression (Caco-2 log apparent permeability, $n_\text{test}=182$). All CLM variants
@@ -786,8 +786,8 @@ RAFE & UM  & Huber & CB  & 0.677 & 0.323 & 0.796 \\
 \newpage
 
 %% -----------------------------------------------------------------------------
-\phantomsection\addcontentsline{toc}{subsection}{Table S8: Full Half-Life Ablation, Regression (New, TDC ADMET Group)}
-\subsection*{Table S8: Full Half-Life Ablation, Regression (New, TDC ADMET Group)}
+\phantomsection\addcontentsline{toc}{subsection}{Table S8: Full Half-Life Ablation, Regression (TDC ADMET Group)}
+\subsection*{Table S8: Full Half-Life Ablation, Regression (TDC ADMET Group)}
 %% -----------------------------------------------------------------------------
 
 Regression (plasma half-life, hours; $n_\text{test}=133$; log1p-transformed target,
@@ -940,14 +940,14 @@ predictive accuracy.
 Across all seven PEARL datasets, LoRA-finetuned models match or exceed full finetuning
 benchmarks reported in prior work (MolFormer BBBP MCC~$= 0.767$; Uni-Mol WL BACE
 MCC~$= 0.623$), confirming that the task-relevant weight update lives in a low-rank
-subspace, including for the four regression/binary TDC ADMET tasks new to this revision.
+subspace, including for the four regression/binary TDC ADMET tasks.
 
 \paragraph{Comparison to reported baselines.}
 MolFormer-XL full finetuning on BBBP achieves MCC~$\approx 0.79$ in the original paper~\cite{ross2022molformer}; our LoRA result (MCC~$= 0.767$) is close using
 only $6-9\%$ of parameters.
-The four TDC ADMET Group datasets (hERG, DILI, Caco-2, Half-Life) are new to this
-benchmarking effort; no directly comparable published LoRA baseline exists for them,
-so Section~S5 below reports the in-house PC-only/Chemprop/GCN comparison instead.
+No directly comparable published LoRA baseline exists for the TDC ADMET Group datasets
+(hERG, DILI, Caco-2, Half-Life), so Section~S5 below reports the in-house
+PC-only/Chemprop/GCN comparison instead.
 
 %% -----------------------------------------------------------------------------
 \phantomsection\addcontentsline{toc}{subsection}{Section S2: LoRA for Uni-Mol - Mathematical Formulation and Implementation Details}
@@ -980,8 +980,8 @@ SE(3)-equivariant message passing in Uni-Mol depends on pair distances computed
 from explicit 3D coordinates.
 To preserve equivariance, only the attention projection weights are adapted;
 distance-based pair encodings ($\boldsymbol{\phi}(\|r_i - r_j\|)$) are kept frozen.
-The gradient from the downstream loss (classification or, new in this revision,
-Huber regression) flows through the LoRA adapter and into the conformer features,
+The gradient from the downstream loss (classification or Huber regression) flows
+through the LoRA adapter and into the conformer features,
 providing indirect adaptation of the 3D representation regardless of task type.
 
 \paragraph{Conformer caching.}
@@ -1021,7 +1021,7 @@ PEARL implements three loss functions selectable per run:
   (BBBP, Flavor, hERG) where FL's hard-example focus is less critical
   than correcting the class prior.
 
-\item \textbf{Huber Loss (regression, new in this revision).}
+\item \textbf{Huber Loss (regression).}
   $\mathcal{L}_\text{Huber}(y,\hat y) = \tfrac{1}{2}(y-\hat y)^2$ if $|y-\hat y|\le\delta$,
   else $\delta(|y-\hat y|-\tfrac12\delta)$, with $\delta=1.0$. Used for both Caco-2
   and Half-Life; Half-Life's target is additionally log1p-transformed before loss
@@ -1078,7 +1078,7 @@ LogP, QED, and SAS (Synthetic Accessibility Score) for each molecule.
 The cleaned library is re-embedded independently for each of the seven PEARL
 datasets, using that dataset's own task-specific finetuned model (ChemBERTa,
 MolFormer, or Uni-Mol with LoRA weights), and normalized to unit $\ell_2$ norm.
-For the four new TDC ADMET datasets, ZINC-250k re-embedding, FAISS index
+For the four TDC ADMET datasets, ZINC-250k re-embedding, FAISS index
 construction, and RAFE feature extraction all route their (large) intermediate
 artifacts through a dedicated extras volume, separate from the git-tracked
 repository, mirroring the storage convention already used for the original four
@@ -1143,7 +1143,7 @@ This is unchanged for hERG/DILI/Caco-2/Half-Life.
 This section has two parts. First (unchanged in spirit from Revision 1), Table~S10
 compares PEARL against published external methods on BACE, BBBP, and Flavor -- the
 three MoleculeNet-era datasets for which comparable external LoRA/GNN literature
-numbers exist. Second (\textbf{new in this revision}), Table~S11 reports the
+numbers exist. Second, Table~S11 reports the
 in-house PC-only, Chemprop, and GCN baselines run on all seven datasets, under
 the identical scaffold split, preprocessing, and bootstrapped-CI protocol as every
 CLM-based method in this paper -- directly addressing the concern that GNN
@@ -1179,7 +1179,7 @@ against which every CLM-based method is judged.
 \textbf{MolFormer (full FT)}~\cite{ross2022molformer}, \textbf{FART}~\cite{zimmermann2024fart}.
 External literature baselines, unchanged from Revision 1; see original descriptions.
 No comparable external LoRA/GNN literature baseline exists for hERG, DILI, Caco-2,
-or Half-Life, since these TDC ADMET tasks are new to this benchmarking effort.
+or Half-Life.
 
 \newpage
 \begin{table}[htbp]
@@ -1216,7 +1216,7 @@ PEARL RAFE best               & this work & $0.858$\textsuperscript{b} & $\mathb
 }
 \end{table}
 
-\subsection*{In-House Baseline Comparison (New in This Revision)}
+\subsection*{In-House Baseline Comparison}
 
 Table~S11 reports PC-only, Chemprop, and GCN, run in-house on the identical split
 and protocol as the CLM ladder, on all seven datasets. The final two columns apply
@@ -1256,12 +1256,12 @@ Half-Life & 0.502 & 0.332 & 0.418 & 0.600 (FT Embed, MolFormer)  & Overlap & Ove
 
 \paragraph{Flavor:} PC-only, Chemprop, and RAFE are within 0.005 MCC of each other; the CLM ladder provides no meaningful lift here.
 
-\paragraph{hERG and DILI (new):} both TDC ADMET classification tasks show the same pattern as Flavor -- a real but statistically unconfirmed point-estimate lead for the best CLM-based method.
+\paragraph{hERG and DILI:} both TDC ADMET classification tasks show the same pattern as Flavor -- a real but statistically unconfirmed point-estimate lead for the best CLM-based method.
 
-\paragraph{Caco-2 (new):} PC-only outright wins; this is the clearest example of a physicochemical feature set being mechanistically better-matched to the task (membrane permeability) than any learned CLM representation.
+\paragraph{Caco-2:} PC-only outright wins; this is the clearest example of a physicochemical feature set being mechanistically better-matched to the task (membrane permeability) than any learned CLM representation.
 
-\paragraph{Half-Life (new):} the noisiest dataset studied; FT Embed's point-estimate lead ($+0.098$ Spearman over PC-only) is the largest relative margin among the regression tasks but does not survive $\pm1$~SE given the small ($n=133$) test set.
+\paragraph{Half-Life:} the noisiest dataset studied; FT Embed's point-estimate lead ($+0.098$ Spearman over PC-only) is the largest relative margin among the regression tasks but does not survive $\pm1$~SE given the small ($n=133$) test set.
 
 \bibliographystyle{unsrt}
-\bibliography{PEARL_references}
+\bibliography{sn-bibliography}
 \end{document}
