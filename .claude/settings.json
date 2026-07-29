@@ -32,7 +32,10 @@
       "Bash(bash -c ' *)",
       "Bash(ps -p 342483 -o pid,etime)",
       "Bash(python3 -c \"import ast; ast.parse\\(open\\('scripts/smiles/ml/pc_feature_merge_new_datasets.py'\\).read\\(\\)\\)\")",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(micromamba run -n effichem python3 -c ' *)",
+      "Read(//export/cse/rmall/Raghvendra/EffChem-2.0/data/clean/bace_datasets/**)",
+      "Read(//export/cse/rmall/Raghvendra/EffChem-2.0/data/clean/bbbp_datasets/**)"
     ]
   }
 }

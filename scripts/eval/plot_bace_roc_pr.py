@@ -79,21 +79,21 @@ OUT_DIR.mkdir(parents=True, exist_ok=True)
 # AUC/AUPR from inference may vary slightly due to GPU non-determinism.
 METRIC_OVERRIDES = {
     # from EffiChem_Extras/BACE/best_model_comparison/all_metrics.csv
-    "E2E LoRA MolFormer FL": {"auc": 0.872, "aupr": 0.890},
-    "E2E LoRA MolFormer WL": {"auc": 0.871, "aupr": 0.902},
+    "E2E LoRA MolFormer-XL FL": {"auc": 0.872, "aupr": 0.890},
+    "E2E LoRA MolFormer-XL WL": {"auc": 0.871, "aupr": 0.902},
     # from EffChem-2.0/results/unimol_finetuning/bace/unimol_lora_metrics.csv
     "E2E LoRA Uni-Mol FL":   {"auc": 0.876, "aupr": 0.924},
     "E2E LoRA Uni-Mol WL":   {"auc": 0.891, "aupr": 0.924},
     # from BACE_FT_Results/evaluation_plots/test_set_metrics.csv
-    "FT Embed MolFormer FL": {"auc": 0.869, "aupr": 0.899},
+    "FT Embed MolFormer-XL FL": {"auc": 0.869, "aupr": 0.899},
     # from EffChem-2.0/results/finetuned/UniMol_BACE_FT_Results/UniMol_FL/metrics/LightGBM_metrics.json
     "FT Embed Uni-Mol FL":   {"auc": 0.860, "aupr": 0.893},
     # from BACE_PC_FT_Results/MolFormer_Finetuned_FL_embeddings/metrics/XGBoost_metrics.npy
-    "PC+FT Embed MolFormer FL": {"auc": 0.870},  # no stored AUPR → use computed
+    "PC+FT Embed MolFormer-XL FL": {"auc": 0.870},  # no stored AUPR → use computed
     # from EffChem-2.0/results/rag/bace/MolFormer_Finetuned_FL/metrics/CatBoost_metrics.json
-    "RAFE MolFormer FL":     {"auc": 0.863, "aupr": 0.892},
+    "RAFE MolFormer-XL FL":     {"auc": 0.863, "aupr": 0.892},
     # from EffChem-2.0/results/rag/bace/Molformer_Finetuned_WL/metrics/LightGBM_metrics.json
-    "RAFE MolFormer WL":     {"auc": 0.858, "aupr": 0.892},
+    "RAFE MolFormer-XL WL":     {"auc": 0.858, "aupr": 0.892},
     # from EffChem-2.0/results/rag_unimol/bace/UniMol_FL/metrics/XGBoost_metrics.json
     "RAFE Uni-Mol FL":       {"auc": 0.840, "aupr": 0.895},
 }
@@ -265,6 +265,7 @@ def molformer_predict(model_dir: Path, test_csv: str, batch_size: int = 32):
             batch = smiles[i : i + batch_size]
             enc   = tokenizer(batch, return_tensors="pt", padding=True,
                               truncation=True, max_length=512)
+            enc.pop("token_type_ids", None)
             enc   = {k: v.to(DEVICE) for k, v in enc.items()}
             logits = model(**enc).logits.cpu().numpy()
             probs_all.append(softmax(logits, axis=1)[:, 1])
@@ -341,7 +342,7 @@ def compute_all_results():
             log.error(f"  FAILED: {e}", exc_info=True)
 
     # 1 – E2E LoRA MolFormer FL
-    run("E2E LoRA MolFormer FL", "#1565C0", "-",
+    run("E2E LoRA MolFormer-XL FL", "#1565C0", "-",
         lambda: molformer_predict(
             EXTRAS_ROOT / "focal_loss_BACE"
             / "ibm__MoLFormer__XL__both__10pct_LoRA_Finetuned",
@@ -349,7 +350,7 @@ def compute_all_results():
         ))
 
     # 2 – E2E LoRA MolFormer WL
-    run("E2E LoRA MolFormer WL", "#42A5F5", "--",
+    run("E2E LoRA MolFormer-XL WL", "#42A5F5", "--",
         lambda: molformer_predict(
             EXTRAS_ROOT / "weighted_loss_BACE"
             / "ibm__MoLFormer__XL__both__10pct_LoRA_Finetuned",
@@ -371,7 +372,7 @@ def compute_all_results():
         ))
 
     # 5 – FT Embed MolFormer FL + CatBoost
-    run("FT Embed MolFormer FL", "#2E7D32", "-", lambda: _tree(
+    run("FT Embed MolFormer-XL FL", "#2E7D32", "-", lambda: _tree(
         build_ft_smiles("MolFormer_Finetuned_FL_embeddings"),
         EXTRAS_ROOT / "BACE_FT_Results" / "MolFormer_Finetuned_FL"
         / "models" / "MolFormer_Finetuned_FL_CatBoost.pkl",
@@ -385,21 +386,21 @@ def compute_all_results():
     ))
 
     # 7 – PC+FT Embed MolFormer FL + XGBoost
-    run("PC+FT Embed MolFormer FL", "#6A1B9A", "-", lambda: _tree(
+    run("PC+FT Embed MolFormer-XL FL", "#6A1B9A", "-", lambda: _tree(
         build_pc_ft_smiles("MolFormer_Finetuned_FL_embeddings"),
         EXTRAS_ROOT / "BACE_PC_FT_Results" / "MolFormer_Finetuned_FL_embeddings"
         / "models" / "XGBoost.pkl",
     ))
 
     # 8 – RAFE MolFormer FL + CatBoost
-    run("RAFE MolFormer FL", "#C62828", "-", lambda: _tree(
+    run("RAFE MolFormer-XL FL", "#C62828", "-", lambda: _tree(
         build_rafe_smiles("MolFormer_Finetuned_FL_embeddings", "MolFormer_Finetuned_FL"),
         EFFCHEM2 / "results" / "rag" / "bace" / "MolFormer_Finetuned_FL"
         / "models" / "CatBoost.pkl",
     ))
 
     # 9 – RAFE MolFormer WL + LightGBM
-    run("RAFE MolFormer WL", "#FF7043", "-", lambda: _tree(
+    run("RAFE MolFormer-XL WL", "#FF7043", "-", lambda: _tree(
         build_rafe_smiles("Molformer_Finetuned_WL_embeddings", "Molformer_Finetuned_WL"),
         EFFCHEM2 / "results" / "rag" / "bace" / "Molformer_Finetuned_WL"
         / "models" / "LightGBM.pkl",
@@ -442,6 +443,7 @@ def plot_curves(results):
     ax.set_xlim(0, 1); ax.set_ylim(0, 1)
     ax.tick_params(labelsize=8)
     fig.tight_layout()
+    fig.text(0.02, 0.98, "A", fontsize=16, fontweight="bold", ha="left", va="top")
     p = OUT_DIR / "bace_roc.pdf"
     fig.savefig(str(p), bbox_inches="tight")
     log.info(f"Saved: {p}")
@@ -464,6 +466,7 @@ def plot_curves(results):
     ax.set_xlim(0, 1); ax.set_ylim(0, 1)
     ax.tick_params(labelsize=8)
     fig.tight_layout()
+    fig.text(0.02, 0.98, "B", fontsize=16, fontweight="bold", ha="left", va="top")
     p = OUT_DIR / "bace_pr.pdf"
     fig.savefig(str(p), bbox_inches="tight")
     log.info(f"Saved: {p}")
