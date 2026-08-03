@@ -1,157 +1,184 @@
-%Version 3.1 December 2024
-% See section 11 of the User Manual for version history
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%                                                                 %%
-%% Please do not use \input{...} to include other tex files.       %%
-%% Submit your LaTeX manuscript as one .tex document.              %%
-%%                                                                 %%
-%% All additional figures and files should be attached             %%
-%% separately and not embedded in the \TeX\ document itself.       %%
-%%                                                                 %%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%% PEARL: a parameter-efficient, retrieval-augmented benchmark spanning seven
-%% molecular property prediction datasets (BACE, BBBP, Flavor, hERG, DILI,
-%% Caco-2, Half-Life) across classification and regression, with in-house
-%% Chemprop/GCN/PC-only baselines run under an identical protocol as the CLM
-%% ladder. Formatted to the Springer Nature Journal of Cheminformatics template.
+%% 
+%% Copyright 2007-2024 Elsevier Ltd
+%% 
+%% This file is part of the 'Elsarticle Bundle'.
+%% ---------------------------------------------
+%% 
+%% It may be distributed under the conditions of the LaTeX Project Public
+%% License, either version 1.3 of this license or (at your option) any
+%% later version.  The latest version of this license is in
+%%    http://www.latex-project.org/lppl.txt
+%% and version 1.3 or later is part of all distributions of LaTeX
+%% version 1999/12/01 or later.
+%% 
+%% The list of all files belonging to the 'Elsarticle Bundle' is
+%% given in the file `manifest.txt'.
+%% 
+%% Template article for Elsevier's document class `elsarticle'
+%% with numbered style bibliographic references
+%% SP 2008/03/01
+%% $Id: elsarticle-template-num.tex 249 2024-04-06 10:51:24Z rishi $
+%%
+\documentclass[final,1p,times]{elsarticle}
 
-%%\documentclass[referee,sn-basic]{sn-jnl}% referee option is meant for double line spacing
+%% Use the option review to obtain double line spacing
+%% \documentclass[authoryear,preprint,review,12pt]{elsarticle}
 
-%%=======================================================%%
-%% to print line numbers in the margin use lineno option %%
-%%=======================================================%%
+%% Use the options 1p,twocolumn; 3p; 3p,twocolumn; 5p; or 5p,twocolumn
+%% for a journal layout:
+%% \documentclass[final,1p,times]{elsarticle}
+%% \documentclass[final,1p,times,twocolumn]{elsarticle}
+%% \documentclass[final,3p,times]{elsarticle}
+%% \documentclass[final,3p,times,twocolumn]{elsarticle}
+%% \documentclass[final,5p,times]{elsarticle}
+%% \documentclass[final,5p,times,twocolumn]{elsarticle}
 
-%%\documentclass[lineno,pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+%% For including figures, graphicx.sty has been loaded in
+%% elsarticle.cls. If you prefer to use the old commands
+%% please give \usepackage{epsfig}
 
-%%=========================================================================================%%
-%% the documentclass is set to pdflatex as default. You can delete it if not appropriate.  %%
-%%=========================================================================================%%
+%% The amssymb package provides various useful mathematical symbols
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{adjustbox}
+\usepackage{booktabs}
+%% The amsmath package provides various useful equation environments.
+\usepackage{amsmath}
+%% The amsthm package provides extended theorem environments
+%% \usepackage{amsthm}
 
-%%\documentclass[sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
+%% The lineno packages adds line numbers. Start line numbering with
+%% \begin{linenumbers}, end it with \end{linenumbers}. Or switch it on
+%% for the whole article with \linenumbers.
+%% \usepackage{lineno}
 
-%%Note: the following reference styles support Namedate and Numbered referencing. By default the style follows the most common style. To switch between the options you can add or remove Numbered in the optional parenthesis.
-%%The option is available for: sn-basic.bst, sn-chicago.bst%
-
-%%\documentclass[pdflatex,sn-nature]{sn-jnl}% Style for submissions to Nature Portfolio journals
-%%\documentclass[pdflatex,sn-basic]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style
-\documentclass[pdflatex,sn-mathphys-num]{sn-jnl}% Math and Physical Sciences Numbered Reference Style
-%%\documentclass[pdflatex,sn-mathphys-ay]{sn-jnl}% Math and Physical Sciences Author Year Reference Style
-%%\documentclass[pdflatex,sn-aps]{sn-jnl}% American Physical Society (APS) Reference Style
-%%\documentclass[pdflatex,sn-vancouver-num]{sn-jnl}% Vancouver Numbered Reference Style
-%%\documentclass[pdflatex,sn-vancouver-ay]{sn-jnl}% Vancouver Author Year Reference Style
-%%\documentclass[pdflatex,sn-apa]{sn-jnl}% APA Reference Style
-%%\documentclass[pdflatex,sn-chicago]{sn-jnl}% Chicago-based Humanities Reference Style
-
-%%%% Standard Packages
-%%<additional latex packages if required can be included here>
-
-\usepackage{graphicx}%
-\usepackage{multirow}%
-\usepackage{amsmath,amssymb,amsfonts}%
-\usepackage{amsthm}%
-\usepackage{mathrsfs}%
-\usepackage[title]{appendix}%
-\usepackage{xcolor}%
-\usepackage{textcomp}%
-\usepackage{manyfoot}%
-\usepackage{booktabs}%
-\usepackage{algorithm}%
-\usepackage{algorithmicx}%
-\usepackage{algpseudocode}%
-\usepackage{listings}%
-\usepackage{mathrsfs}%
-\usepackage{adjustbox}%
-%%%%
-
-%%%%%=============================================================================%%%%
-%%%%  Remarks: This template is provided to aid authors with the preparation
-%%%%  of original research articles intended for submission to journals published
-%%%%  by Springer Nature. The guidance has been prepared in partnership with
-%%%%  production teams to conform to Springer Nature technical requirements.
-%%%%  Editorial and presentation requirements differ among journal portfolios and
-%%%%  research disciplines. You may find sections in this template are irrelevant
-%%%%  to your work and are empowered to omit any such section if allowed by the
-%%%%  journal you intend to submit to. The submission guidelines and policies
-%%%%  of the journal take precedence. A detailed User Manual is available in the
-%%%%  template package for technical guidance.
-%%%%%=============================================================================%%%%
-
-%% as per the requirement new theorem styles can be included as shown below
-\theoremstyle{thmstyleone}%
-\newtheorem{theorem}{Theorem}%  meant for continuous numbers
-%%\newtheorem{theorem}{Theorem}[section]% meant for sectionwise numbers
-%% optional argument [theorem] produces theorem numbering sequence instead of independent numbers for Proposition
-\newtheorem{proposition}[theorem]{Proposition}%
-%%\newtheorem{proposition}{Proposition}% to get separate numbers for theorem and proposition etc.
-
-\theoremstyle{thmstyletwo}%
-\newtheorem{example}{Example}%
-\newtheorem{remark}{Remark}%
-
-\theoremstyle{thmstylethree}%
-\newtheorem{definition}{Definition}%
-
-\raggedbottom
-%%\unnumbered% uncomment this for unnumbered level heads
+\journal{Computers in Biology and Medicine}
 
 \begin{document}
 
-\title[Article Title]{PEARL: Parameter-Efficient Adaptation with Retrieval-Augmented Learning for Molecular Property Prediction}
+\begin{frontmatter}
 
-%%=============================================================%%
-%% GivenName	-> \fnm{Joergen W.}
-%% Particle	-> \spfx{van der} -> surname prefix
-%% FamilyName	-> \sur{Ploeg}
-%% Suffix	-> \sfx{IV}
-%% \author*[1,2]{\fnm{Joergen W.} \spfx{van der} \sur{Ploeg}
-%%  \sfx{IV}}\email{iauthor@gmail.com}
-%%=============================================================%%
+%% Title, authors and addresses
 
-\author[1]{\fnm{Kavya} \sur{Agarwal}}
+%% use the tnoteref command within \title for footnotes;
+%% use the tnotetext command for theassociated footnote;
+%% use the fnref command within \author or \affiliation for footnotes;
+%% use the fntext command for theassociated footnote;
+%% use the corref command within \author for corresponding author footnotes;
+%% use the cortext command for theassociated footnote;
+%% use the ead command for the email address,
+%% and the form \ead[url] for the home page:
+%% \title{Title\tnoteref{label1}}
+%% \tnotetext[label1]{}
+%% \author{Name\corref{cor1}\fnref{label2}}
+%% \ead{email address}
+%% \ead[url]{home page}
+%% \fntext[label2]{}
+%% \cortext[cor1]{}
+%% \affiliation{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
+%% \fntext[label3]{}
 
-\author[1]{\fnm{Sukrit} \sur{Gupta}}
+\title{PEARL: Parameter-Efficient Adaptation with Retrieval-Augmented Learning for Molecular Property Prediction}
 
-\author[2]{\fnm{Halima} \sur{Bensmail}}
+%% use optional labels to link authors explicitly to addresses:
+%% \author[label1,label2]{}
+%% \affiliation[label1]{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
+%%
+%% \affiliation[label2]{organization={},
+%%             addressline={},
+%%             city={},
+%%             postcode={},
+%%             state={},
+%%             country={}}
 
-\author*[2]{\fnm{Raghvendra} \sur{Mall}}\email{ramall@hbku.edu.qa, raghvendramall@ieee.org}
+\author[label1]{Kavya Agarwal}
 
+\author[label1]{Sukrit Gupta}
 
-\affil[1]{\orgdiv{Center for Applied Research in Data Science},
-\orgname{Indian Institute of Technology Ropar},
-\orgaddress{\city{Rupnagar}, \postcode{140001},
-\state{Punjab}, \country{India}}}
+\author[label2]{Halima Bensmail}
 
-\affil*[2]{\orgdiv{Qatar Computing Research Institute},
-\orgname{Hamad Bin Khalifa University},
-\orgaddress{\city{Doha}, \country{Qatar}}}
+\author[label2, label3]{Raghvendra Mall\corref{cor1}}
+\ead{ramall@hbku.edu.qa, raghvendramall@ieee.org}
 
-%%================================%%
-%% structured abstract %%
-%%================================%%
+\cortext[cor1]{Corresponding author}
 
-\abstract{
-\textbf{Background}: Molecular property prediction requires representations that capture both the sequential chemistry encoded in SMILES strings and the three-dimensional geometry governing binding and toxicity. No systematic benchmark has directly compared parameter-efficient adaptation of 1D chemical language models (CLMs) against a SE(3)-equivariant 3D model across diverse molecular tasks and adaptation regimes - classification \emph{and} regression - while also controlling for a strong, non-CLM baseline built purely from engineered physicochemical (PC) descriptors and in-house graph neural networks (GNNs) evaluated under an identical protocol.
+\affiliation[label1]{
+    organization={Center for Applied Research in Data Science, Indian Institute of Technology Ropar},
+    city={Rupnagar},
+    postcode={140001},
+    state={Punjab},
+    country={India}
+}
 
-\textbf{Methods:} We introduce PEARL (\textbf{P}arameter-\textbf{E}fficient \textbf{A}daptation with \textbf{R}etrieval-augmented \textbf{L}earning), which (i)~benchmarks Low-Rank Adaptation (LoRA) uniformly across three CLM families - ChemBERTa, MolFormer, and Uni-Mol - on seven molecular property datasets spanning binary classification, multi-class classification, and regression; (ii)~introduces a Retrieval-Augmented Feature Enhancement (RAFE) pipeline that enriches predictions with label-free physicochemical neighborhood context from the ZINC-250k knowledge base; and (iii)~for every dataset, benchmarks a PC-only tree-ensemble baseline and in-house Chemprop and GCN models trained under the exact same scaffold splits and evaluation protocol as the CLM ladder.
+\affiliation[label2]{
+    organization={Qatar Computing Research Institute, Hamad Bin Khalifa University},
+    city={Doha},
+    country={Qatar}
+}
 
-\textbf{Results:} Uni-Mol's SE(3)-equivariant architecture achieves the best BACE inhibitor classification (MCC$=$0.623), an $8\%$ absolute gain over the best SMILES-based model, confirming that 3D geometry provides an inductive advantage for binding-affinity tasks. RAFE achieves the best overall result on \textbf{BBBP} (MolFormer, MCC$=$0.798) and, on the ADMET datasets, is the point-estimate winner on \textbf{DILI} (Uni-Mol RAFE, MCC$=$0.790). A dataset-by-dataset bootstrapped mean~$\pm$~1~standard-error (SE) overlap audit, however, shows that on all four ADMET datasets (hERG, DILI, Caco-2, Half-Life) the point-estimate winner's band overlaps the PC-only baseline's band - i.e.\ none of the four clears a statistically confirmed win over PC-only under this criterion, extending a pattern already visible on Flavor dataset. Together, these findings show that LoRA-adapted CLMs and RAFE retrieval augmentation can match or exceed published full-finetuning and graph-based baselines (including GROVER-Large and Mole-BERT) while reducing trainable parameters by $76$-$97\%$ - though a strong, non-neural PC-only baseline remains statistically competitive wherever task performance is not governed by 3D structure.
+\affiliation[label3]{
+    organization={Translational Medicine Department, Sidra Medicine},
+    city={Doha},
+    country={Qatar}
+}
+%% Abstract
+\begin{abstract}
+%% Text of abstract
+\textbf{Background}: Molecular property prediction requires representations that capture both the sequential chemistry encoded in SMILES strings and the three-dimensional geometry governing binding and toxicity. No systematic benchmark has directly compared parameter-efficient adaptation of 1D chemical language models (CLMs) against a SE(3)-equivariant 3D model across diverse molecular tasks and adaptation regimes - classification \emph{and} regression - while also controlling for a strong, non-CLM baseline built purely from engineered physicochemical (PC) descriptors and in-house graph neural networks (GNNs) evaluated under an identical protocol.\\
+\textbf{Methods:} We introduce PEARL (\textbf{P}arameter-\textbf{E}fficient \textbf{A}daptation with \textbf{R}etrieval-augmented \textbf{L}earning), which (i)~benchmarks Low-Rank Adaptation (LoRA) uniformly across three CLM families - ChemBERTa, MolFormer, and Uni-Mol - on seven molecular property datasets spanning binary classification, multi-class classification, and regression; (ii)~introduces a Retrieval-Augmented Feature Enhancement (RAFE) pipeline that enriches predictions with label-free physicochemical neighborhood context from the ZINC-250k knowledge base; and (iii)~for every dataset, benchmarks a PC-only tree-ensemble baseline and in-house Chemprop and GCN models trained under the exact same scaffold splits and evaluation protocol as the CLM ladder.\\
+\textbf{Results:} Uni-Mol's SE(3)-equivariant architecture achieves the best BACE inhibitor classification (MCC$=$0.623), an $8\%$ absolute gain over the best SMILES-based model, confirming that 3D geometry provides an inductive advantage for binding-affinity tasks. RAFE achieves the best overall result on \textbf{BBBP} (MolFormer, MCC$=$0.798) and, on the ADMET datasets, is the point-estimate winner on \textbf{DILI} (Uni-Mol RAFE, MCC$=$0.790). %A dataset-by-dataset bootstrapped mean~$\pm$~1~standard-error (SE) overlap audit, however, shows that on 
+We observe that on all four ADMET datasets (hERG, DILI, Caco-2, Half-Life) the point-estimate winner's band overlaps the PC-only baseline's band - i.e.\ none of the four clears a statistically confirmed win over PC-only, extending a pattern already visible on Flavor dataset. Together, these findings show that LoRA-adapted CLMs and RAFE retrieval augmentation can match or exceed published full-finetuning and graph-based baselines (including GROVER-Large and Mole-BERT) while reducing trainable parameters by $76$-$97\%$ - though a strong, non-neural PC-only baseline remains statistically competitive wherever task performance is not governed by 3D structure.
 
-\noindent\textbf{Availability:}
-Code is available at \url{https://github.com/raghvendra5688/PEARL}.}
+\noindent\textbf{Availability:} 
+Code is available at \url{https://github.com/raghvendra5688/PEARL}
 
-\keywords{PEARL, Parameter-Efficient Finetuning, Chemical Language Models, Low-Rank Adaptation, 3D Molecular Representations, Retrieval-Augmented Generation, ADMET Property Prediction, Computational Drug Discovery, Chemoinformatics}
-%%\pacs[JEL Classification]{D8, H51}
+\end{abstract}
 
-%%\pacs[MSC Classification]{35A01, 65L10, 65L12, 65L20, 65L70}
+%%Graphical abstract
+\begin{graphicalabstract}
+\includegraphics[width=0.99\textwidth]{Figures_v2/PEARL_Workflow_v2.pdf}
+\end{graphicalabstract}
 
-\maketitle
+%%Research highlights
+\begin{highlights}
+ \item PEARL unifies LoRA finetuning across three chemical model families - ChemBERTa, MolFormer, and 3D SE(3)-equivariant Uni-Mol - benchmarked on seven ADMET/MoleculeNet datasets covering binary, multi-class, and regression tasks.
+ \item Propose RAFE, a retrieval-augmented feature pipeline enriching finetuned embeddings with label-free physicochemical signals from a ZINC-250k index via GPU FAISS retrieval with zero training-label leakage.
+ \item Every CLM gain is benchmarked against in-house Chemprop, GCN, and PC-only baselines under the identical protocol, not cited externally, and screened with a ±1 SE overlap test.
+ \item Uni-Mol's 3D-aware LoRA finetuning wins BACE inhibitor classification (MCC = 0.623) - the only result where the CLM ladder statistically clears PC-only, confirming 3D structure matters for binding affinity.
+ \item RAFE is the top point-estimate result on BBBP (MCC = 0.798) and DILI (MCC = 0.790); LoRA cuts trainable parameters 76–97\% across all three CLM families with no accuracy loss. 
+ \item PC-only stays statistically competitive with the full CLM ladder on five of seven datasets (Flavor, DILI, hERG, Caco-2, Half-Life) indicating that CLM complexity doesn't always pay off.
+\end{highlights}
+
+%% Keywords
+\begin{keyword}
+Retrieval-Augmented Generation \sep Parameter-Efficient Finetuning \sep Chemical Language Models \sep Low-Rank Adaptation \sep 3D Molecular Representations \sep ADMET Property Prediction \sep Computational Drug Discovery \sep Chemoinformatics
+\end{keyword}
+\end{frontmatter}
+
+%% Add \usepackage{lineno} before \begin{document} and uncomment 
+%% following line to enable line numbers
+%% \linenumbers
+
+%% main text
+%%
+
+%% Use \section commands to start a section
 \section{Introduction}\label{sec1}
-The study of molecular structure-property relationships has been central to advances in computational drug discovery. Although traditional quantitative structure-activity relationship (QSAR) methods rely on handcrafted molecular descriptors, deep learning techniques, particularly transformer-based architectures~\cite{vaswani2017attention}, enable end-to-end learning of molecular representations directly from their Simplified Molecular Input Line Entry System (SMILES) sequences. This has catalysed the development of chemical language models (CLMs) pretrained on massive molecular corpora, now rivaling experimental approaches in predicting properties such as toxicity, solubility, and bioactivity~\cite{ahmad2022chemberta2,huang2020deeppurpose}.
+The study of molecular structure-property relationships has been central to advances in computational drug discovery. Although traditional quantitative structure-activity relationship (QSAR) methods rely on handcrafted molecular descriptors, deep learning techniques, particularly transf\-ormer-based architectures~\cite{vaswani2017attention}, enable end-to-end learning of molecular representations directly from their Simplified Molecular Input Line Entry System (SMILES) sequences. This has catalysed the development of chemical language models (CLMs) pretrained on massive molecular corpora, now rivaling experimental approaches in predicting properties such as toxicity, solubility, and bioactivity~\cite{ahmad2022chemberta2,huang2020deeppurpose}.
 
 Despite their promise, three critical challenges persist: (1) CLMs process SMILES as flat token sequences and therefore lack explicit inductive biases for three-dimensional molecular geometry, which is fundamental to binding affinity and enzyme inhibition; (2) the computational cost of fine-tuning $\mathcal{O}(10^8)$-parameter CLMs for each specialized task remains prohibitive in resource-constrained settings; and (3) benchmarking studies for CLM-based pipelines routinely compare against GNN baselines \emph{cited from other papers} rather than re-run under the same splits, preprocessing, and evaluation protocol, making ``wins'' difficult to interpret causally.
 
-This work addresses all three challenges. We study three model families: MolFormer~\cite{ross2022molformer}, ChemBERTa-2~\cite{ahmad2022chemberta2}, and Uni-Mol~\cite{zhou2023unimol}, a SE(3)-equivariant Transformer that operates directly on explicit 3D atomic coordinates, applying Low-Rank Adaptation (LoRA)~\cite{hu2021lora} to all three. We introduce a \emph{Retrieval-Augmented Feature Enhancement} (RAFE) framework that uses task-specific finetuned embeddings to retrieve nearest chemical neighbors from ZINC-250k~\cite{gomez2018automatic}, a 249,455-molecule drug-like library, via GPU-accelerated FAISS indices~\cite{johnson2021faiss}. Finally, addressing challenge (3), for every one of the seven datasets studied here we train Chemprop~\cite{yang2019chemprop} and a graph convolutional network (GCN) \emph{in-house}, on the identical scaffold split and with the identical bootstrapped-CI evaluation protocol as every CLM-based method, alongside a \textbf{PC-only} baseline: a tree ensemble trained purely on 473 engineered physicochemical descriptors, with no CLM embedding at all. This enables us to directly answer whether the CLM ladder (E2E LoRA, FT Embed, FT Embed+PC, RAFE) earns its added complexity over a much simpler and non-neural baseline. %-- and, honestly, on several datasets it does not (Section~\ref{sec:comparison_sequence}).
+This work addresses all three challenges. We study three model families: MolFormer~\cite{ross2022molformer}, ChemBERTa-2~\cite{ahmad2022chemberta2}, and Uni-Mol~\cite{zhou2023unimol}, a SE(3)-equivariant Transformer that operates directly on explicit 3D atomic coordinates, applying Low-Rank Adaptation (LoRA)~\cite{hu2021lora} to all three. We introduce a \emph{Retrieval-Augmented Feature Enhancement} (RAFE) framework that uses task-specific finetuned embeddings to retrieve nearest chemical neighbors from ZINC-250k~\cite{gomez2018automatic}, a 249,455-molecule drug-like library, via GPU-accelerated FAISS indices~\cite{johnson2021faiss}. Finally, addressing challenge (3), for every one of the seven datasets studied here we train Chemprop~\cite{yang2019chemprop} and a graph convolutional network (GCN) \emph{in-house}, on the identical scaffold split and with the identical bootstrapped-CI evaluation protocol as every CLM-based method, alongside a \textbf{PC-only} baseline: a tree ensemble trained purely on 473 engineered physicochemical (PC) descriptors, with no CLM embedding at all. This enables us to directly answer whether the CLM ladder (End-to-End [E2E] LoRA, Finetune [FT] Embed, FT Embed+PC, RAFE) earns its added complexity over a much simpler and non-neural baseline. %-- and, honestly, on several datasets it does not (Section~\ref{sec:comparison_sequence}).
 
 PEARL is benchmarked across seven molecular property prediction datasets spanning both MoleculeNet-era classification tasks: $\beta$-secretase inhibition (BACE), blood-brain-barrier prediction (BBBP) and flavor (Flavor) prediction. It was also benchmarked across four tasks from the Therapeutics Data Commons (TDC) ADMET Group~\cite{huang2021tdc}: hERG cardiac-channel inhibition~\cite{wang2016herg}, drug-induced liver injury (DILI)~\cite{xu2019dili}, Caco-2 permeability (regression)~\cite{wang2016caco2}, and drug half-life (regression)~\cite{obach2008half}. Two of the seven datasets are \emph{regression} tasks, requiring the PEARL ladder, RAFE, and all baselines to support Huber-loss finetuning and R\textsuperscript{2}/MAE/Spearman evaluation, described in Section~\ref{sec:pearl_arch}.
 
@@ -171,7 +198,7 @@ The finetuned model provides both end-to-end predictions and task-specific embed
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.9\textwidth]{Figures_v2/PEARL_Workflow_v2.pdf}
+  \includegraphics[width=0.98\textwidth]{Figures_v2/PEARL_Workflow_v2.pdf}
   \caption{PEARL workflow. Molecules are processed by one of three CLM families (ChemBERTa, MolFormer, Uni-Mol) with LoRA adapters. Task-specific embeddings are fused with molecular PC features and ZINC-250k retrieval features, then passed to tree-based classifiers/regressors. Uni-Mol additionally encodes 3D ETKDGv3 conformers via SE(3) representation. The ladder spans both classification and regression targets (including Caco-2, Half-Life) and is benchmarked against in-house Chemprop/GCN/PC-only baselines run under the same protocol.}
   \label{fig:workflow}
 \end{figure*}
@@ -181,7 +208,7 @@ The finetuned model provides both end-to-end predictions and task-specific embed
 ChemBERTa~\cite{chithrananda2020chemberta} and ChemBERTa-2~\cite{ahmad2022chemberta2} adapted BERT-style masked language modelling to SMILES, establishing the template for CLM pretraining on large molecular corpora.
 MolFormer~\cite{ross2022molformer} scaled this to $1.1\times10^9$ molecules using linear attention.
 Uni-Mol~\cite{zhou2023unimol} departed from SMILES by operating on explicit 3D atomic coordinates via an SE(3)-equivariant transformer, achieving state-of-the-art results on MoleculeNet through full finetuning.
-Multi-modal models such as MolT5~\cite{edwards2022molt5}, nach0~\cite{livne2024nach0}, and Omni-Mol~\cite{hu2025omnimol} further integrate SMILES, graphs, and natural language, but systematic evaluation under parameter-efficient training conditions remains limited.
+Multi-modal models such as MolT5~\cite{edwards2022molt5}, nach0~\cite{livne2024nach0}, and Omni-Mol~\cite{hu2025omnimol} further integrate SMILES, graphs, and natural language, but systematic evaluation under parameter-efficient conditions remains limited.
 
 \subsection{Parameter-efficient finetuning (PEFT) for molecular CLMs} \label{PEFT}
 LoRA~\cite{hu2021lora} introduced low-rank weight updates for large language models; PEFT methods have since been evaluated for molecular tasks.
@@ -199,7 +226,8 @@ PEARL's RAFE differs: it retrieves from a fixed external corpus (ZINC-250k) at i
 
 \subsection{GNNs, 3D representations, and ADMET benchmarks.} \label{Graph}
 Chemprop~\cite{yang2019chemprop}, AttentiveFP~\cite{xiong2020attentivefp}, GROVER~\cite{rong2020grover}, and Mole-BERT~\cite{xia2023molecbert} demonstrate the strength of graph-based molecular representations. Rather than relying solely on these numbers as reported in their original papers (Supplementary Section~S5), \textbf{PEARL additionally re-trains Chemprop and a GCN in-house}, on the exact same scaffold split, preprocessing, and bootstrapped-CI (confidence interval) protocol as every other method, on all seven datasets. The TDC~\cite{huang2021tdc} ADMET Group provides curated, leaderboard-tracked hERG~\cite{wang2016herg}, DILI~\cite{xu2019dili}, Caco-2~\cite{wang2016caco2}, and half-life~\cite{obach2008half} datasets, which broaden PEARL beyond MoleculeNet-era classification tasks and include regression targets.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
 \section{Materials and Methods} \label{Materials_Methods}
 \subsection{Data Collection and Curation} \label{data_collection}
 The \textbf{Blood-Brain Barrier Penetration (BBBP)} dataset was originally curated in~\cite{martins2012bayesian} for predicting barrier permeability and contains over $2,000$ compounds with binary labels, integrated into the MoleculeNet~\cite{wu2018moleculenet} benchmark.
@@ -207,7 +235,7 @@ The \textbf{Flavor Analysis and Recognition Transformer (FART)} dataset, introdu
 The \textbf{BACE} dataset is part of MoleculeNet~\cite{wu2018moleculenet} and contains experimentally measured binding results for 1,513 inhibitors of human $\beta$-secretase~1 (BACE-1), with binary activity labels. 
 The dataset splits were curated using the DeepChem reference implementation~\cite{ramsundar2019deep}. BBBP is sourced from the IBM MolFormer repository and underwent validity checks, duplicate removal, and class-ambiguity filtering.
 
-\textbf{TDC ADMET Group datasets.} Four datasets come from the Therapeutics Data Commons (TDC) ADMET Group~\cite{huang2021tdc}, chosen to broaden PEARL's task coverage beyond MoleculeNet-era binary/multi-class classification: \textbf{hERG}~\cite{wang2016herg} (binary, cardiac ion-channel inhibition, 13{,}445 compounds), \textbf{DILI}~\cite{xu2019dili} (binary, drug-induced liver injury, 475 compounds), \textbf{Caco-2}~\cite{wang2016caco2} (regression, log apparent permeability, 906 compounds), and \textbf{Half-Life}~\cite{obach2008half} (regression, plasma half-life in hours, 667 compounds). All four are curated via TDC's standard scaffold split and undergo the same SMILES standardization, validity filtering, and duplicate-removal pipeline used for BACE, BBBP, and Flavor. Half-Life additionally required IQR-based outlier removal in log1p space (bounds fit on the training split only, applied to all splits) to control the influence of a small number of extreme half-life values (max $\approx 1200$h vs.\ a $\sim$19h mean pre-filtering).
+\textbf{TDC ADMET Group datasets:} Four datasets come from the Therapeutics Data Commons (TDC) ADMET Group~\cite{huang2021tdc}, chosen to broaden PEARL's task coverage beyond MoleculeNet-era binary/multi-class classification. These include \textbf{hERG}~\cite{wang2016herg} (binary, cardiac ion-channel inhibition, 13{,}445 compounds), \textbf{DILI}~\cite{xu2019dili} (binary, drug-induced liver injury, 475 compounds), \textbf{Caco-2}~\cite{wang2016caco2} (regression, log apparent permeability, 906 compounds), and \textbf{Half-Life}~\cite{obach2008half} (regression, plasma half-life in hours, 667 compounds). All four are curated via TDC's standard scaffold split and undergo the same SMILES standardization, validity filtering, and duplicate-removal pipeline used for BACE, BBBP, and Flavor. Half-Life additionally required IQR-based outlier removal in log1p space (bounds fit on the training split only, applied to all splits) to control the influence of a small number of extreme half-life values (max $\approx 1200$h vs.\ a $\sim$19h mean pre-filtering).
 
 \subsection{Data Splits and Class Distribution} \label{data_splits_distribution}
 BBBP and BACE employ scaffold-based splits~\cite{ramsundar2019deep} using an 80:10:10 train/validation/test ratio. BBBP exhibits moderate class imbalance (78.8\% permeable in training). The Flavor dataset uses the curated splits provided in~\cite{zimmermann2024fart}, with pronounced multi-class skew (sweet $41\%$, bitter $32\%$, sour $11\%$, umami $4\%$, undefined $12\%$). BACE is the most balanced, with $54.3\%$ inactive and $45.7\%$ active compounds.
@@ -270,9 +298,9 @@ Task-specific embeddings are extracted from the finetuned model. For MolFormer, 
 The FT~Embed vector is concatenated with 473~domain-specific physicochemical (PC) features: 148 RDKit molecular descriptors, 30 graph-based features (NetworkX v3.5.2), 128-bit Morgan fingerprints, and 167-bit MACCS keys (RDKit v2025.09.4). This combined vector trains the same tree-based models without any retrieval from external databases. A full description of engineered features is provided in Supplementary Table~S1.
 
 \textbf{(d)~Retrieval-Augmented Feature Enhancement (RAFE).}
-RAFE augments the FT~Embed $+$ PC feature vector with ZINC-250k chemical neighborhood features (69-dim; see Section~\ref{sec:rafe}), yielding the full feature vector [$\text{CLM embeddings} \mid \text{PC features (473-dim)} \mid \text{ZINC-250k RAFE features}$], passed to the same Optuna-tuned tree-based models.
+RAFE augments the FT~Embed $+$ PC feature vector with ZINC-250k chemical neighborhood features (69-dim; see Section~\ref{sec:rafe}), yielding the full feature vector [$\text{CLM embeddings} \mid \text{PC features (473-dim)} \mid \text{ZINC-250k RAFE\- features}$], passed to the same Optuna-tuned tree-based models.
 
-\textbf{Baselines run in-house under the identical protocol, outside the ladder:} \textbf{PC-only} trains the same tree-model family directly on the 473-dim PC vector, with \emph{no} CLM component - isolating how much of the ladder's performance is attributable to the CLM at all. \textbf{Chemprop}~\cite{yang2019chemprop} (D-MPNN) and a \textbf{GCN} (GINConv-based, hand-rolled, atom/bond-featurized) are both trained end-to-end on the molecular graph, on the same scaffold split, with the same Optuna-style hyperparameter search budget and the same bootstrapped-CI evaluation as every CLM-based method above.
+\textbf{Baselines run in-house under the identical protocol, outside the ladder:} \textbf{PC-only} trains the same tree-model family directly on the 473-dim PC vector, with \emph{no} CLM component - isolating how much of the ladder's performance is attributable to the CLM. \textbf{Chemprop}~\cite{yang2019chemprop} (D-MPNN) and a \textbf{GCN} (GINConv-based, hand-rolled, atom/bond-featurized) are both trained end-to-end on the molecular graph, on the same scaffold split, with the same Optuna-style hyperparameter search budget and the same bootstrapped-CI evaluation as every CLM-based method above.
 
 \subsection{RAFE} \label{sec:rafe}
 \subsubsection{Design Rationale and External Knowledge Base} \label{sec:zinc_rationale}
@@ -315,7 +343,6 @@ For classification, performance is evaluated using accuracy (Acc), area under th
 
 Given that most datasets in this study have small-to-moderate test sets (DILI $n=96$; BACE $n\approx152$; Caco-2 $n=182$; Half-Life $n=133$), \textbf{performance differences are interpreted alongside bootstrapped confidence intervals} (10{,}000 resamples - stratified by class label for classification, unstratified for regression with normal-approximation, computed on the fixed test-set predictions without retraining). We use a \textbf{$\pm 1$ SE} band for statistical difference during head-to-head comparisons.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Experimental Results} \label{experimental_results}
 Results are organised around the four PEARL operational modes described in Section~\ref{sec:pearl_arch}, plus the three in-house baselines (PC-only, Chemprop, GCN) run identically across all seven datasets. A comparison against published external baselines (Chemprop~\cite{yang2019chemprop}, GROVER~\cite{rong2020grover}, AttentiveFP~\cite{xiong2020attentivefp}, Mole-BERT~\cite{xia2023molecbert}, and the original Uni-Mol and MolFormer full-finetuning results) is retained in Supplementary Section~S5 for BACE/BBBP/Flavor, where MoleculeNet-comparable external numbers exist; TDC ADMET Group tasks have no comparable external LoRA/RAFE literature baseline, so their comparison is entirely in-house.
 (i)~\textbf{E2E LoRA} -- end-to-end LoRA finetuning of the CLM backbone;
@@ -367,7 +394,7 @@ Chemprop   & --- & --- & --- & 0.918 & 0.807 & 0.801 & 0.807 & 0.620 & 0.799 & 0
 GCN        & --- & --- & --- & 0.924 & 0.859 & 0.839 & 0.859 & 0.694 & 0.874 & 0.822 & 0.052 \\
 \midrule
 E2E LoRA   & MolFormer-XL & FL & --- & 0.929 & 0.891 & 0.874 & 0.891 & 0.767 & 0.913 & 0.856 & 0.045 \\
-E2E LoRA   & Uni-Mol      & WL & --- & 0.943 & 0.896 & 0.887 & 0.896 & 0.774 & 0.890 & 0.885 & 0.048 \\
+E2E LoRA   & Uni-Mol      & WL & --- & 0.943 & 0.896 & 0.887 & 0.896 & 0.774 & 0.890 & \textbf{0.885} & 0.048 \\
 \midrule
 FT Embed   & MolFormer-XL & FL & XGBoost & 0.935 & 0.901 & 0.888 & 0.901 & 0.787 & 0.914 & 0.873 & 0.044 \\
 FT Embed+PC& MolFormer-XL & FL & LightGBM& 0.934 & 0.901 & 0.887 & 0.901 & 0.789 & 0.920 & 0.870 & 0.043 \\
@@ -394,7 +421,7 @@ Uni-Mol reaches MCC$=0.795$ with weighted loss, competitive with but below MolFo
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec & Rec & SE(MCC) \\
 \midrule
 PC-only    & --- & --- & XGBoost  & 0.972 & 0.890 & 0.761 & 0.890 & 0.808 & 0.733 & 0.798 & 0.0108 \\
-Chemprop   & --- & --- & --- & 0.974 & 0.899 & 0.809 & 0.899 & \textbf{0.809} & 0.796 & 0.835 & 0.0115 \\
+Chemprop   & --- & --- & --- & 0.974 & \textbf{0.899} & \textbf{0.809} & \textbf{0.899} & \textbf{0.809} & 0.796 & 0.835 & 0.0115 \\
 GCN        & --- & --- & --- & 0.973 & 0.893 & 0.814 & 0.893 & 0.798 & 0.834 & 0.800 & 0.0118 \\
 \midrule
 E2E LoRA   & MolFormer-XL & WL & --- & \textbf{0.975} & 0.892 & \textbf{0.809} & 0.892 & 0.802 & 0.802 & 0.817 & 0.0115 \\
@@ -402,7 +429,7 @@ E2E LoRA   & MolFormer-XL & WL & --- & \textbf{0.975} & 0.892 & \textbf{0.809} &
 FT Embed   & MolFormer-XL & WL & LightGBM& 0.970 & 0.882 & 0.783 & 0.882 & 0.787 & 0.800 & 0.778 & 0.0111 \\
 FT Embed+PC& MolFormer-XL & WL & CatBoost& 0.958 & 0.888 & 0.772 & 0.888 & 0.801 & 0.756 & 0.793 & 0.0111 \\
 \midrule
-RAFE       & MolFormer-XL & WL & CatBoost& 0.963 & \textbf{0.893} & 0.774 & \textbf{0.893} & 0.804 & \textbf{0.868} & 0.749 & 0.0102 \\
+RAFE       & MolFormer-XL & WL & CatBoost& 0.963 & 0.893 & 0.774 & 0.893 & 0.804 & \textbf{0.868} & 0.749 & 0.0102 \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
@@ -466,10 +493,10 @@ Chemprop    & --- & --- & ---      & 0.854 & 0.779 & 0.779 & 0.558 & 0.779 & 0.7
 GCN         & --- & --- & ---      & 0.833 & 0.755 & 0.755 & 0.510 & 0.755 & 0.755 & 0.0168 \\
 \midrule
 E2E LoRA    & MolFormer-XL & WL & --- & 0.869 & 0.787 & 0.787 & 0.573 & 0.787 & 0.787 & 0.0155 \\
-E2E LoRA$^*$& Uni-Mol      & WL & --- & \textbf{0.881} & 0.804 & 0.804 & \textbf{0.609} & 0.805 & 0.804 & \textbf{0.0154} \\
+E2E LoRA$^*$& Uni-Mol      & WL & --- & \textbf{0.881} & \textbf{0.804} & \textbf{0.804} & \textbf{0.609} & \textbf{0.805} & \textbf{0.804} & \textbf{0.0154} \\
 \midrule
 FT Embed    & Uni-Mol & FL & LightGBM & 0.864 & 0.790 & 0.790 & 0.580 & 0.790 & 0.790 & 0.0158 \\
-FT Embed+PC & Uni-Mol & FL & LightGBM & 0.871 & \textbf{0.801} & \textbf{0.801} & 0.602 & 0.801 & \textbf{0.801} & 0.0154 \\
+FT Embed+PC & Uni-Mol & FL & LightGBM & 0.871 & 0.801 & 0.801 & 0.602 & 0.801 & 0.801 & 0.0154 \\
 RAFE        & Uni-Mol & FL & LightGBM & 0.871 & 0.794 & 0.794 & 0.589 & 0.794 & 0.795 & 0.0155 \\
 \bottomrule
 \end{tabular}
@@ -492,30 +519,30 @@ PC-only     & --- & --- & CatBoost & 0.914 & 0.875 & 0.872 & 0.765 & 0.894 & 0.8
 Chemprop    & --- & --- & ---      & 0.893 & 0.792 & 0.788 & 0.588 & 0.800 & 0.788 & 0.0808 \\
 GCN         & --- & --- & ---      & 0.889 & 0.854 & 0.850 & 0.729 & 0.880 & 0.849 & 0.0600 \\
 \midrule
-E2E LoRA    & ChemBERTa-MTR & WL & --- & 0.911 & 0.885 & 0.885 & 0.770 & 0.886 & 0.885 & 0.0650 \\
+E2E LoRA    & ChemBERTa-MTR & WL & --- & 0.911 & \textbf{0.885} & \textbf{0.885} & 0.770 & 0.886 & \textbf{0.885} & 0.0650 \\
 E2E LoRA    & Uni-Mol       & FL & --- & \textbf{0.926} & 0.854 & 0.854 & 0.708 & 0.855 & 0.853 & 0.0722 \\
 \midrule
 FT Embed    & ChemBERTa-MLM & WL & CatBoost & 0.893 & 0.833 & 0.831 & 0.673 & 0.844 & 0.830 & 0.0731 \\
 FT Embed+PC & Uni-Mol       & FL & LightGBM & 0.873 & 0.833 & 0.826 & 0.703 & 0.879 & 0.826 & 0.0552 \\
-RAFE$^*$    & Uni-Mol       & FL & XGBoost  & 0.875 & \textbf{0.885} & \textbf{0.883} & \textbf{0.790} & \textbf{0.910} & \textbf{0.880} & \textbf{0.0515} \\
+RAFE$^*$    & Uni-Mol       & FL & XGBoost  & 0.875 & \textbf{0.885} & 0.883 & \textbf{0.790} & \textbf{0.910} & 0.880 & \textbf{0.0515} \\
 \bottomrule
 \end{tabular}
 \end{adjustbox}
 \end{table*}
 
-Figures~\ref{fig:roc_4ds} and~\ref{fig:pr_4ds} summarize the four tree-based modalities (PC-only, FT Embed, FT Embed+PC, RAFE) across all four binary classification datasets. Two observations follow. First, on hERG the four ROC and PR curves are nearly superimposed (AUC $0.864$-$0.874$, AUPR $0.862$-$0.872$), consistent with the $\pm1$~SE overlap already reported in Section~\ref{sec:new_datasets}: none of the tree-based modalities separates meaningfully from PC-only on this large, well-powered test set. Second, RAFE's ranking among the tree-based modalities is dataset-dependent rather than uniformly best: it is the top tree-based modality on BBBP (AUC$=0.940$, AUPR$=0.940$), whereas on BACE it is the weakest of the four (AUC$=0.858$, trailing FT Embed and FT Embed+PC at $0.869$-$0.870$), consistent with BACE's confirmed win being attributable to the 3D Uni-Mol E2E LoRA model (Section~\ref{sec:comparison_sequence}) rather than to tree-based RAFE. DILI shows the largest divergence between the two curve types: PC-only's AUC margin over RAFE is modest ($0.914$ vs.\ $0.875$), but its AUPR margin is substantially larger ($0.911$ vs.\ $0.847$), indicating that on this small ($n=96$), imbalanced test set PC-only's precision-recall trade-off is more favorable than ROC-AUC alone suggests, notwithstanding RAFE remaining the point-estimate MCC winner in Table~\ref{tab:dili}.
+Figures~\ref{fig:roc_4ds} and~\ref{fig:pr_4ds} summarize the four tree-based modalities (PC-only, FT Embed, FT Embed+PC, RAFE) across all four binary classification datasets. Two interesting observations follow. First, on hERG the four ROC and PR curves are nearly superimposed (AUC $0.864$-$0.874$, AUPR $0.862$-$0.872$), consistent with the $\pm1$~SE overlap already reported in Section~\ref{sec:new_datasets}: none of the tree-based modalities separates meaningfully from PC-only on this large, well-powered test set. Second, RAFE's ranking among the tree-based modalities is dataset-dependent rather than uniformly best: it is the top tree-based modality on BBBP (AUC$=0.940$, AUPR$=0.940$), whereas on BACE it is the weakest of the four (AUC$=0.858$, trailing FT Embed and FT Embed+PC at $0.869$-$0.870$), consistent with BACE's confirmed win being attributable to the 3D Uni-Mol E2E LoRA model (Section~\ref{sec:comparison_sequence}) rather than to tree-based RAFE. DILI shows the largest divergence between the two curve types: PC-only's AUC margin over RAFE is modest ($0.914$ vs.\ $0.875$), but its AUPR margin is substantially larger ($0.911$ vs.\ $0.847$). This indicates that on this small ($n=96$), imbalanced test set PC-only's precision-recall trade-off is more favorable than ROC-AUC alone suggests, notwithstanding RAFE remaining the point-estimate MCC winner in Table~\ref{tab:dili}.
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{Figures_v2/roc_curves_4datasets.pdf}
+  \includegraphics[width=0.95\textwidth]{Figures_v2/roc_curves_4datasets.pdf}
   \caption{ROC curves for best configuration of tree-based methods (PC-only, FT Embed, FT Embed+PC and RAFE), on all four binary classification datasets in this study: two MoleculeNet (BACE, BBBP) and two TDC ADMET tasks (hERG, DILI).}
   \label{fig:roc_4ds}
 \end{figure*}
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.8\textwidth]{Figures_v2/pr_curves_4datasets.pdf}
-  \caption{Precision-recall curves for the same methods, models, and datasets as Figure~\ref{fig:roc_4ds}. DILI's small test set ($n=96$) produces visibly noisier curves than the other three datasets, consistent with its wide bootstrapped SE throughout this paper.}
+  \includegraphics[width=0.95\textwidth]{Figures_v2/pr_curves_4datasets.pdf}
+  \caption{Precision-recall curves for the same models and datasets as Figure~\ref{fig:roc_4ds}. DILI's small test set ($n=96$) produces visibly noisier curves than the other three datasets, consistent with its wide bootstrapped SE throughout this paper.}
   \label{fig:pr_4ds}
 \end{figure*}
 
@@ -573,16 +600,8 @@ RAFE        & MolFormer-XL & XGBoost & 0.090 & 5.557 & 0.568 & 0.0579 \\
 \end{adjustbox}
 \end{table*}
 
-% \begin{figure*}[!ht]
-%   \centering
-%   \includegraphics[width=0.48\textwidth]{Figures_v2/regression_bars_new_datasets.pdf}
-%   \includegraphics[width=0.48\textwidth]{Figures_v2/regression_scatter_new_datasets.pdf}
-%   \caption{\emph{Left:} R\textsuperscript{2} and Spearman correlation per method for Caco-2 and Half-Life, reloaded from saved regressor checkpoints (values match Tables~\ref{tab:caco2}-\ref{tab:half_life} exactly). \emph{Right:} predicted-vs-actual scatter for each dataset's point-estimate winner (RAFE on Caco-2, FT Embed on Half-Life); the dashed line marks perfect prediction. Half-Life's tighter clustering around the mean reflects its much lower R\textsuperscript{2} despite a moderate Spearman correlation.}
-%   \label{fig:reg_new}
-% \end{figure*}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Parameter Efficiency}
-Table~\ref{tab:params} reports LoRA hyperparameters and trainable parameter counts illustrating the range of parameter efficiency across all seven datasets. ChemBERTa variants (3.4M base parameters) achieve reductions of $76$-$94\%$ depending on rank; MolFormer-XL ($\approx 46$M parameters) achieves $84$-$97\%$ reduction. Uni-Mol (rank $r \in \{4,8,16,32\}$, targeting only \texttt{in\_proj} across 15 attention layers) achieves particularly efficient adaptation, with $<5\%$ trainable parameters for the lowest-rank configurations, including for the two regression datasets. hERG (MolFormer-XL, $r=16$) reduces parameters by $93.91\%$; DILI (ChemBERTa-MTR, $r=64$) by $76.31\%$ - both within the same $76$-$97\%$ range observed elsewhere in the table (see Table \ref{tab:params}). Full parameter counts for BACE, BBBP and Flavor datasets are in Supplementary Table~S9.
+Table~\ref{tab:params} reports LoRA hyperparameters and trainable parameter counts illustrating the range of parameter efficiency across five of the seven datasets. ChemBERTa variants (3.4M base parameters) achieve reductions of $76$-$94\%$ depending on rank; MolFormer-XL ($\approx 46$M parameters) achieves $84$-$97\%$ reduction. Uni-Mol (rank $r \in \{4,8,16,32\}$, targeting only \texttt{in\_proj} across 15 attention layers) achieves particularly efficient adaptation, with $<5\%$ trainable parameters for the lowest-rank configurations. hERG (MolFormer-XL, $r=16$) reduces parameters by $93.91\%$; DILI (ChemBERTa-MTR, $r=64$) by $76.31\%$ - both within the same $76$-$97\%$ range observed elsewhere in the table (see Table \ref{tab:params}). Full parameter counts for BACE, BBBP and Flavor datasets are in Supplementary Table~S9.
 
 \begin{table}[!ht]
 \centering
@@ -664,16 +683,6 @@ RAFE is the point-estimate winner on BBBP (MCC$=0.798$) and DILI (MCC$=0.790$), 
 
 \section{Conclusion}
 PEARL establishes a practical and thoroughly-benchmarked framework for molecular property prediction combining parameter-efficient 3D and SMILES-based finetuning with retrieval-augmented chemical neighborhood context, evaluated across seven classification and regression datasets against in-house GNN and PC-only baselines. PEARL achieves the best reported result on BACE (Uni-Mol, MCC$=0.623$) and BBBP (RAFE, MCC$=0.798$), while transparently reporting that on Flavor, hERG, Caco-2, and Half-Life the simpler PC-only baseline remains statistically competitive, all while reducing trainable parameters by $76$-$97\%$.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section*{Key Points}
-\begin{itemize}
-  \item PEARL now spans seven datasets and two task types (classification, regression), applying LoRA to three CLM families with $76$-$97\%$ parameter reduction.
-  \item Uni-Mol's SE(3)-equivariant 3D representations achieve the best BACE inhibitor classification (MCC$=0.623$, SE$=0.039$) -- the only result in this paper where the CLM ladder's $\pm1$~SE band clears the in-house PC-only baseline.
-  \item RAFE is the point-estimate winner on BBBP (MCC$=0.798$) and DILI (MCC$=0.790$), the latter from the newly added TDC ADMET Group extension.
-  \item In-house Chemprop and GCN baselines, run under the identical protocol as the CLM ladder on all seven datasets, replace the previous reliance on externally cited GNN numbers.
-  \item A $\pm1$~SE overlap audit shows PC-only remains statistically competitive with the full CLM ladder on five of seven datasets (Flavor, DILI, hERG, Caco-2, Half-Life), a central and transparently reported finding of this paper.
-\end{itemize}
 
 \section*{Declarations}
 \begin{itemize}
@@ -698,11 +707,11 @@ We thank the Qatar National Library (QNL) for their support in providing resourc
 K.A. contributed to Methods, Experiments, Validation, Writing -- original draft. S.G. and H.B. participated in Project Supervision, Writing - review \& editing. R.M. Conceptualized, Supervised the project and contributed in Methods, Experiments, Validation, Writing - review \& editing.
 \end{itemize}
 
-\bmhead{Supplementary information}
+\section*{Supplementary information}
 
 The supplementary material accompanying this article contains additional experimental details, complete ablation studies, feature descriptions, and implementation details supporting the results presented in the main manuscript.
 
-\begin{appendices}
+\appendix
 
 \section{Supplementary Material}\label{sec:supplementary}
 
@@ -736,13 +745,11 @@ The supplementary material accompanying this article contains additional experim
 
 \noindent\textbf{Supplementary Section S5.} Comparison with published external baselines (BACE/BBBP/Flavor) and full description of the in-house Chemprop/GCN/PC-only baseline protocol applied to all seven datasets.
 
-\end{appendices}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\bibliographystyle{elsarticle-num} 
 \bibliography{sn-bibliography}
-% common bib file
-%% if required, the content of .bbl file can be included here once bbl is generated
-%%\input sn-article.bbl
 
 \end{document}
 
+\endinput
+%%
+%% End of file `elsarticle-template-num.tex'.
