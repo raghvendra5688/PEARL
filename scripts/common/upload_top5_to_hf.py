@@ -3,7 +3,8 @@ Rank all 8 PEARL methods (PC-only, Chemprop, GCN, E2E LoRA -- HF, E2E LoRA --
 Uni-Mol, FT Embed, FT Embed+PC, RAFE) on each of the 7 benchmark datasets
 (BACE, BBBP, FLAVOR, HERG, DILI, CACO2, HALF_LIFE) by its primary metric (MCC
 for classification, Spearman for regression), take the top 5 per dataset, and
-upload the corresponding saved model artifacts to the Hugging Face Hub.
+upload the corresponding saved model artifacts into ONE consolidated Hugging
+Face Hub model repo, under `<DATASET>/rank<N>_<method>/` subfolders.
 
 Model artifacts live in two external stores plus the repo's own results/ tree:
 - /export/qcai-omics/Raghvendra/EffiChem_Extras     (BACE, BBBP, FLAVOR)
@@ -17,17 +18,19 @@ if results change. Directory-name casing is genuinely inconsistent across the
 project (e.g. `flavor_FT_Results` next to `FLAVOR_PC_Only_Results`), which is
 why `effichem_case` exists below instead of a derived rule.
 
-Known gap: RAFE tree models for BACE/BBBP/FLAVOR were never retained on disk
-(only their metrics were). If RAFE ranks in one of those datasets' top 5, the
-script logs a warning, skips the upload for that slot, and promotes the next
-method instead -- so "top 5" always means 5 models that actually get uploaded.
+Known gap: some RAFE tree models for BACE/BBBP/FLAVOR were never retained on
+disk (only their metrics were). If RAFE's single best-scoring config lacks a
+saved artifact, the resolver falls back to the next-best RAFE config that
+does have one; only if none of them survive does the script warn and promote
+the next method instead -- so "top 5" always means 5 models that actually get
+uploaded.
 
 Usage:
     # Inspect the ranking and resolved artifact paths only -- uploads nothing.
     python upload_top5_to_hf.py
 
-    # Actually create repos and upload (requires `huggingface-cli login` first,
-    # or HF_TOKEN set in the environment).
+    # Actually create the repo and upload (requires `huggingface-cli login`
+    # first, or HF_TOKEN set in the environment).
     python upload_top5_to_hf.py --hf-user <your-hf-username> --do-upload
 
     # Restrict to specific datasets while testing.
@@ -331,14 +334,7 @@ def slugify(text):
 
 
 def make_model_card(dataset, cfg, rank, entry):
-    return f"""---
-tags:
-- pearl
-- molecular-property-prediction
-- {slugify(dataset)}
----
-
-# PEARL -- {dataset} -- rank {rank}: {entry['method']}
+    return f"""# PEARL -- {dataset} -- rank {rank}: {entry['method']}
 
 Part of the PEARL benchmark (Parameter-Efficient Adaptation with Retrieval-Augmented
 Learning for Molecular Property Prediction). This is the #{rank} best-performing
@@ -350,6 +346,29 @@ method on **{dataset}** ({cfg['task']}), ranked by {cfg['metric']}.
 
 Code: https://github.com/raghvendra5688/PEARL
 """
+
+
+def make_repo_readme(all_rankings):
+    """Top-level README for the consolidated repo: one table per dataset
+    linking to each rank's subfolder."""
+    lines = ["---", "tags:", "- pearl", "- molecular-property-prediction", "---", "",
+             "# PEARL Benchmark -- Top-5 Models per Dataset", "",
+             "Parameter-Efficient Adaptation with Retrieval-Augmented Learning for "
+             "Molecular Property Prediction. Each dataset folder below holds its "
+             "top-5 best-performing methods, ranked by the dataset's primary metric.",
+             "", "Code: https://github.com/raghvendra5688/PEARL", ""]
+    for dataset, top5 in all_rankings.items():
+        cfg = DATASETS[dataset]
+        lines.append(f"## {dataset} ({cfg['task']}, ranked by {cfg['metric']})")
+        lines.append("")
+        lines.append(f"| Rank | Method | {cfg['metric']} | Configuration | Path |")
+        lines.append("|---|---|---|---|---|")
+        for rank, entry in enumerate(top5, start=1):
+            subdir = f"{dataset}/rank{rank}_{slugify(entry['method'])}"
+            lines.append(f"| {rank} | {entry['method']} | {entry['score']:.4f} | "
+                          f"{entry['detail']} | [{subdir}](./{subdir}) |")
+        lines.append("")
+    return "\n".join(lines)
 
 
 def _stage_as_safetensors(folder_path, staging_dir):
@@ -374,22 +393,23 @@ def _stage_as_safetensors(folder_path, staging_dir):
     return staging_dir
 
 
-def upload_entry(api, hf_user, dataset, cfg, rank, entry, private=True):
+def upload_entry(api, repo_id, dataset, cfg, rank, entry):
+    """Upload one method's artifact into `<dataset>/rank<rank>_<method>/` inside
+    the single consolidated `repo_id` repo."""
     from huggingface_hub import upload_file, upload_folder
 
-    repo_id = f"{hf_user}/pearl-{slugify(dataset)}-rank{rank}-{slugify(entry['method'])}"
-    api.create_repo(repo_id, private=private, exist_ok=True)
+    subdir = f"{dataset}/rank{rank}_{slugify(entry['method'])}"
 
-    readme_path = Path(f"/tmp/README_{slugify(repo_id)}.md")
+    readme_path = Path(f"/tmp/README_{slugify(repo_id)}_{slugify(subdir)}.md")
     readme_path.write_text(make_model_card(dataset, cfg, rank, entry))
-    upload_file(path_or_fileobj=str(readme_path), path_in_repo="README.md", repo_id=repo_id)
+    upload_file(path_or_fileobj=str(readme_path), path_in_repo=f"{subdir}/README.md", repo_id=repo_id)
 
     if entry["kind"] == "hf_checkpoint":
-        folder = _stage_as_safetensors(entry["path"], Path(f"/tmp/hf_stage_{slugify(repo_id)}"))
-        upload_folder(folder_path=str(folder), repo_id=repo_id)
+        folder = _stage_as_safetensors(entry["path"], Path(f"/tmp/hf_stage_{slugify(repo_id)}_{slugify(subdir)}"))
+        upload_folder(folder_path=str(folder), repo_id=repo_id, path_in_repo=subdir)
     else:
-        upload_file(path_or_fileobj=str(entry["path"]), path_in_repo=entry["path"].name, repo_id=repo_id)
-    return repo_id
+        upload_file(path_or_fileobj=str(entry["path"]), path_in_repo=f"{subdir}/{entry['path'].name}", repo_id=repo_id)
+    return subdir
 
 
 # --------------------------------------------------------------------------- #
@@ -401,33 +421,47 @@ def main():
     ap.add_argument("--datasets", nargs="+", choices=list(DATASETS), default=list(DATASETS),
                      help="Restrict to specific datasets (default: all 7).")
     ap.add_argument("--hf-user", default=None, help="Hugging Face username/org to upload under.")
+    ap.add_argument("--repo-name", default="pearl-benchmark-models",
+                     help="Name of the single consolidated repo (default: pearl-benchmark-models).")
     ap.add_argument("--do-upload", action="store_true",
-                     help="Actually create repos and upload. Without this flag, the script only prints the ranking (dry run).")
-    ap.add_argument("--public", action="store_true", help="Create public repos (default: private).")
+                     help="Actually create the repo and upload. Without this flag, the script only prints the ranking (dry run).")
+    ap.add_argument("--public", action="store_true", help="Create a public repo (default: private).")
     args = ap.parse_args()
 
     if args.do_upload and not args.hf_user:
         ap.error("--do-upload requires --hf-user")
 
     api = None
+    repo_id = f"{args.hf_user}/{args.repo_name}" if args.hf_user else None
     if args.do_upload:
         from huggingface_hub import HfApi
         api = HfApi()
-        print(f"Logged in to Hugging Face as: {api.whoami()['name']}\n")
+        print(f"Logged in to Hugging Face as: {api.whoami()['name']}")
+        api.create_repo(repo_id, private=not args.public, exist_ok=True)
+        print(f"Uploading everything into: https://huggingface.co/{repo_id}\n")
 
+    all_rankings = {}
     for dataset in args.datasets:
         cfg = DATASETS[dataset]
         print(f"=== {dataset} ({cfg['task']}, ranked by {cfg['metric']}) ===")
         top5 = top5_uploadable(dataset)
+        all_rankings[dataset] = top5
         for rank, entry in enumerate(top5, start=1):
             print(f"  {rank}. {entry['method']:<22} {cfg['metric']}={entry['score']:.4f}  "
                   f"[{entry['detail']}]\n     -> {entry['path']}")
             if args.do_upload:
-                repo_id = upload_entry(api, args.hf_user, dataset, cfg, rank, entry, private=not args.public)
-                print(f"     uploaded -> https://huggingface.co/{repo_id}")
+                subdir = upload_entry(api, repo_id, dataset, cfg, rank, entry)
+                print(f"     uploaded -> https://huggingface.co/{repo_id}/tree/main/{subdir}")
         if len(top5) < 5:
             print(f"  [warn] only {len(top5)} uploadable methods found for {dataset} (expected 5).")
         print()
+
+    if args.do_upload:
+        from huggingface_hub import upload_file
+        readme_path = Path("/tmp/README_pearl_benchmark_models.md")
+        readme_path.write_text(make_repo_readme(all_rankings))
+        upload_file(path_or_fileobj=str(readme_path), path_in_repo="README.md", repo_id=repo_id)
+        print(f"Top-level README uploaded. Repo: https://huggingface.co/{repo_id}")
 
 
 if __name__ == "__main__":
