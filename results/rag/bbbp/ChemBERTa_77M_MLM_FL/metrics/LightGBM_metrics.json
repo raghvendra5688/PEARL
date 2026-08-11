@@ -1,7 +1,7 @@
 {
   "Accuracy": 0.896,
-  "AUC": 0.926,
-  "AUPR": 0.942,
+  "AUC": 0.925,
+  "AUPR": 0.941,
   "Precision": 0.911,
   "Recall": 0.866,
   "F1_macro": 0.882,

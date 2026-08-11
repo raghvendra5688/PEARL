@@ -1,11 +1,14 @@
 {
-  "Accuracy": 0.886,
-  "F1_macro": 0.741,
-  "F1_micro": 0.886,
-  "MCC": 0.798,
-  "AUPR_class0": 0.824,
-  "AUPR_class1": 0.922,
+  "Accuracy": 0.887,
+  "Precision": 0.734,
+  "Recall": 0.758,
+  "F1_macro": 0.743,
+  "F1_micro": 0.887,
+  "MCC": 0.8,
+  "AUC": 0.97,
+  "AUPR_class0": 0.828,
+  "AUPR_class1": 0.933,
   "AUPR_class2": 0.988,
-  "AUPR_class3": 0.371,
-  "AUPR_class4": 0.773
+  "AUPR_class3": 0.37,
+  "AUPR_class4": 0.769
 }
