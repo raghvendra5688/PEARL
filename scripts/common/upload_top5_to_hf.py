@@ -231,20 +231,26 @@ def resolve_pc_only(dataset, cfg):
     return {"method": "PC-only", "score": score, "path": path, "kind": "pickle", "detail": path.stem}
 
 
-def _resolve_graph_baseline(dataset, cfg, method, subdir, ckpt_relpath):
-    metrics_file = RESULTS / "gnn" / subdir / f"{dataset}_{method}_Results" / "metrics" / "test_metrics.json"
-    ckpt = RESULTS / "gnn" / subdir / f"{dataset}_{method}_Results" / ckpt_relpath
+def _resolve_graph_baseline(dataset, cfg, method, subdir, ckpt_relpath, extra_relpaths=()):
+    """`extra_relpaths` are sidecar files (relative to the same `<dataset>_<method>_Results`
+    root as `ckpt_relpath`) required to actually reload the checkpoint -- e.g.
+    Chemprop's `args.json`, which chemprop.predict needs alongside model.pt."""
+    root = RESULTS / "gnn" / subdir / f"{dataset}_{method}_Results"
+    metrics_file = root / "metrics" / "test_metrics.json"
+    ckpt = root / ckpt_relpath
     if not (metrics_file.exists() and ckpt.exists()):
         return None
     score = read_metric_file(metrics_file).get(cfg["metric"])
     if score is None:
         return None
-    return {"method": method, "score": score, "path": ckpt, "kind": "torch_ckpt",
+    extra = [root / p for p in extra_relpaths if (root / p).exists()]
+    return {"method": method, "score": score, "path": ckpt, "kind": "torch_ckpt", "extra": extra,
             "detail": "D-MPNN" if method == "Chemprop" else "GINConv"}
 
 
 resolve_chemprop = functools.partial(_resolve_graph_baseline, method="Chemprop", subdir="chemprop",
-                                      ckpt_relpath=Path("final_model/fold_0/model_0/model.pt"))
+                                      ckpt_relpath=Path("final_model/fold_0/model_0/model.pt"),
+                                      extra_relpaths=(Path("final_model/args.json"),))
 resolve_gcn = functools.partial(_resolve_graph_baseline, method="GCN", subdir="gcn",
                                  ckpt_relpath=Path("final_model/model.pt"))
 
@@ -409,6 +415,8 @@ def upload_entry(api, repo_id, dataset, cfg, rank, entry):
         upload_folder(folder_path=str(folder), repo_id=repo_id, path_in_repo=subdir)
     else:
         upload_file(path_or_fileobj=str(entry["path"]), path_in_repo=f"{subdir}/{entry['path'].name}", repo_id=repo_id)
+        for extra_path in entry.get("extra", []):
+            upload_file(path_or_fileobj=str(extra_path), path_in_repo=f"{subdir}/{extra_path.name}", repo_id=repo_id)
     return subdir
 
 
