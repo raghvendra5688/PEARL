@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+::selection {
+  background-color: rgb(15 118 110 / 0.18);
+}
+
+@keyframes pulse-ring {
+  0% {
+    box-shadow: 0 0 0 0 rgb(15 118 110 / 0.25);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgb(15 118 110 / 0);
+  }
+}
+
+.pulse-ring {
+  animation: pulse-ring 1.8s ease-out infinite;
+}
+
+.font-mono-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Decorative background molecule rotation -- deliberately slow (60-100s) and
+   linear, so it reads as ambient motion, not an obvious spinner. Three speeds for
+   visual variety between the backdrop shapes; direction alternates so they don't
+   all appear to move in lockstep. */
+@keyframes spin-slow {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin-slow-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spin-slow 90s linear infinite;
+}
+.animate-spin-slower {
+  animation: spin-slow 140s linear infinite;
+}
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 110s linear infinite;
+}

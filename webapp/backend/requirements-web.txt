@@ -1,0 +1,45 @@
+# Web-serving layer on top of the repo's own scientific stack.
+# Versions pinned to match what's already installed/verified in the repo's .venv,
+# except torch (CPU-only wheel here -- the free HF Space tier has no GPU) and the
+# packages this repo's requirements.txt doesn't pin at all.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.13.0
+
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+sse-starlette==2.1.3
+python-multipart==0.0.17
+pydantic==2.10.3
+httpx==0.28.1
+
+huggingface_hub==0.26.5
+joblib==1.4.2
+safetensors==0.4.5
+python-dotenv==1.0.1
+
+rdkit==2026.3.5
+networkx
+scipy
+scikit-learn==1.9.0
+catboost==1.2.10
+xgboost==3.2.0
+lightgbm==4.7.0
+peft==0.20.0
+transformers==5.14.1
+unimol_tools==0.1.6
+faiss-cpu==1.9.0
+
+# Flavor's rank1 model (chemprop_flavor.py). Version matches training (confirmed
+# from a training-notes comment elsewhere in the repo). Needs two compatibility
+# shims for this repo's newer numpy/torch -- see chemprop_flavor.py's docstring,
+# confirmed by actually running it against the real checkpoint, not assumed.
+chemprop==1.6.1
+
+numpy
+pandas
+
+# Not used by the web app directly, but pc_only_modelling.py imports them at module
+# level (it's a training script we only reuse two functions from) -- required for
+# that import to succeed at all.
+matplotlib
+optuna

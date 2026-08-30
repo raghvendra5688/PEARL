@@ -1,0 +1,12 @@
+# Build context is this webapp/ folder -- see Dockerfile's header comment.
+
+backend/models_cache/
+backend/**/__pycache__/
+**/__pycache__/
+*.pyc
+.env
+
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/.env*.local

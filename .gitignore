@@ -31,3 +31,13 @@ catboost_info/
 # Editor
 .vscode/
 *.swp
+.venv
+
+# webapp
+webapp/backend/models_cache/
+webapp/backend/**/__pycache__/
+webapp/.env
+webapp/frontend/node_modules/
+webapp/frontend/.next/
+webapp/frontend/out/
+webapp/frontend/.env*.local
