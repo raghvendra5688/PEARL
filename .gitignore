@@ -31,3 +31,7 @@ catboost_info/
 # Editor
 .vscode/
 *.swp
+
+# Claude Code / citation-checker local state (not part of the repo)
+.claude/
+.citation-checker/
