@@ -1,0 +1,19 @@
+{
+ "dataset": "dili",
+ "clf": "CatBoost",
+ "seed": 43,
+ "n_train": 332,
+ "n_test": 96,
+ "n_feat": 2048,
+ "best_params": {
+  "max_depth": 10,
+  "learning_rate": 0.005898666311972538,
+  "n_estimators": 578
+ },
+ "seconds": 643.1,
+ "featureset": "ecfp4",
+ "MCC": 0.4329875989789606,
+ "Accuracy": 0.7083333333333334,
+ "F1_macro": 0.6950998185117967,
+ "AUC": 0.8169565217391304
+}

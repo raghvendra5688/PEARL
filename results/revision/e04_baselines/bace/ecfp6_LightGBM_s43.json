@@ -1,0 +1,19 @@
+{
+ "dataset": "bace",
+ "clf": "LightGBM",
+ "seed": 43,
+ "n_train": 1210,
+ "n_test": 152,
+ "n_feat": 2048,
+ "best_params": {
+  "max_depth": 9,
+  "learning_rate": 0.029449184203894297,
+  "n_estimators": 457
+ },
+ "seconds": 46.0,
+ "featureset": "ecfp6",
+ "MCC": 0.45942028985507244,
+ "Accuracy": 0.6973684210526315,
+ "F1_macro": 0.6973684210526315,
+ "AUC": 0.8052536231884059
+}

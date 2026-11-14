@@ -1,0 +1,19 @@
+{
+ "dataset": "bbbp",
+ "clf": "LightGBM",
+ "seed": 43,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 148,
+ "best_params": {
+  "max_depth": 8,
+  "learning_rate": 0.07268032015766777,
+  "n_estimators": 593
+ },
+ "seconds": 106.1,
+ "featureset": "rdkit_desc",
+ "MCC": 0.7183699789206652,
+ "Accuracy": 0.8697916666666666,
+ "F1_macro": 0.850481263433324,
+ "AUC": 0.9313817330210774
+}

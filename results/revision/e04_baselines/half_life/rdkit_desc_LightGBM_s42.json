@@ -1,0 +1,18 @@
+{
+ "dataset": "half_life",
+ "clf": "LightGBM",
+ "seed": 42,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 148,
+ "best_params": {
+  "max_depth": 10,
+  "learning_rate": 0.007148659495423881,
+  "n_estimators": 484
+ },
+ "seconds": 27.2,
+ "featureset": "rdkit_desc",
+ "Spearman": 0.46933767948993627,
+ "R2": 0.025298812999951625,
+ "MAE": 5.897655400262611
+}

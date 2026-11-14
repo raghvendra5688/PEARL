@@ -1,0 +1,4 @@
+dataset,frontier,median_FT Embed,median_PC+FT,median_RAFE
+bace,FT Embed→RAFE,0.454,0.455,0.472
+bbbp,FT Embed→PC+FT→RAFE,0.716,0.722,0.729
+flavor,FT Embed,0.783,0.774,0.782

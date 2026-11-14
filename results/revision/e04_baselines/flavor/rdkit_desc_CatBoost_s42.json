@@ -1,0 +1,19 @@
+{
+ "dataset": "flavor",
+ "clf": "CatBoost",
+ "seed": 42,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 148,
+ "best_params": {
+  "max_depth": 10,
+  "learning_rate": 0.023367493808810827,
+  "n_estimators": 530
+ },
+ "seconds": 10041.1,
+ "featureset": "rdkit_desc",
+ "MCC": 0.8003804199678668,
+ "Accuracy": 0.8864241348713399,
+ "F1_macro": 0.8021226798051831,
+ "AUC": 0.9689664268544238
+}

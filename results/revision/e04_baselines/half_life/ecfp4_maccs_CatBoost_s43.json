@@ -1,0 +1,18 @@
+{
+ "dataset": "half_life",
+ "clf": "CatBoost",
+ "seed": 43,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 2215,
+ "best_params": {
+  "max_depth": 9,
+  "learning_rate": 0.028227969787353497,
+  "n_estimators": 468
+ },
+ "seconds": 848.2,
+ "featureset": "ecfp4_maccs",
+ "Spearman": 0.5149329241040348,
+ "R2": 0.081436872998084,
+ "MAE": 5.5532021957805
+}

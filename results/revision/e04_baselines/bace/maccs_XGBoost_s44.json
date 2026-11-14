@@ -1,0 +1,19 @@
+{
+ "dataset": "bace",
+ "clf": "XGBoost",
+ "seed": 44,
+ "n_train": 1210,
+ "n_test": 152,
+ "n_feat": 167,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.053359701331342324,
+  "n_estimators": 320
+ },
+ "seconds": 81.3,
+ "featureset": "maccs",
+ "MCC": 0.4960646784097584,
+ "Accuracy": 0.7039473684210527,
+ "F1_macro": 0.703626673599376,
+ "AUC": 0.8168478260869564
+}
