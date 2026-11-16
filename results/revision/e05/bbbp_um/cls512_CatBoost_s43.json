@@ -1,0 +1,20 @@
+{
+ "dataset": "bbbp",
+ "clf": "CatBoost",
+ "seed": 43,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 512,
+ "best_params": {
+  "max_depth": 9,
+  "learning_rate": 0.08923756019796268,
+  "n_estimators": 461
+ },
+ "seconds": 7593.9,
+ "cfg": "bbbp_um",
+ "arm": "cls512",
+ "MCC": 0.6622413624730635,
+ "Accuracy": 0.84375,
+ "F1_macro": 0.8164903784885944,
+ "AUC": 0.8951990632318501
+}

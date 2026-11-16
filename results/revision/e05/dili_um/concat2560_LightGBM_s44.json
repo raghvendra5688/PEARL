@@ -1,0 +1,20 @@
+{
+ "dataset": "dili",
+ "clf": "LightGBM",
+ "seed": 44,
+ "n_train": 332,
+ "n_test": 96,
+ "n_feat": 2560,
+ "best_params": {
+  "max_depth": 7,
+  "learning_rate": 0.0332573858584265,
+  "n_estimators": 457
+ },
+ "seconds": 83.3,
+ "cfg": "dili_um",
+ "arm": "concat2560",
+ "MCC": 0.545416979211342,
+ "Accuracy": 0.7708333333333334,
+ "F1_macro": 0.7671957671957672,
+ "AUC": 0.8330434782608696
+}

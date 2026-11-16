@@ -24,6 +24,14 @@ CFG = {
                     zinc=EX2/"zinc_embeddings/dili/MolFormer_Finetuned_WL.npy", meta=EX2/"rag_indices/dili/meta.pkl", stored="MolFormer_Finetuned_WL", rag_dir="dili"),
   "bace_um":   dict(ds="bace", clf="XGBoost", emb=EX1/"weighted_loss_flavor/unimol_embeddings/BACE_Embeddings/bace_{sp}_embed.csv", ecol="UniMol_WL_embeddings",
                     zinc=ZUM1/"bace/UniMol_WL.npy", meta=EX1/"weighted_loss_flavor/rag_indices_unimol/bace/meta.pkl", stored="UniMol_WL", rag_dir="unimol:bace"),
+  "herg_mf":   dict(ds="herg", clf="LightGBM", emb=EX2/"finetuned_pc_embeddings/HERG_Embeddings/herg_{sp}_features.csv", ecol="MolFormer_Finetuned_FL_embeddings",
+                    zinc=EX2/"zinc_embeddings/herg/MolFormer_Finetuned_FL.npy", meta=EX2/"rag_indices/herg/meta.pkl", stored="MolFormer_Finetuned_FL", rag_dir="herg"),
+  "flavor_mf": dict(ds="flavor", clf="LightGBM", emb=EX1/"PC_FT_All_Embeddings/flavor_Embeddings/fart_{sp}_features.csv", ecol="Molformer_Finetuned_WL_embeddings",
+                    zinc=EX1/"weighted_loss_flavor/zinc_embeddings/flavor/Molformer_Finetuned_WL.npy", meta=EX1/"rag_indices/flavor/meta.pkl", stored="Molformer_Finetuned_WL", rag_dir="flavor"),
+  "bace_mf":   dict(ds="bace", clf="LightGBM", emb=EMB1/"BACE_Embeddings/bace_{sp}_embed.csv", ecol="Molformer_Finetuned_WL_embeddings",
+                    zinc=ZIN1/"bace/Molformer_Finetuned_WL.npy", meta=EX1/"rag_indices/bace/meta.pkl", stored=None, rag_dir=None),
+  "half_life_mf": dict(ds="half_life", clf="XGBoost", emb=EX2/"finetuned_pc_embeddings/HALF_LIFE_Embeddings/half_life_{sp}_features.csv", ecol="MolFormer_Finetuned_Huber_embeddings",
+                    zinc=EX2/"zinc_embeddings/half_life/MolFormer_Finetuned_Huber.npy", meta=EX2/"rag_indices/half_life/meta.pkl", stored="MolFormer_Finetuned_Huber", rag_dir="half_life"),
   "bbbp_um":   dict(ds="bbbp", clf="XGBoost", emb=EX1/"weighted_loss_flavor/unimol_embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv", ecol="UniMol_FL_embeddings", zinc=None, meta=None, stored=None, rag_dir=None),
   "caco2_um":  dict(ds="caco2", clf="CatBoost", emb=EX2/"unimol_embeddings/CACO2_Embeddings/caco2_{sp}_embed.csv", ecol="UniMol_Huber_embeddings", zinc=None, meta=None, stored=None, rag_dir=None),
   "herg_um":   dict(ds="herg", clf="LightGBM", emb=EX2/"unimol_embeddings/HERG_Embeddings/herg_{sp}_embed.csv", ecol="UniMol_FL_embeddings", zinc=None, meta=None, stored=None, rag_dir=None),
@@ -58,7 +66,9 @@ def get_base(name):
 # ---- ZINC resources -------------------------------------------------------------------------
 _gen = GetMorganGenerator(radius=2, fpSize=2048)
 def zinc_resources(cfg):
-    meta = pickle.load(open(cfg["meta"], "rb"))
+    class _U(pickle.Unpickler):   # meta pickles written under numpy 2 -> load under numpy 1.x
+        def find_class(self, m, n): return super().find_class(m.replace("numpy._core", "numpy.core"), n)
+    meta = _U(open(cfg["meta"], "rb")).load()
     cp = CACHE / "zinc_fp_scaf.npz"
     if cp.exists():
         z = np.load(cp); fp, scaf = z["fp"], z["scaf"]

@@ -1,0 +1,25 @@
+{
+ "dataset": "bace",
+ "clf": "XGBoost",
+ "seed": 44,
+ "n_train": 1210,
+ "n_test": 152,
+ "n_feat": 3033,
+ "best_params": {
+  "max_depth": 8,
+  "learning_rate": 0.08337818756564021,
+  "n_estimators": 328
+ },
+ "seconds": 979.2,
+ "cfg": "bace_um",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.4498975430013292,
+ "Accuracy": 0.6907894736842105,
+ "F1_macro": 0.6907760896853222,
+ "AUC": 0.8070652173913043
+}

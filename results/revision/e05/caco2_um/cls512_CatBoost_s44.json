@@ -1,0 +1,19 @@
+{
+ "dataset": "caco2",
+ "clf": "CatBoost",
+ "seed": 44,
+ "n_train": 637,
+ "n_test": 182,
+ "n_feat": 512,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.050847201358040786,
+  "n_estimators": 453
+ },
+ "seconds": 3210.8,
+ "cfg": "caco2_um",
+ "arm": "cls512",
+ "Spearman": 0.5705117396392598,
+ "R2": 0.3522822908475082,
+ "MAE": 0.44247386919072645
+}

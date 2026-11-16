@@ -1,0 +1,10 @@
+exp,cfg,clf,metric,A,B,n_seeds,diff,ci_lo,ci_hi,ci_excludes_0
+e4,bbbp_mf,XGBoost,MCC,full_RAFE,pc473_only,3,0.03,-0.0471,0.1105,False
+e4,bbbp_mf,XGBoost,MCC,base_FT+PC,pc473_only,3,0.0332,-0.039,0.1104,False
+e4,bbbp_mf,XGBoost,MCC,full_RAFE,ecfp4,3,0.0863,-0.0015,0.1797,False
+e4,dili_um,XGBoost,MCC,full_RAFE,pc473_only,3,0.0181,-0.0609,0.1006,False
+e4,dili_um,XGBoost,MCC,base_FT+PC,pc473_only,3,0.0173,-0.077,0.1122,False
+e4,dili_um,XGBoost,MCC,full_RAFE,ecfp4,3,0.2636,0.1249,0.4081,True
+e4,caco2_mtr,CatBoost,Spearman,full_RAFE,pc473_only,3,-0.0071,-0.0454,0.0329,False
+e4,caco2_mtr,CatBoost,Spearman,base_FT+PC,pc473_only,3,-0.0032,-0.0378,0.0315,False
+e4,caco2_mtr,CatBoost,Spearman,full_RAFE,ecfp4,3,0.2239,0.1308,0.3337,True

@@ -28,7 +28,7 @@ if __name__ == "__main__":
     out = []
     # E1: RAFE and each group vs FT+PC base, per tree seed-paired
     from rafe_lib import CFG
-    for name in ("bbbp_mf", "dili_um", "caco2_mtr"):
+    for name in ("bbbp_mf", "dili_um", "caco2_mtr", "bace_um", "bace_mf", "herg_mf", "flavor_mf"):
         ds = CFG[name]["ds"]; clf = CFG[name]["clf"]; pm = primary(DS[ds]["task"])
         for arm in ["+A", "+B", "+C", "+D", "full_RAFE", "full-A", "full-B", "full-C", "full-D"]:
             diffs = []

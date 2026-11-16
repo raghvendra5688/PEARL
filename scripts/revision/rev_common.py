@@ -15,8 +15,8 @@ REPO = Path(__file__).resolve().parents[2]
 RES = REPO / "results" / "revision"
 CLEAN = REPO / "data" / "clean"
 PCF = REPO / "data" / "pc_only_features"
-EX1 = Path("/export/qcai-omics/Raghvendra/EffiChem_Extras")
-EX2 = Path("/export/qcai-omics/Raghvendra/EffiChem_Extras_v2")
+EX1 = Path(os.environ.get("EXTRAS_V1", "/export/qcai-omics/Raghvendra/EffiChem_Extras"))
+EX2 = Path(os.environ.get("EXTRAS_V2", "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2"))
 
 DS = {
     "bace":      dict(label="Class", task="binary"),
@@ -74,7 +74,8 @@ def _itt(y, tt):
 
 def _dev():
     # XGBoost runs on GPU (hist, cuda) to keep the HPO budget tractable; LightGBM/CatBoost stay on CPU
-    return f"cuda:{os.getpid() % 2}"
+    n = int(os.environ.get("REV_NGPU", "2"))   # number of GPUs visible; 0 -> CPU XGBoost
+    return "cpu" if n == 0 else f"cuda:{os.getpid() % n}"
 
 
 def make_model(clf, task, ncls, params, seed, nj):
