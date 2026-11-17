@@ -12,7 +12,7 @@
 #SBATCH --output=logs/revision/hpc_e1e3_%A_%a.log
 # Controlled representation matrix + RAFE ablations (E1), retrieval-strategy control (E2) and k sweep (E3) on all 7 datasets (8 configurations).
 # E1 arms: PC_only, FT_only, FT+PC, +A/+B/+C/+D, full RAFE, full-A/-B/-C/-D; E2: CLM-cosine, Morgan-Tanimoto, 5 random draws x 5 seeds; E3: k=1,5,10,20,50,100.
-# Each job runs E1, E2, E3 for its dataset in turn: 3 trees x 5 seeds per arm, 24 cells in parallel x 4 threads = 96 CPUs.
+# Each job runs E1, E2, E3 for its dataset in turn: 3 trees x 5 seeds per arm, 16 cells in parallel x 4 threads = 64 threads on 96 CPUs.
 # Submit from the repo root (mkdir -p logs/revision first):  sbatch bash/revision/10_e1_e3_scaleup.sbatch
 source /export/qcai-omics/Raghvendra/PEARL/bash/revision/00_env_hpc.sh
 CFGS=(flavor_mf herg_mf bace_mf bace_um dili_um bbbp_mf caco2_mtr half_life_mf); CFG=${CFGS[$SLURM_ARRAY_TASK_ID]}

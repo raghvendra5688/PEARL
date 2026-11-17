@@ -1,8 +1,8 @@
 """Append an end-of-day status entry to manuscript/PEARL_Revision_Experiment_Plan.md (idempotent per date)."""
 import glob, os, datetime, subprocess, re
-ROOT="/export/qcai-omics/Raghvendra/PEARL"; MD=f"{ROOT}/manuscript/PEARL_Revision_Experiment_Plan.md"
+ROOT="/export/qcai-omics/Raghvendra/PEARL"; MD=f"{ROOT}/manuscript/PEARL_Revision_Daily_Log.md"
 today=datetime.date.today().isoformat()
-hdr="## 12. Daily status log"
+hdr="# PEARL revision: daily status log"
 txt=open(MD).read()
 if hdr not in txt: txt+=f"\n\n{hdr}\n(Auto-appended at ~23:30 server time by `scripts/revision/daily_status.py`; narrative notes added by hand in live sessions.)\n"
 if f"### {today}" in txt.split(hdr)[1]: raise SystemExit("already logged")

@@ -1,0 +1,386 @@
+{
+ "bace@chemberta_77m_mlm_fl": {
+  "ds": "bace",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BACE_Embeddings/bace_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bace/ChemBERTa_77M_MLM_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bace/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_FL"
+ },
+ "bace@chemberta_77m_mlm_wl": {
+  "ds": "bace",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BACE_Embeddings/bace_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bace/ChemBERTa_77M_MLM_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bace/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_WL"
+ },
+ "bace@chemberta_77m_mtr_fl": {
+  "ds": "bace",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BACE_Embeddings/bace_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bace/ChemBERTa_77M_MTR_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bace/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_FL"
+ },
+ "bace@chemberta_77m_mtr_wl": {
+  "ds": "bace",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BACE_Embeddings/bace_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bace/ChemBERTa_77M_MTR_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bace/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_WL"
+ },
+ "bace@molformer_finetuned_fl": {
+  "ds": "bace",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BACE_Embeddings/bace_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bace/MolFormer_Finetuned_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bace/meta.pkl",
+  "stem": "MolFormer_Finetuned_FL"
+ },
+ "bace@molformer_finetuned_wl": {
+  "ds": "bace",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BACE_Embeddings/bace_{sp}_embed.csv",
+  "ecol": "Molformer_Finetuned_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bace/Molformer_Finetuned_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bace/meta.pkl",
+  "stem": "Molformer_Finetuned_WL"
+ },
+ "bace@unimol_fl": {
+  "ds": "bace",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/unimol_embeddings/BACE_Embeddings/bace_{sp}_embed.csv",
+  "ecol": "UniMol_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings_unimol/bace/UniMol_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/rag_indices_unimol/bace/meta.pkl",
+  "stem": "UniMol_FL"
+ },
+ "bace@unimol_wl": {
+  "ds": "bace",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/unimol_embeddings/BACE_Embeddings/bace_{sp}_embed.csv",
+  "ecol": "UniMol_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings_unimol/bace/UniMol_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/rag_indices_unimol/bace/meta.pkl",
+  "stem": "UniMol_WL"
+ },
+ "bbbp@chemberta_77m_mlm_fl": {
+  "ds": "bbbp",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bbbp/ChemBERTa_77M_MLM_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bbbp/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_FL"
+ },
+ "bbbp@chemberta_77m_mlm_wl": {
+  "ds": "bbbp",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bbbp/ChemBERTa_77M_MLM_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bbbp/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_WL"
+ },
+ "bbbp@chemberta_77m_mtr_fl": {
+  "ds": "bbbp",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bbbp/ChemBERTa_77M_MTR_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bbbp/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_FL"
+ },
+ "bbbp@chemberta_77m_mtr_wl": {
+  "ds": "bbbp",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bbbp/ChemBERTa_77M_MTR_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bbbp/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_WL"
+ },
+ "bbbp@molformer_finetuned_fl": {
+  "ds": "bbbp",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bbbp/MolFormer_Finetuned_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bbbp/meta.pkl",
+  "stem": "MolFormer_Finetuned_FL"
+ },
+ "bbbp@molformer_finetuned_wl": {
+  "ds": "bbbp",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv",
+  "ecol": "Molformer_Finetuned_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/bbbp/Molformer_Finetuned_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/bbbp/meta.pkl",
+  "stem": "Molformer_Finetuned_WL"
+ },
+ "bbbp@unimol_fl": {
+  "ds": "bbbp",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/unimol_embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv",
+  "ecol": "UniMol_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings_unimol/bbbp/UniMol_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/rag_indices_unimol/bbbp/meta.pkl",
+  "stem": "UniMol_FL"
+ },
+ "bbbp@unimol_wl": {
+  "ds": "bbbp",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/unimol_embeddings/BBBP_Embeddings/bbbp_{sp}_embed.csv",
+  "ecol": "UniMol_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings_unimol/bbbp/UniMol_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/rag_indices_unimol/bbbp/meta.pkl",
+  "stem": "UniMol_WL"
+ },
+ "flavor@chemberta_77m_mlm_fl": {
+  "ds": "flavor",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/flavor_Embeddings/fart_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/flavor/ChemBERTa_77M_MLM_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/flavor/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_FL"
+ },
+ "flavor@chemberta_77m_mlm_wl": {
+  "ds": "flavor",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/flavor_Embeddings/fart_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/flavor/ChemBERTa_77M_MLM_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/flavor/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_WL"
+ },
+ "flavor@chemberta_77m_mtr_fl": {
+  "ds": "flavor",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/flavor_Embeddings/fart_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/flavor/ChemBERTa_77M_MTR_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/flavor/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_FL"
+ },
+ "flavor@chemberta_77m_mtr_wl": {
+  "ds": "flavor",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/flavor_Embeddings/fart_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/flavor/ChemBERTa_77M_MTR_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/flavor/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_WL"
+ },
+ "flavor@molformer_finetuned_fl": {
+  "ds": "flavor",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/flavor_Embeddings/fart_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/flavor/MolFormer_Finetuned_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/flavor/meta.pkl",
+  "stem": "MolFormer_Finetuned_FL"
+ },
+ "flavor@molformer_finetuned_wl": {
+  "ds": "flavor",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/All_Embeddings/flavor_Embeddings/fart_{sp}_embed.csv",
+  "ecol": "Molformer_Finetuned_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings/flavor/Molformer_Finetuned_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/rag_indices/flavor/meta.pkl",
+  "stem": "Molformer_Finetuned_WL"
+ },
+ "flavor@unimol_fl": {
+  "ds": "flavor",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/unimol_embeddings/flavor_Embeddings/fart_{sp}_embed.csv",
+  "ecol": "UniMol_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings_unimol/flavor/UniMol_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/rag_indices_unimol/flavor/meta.pkl",
+  "stem": "UniMol_FL"
+ },
+ "flavor@unimol_wl": {
+  "ds": "flavor",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/unimol_embeddings/flavor_Embeddings/fart_{sp}_embed.csv",
+  "ecol": "UniMol_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/zinc_embeddings_unimol/flavor/UniMol_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras/weighted_loss_flavor/rag_indices_unimol/flavor/meta.pkl",
+  "stem": "UniMol_WL"
+ },
+ "dili@chemberta_77m_mlm_fl": {
+  "ds": "dili",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/DILI_Embeddings/dili_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/dili/ChemBERTa_77M_MLM_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/dili/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_FL"
+ },
+ "dili@chemberta_77m_mlm_wl": {
+  "ds": "dili",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/DILI_Embeddings/dili_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/dili/ChemBERTa_77M_MLM_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/dili/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_WL"
+ },
+ "dili@chemberta_77m_mtr_fl": {
+  "ds": "dili",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/DILI_Embeddings/dili_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/dili/ChemBERTa_77M_MTR_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/dili/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_FL"
+ },
+ "dili@chemberta_77m_mtr_wl": {
+  "ds": "dili",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/DILI_Embeddings/dili_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/dili/ChemBERTa_77M_MTR_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/dili/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_WL"
+ },
+ "dili@molformer_finetuned_fl": {
+  "ds": "dili",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/DILI_Embeddings/dili_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/dili/MolFormer_Finetuned_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/dili/meta.pkl",
+  "stem": "MolFormer_Finetuned_FL"
+ },
+ "dili@molformer_finetuned_wl": {
+  "ds": "dili",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/DILI_Embeddings/dili_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/dili/MolFormer_Finetuned_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/dili/meta.pkl",
+  "stem": "MolFormer_Finetuned_WL"
+ },
+ "dili@unimol_fl": {
+  "ds": "dili",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/unimol_embeddings/DILI_Embeddings/dili_{sp}_embed.csv",
+  "ecol": "UniMol_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings_unimol/dili/UniMol_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices_unimol/dili/meta.pkl",
+  "stem": "UniMol_FL"
+ },
+ "dili@unimol_wl": {
+  "ds": "dili",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/unimol_embeddings/DILI_Embeddings/dili_{sp}_embed.csv",
+  "ecol": "UniMol_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings_unimol/dili/UniMol_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices_unimol/dili/meta.pkl",
+  "stem": "UniMol_WL"
+ },
+ "herg@chemberta_77m_mlm_fl": {
+  "ds": "herg",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HERG_Embeddings/herg_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/herg/ChemBERTa_77M_MLM_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/herg/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_FL"
+ },
+ "herg@chemberta_77m_mlm_wl": {
+  "ds": "herg",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HERG_Embeddings/herg_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/herg/ChemBERTa_77M_MLM_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/herg/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_WL"
+ },
+ "herg@chemberta_77m_mtr_fl": {
+  "ds": "herg",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HERG_Embeddings/herg_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/herg/ChemBERTa_77M_MTR_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/herg/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_FL"
+ },
+ "herg@chemberta_77m_mtr_wl": {
+  "ds": "herg",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HERG_Embeddings/herg_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/herg/ChemBERTa_77M_MTR_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/herg/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_WL"
+ },
+ "herg@molformer_finetuned_fl": {
+  "ds": "herg",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HERG_Embeddings/herg_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/herg/MolFormer_Finetuned_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/herg/meta.pkl",
+  "stem": "MolFormer_Finetuned_FL"
+ },
+ "herg@molformer_finetuned_wl": {
+  "ds": "herg",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HERG_Embeddings/herg_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/herg/MolFormer_Finetuned_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/herg/meta.pkl",
+  "stem": "MolFormer_Finetuned_WL"
+ },
+ "herg@unimol_fl": {
+  "ds": "herg",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/unimol_embeddings/HERG_Embeddings/herg_{sp}_embed.csv",
+  "ecol": "UniMol_FL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings_unimol/herg/UniMol_FL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices_unimol/herg/meta.pkl",
+  "stem": "UniMol_FL"
+ },
+ "herg@unimol_wl": {
+  "ds": "herg",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/unimol_embeddings/HERG_Embeddings/herg_{sp}_embed.csv",
+  "ecol": "UniMol_WL_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings_unimol/herg/UniMol_WL.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices_unimol/herg/meta.pkl",
+  "stem": "UniMol_WL"
+ },
+ "caco2@chemberta_77m_mlm_huber": {
+  "ds": "caco2",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/CACO2_Embeddings/caco2_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_Huber_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/caco2/ChemBERTa_77M_MLM_Huber.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/caco2/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_Huber"
+ },
+ "caco2@chemberta_77m_mtr_huber": {
+  "ds": "caco2",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/CACO2_Embeddings/caco2_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_Huber_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/caco2/ChemBERTa_77M_MTR_Huber.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/caco2/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_Huber"
+ },
+ "caco2@molformer_finetuned_huber": {
+  "ds": "caco2",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/CACO2_Embeddings/caco2_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_Huber_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/caco2/MolFormer_Finetuned_Huber.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/caco2/meta.pkl",
+  "stem": "MolFormer_Finetuned_Huber"
+ },
+ "caco2@unimol_huber": {
+  "ds": "caco2",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/unimol_embeddings/CACO2_Embeddings/caco2_{sp}_embed.csv",
+  "ecol": "UniMol_Huber_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings_unimol/caco2/UniMol_Huber.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices_unimol/caco2/meta.pkl",
+  "stem": "UniMol_Huber"
+ },
+ "half_life@chemberta_77m_mlm_huber": {
+  "ds": "half_life",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HALF_LIFE_Embeddings/half_life_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MLM_Huber_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/half_life/ChemBERTa_77M_MLM_Huber.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/half_life/meta.pkl",
+  "stem": "ChemBERTa_77M_MLM_Huber"
+ },
+ "half_life@chemberta_77m_mtr_huber": {
+  "ds": "half_life",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HALF_LIFE_Embeddings/half_life_{sp}_embed.csv",
+  "ecol": "ChemBERTa_77M_MTR_Huber_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/half_life/ChemBERTa_77M_MTR_Huber.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/half_life/meta.pkl",
+  "stem": "ChemBERTa_77M_MTR_Huber"
+ },
+ "half_life@molformer_finetuned_huber": {
+  "ds": "half_life",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/finetuned_embeddings/HALF_LIFE_Embeddings/half_life_{sp}_embed.csv",
+  "ecol": "MolFormer_Finetuned_Huber_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings/half_life/MolFormer_Finetuned_Huber.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices/half_life/meta.pkl",
+  "stem": "MolFormer_Finetuned_Huber"
+ },
+ "half_life@unimol_huber": {
+  "ds": "half_life",
+  "emb": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/unimol_embeddings/HALF_LIFE_Embeddings/half_life_{sp}_embed.csv",
+  "ecol": "UniMol_Huber_embeddings",
+  "zinc": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/zinc_embeddings_unimol/half_life/UniMol_Huber.npy",
+  "meta": "/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/rag_indices_unimol/half_life/meta.pkl",
+  "stem": "UniMol_Huber"
+ }
+}

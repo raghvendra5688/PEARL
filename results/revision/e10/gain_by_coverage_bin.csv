@@ -1,0 +1,16 @@
+cfg,ds,bin,n,maxT_range,mean_gain,ci_lo,ci_hi
+bbbp_mf,bbbp,low coverage,64,0.18-0.37,0.0,-0.0094,0.0094
+bbbp_mf,bbbp,mid coverage,64,0.37-0.47,0.0,0.0,0.0
+bbbp_mf,bbbp,high coverage,64,0.47-1.00,-0.0094,-0.0344,0.0062
+dili_um,dili,low coverage,32,0.21-0.38,0.0,-0.0312,0.0375
+dili_um,dili,mid coverage,32,0.39-0.47,0.0062,0.0,0.0188
+dili_um,dili,high coverage,32,0.48-0.78,0.0,-0.0562,0.0438
+caco2_mtr,caco2,low coverage,56,0.18-0.38,0.0001,-0.0134,0.0144
+caco2_mtr,caco2,mid coverage,65,0.39-0.44,-0.0264,-0.042,-0.0092
+caco2_mtr,caco2,high coverage,61,0.44-0.84,0.0026,-0.016,0.0205
+bace_um,bace,low coverage,51,0.22-0.32,0.0118,-0.0197,0.0549
+bace_um,bace,mid coverage,50,0.33-0.38,-0.032,-0.084,0.012
+bace_um,bace,high coverage,51,0.38-0.60,0.0157,-0.0078,0.0471
+bace_mf,bace,low coverage,51,0.22-0.32,0.0,-0.0118,0.0118
+bace_mf,bace,mid coverage,50,0.33-0.38,0.0,-0.012,0.012
+bace_mf,bace,high coverage,51,0.38-0.60,0.0078,-0.0078,0.0275

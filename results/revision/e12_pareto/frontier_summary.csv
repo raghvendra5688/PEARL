@@ -1,8 +1,8 @@
 dataset,n_matched,frontier,median_FT Embed,median_PC+FT,median_RAFE
-bace,18,FT Embed→RAFE,0.465,0.455,0.48
-bbbp,18,FT Embed,0.724,0.722,0.723
-herg,24,FT Embed→PC+FT,0.547,0.554,0.547
-dili,24,FT Embed→PC+FT,0.551,0.574,0.557
-caco2,12,FT Embed→PC+FT,0.667,0.766,0.762
-half_life,12,FT Embed→PC+FT,0.452,0.479,0.479
-flavor,18,FT Embed→RAFE,0.784,0.774,0.79
+bace,18,FT Embed,0.557,0.55,0.561
+bbbp,18,FT Embed→RAFE,0.787,0.789,0.798
+herg,24,FT Embed→PC+FT,0.58,0.602,0.589
+dili,24,FT Embed→PC+FT→RAFE,0.673,0.703,0.79
+caco2,12,FT Embed→PC+FT→RAFE,0.821,0.827,0.835
+half_life,12,FT Embed,0.623,0.593,0.568
+flavor,18,FT Embed→PC+FT,0.793,0.801,0.804

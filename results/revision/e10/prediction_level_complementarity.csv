@@ -1,0 +1,6 @@
+cfg,ds,corrected_by_RAFE,broken_by_RAFE,both_wrong,both_right,error_corr_RAFE_vs_base,corrected,broken
+bbbp_mf,bbbp,0.0,1.0,19.0,172.0,,,
+dili_um,dili,2.0,1.0,14.0,79.0,,,
+caco2_mtr,caco2,,,,,0.9787,33.0,46.0
+bace_um,bace,2.0,4.0,44.0,102.0,,,
+bace_mf,bace,0.0,0.0,36.0,116.0,,,

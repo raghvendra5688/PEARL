@@ -1,0 +1,25 @@
+{
+ "dataset": "half_life",
+ "clf": "LightGBM",
+ "seed": 43,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 384,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.01652468077701777,
+  "n_estimators": 166
+ },
+ "cv_best": -0.7512,
+ "seconds": 115.6,
+ "cfg": "half_life@chemberta_77m_mlm_huber",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "Spearman": 0.32831254444212254,
+ "R2": 0.0008622083501358402,
+ "MAE": 6.604861628238254
+}

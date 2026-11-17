@@ -120,7 +120,7 @@ def tune(clf, Xtr, ytr, sw, task, ncls, seed, trials, nj):
         return float(np.mean(sc))
     st = optuna.create_study(direction="maximize", sampler=optuna.samplers.TPESampler(seed=seed))
     st.optimize(obj, n_trials=trials)
-    return st.best_params
+    return st.best_params, float(st.best_value)   # best_value = 5-fold CV score on the training split (selection criterion that never sees test data)
 
 
 def metrics(task, y, pred, proba):
@@ -155,7 +155,7 @@ def run_cell(out_prefix, ds, Xtr, ytr_raw, Xte, yte_raw, clf, seed, trials=20, n
         sw = compute_sample_weight("balanced", ytr)
     t0 = time.time()
     Xtr = np.asarray(Xtr, np.float32); Xte = np.asarray(Xte, np.float32)
-    bp = tune(clf, Xtr, ytr, sw, task, ncls, seed, trials, nj)
+    bp, cv_best = tune(clf, Xtr, ytr, sw, task, ncls, seed, trials, nj)
     m = make_model(clf, task, ncls, bp, seed, nj)
     m.fit(Xtr, ytr, sample_weight=sw)
     if task == "regression":
@@ -163,7 +163,7 @@ def run_cell(out_prefix, ds, Xtr, ytr_raw, Xte, yte_raw, clf, seed, trials=20, n
     else:
         pred = m.predict(Xte); proba = m.predict_proba(Xte); proba = proba if task == "multiclass" else proba[:, 1]
     res = dict(dataset=ds, clf=clf, seed=seed, n_train=int(len(ytr)), n_test=int(len(yte_raw)), n_feat=int(Xtr.shape[1]),
-               best_params=bp, seconds=round(time.time() - t0, 1), **(meta or {}), **metrics(task, yte_raw, pred, proba))
+               best_params=bp, cv_best=round(cv_best, 4), seconds=round(time.time() - t0, 1), **(meta or {}), **metrics(task, yte_raw, pred, proba))
     np.savez_compressed(out_prefix.with_suffix(".npz"), y=yte_raw, pred=pred, proba=proba if proba is not None else np.zeros(1))
     json.dump(res, open(out_prefix.with_suffix(".json"), "w"), indent=1)
     return res

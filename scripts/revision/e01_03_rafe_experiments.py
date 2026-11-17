@@ -13,6 +13,8 @@ def arms(exp):
         a.append(("full_RAFE", "clm", 0, "orig", 10, "ABCD"))
         for g in "ABCD": a.append((f"full-{g}", "clm", 0, "orig", 10, "ABCD".replace(g, "")))
         return a
+    if exp == "e15":   # full configuration grid: FT Embed, FT Embed+PC, RAFE for every (embedding model x loss) config; used for best-configuration ranking
+        return [("FT_only", None, 0, "orig", 10, ""), ("base_FT+PC", None, 0, "orig", 10, ""), ("full_RAFE", "clm", 0, "orig", 10, "ABCD")]
     if exp == "e2":
         return [("clm", "clm", 0, "orig", 10, "ABCD"), ("morgan", "morgan", 0, "orig", 10, "ABCD")] + \
                [(f"random_r{r}", "random", r, "orig", 10, "ABCD") for r in range(5)]

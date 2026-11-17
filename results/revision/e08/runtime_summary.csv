@@ -1,0 +1,15 @@
+source,stage,dataset,hours,file
+original pipeline log (H200 node),"ZINC-250k embedding, 6 fine-tuned SMILES-CLM variants (ChemBERTa-MLM/MTR, MolFormer x FL/WL), one dataset",herg,0.074,embed_zinc250k_new_datasets_herg.log
+original pipeline log (H200 node),"ZINC-250k embedding, 6 fine-tuned SMILES-CLM variants (ChemBERTa-MLM/MTR, MolFormer x FL/WL), one dataset",dili,0.07,embed_zinc250k_new_datasets_herg.log
+original pipeline log (H200 node),"ZINC-250k embedding with fine-tuned Uni-Mol (3D conformer generation dominates); 2 variants (FL, WL) for herg/dili, 1 for caco2 rerun",herg,8.432,embed_zinc250k_unimol_new_datasets_herg.log
+original pipeline log (H200 node),"ZINC-250k embedding with fine-tuned Uni-Mol (3D conformer generation dominates); 2 variants (FL, WL) for herg/dili, 1 for caco2 rerun",dili,9.105,embed_zinc250k_unimol_new_datasets_herg.log
+original pipeline log (H200 node),"ZINC-250k embedding with fine-tuned Uni-Mol (3D conformer generation dominates); 2 variants (FL, WL) for herg/dili, 1 for caco2 rerun",caco2,1.675,embed_zinc250k_unimol_new_datasets_herg.log
+wandb summaries,"LoRA fine-tuning (one run; n=481 runs, median / IQR / max in seconds)",all,0.0037,"median 13 s, IQR 6-43 s, max 540 s"
+E1/E4 cells (loaded shared server),tree stage per cell: 20 Optuna trials x 5-fold CV + final fit (CatBoost),n=186 cells,0.433,"median 1560 s, IQR 833-4380 s"
+E1/E4 cells (loaded shared server),tree stage per cell: 20 Optuna trials x 5-fold CV + final fit (LightGBM),n=223 cells,0.059,"median 213 s, IQR 33-778 s"
+E1/E4 cells (loaded shared server),tree stage per cell: 20 Optuna trials x 5-fold CV + final fit (XGBoost),n=351 cells,0.178,"median 639 s, IQR 398-888 s"
+measured now (shared P100),load ZINC-250k embedding matrix (one-off per dataset/model),bbbp_mf,0.00054,1.9 s
+measured now (shared P100),"RAFE at inference, single molecule: exact retrieval over 249k ZINC molecules / feature construction",bbbp_mf,3.6e-05,"retrieval 125.8 ms, features 3.8 ms, total 129.6 ms (129.63 ms per molecule)"
+measured now (shared P100),"RAFE at inference, batch of 192 (BBBP test set): exact retrieval over 249k ZINC molecules / feature construction",bbbp_mf,0.000166,"retrieval 139.8 ms, features 456.2 ms, total 596.0 ms (3.10 ms per molecule)"
+measured now,"XGBoost inference (300 trees, 1241-d input), single molecule",bbbp_mf,1e-07,0.5 ms
+measured now,"XGBoost inference (300 trees, 1241-d input), batch of 192",bbbp_mf,4e-07,1.6 ms

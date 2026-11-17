@@ -1,0 +1,6 @@
+scope,n,spearman_vs_R2,spearman_vs_negMAE,max_Spearman,R2_at_best_Spearman,max_R2
+all configs,40,0.405,0.709,,,
+E2E LoRA,4,0.8,1.0,0.541,0.072,0.072
+FT Embed,12,0.469,0.944,0.623,0.07,0.1
+PC+FT,12,0.587,0.916,0.593,0.09,0.109
+RAFE,12,0.249,0.601,0.568,0.09,0.134

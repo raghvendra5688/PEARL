@@ -1,0 +1,26 @@
+{
+ "dataset": "bace",
+ "clf": "LightGBM",
+ "seed": 42,
+ "n_train": 1210,
+ "n_test": 152,
+ "n_feat": 1301,
+ "best_params": {
+  "max_depth": 4,
+  "learning_rate": 0.00383962929980417,
+  "n_estimators": 283
+ },
+ "cv_best": 0.7688,
+ "seconds": 739.8,
+ "cfg": "bace_mf",
+ "arm": "random_r0",
+ "n_rafe": 60,
+ "strategy": "random",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.5388408897197868,
+ "Accuracy": 0.7697368421052632,
+ "F1_macro": 0.7652561443762962,
+ "AUC": 0.8304347826086956
+}
