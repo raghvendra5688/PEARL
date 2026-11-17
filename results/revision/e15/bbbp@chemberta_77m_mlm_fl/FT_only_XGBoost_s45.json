@@ -1,0 +1,26 @@
+{
+ "dataset": "bbbp",
+ "clf": "XGBoost",
+ "seed": 45,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 384,
+ "best_params": {
+  "max_depth": 7,
+  "learning_rate": 0.02513618276100586,
+  "n_estimators": 557
+ },
+ "cv_best": 0.8569,
+ "seconds": 485.5,
+ "cfg": "bbbp@chemberta_77m_mlm_fl",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.731527448955288,
+ "Accuracy": 0.875,
+ "F1_macro": 0.8558378175447379,
+ "AUC": 0.916744730679157
+}

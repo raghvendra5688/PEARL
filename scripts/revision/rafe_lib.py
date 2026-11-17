@@ -1,7 +1,7 @@
 """RAFE re-implementation with pluggable retrieval strategy, k, and feature-group selection.
 Mirrors scripts/smiles/rag/rag_feature_extraction.py for the 'orig' mode (60 features:
 A=18 physchem, B=5 density, C=34 centroid[PCA32+2], D=3 Tanimoto); validated against stored RAFE CSVs."""
-import json, pickle, sys
+import json, os, pickle, sys
 from pathlib import Path
 import numpy as np, pandas as pd, torch
 sys.path.insert(0, str(Path(__file__).parent))
@@ -106,7 +106,8 @@ def query_fp_scaf(smiles, vocab):
 # ---- retrieval --------------------------------------------------------------------------------
 def l2n(x): return x / (np.linalg.norm(x, axis=1, keepdims=True) + 1e-12)
 
-def retrieve(strategy, Q, qsmiles, Z, zfp, K, seed=0, dev="cuda:0"):
+def retrieve(strategy, Q, qsmiles, Z, zfp, K, seed=0, dev=None):
+    dev = dev or os.environ.get("REV_RETR_DEV", "cuda:0")
     """returns idx (N,K) ranked neighbour indices for strategy in {clm, morgan, random}"""
     N, M = len(Q), len(Z)
     if strategy == "random":
@@ -127,14 +128,27 @@ def retrieve(strategy, Q, qsmiles, Z, zfp, K, seed=0, dev="cuda:0"):
             q = torch.from_numpy(qfp[a:a+512]).to(dev).half(); qc = q.float().sum(1); inter = (q @ Zb.T).float()
             t = inter / (qc[:, None] + zc[None, :] - inter + 1e-9); out[a:a+512] = t.topk(K, dim=1).indices.cpu().numpy()
         del Zb; return out
+    if strategy == "hybrid":   # E11 V5: per-query z-scored CLM cosine + z-scored Morgan Tanimoto, structures only (no labels)
+        Zt = torch.from_numpy(Z).to(dev); Zb = torch.from_numpy(np.unpackbits(zfp, axis=1)).to(dev).half(); zc = Zb.float().sum(1)
+        qfp = np.zeros((N, 2048), np.uint8)
+        for i, s_ in enumerate(qsmiles):
+            m = Chem.MolFromSmiles(s_)
+            if m is not None: qfp[i] = _gen.GetFingerprintAsNumPy(m)
+        zs = lambda x: (x - x.mean(1, keepdim=True)) / (x.std(1, keepdim=True) + 1e-9)
+        for a in range(0, N, 128):
+            cos = torch.from_numpy(Q[a:a+128]).to(dev) @ Zt.T
+            q = torch.from_numpy(qfp[a:a+128]).to(dev).half(); qc = q.float().sum(1); inter = (q @ Zb.T).float()
+            tan = inter / (qc[:, None] + zc[None, :] - inter + 1e-9)
+            out[a:a+128] = (zs(cos) + zs(tan)).topk(K, dim=1).indices.cpu().numpy()
+        del Zt, Zb; return out
     raise ValueError(strategy)
 
 # ---- feature computation ---------------------------------------------------------------------
-def compute_features(Q, qsmiles, idx, Z, meta, zfp, zscaf, vocab, mode="orig", k=10):
+def compute_features(Q, qsmiles, idx, Z, meta, zfp, zscaf, vocab, mode="orig", k=10, props_override=None):
     """Q (N,D) normalised, idx (N,K) ranked. mode 'orig': k=10/20 dual (60 feats before PCA→60);
     mode 'single': all statistics at one k. Returns (df_without_pca, centroids (N,D), group map)."""
     N = len(Q); qfp, qsc = query_fp_scaf(qsmiles, vocab)
-    props = {"logP": np.asarray(meta["logP"]), "qed": np.asarray(meta["qed"]), "SAS": np.asarray(meta["SAS"])}
+    props = {"logP": np.asarray(meta["logP"]), "qed": np.asarray(meta["qed"]), "SAS": np.asarray(meta["SAS"])} if props_override is None else props_override
     ks, kl = (10, 20) if mode == "orig" else (k, k)
     rows = []; cents = np.zeros_like(Q)
     for i in range(N):

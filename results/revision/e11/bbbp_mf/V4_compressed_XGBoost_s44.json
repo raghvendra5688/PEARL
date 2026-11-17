@@ -1,0 +1,21 @@
+{
+ "dataset": "bbbp",
+ "clf": "XGBoost",
+ "seed": 44,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 1257,
+ "best_params": {
+  "max_depth": 8,
+  "learning_rate": 0.08337818756564021,
+  "n_estimators": 328
+ },
+ "cv_best": 0.8025,
+ "seconds": 1022.8,
+ "cfg": "bbbp_mf",
+ "arm": "V4_compressed",
+ "MCC": 0.810461001913011,
+ "Accuracy": 0.9114583333333334,
+ "F1_macro": 0.8999969361806428,
+ "AUC": 0.9339578454332552
+}

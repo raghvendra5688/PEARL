@@ -1,0 +1,26 @@
+{
+ "dataset": "bbbp",
+ "clf": "XGBoost",
+ "seed": 45,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 1301,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.04512321278883296,
+  "n_estimators": 372
+ },
+ "cv_best": 0.8446,
+ "seconds": 170.3,
+ "cfg": "bbbp@molformer_finetuned_wl",
+ "arm": "full_RAFE",
+ "n_rafe": 60,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.7295543078198283,
+ "Accuracy": 0.875,
+ "F1_macro": 0.8570719602977668,
+ "AUC": 0.9429742388758782
+}

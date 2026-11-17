@@ -1,0 +1,26 @@
+{
+ "dataset": "bbbp",
+ "clf": "XGBoost",
+ "seed": 44,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 2560,
+ "best_params": {
+  "max_depth": 8,
+  "learning_rate": 0.03183156145648059,
+  "n_estimators": 466
+ },
+ "cv_best": 0.6047,
+ "seconds": 492.4,
+ "cfg": "bbbp@unimol_fl",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.7156736170512144,
+ "Accuracy": 0.8645833333333334,
+ "F1_macro": 0.8394235717961915,
+ "AUC": 0.9223653395784543
+}

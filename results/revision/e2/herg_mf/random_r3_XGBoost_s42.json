@@ -1,0 +1,26 @@
+{
+ "dataset": "herg",
+ "clf": "XGBoost",
+ "seed": 42,
+ "n_train": 9411,
+ "n_test": 2690,
+ "n_feat": 1301,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.09806768877752181,
+  "n_estimators": 474
+ },
+ "cv_best": 0.7106,
+ "seconds": 318.4,
+ "cfg": "herg_mf",
+ "arm": "random_r3",
+ "n_rafe": 60,
+ "strategy": "random",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.5310040107123988,
+ "Accuracy": 0.7654275092936803,
+ "F1_macro": 0.765424883489112,
+ "AUC": 0.8542042051173743
+}

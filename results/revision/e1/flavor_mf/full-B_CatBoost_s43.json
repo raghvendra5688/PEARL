@@ -1,0 +1,25 @@
+{
+ "dataset": "flavor",
+ "clf": "CatBoost",
+ "seed": 43,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 1296,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.06483106933536084,
+  "n_estimators": 565
+ },
+ "seconds": 20539.9,
+ "cfg": "flavor_mf",
+ "arm": "full-B",
+ "n_rafe": 55,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ACD",
+ "MCC": 0.7835732796127595,
+ "Accuracy": 0.8757763975155279,
+ "F1_macro": 0.7240864744961748,
+ "AUC": 0.9604272517939141
+}

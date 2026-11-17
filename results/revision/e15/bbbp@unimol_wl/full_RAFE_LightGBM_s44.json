@@ -1,0 +1,26 @@
+{
+ "dataset": "bbbp",
+ "clf": "LightGBM",
+ "seed": 44,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 3093,
+ "best_params": {
+  "max_depth": 7,
+  "learning_rate": 0.019549045696364516,
+  "n_estimators": 276
+ },
+ "cv_best": 0.6491,
+ "seconds": 1081.1,
+ "cfg": "bbbp@unimol_wl",
+ "arm": "full_RAFE",
+ "n_rafe": 60,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.7032937503008704,
+ "Accuracy": 0.8645833333333334,
+ "F1_macro": 0.8488188976377953,
+ "AUC": 0.9263466042154567
+}

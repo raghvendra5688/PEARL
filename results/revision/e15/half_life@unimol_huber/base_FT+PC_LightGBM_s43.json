@@ -1,0 +1,25 @@
+{
+ "dataset": "half_life",
+ "clf": "LightGBM",
+ "seed": 43,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 3033,
+ "best_params": {
+  "max_depth": 7,
+  "learning_rate": 0.012441709888166843,
+  "n_estimators": 432
+ },
+ "cv_best": -0.8858,
+ "seconds": 171.4,
+ "cfg": "half_life@unimol_huber",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "Spearman": 0.43882919659132735,
+ "R2": 0.1285694653875462,
+ "MAE": 5.771792922874113
+}

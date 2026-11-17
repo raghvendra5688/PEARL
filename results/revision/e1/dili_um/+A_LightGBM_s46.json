@@ -1,0 +1,26 @@
+{
+ "dataset": "dili",
+ "clf": "LightGBM",
+ "seed": 46,
+ "n_train": 332,
+ "n_test": 96,
+ "n_feat": 3045,
+ "best_params": {
+  "max_depth": 8,
+  "learning_rate": 0.05676980289918639,
+  "n_estimators": 216
+ },
+ "cv_best": 0.5536,
+ "seconds": 77.9,
+ "cfg": "dili_um",
+ "arm": "+A",
+ "n_rafe": 18,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "A",
+ "MCC": 0.6929771939280165,
+ "Accuracy": 0.8333333333333334,
+ "F1_macro": 0.8272604588394061,
+ "AUC": 0.8582608695652174
+}

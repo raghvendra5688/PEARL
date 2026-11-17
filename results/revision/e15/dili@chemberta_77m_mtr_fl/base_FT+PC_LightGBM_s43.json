@@ -1,0 +1,26 @@
+{
+ "dataset": "dili",
+ "clf": "LightGBM",
+ "seed": 43,
+ "n_train": 332,
+ "n_test": 96,
+ "n_feat": 851,
+ "best_params": {
+  "max_depth": 9,
+  "learning_rate": 0.009769007665771667,
+  "n_estimators": 318
+ },
+ "cv_best": 0.631,
+ "seconds": 76.3,
+ "cfg": "dili@chemberta_77m_mtr_fl",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.5227377054298357,
+ "Accuracy": 0.7604166666666666,
+ "F1_macro": 0.7572292468389225,
+ "AUC": 0.8034782608695653
+}

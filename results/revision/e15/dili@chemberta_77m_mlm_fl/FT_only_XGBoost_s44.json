@@ -1,0 +1,26 @@
+{
+ "dataset": "dili",
+ "clf": "XGBoost",
+ "seed": 44,
+ "n_train": 332,
+ "n_test": 96,
+ "n_feat": 384,
+ "best_params": {
+  "max_depth": 9,
+  "learning_rate": 0.045444306668262185,
+  "n_estimators": 133
+ },
+ "cv_best": 0.6929,
+ "seconds": 323.5,
+ "cfg": "dili@chemberta_77m_mlm_fl",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.5027785182957974,
+ "Accuracy": 0.75,
+ "F1_macro": 0.746031746031746,
+ "AUC": 0.8365217391304348
+}

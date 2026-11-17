@@ -1,0 +1,26 @@
+{
+ "dataset": "bace",
+ "clf": "XGBoost",
+ "seed": 46,
+ "n_train": 1210,
+ "n_test": 152,
+ "n_feat": 3093,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.04107835985492574,
+  "n_estimators": 439
+ },
+ "cv_best": 0.6854,
+ "seconds": 224.2,
+ "cfg": "bace@unimol_wl",
+ "arm": "full_RAFE",
+ "n_rafe": 60,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.4706119694859576,
+ "Accuracy": 0.7105263157894737,
+ "F1_macro": 0.7103257103257103,
+ "AUC": 0.8215579710144927
+}
