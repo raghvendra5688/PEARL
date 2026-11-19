@@ -5,9 +5,9 @@
 #SBATCH -A H200_Collaborator
 #SBATCH -q H200_Collaborator_qos
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=96         # CPU allotment per job (max available)
+#SBATCH --cpus-per-task=64         # CPU allotment per job (max available)
 #SBATCH --gres=gpu:1               # one H200 per job (XGBoost + retrieval use it; the trees on CPU use the 96 cores)
-#SBATCH --mem=256000
+#SBATCH --mem=80000
 #SBATCH --time=72:00:00            # cells are idempotent, so resubmit to resume if a job times out
 #SBATCH --output=logs/revision/hpc_e15_%A_%a.log
 # E15: full configuration grid with seeds. For ONE dataset the job runs every (embedding model x loss) configuration:

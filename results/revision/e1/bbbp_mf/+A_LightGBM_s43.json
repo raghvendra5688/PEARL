@@ -1,0 +1,26 @@
+{
+ "dataset": "bbbp",
+ "clf": "LightGBM",
+ "seed": 43,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 1259,
+ "best_params": {
+  "max_depth": 4,
+  "learning_rate": 0.04286997936921232,
+  "n_estimators": 359
+ },
+ "cv_best": 0.8145,
+ "seconds": 4186.5,
+ "cfg": "bbbp_mf",
+ "arm": "+A",
+ "n_rafe": 18,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "A",
+ "MCC": 0.7733313021980526,
+ "Accuracy": 0.8958333333333334,
+ "F1_macro": 0.8837068443367656,
+ "AUC": 0.9365339578454334
+}

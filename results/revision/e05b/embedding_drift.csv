@@ -1,0 +1,6 @@
+split,conformer_seed,median_cos_vs_seed42,p5_cos_vs_seed42,median_cos_vs_stored
+test,42,1.0,1.0,1.0
+test,43,0.9155,0.86,0.9155
+test,44,0.9195,0.8455,0.9195
+test,45,0.9144,0.852,0.9144
+test,46,0.9194,0.8486,0.9194

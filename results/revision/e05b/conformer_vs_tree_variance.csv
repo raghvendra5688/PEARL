@@ -1,0 +1,5 @@
+arm,clf,n,mean_MCC,sd_across_conformers,sd_across_tree_seeds,range_over_conformers
+cls512,LightGBM,15,0.3629,0.0417,0.0111,0.0958
+cls512,XGBoost,15,0.3492,0.045,0.0065,0.0986
+concat2560,LightGBM,15,0.428,0.0242,0.0111,0.0634
+concat2560,XGBoost,15,0.4112,0.0219,0.0074,0.0491

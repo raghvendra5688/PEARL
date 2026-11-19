@@ -1,0 +1,21 @@
+{
+ "dataset": "dili",
+ "clf": "XGBoost",
+ "seed": 43,
+ "n_train": 332,
+ "n_test": 96,
+ "n_feat": 3087,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.09512880645096754,
+  "n_estimators": 387
+ },
+ "cv_best": 0.586,
+ "seconds": 765.4,
+ "cfg": "dili_um",
+ "arm": "full_RAFE",
+ "MCC": 0.6848605026524683,
+ "Accuracy": 0.8333333333333334,
+ "F1_macro": 0.8285714285714285,
+ "AUC": 0.8734782608695653
+}

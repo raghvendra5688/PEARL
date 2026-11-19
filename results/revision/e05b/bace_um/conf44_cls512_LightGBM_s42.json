@@ -1,0 +1,22 @@
+{
+ "dataset": "bace",
+ "clf": "LightGBM",
+ "seed": 42,
+ "n_train": 1210,
+ "n_test": 152,
+ "n_feat": 512,
+ "best_params": {
+  "max_depth": 10,
+  "learning_rate": 0.09811962536887661,
+  "n_estimators": 474
+ },
+ "cv_best": 0.5677,
+ "seconds": 595.9,
+ "cfg": "bace_um",
+ "arm": "cls512",
+ "conformer_seed": 44,
+ "MCC": 0.2976088958944747,
+ "Accuracy": 0.5921052631578947,
+ "F1_macro": 0.5886153308887725,
+ "AUC": 0.7824275362318841
+}

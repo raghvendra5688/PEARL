@@ -1,0 +1,26 @@
+{
+ "dataset": "flavor",
+ "clf": "LightGBM",
+ "seed": 46,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 1301,
+ "best_params": {
+  "max_depth": 8,
+  "learning_rate": 0.07056601329780673,
+  "n_estimators": 459
+ },
+ "cv_best": 0.7969,
+ "seconds": 4396.9,
+ "cfg": "flavor_mf",
+ "arm": "random_r1",
+ "n_rafe": 60,
+ "strategy": "random",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.7944288499504033,
+ "Accuracy": 0.888642413487134,
+ "F1_macro": 0.757568082854406,
+ "AUC": 0.9626401244254306
+}

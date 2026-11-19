@@ -1,0 +1,25 @@
+{
+ "dataset": "half_life",
+ "clf": "CatBoost",
+ "seed": 42,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 1290,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.05399484409787434,
+  "n_estimators": 401
+ },
+ "cv_best": -0.8107,
+ "seconds": 2858.3,
+ "cfg": "half_life_mf",
+ "arm": "k20",
+ "n_rafe": 49,
+ "strategy": "clm",
+ "k": 20,
+ "mode": "single",
+ "groups": "ABCD",
+ "Spearman": 0.6165723983751064,
+ "R2": 0.08424060311191295,
+ "MAE": 5.6258588552932505
+}

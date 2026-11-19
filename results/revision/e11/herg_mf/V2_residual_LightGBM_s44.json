@@ -1,0 +1,21 @@
+{
+ "dataset": "herg",
+ "clf": "LightGBM",
+ "seed": 44,
+ "n_train": 9411,
+ "n_test": 2690,
+ "n_feat": 1301,
+ "best_params": {
+  "max_depth": 10,
+  "learning_rate": 0.08284705932580727,
+  "n_estimators": 590
+ },
+ "cv_best": 0.725,
+ "seconds": 2365.9,
+ "cfg": "herg_mf",
+ "arm": "V2_residual",
+ "MCC": 0.5557005369280126,
+ "Accuracy": 0.7776951672862453,
+ "F1_macro": 0.777695044399632,
+ "AUC": 0.856749678360326
+}

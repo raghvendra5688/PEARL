@@ -1,0 +1,20 @@
+{
+ "dataset": "half_life",
+ "clf": "LightGBM",
+ "seed": 46,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 1301,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.051713671484922515,
+  "n_estimators": 584
+ },
+ "cv_best": -0.8499,
+ "seconds": 205.0,
+ "cfg": "half_life_mf",
+ "arm": "V5_hybrid",
+ "Spearman": 0.5875573167142687,
+ "R2": 0.04461323064212308,
+ "MAE": 5.6041581692212565
+}

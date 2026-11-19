@@ -1,0 +1,20 @@
+{
+ "dataset": "caco2",
+ "clf": "LightGBM",
+ "seed": 43,
+ "n_train": 637,
+ "n_test": 182,
+ "n_feat": 941,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.022032126711755914,
+  "n_estimators": 321
+ },
+ "cv_best": -0.3905,
+ "seconds": 269.1,
+ "cfg": "caco2_mtr",
+ "arm": "V3_wide",
+ "Spearman": 0.8185609220474221,
+ "R2": 0.6518902870265673,
+ "MAE": 0.3224185859929604
+}

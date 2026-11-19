@@ -1,0 +1,26 @@
+{
+ "dataset": "flavor",
+ "clf": "LightGBM",
+ "seed": 46,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 857,
+ "best_params": {
+  "max_depth": 9,
+  "learning_rate": 0.01860661674010309,
+  "n_estimators": 224
+ },
+ "cv_best": 0.7964,
+ "seconds": 1954.0,
+ "cfg": "flavor@chemberta_77m_mlm_fl",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.767201032867789,
+ "Accuracy": 0.867790594498669,
+ "F1_macro": 0.7220162791630267,
+ "AUC": 0.9556815706812862
+}

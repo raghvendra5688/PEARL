@@ -1,0 +1,20 @@
+{
+ "dataset": "half_life",
+ "clf": "XGBoost",
+ "seed": 42,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 1264,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.015237126274606792,
+  "n_estimators": 529
+ },
+ "cv_best": -0.8286,
+ "seconds": 775.8,
+ "cfg": "half_life_mf",
+ "arm": "V1_AB",
+ "Spearman": 0.5709721684981135,
+ "R2": 0.09049717125751155,
+ "MAE": 5.621510005176515
+}

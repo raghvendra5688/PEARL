@@ -1,0 +1,25 @@
+{
+ "dataset": "half_life",
+ "clf": "LightGBM",
+ "seed": 44,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 1275,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.016649282214592186,
+  "n_estimators": 271
+ },
+ "cv_best": -0.8493,
+ "seconds": 123.7,
+ "cfg": "half_life_mf",
+ "arm": "+C",
+ "n_rafe": 34,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "C",
+ "Spearman": 0.5592334954604717,
+ "R2": 0.07232702218615639,
+ "MAE": 5.7021399066070275
+}

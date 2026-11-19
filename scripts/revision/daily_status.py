@@ -1,6 +1,6 @@
 """Append an end-of-day status entry to manuscript/PEARL_Revision_Experiment_Plan.md (idempotent per date)."""
 import glob, os, datetime, subprocess, re
-ROOT="/export/qcai-omics/Raghvendra/PEARL"; MD=f"{ROOT}/manuscript/PEARL_Revision_Daily_Log.md"
+ROOT="/export/qcai-omics/Raghvendra/PEARL"; MD="/export/qcai-omics/Raghvendra/EffiChem_Extras_v2/PEARL_revision/PEARL_Revision_Daily_Log.md"
 today=datetime.date.today().isoformat()
 hdr="# PEARL revision: daily status log"
 txt=open(MD).read()

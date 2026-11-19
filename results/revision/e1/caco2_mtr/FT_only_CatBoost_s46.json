@@ -1,0 +1,25 @@
+{
+ "dataset": "caco2",
+ "clf": "CatBoost",
+ "seed": 46,
+ "n_train": 637,
+ "n_test": 182,
+ "n_feat": 384,
+ "best_params": {
+  "max_depth": 7,
+  "learning_rate": 0.036553765989507506,
+  "n_estimators": 403
+ },
+ "cv_best": -0.3951,
+ "seconds": 24502.0,
+ "cfg": "caco2_mtr",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "Spearman": 0.8126433481767947,
+ "R2": 0.6544015566313852,
+ "MAE": 0.326895981034847
+}
