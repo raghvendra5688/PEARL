@@ -132,7 +132,7 @@ and five seeds. Quoted reviewer text is abridged.
   in the top three on 6 of 7 datasets and first on BBBP and DILI (Figure
   2, Table 1). Because best-run values are single runs, we re-ranked on
   five-seed means over the full configuration grid (Table 10, Figure
-  12): on the 5 datasets completed so far RAFE is in the top three on 5
+  11): on the 5 datasets completed so far RAFE is in the top three on 5
   (mean rank 2.8 of 7 methods, against 2.2 for FT Embed+PC, 3.8 for FT
   Embed and 4.4 for PC-only), with the remaining datasets pending.
 \item
@@ -827,17 +827,550 @@ hERG (MolFormer-FL) & MCC & XGBoost & 0.594 & 0.545 & 0.546 &
 line: mean over trees; markers: individual trees).}
 \end{figure}
 
+The full grid refines this picture (Tables 5a to 5c, same embedding,
+loss and tree within every comparison; the bottom rows give the
+difference pooled over embedding-loss rows and seeds, with paired
+intervals). On DILI, RAFE exceeds FT Embed with both trees, and exceeds
+FT Embed+PC with XGBoost (+0.032, interval +0.005 to +0.060) but not
+with LightGBM (-0.009, interval -0.029 to +0.012). On Caco-2, RAFE and
+FT Embed+PC are indistinguishable and both exceed FT Embed by about
+0.08, while PC-only is higher than every stage. On BBBP no stage
+separates from another with either tree. On Half-Life (supplementary
+table) RAFE is below FT Embed+PC with LightGBM (-0.023, interval -0.044
+to -0.002). CatBoost columns are still running on the cluster for these
+datasets. \placeholder{: CatBoost columns of Tables 5a to 5c}
+
+\textbf{Table 5a.} \textbf{DILI}: mean ± SD test MCC over five seeds (42
+to 46). Bold: best of the three stages within the row and tree.
+
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule
+\begin{minipage}[b]{0.12\columnwidth}\raggedright
+Embedding, loss\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: FT Embed\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: RAFE\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: FT Embed\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: RAFE\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MLM FL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.536 ± 0.025\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.522 ± 0.020\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.637 ± 0.024}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.613 ± 0.047\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.645 ± 0.039}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.617 ± 0.060\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MLM WL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.563 ± 0.059\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.542 ± 0.057\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.565 ± 0.024}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.579 ± 0.021}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.574 ± 0.030\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.564 ± 0.021\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR FL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.412 ± 0.046\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.467 ± 0.030\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.543 ± 0.040}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.416 ± 0.021\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.521 ± 0.025\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.535 ± 0.052}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR WL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.546 ± 0.026\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.542 ± 0.028\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.562 ± 0.025}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.558 ± 0.017}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.534 ± 0.025\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.538 ± 0.031\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer FL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.507 ± 0.038\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.537 ± 0.018\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.541 ± 0.021}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.545 ± 0.018\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.553 ± 0.031\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.608 ± 0.023}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer WL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.446 ± 0.032\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.472 ± 0.019}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.461 ± 0.027\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.491 ± 0.024\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.517 ± 0.018}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.461 ± 0.037\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol FL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.520 ± 0.075\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.693 ± 0.019\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.697 ± 0.008}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.574 ± 0.061\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.690 ± 0.032}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.658 ± 0.039\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol WL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.576 ± 0.012\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.653 ± 0.027\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.677 ± 0.013}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.554 ± 0.035\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.675 ± 0.008}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.658 ± 0.024\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{PC-only (473 descriptors)}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.672 ± 0.034\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.654 ± 0.015\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{RAFE minus FT Embed, pooled over rows and seeds {[}95\%
+CI{]}}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.072 {[}+0.036, +0.111{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.039 {[}+0.002, +0.076{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{RAFE minus FT Embed+PC, pooled {[}95\% CI{]}}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.032 {[}+0.005, +0.060{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+-0.009 {[}-0.029, +0.012{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Pending trees: CatBoost.
+
+\textbf{Table 5b.} \textbf{Caco-2}: mean ± SD test Spearman over five
+seeds (42 to 46). Bold: best of the three stages within the row and
+tree.
+
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule
+\begin{minipage}[b]{0.12\columnwidth}\raggedright
+Embedding, loss\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: FT Embed\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: RAFE\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: FT Embed\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: RAFE\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MLM Huber\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.683 ± 0.010\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.750 ± 0.009}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.734 ± 0.005\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.671 ± 0.009\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.738 ± 0.012}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.711 ± 0.013\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR Huber\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.788 ± 0.005\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.813 ± 0.007\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.817 ± 0.007}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.789 ± 0.003\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.819 ± 0.006}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.816 ± 0.005\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer Huber\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.592 ± 0.028\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.712 ± 0.013\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.717 ± 0.016}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.655 ± 0.021\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.743 ± 0.014\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.748 ± 0.005}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol Huber\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.653 ± 0.013\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.769 ± 0.009\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.774 ± 0.005}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.586 ± 0.017\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.758 ± 0.003\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.761 ± 0.011}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{PC-only (473 descriptors)}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.833 ± 0.004\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.834 ± 0.006\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{RAFE minus FT Embed, pooled over rows and seeds {[}95\%
+CI{]}}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.082 {[}+0.056, +0.108{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.084 {[}+0.059, +0.111{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{RAFE minus FT Embed+PC, pooled {[}95\% CI{]}}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+-0.000 {[}-0.006, +0.006{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+-0.005 {[}-0.011, +0.001{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Pending trees: CatBoost.
+
+\textbf{Table 5c.} \textbf{BBBP}: mean ± SD test MCC over five seeds (42
+to 46). Bold: best of the three stages within the row and tree.
+
+\begin{longtable}[]{@{}lllllll@{}}
+\toprule
+\begin{minipage}[b]{0.12\columnwidth}\raggedright
+Embedding, loss\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: FT Embed\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+XGBoost: RAFE\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: FT Embed\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+LightGBM: RAFE\strut
+\end{minipage}\tabularnewline
+\midrule
+\endhead
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MLM FL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.732 ± 0.009\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.746 ± 0.013}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.733 ± 0.006\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.741 ± 0.012\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.751 ± 0.009}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.737 ± 0.007\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MLM WL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.711 ± 0.006}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.707 ± 0.013\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.705 ± 0.001\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.700 ± 0.031\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.698 ± 0.017\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.703 ± 0.011}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR FL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.683 ± 0.013\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.690 ± 0.005}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.659 ± 0.005\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.675 ± 0.006}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.671 ± 0.010\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.673 ± 0.011\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR WL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.701 ± 0.005\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.703 ± 0.012\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.708 ± 0.010}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.696 ± 0.006}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.676 ± 0.013\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.687 ± 0.007\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer FL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.783 ± 0.010\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.785 ± 0.016}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.779 ± 0.010\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.769 ± 0.026}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.755 ± 0.015\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.767 ± 0.015\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer WL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.730 ± 0.014\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.737 ± 0.008}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.732 ± 0.006\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.752 ± 0.014\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.761 ± 0.012}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.746 ± 0.013\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol FL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.721 ± 0.017\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.734 ± 0.021\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.735 ± 0.031}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.731 ± 0.017\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.742 ± 0.024\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.745 ± 0.011}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol WL\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.701 ± 0.016\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.729 ± 0.022\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.735 ± 0.012}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.713 ± 0.023\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\textbf{0.743 ± 0.012}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.728 ± 0.029\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{PC-only (473 descriptors)}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.731 ± 0.033\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.733 ± 0.030\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{RAFE minus FT Embed, pooled over rows and seeds {[}95\%
+CI{]}}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.003 {[}-0.007, +0.012{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.001 {[}-0.012, +0.013{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+\emph{RAFE minus FT Embed+PC, pooled {[}95\% CI{]}}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+-0.006 {[}-0.014, +0.003{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+-0.002 {[}-0.009, +0.005{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+\strut
+\end{minipage}\tabularnewline
+\bottomrule
+\end{longtable}
+
+Pending trees: CatBoost.
+
 \textbf{R2.2 Insufficient comparison with conventional fingerprints.} We
 agree that these baselines belong in the main benchmark. Table 6
 evaluates ECFP4, ECFP6, MACCS, ECFP4+MACCS, RDKit descriptors and the
 473 physicochemical descriptors with the same trees and tuning (best
-tree shown; 3 to 3 seeds on the smaller datasets and 1 on hERG and
-Flavor because of cost). Fingerprints alone are clearly weaker than
-descriptors on Caco-2 (0.607 for ECFP4 versus 0.838), DILI and
-Half-Life, and comparable on BACE, hERG and Flavor. RAFE is clearly
-better than ECFP4 alone on DILI (+0.26) and Caco-2 (+0.22); against
-PC-only the intervals include zero on all three datasets compared (BBBP,
-DILI, Caco-2). {[}Revision{]}
+tree shown; 3 seeds on the smaller datasets and 1 on hERG and Flavor
+because of cost). Fingerprints alone are clearly weaker than descriptors
+on Caco-2 (0.607 for ECFP4 versus 0.838), DILI and Half-Life, and
+comparable on BACE, hERG and Flavor. RAFE is clearly better than ECFP4
+alone on DILI (+0.26) and Caco-2 (+0.22); against PC-only the intervals
+include zero on all three datasets compared (BBBP, DILI, Caco-2).
+{[}Revision{]}
 
 \textbf{Table 6.} Fingerprint and descriptor baselines (best tree per
 cell; MCC for classification, Spearman for regression).
@@ -1419,7 +1952,7 @@ test-based choice, and we do not use it for ranking.
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{../results/revision/e15_analysis/e15_grid_heatmap.pdf}
-\caption{\textbf{Figure 12.} Five-seed mean test metric over the full
+\caption{\textbf{Figure 11.} Five-seed mean test metric over the full
 configuration grid for the five completed datasets (red box: best
 cell).}
 \end{figure}
@@ -1493,7 +2026,7 @@ AUC, so we state the ranking metric and report AUC alongside. (c)
 \emph{Half-Life:} Spearman and R² behave differently because R² is
 computed in hours after inverting the log1p transform, where 57\% of the
 test variance sits in three molecules; for the E4 baselines R² rises
-from 0.043 to 0.169 on the log scale (Figure 11). The rank correlation
+from 0.043 to 0.169 on the log scale (Figure 12). The rank correlation
 between Spearman and R² across the supplementary configurations is 0.40
 (0.25 within RAFE). We report both: the models rank half-lives
 moderately well (Spearman 0.54 to 0.62) but do not predict their
@@ -1505,7 +2038,7 @@ itself establish interaction modelling. {[}Revision{]}
 \begin{figure}
 \centering
 \includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{../results/revision/figures_response/figH_halflife_metrics.pdf}
-\caption{\textbf{Figure 11.} Half-Life. Left: Spearman versus R² (hours)
+\caption{\textbf{Figure 12.} Half-Life. Left: Spearman versus R² (hours)
 over the supplementary configurations. Right: R² in hours versus on the
 log1p scale for the descriptor and fingerprint baselines.}
 \end{figure}

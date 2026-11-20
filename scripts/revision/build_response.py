@@ -48,6 +48,7 @@ rows7 = []
 for _, r in BV.iterrows():
     rows7.append({"Dataset": r.Dataset, "PC-only": f"{r.PC_only:.3f}", "FT+PC": f"{r.FT_PC:.3f}", "RAFE": f"{r.RAFE:.3f}", "Best variant (test mean)": f"{r.best_variant} ({r.best_test:.3f})", "Minus RAFE [95% CI]": ci(r["diff_vs_full_RAFE"], r["lo_full_RAFE"], r["hi_full_RAFE"]), "Minus FT+PC [95% CI]": ci(r["diff_vs_base_FT+PC"], r["lo_base_FT+PC"], r["hi_base_FT+PC"])})
 T7 = pd.DataFrame(rows7); W11 = pd.read_csv(R + "e11_analysis/wins.csv")
+FT = {k: open(R + f"e15_analysis/full_tables/{k}.md").read().strip() for k in ("dili", "caco2", "bbbp")}
 # ---------------- ladder (matched-pair, supplement)
 def mpv(ds, a, b): return mp[(mp.dataset == ds) & (mp.A == a) & (mp.B == b)].iloc[0]
 sig_fe = [(NAME[ds], mpv(ds, "RAFE", "FT Embed").mean_diff, mpv(ds, "RAFE", "FT Embed").wilcoxon_p) for ds in ORDER if mpv(ds, "RAFE", "FT Embed").wilcoxon_p < 0.05 and mpv(ds, "RAFE", "FT Embed").mean_diff > 0]
@@ -156,7 +157,7 @@ We are grateful for the time and care that went into these reports. They pointed
 ## Overview of our answers
 
 1. **What the evidence supports.** Along the PEARL ladder (fine-tuned embedding, plus descriptors, plus RAFE), the full pipeline improves significantly on the embedding alone on {len(sig_fe)} of 7 datasets ({", ".join(f"{n}" for n, _, _ in sig_fe)}; matched-configuration analysis, Figure 1). In controlled comparisons, RAFE is a safe final stage: in {n_rf} paired comparisons against FT Embed+PC (3 trees × 8 dataset configurations) none is significantly worse and none is significantly better, and the stage costs about {rq1_s:.2f} s per molecule at prediction time and its retrieval settings do not need tuning (Figure 5).
-2. **Benchmark view.** As a benchmark of which embedding, loss, tree and stage works best for each dataset, RAFE's best configuration ranks in the top three on {top3} of 7 datasets and first on {V["wins"]} (Figure 2, Table 1). Because best-run values are single runs, we re-ranked on five-seed means over the full configuration grid (Table 10, Figure 12): on the {n15} datasets completed so far RAFE is in the top three on {r15_top3} (mean rank {r15_mean:.1f} of 7 methods, against {r15_ftpc:.1f} for FT Embed+PC, {r15_ft:.1f} for FT Embed and {r15_pc:.1f} for PC-only), with the remaining datasets pending.
+2. **Benchmark view.** As a benchmark of which embedding, loss, tree and stage works best for each dataset, RAFE's best configuration ranks in the top three on {top3} of 7 datasets and first on {V["wins"]} (Figure 2, Table 1). Because best-run values are single runs, we re-ranked on five-seed means over the full configuration grid (Table 10, Figure 11): on the {n15} datasets completed so far RAFE is in the top three on {r15_top3} (mean rank {r15_mean:.1f} of 7 methods, against {r15_ftpc:.1f} for FT Embed+PC, {r15_ft:.1f} for FT Embed and {r15_pc:.1f} for PC-only), with the remaining datasets pending.
 3. **Where we have revised our claims.** RAFE's advantage over FT Embed+PC is small and dataset-specific, and physicochemical descriptors alone (PC-only) are a strong baseline that RAFE does not significantly exceed on any dataset. We state this directly and explain how the fine-tuned embedding and RAFE contribute where they do (Figure 8).
 4. **Statistics and reproducibility.** Paired bootstrap confidence intervals on identical test molecules replace the ±1 SE overlap; the training and tuning protocol is stated explicitly. [Revision]
 
@@ -242,8 +243,16 @@ The controlled comparison gives a clear and useful picture. RAFE is never signif
 
 ![**Figure 8.** The controlled comparison of Table 5 (thick line: mean over trees; markers: individual trees).]({F}figF_controlled_matrix.pdf)
 
+The full grid refines this picture (Tables 5a to 5c, same embedding, loss and tree within every comparison; the bottom rows give the difference pooled over embedding-loss rows and seeds, with paired intervals). On DILI, RAFE exceeds FT Embed with both trees, and exceeds FT Embed+PC with XGBoost (+0.032, interval +0.005 to +0.060) but not with LightGBM (-0.009, interval -0.029 to +0.012). On Caco-2, RAFE and FT Embed+PC are indistinguishable and both exceed FT Embed by about 0.08, while PC-only is higher than every stage. On BBBP no stage separates from another with either tree. On Half-Life (supplementary table) RAFE is below FT Embed+PC with LightGBM (-0.023, interval -0.044 to -0.002). CatBoost columns are still running on the cluster for these datasets. {P("CatBoost columns of Tables 5a to 5c")}
+
+**Table 5a.** {FT["dili"]}
+
+**Table 5b.** {FT["caco2"]}
+
+**Table 5c.** {FT["bbbp"]}
+
 **R2.2 Insufficient comparison with conventional fingerprints.**
-We agree that these baselines belong in the main benchmark. Table 6 evaluates ECFP4, ECFP6, MACCS, ECFP4+MACCS, RDKit descriptors and the 473 physicochemical descriptors with the same trees and tuning (best tree shown; {min(v for k, v in seeds4.items() if k not in ("herg", "flavor"))} to {max(v for k, v in seeds4.items() if k not in ("herg", "flavor"))} seeds on the smaller datasets and {seeds4["herg"]} on hERG and Flavor because of cost). Fingerprints alone are clearly weaker than descriptors on Caco-2 ({T6.loc[T6.Dataset=="Caco-2","ECFP4"].iloc[0]:.3f} for ECFP4 versus {T6.loc[T6.Dataset=="Caco-2","473 physchem (PC-only)"].iloc[0]:.3f}), DILI and Half-Life, and comparable on BACE, hERG and Flavor. RAFE is clearly better than ECFP4 alone on DILI (+{p4[(p4.cfg=="dili_um")&(p4.B=="ecfp4")]["diff"].iloc[0]:.2f}) and Caco-2 (+{p4[(p4.cfg=="caco2_mtr")&(p4.B=="ecfp4")]["diff"].iloc[0]:.2f}); against PC-only the intervals include zero on all three datasets compared (BBBP, DILI, Caco-2). [Revision]
+We agree that these baselines belong in the main benchmark. Table 6 evaluates ECFP4, ECFP6, MACCS, ECFP4+MACCS, RDKit descriptors and the 473 physicochemical descriptors with the same trees and tuning (best tree shown; {min(v for k, v in seeds4.items() if k not in ("herg", "flavor"))}{'' if min(v for k, v in seeds4.items() if k not in ('herg', 'flavor')) == max(v for k, v in seeds4.items() if k not in ('herg', 'flavor')) else ' to ' + str(max(v for k, v in seeds4.items() if k not in ('herg', 'flavor')))} seeds on the smaller datasets and {seeds4["herg"]} on hERG and Flavor because of cost). Fingerprints alone are clearly weaker than descriptors on Caco-2 ({T6.loc[T6.Dataset=="Caco-2","ECFP4"].iloc[0]:.3f} for ECFP4 versus {T6.loc[T6.Dataset=="Caco-2","473 physchem (PC-only)"].iloc[0]:.3f}), DILI and Half-Life, and comparable on BACE, hERG and Flavor. RAFE is clearly better than ECFP4 alone on DILI (+{p4[(p4.cfg=="dili_um")&(p4.B=="ecfp4")]["diff"].iloc[0]:.2f}) and Caco-2 (+{p4[(p4.cfg=="caco2_mtr")&(p4.B=="ecfp4")]["diff"].iloc[0]:.2f}); against PC-only the intervals include zero on all three datasets compared (BBBP, DILI, Caco-2). [Revision]
 
 **Table 6.** Fingerprint and descriptor baselines (best tree per cell; MCC for classification, Spearman for regression).
 
@@ -284,7 +293,7 @@ We agree and have replaced the ±1 SE overlap with paired bootstrap confidence i
 
 Two readings follow. First, the best configuration is MolFormer in {n_mf} of {len(B15)} rows, and the single-run values of the original tables exceed the five-seed means in {n_sr} of {len(B15)} rows (largest for DILI RAFE, 0.790 versus {gap_dili:.3f}). Second, the best configuration is separable from the runner-up in only {n_sep} of {len(B15)} rows (the paired interval excludes zero), so the choice of "best" configuration is itself uncertain, which is why we base claims on paired differences. Selecting the configuration by training-split cross-validation instead is unreliable on these scaffold splits: it lowers the RAFE score by {gap_lo:.2f} to {gap_hi:.2f} MCC (or Spearman) relative to the test-based choice, and we do not use it for ranking.
 
-![**Figure 12.** Five-seed mean test metric over the full configuration grid for the five completed datasets (red box: best cell).](../results/revision/e15_analysis/e15_grid_heatmap.pdf)
+![**Figure 11.** Five-seed mean test metric over the full configuration grid for the five completed datasets (red box: best cell).](../results/revision/e15_analysis/e15_grid_heatmap.pdf)
 
 **R2.6 Limited coherence of the central scientific narrative.**
 We agree and have reorganised the paper around three hypotheses: H1, LoRA adaptation is parameter-efficient without loss of accuracy; H2, retrieval features add information beyond the language-model embedding and descriptors; H3, 3D geometry helps structure-dependent endpoints. H1 is supported by the existing results. For H2, the evidence is that RAFE is a safe addition that improves on the embedding alone on several datasets, with a small and dataset-specific advantage over embedding plus descriptors; for H3, see R2.4. The strength of the descriptor baseline is now treated as a result in its own right (R2.1, R2.2). [Revision]
@@ -305,9 +314,9 @@ We reformatted the references with DOIs throughout. {P("final DOI check of every
 
 **R3.3 Statistical significance, multiple runs and test-set use.** The paired bootstrap and the five-seed protocol are described in R2.1 and R2.5. On model selection: the tree models are tuned by 5-fold cross-validation on the training split only (MCC for classification, negative RMSE for regression), and the test split is evaluated once per fitted model and never used for tuning. Configurations (embedding model, loss, tree model and stage) are then compared on the test set, as is usual for benchmarks. Because the best configuration is selected on the same test set, its score is optimistic; we therefore report five-seed means and the paired difference to the runner-up (Table 10). LoRA fine-tuning uses the training split, with the validation split for monitoring and checkpoint selection. As a limitation, seed variability was measured for the downstream stage; fine-tuning and library re-embedding were not repeated with independent seeds because of cost, so the intervals describe the downstream stage and are lower bounds on total variability. [Revision: Methods and Limitations]
 
-**R3.4 Interpretation of performance claims.** We revised each of the examples. (a) *BBBP:* the RAFE effect over FT Embed+PC depends on the tree ({bbd['CatBoost']:+.3f} with CatBoost, {bbd['LightGBM']:+.3f} with LightGBM, {bbd['XGBoost']:+.3f} with XGBoost; Table 5), and we now describe it as small and tree-dependent. (b) *DILI metrics:* the best configuration depends on the metric: for RAFE, MCC, accuracy and F1 select {cfgname(dm.loc["RAFE","best_MCC_cfg"])} (MCC {dm.loc["RAFE","best_MCC"]:.3f}) while AUC selects {cfgname(dm.loc["RAFE","best_AUC_cfg"])} ({dm.loc["RAFE","best_AUC"]:.3f}); the rank correlation between MCC and AUC across configurations is {dm.rho_MCC_AUC.min():.2f} to {dm.rho_MCC_AUC.max():.2f}. With 96 test molecules, MCC at a fixed threshold is noisier than AUC, so we state the ranking metric and report AUC alongside. (c) *Half-Life:* Spearman and R² behave differently because R² is computed in hours after inverting the log1p transform, where {share3*100:.0f}% of the test variance sits in three molecules; for the E4 baselines R² rises from {hh.R2_raw_hours.mean():.3f} to {hh.R2_log1p_space.mean():.3f} on the log scale (Figure 11). The rank correlation between Spearman and R² across the supplementary configurations is {rho_all:.2f} ({rho_rafe:.2f} within RAFE). We report both: the models rank half-lives moderately well (Spearman {bestsp.min():.2f} to {bestsp.max():.2f}) but do not predict their magnitude. (d) *BACE and protein-ligand interactions:* we removed the statement that Uni-Mol captures protein-ligand interactions; the data show that a 3D-aware model performs best on BACE, which does not by itself establish interaction modelling. [Revision]
+**R3.4 Interpretation of performance claims.** We revised each of the examples. (a) *BBBP:* the RAFE effect over FT Embed+PC depends on the tree ({bbd['CatBoost']:+.3f} with CatBoost, {bbd['LightGBM']:+.3f} with LightGBM, {bbd['XGBoost']:+.3f} with XGBoost; Table 5), and we now describe it as small and tree-dependent. (b) *DILI metrics:* the best configuration depends on the metric: for RAFE, MCC, accuracy and F1 select {cfgname(dm.loc["RAFE","best_MCC_cfg"])} (MCC {dm.loc["RAFE","best_MCC"]:.3f}) while AUC selects {cfgname(dm.loc["RAFE","best_AUC_cfg"])} ({dm.loc["RAFE","best_AUC"]:.3f}); the rank correlation between MCC and AUC across configurations is {dm.rho_MCC_AUC.min():.2f} to {dm.rho_MCC_AUC.max():.2f}. With 96 test molecules, MCC at a fixed threshold is noisier than AUC, so we state the ranking metric and report AUC alongside. (c) *Half-Life:* Spearman and R² behave differently because R² is computed in hours after inverting the log1p transform, where {share3*100:.0f}% of the test variance sits in three molecules; for the E4 baselines R² rises from {hh.R2_raw_hours.mean():.3f} to {hh.R2_log1p_space.mean():.3f} on the log scale (Figure 12). The rank correlation between Spearman and R² across the supplementary configurations is {rho_all:.2f} ({rho_rafe:.2f} within RAFE). We report both: the models rank half-lives moderately well (Spearman {bestsp.min():.2f} to {bestsp.max():.2f}) but do not predict their magnitude. (d) *BACE and protein-ligand interactions:* we removed the statement that Uni-Mol captures protein-ligand interactions; the data show that a 3D-aware model performs best on BACE, which does not by itself establish interaction modelling. [Revision]
 
-![**Figure 11.** Half-Life. Left: Spearman versus R² (hours) over the supplementary configurations. Right: R² in hours versus on the log1p scale for the descriptor and fingerprint baselines.]({F}figH_halflife_metrics.pdf)
+![**Figure 12.** Half-Life. Left: Spearman versus R² (hours) over the supplementary configurations. Right: R² in hours versus on the log1p scale for the descriptor and fingerprint baselines.]({F}figH_halflife_metrics.pdf)
 
 **R3.5 Novelty relative to EffiChem; inconsistencies.** The novelty statement is under R1.1. We audited the manuscript against the supplement and the code and corrected: the number of RAFE features (60 in the implementation, 18 + 5 + 34 + 3, not 69); the embedding dimension of MolFormer-XL; the LoRA initialisation and formula; the loss-function definitions; and the label of the best BACE configuration (the stored retrieval index is MolFormer FL, whereas the text said WL). A table of all corrections is in the supplement. {P("final consistency check of the revised tables")} [Revision]
 
@@ -341,3 +350,45 @@ def to_tex(df, name, nd=3):
     open(f"manuscript/tables/{name}.tex", "w").write("\\begin{tabular}{" + cols + "}\n\\toprule\n" + head + "\n\\midrule\n" + rows + "\n\\bottomrule\n\\end{tabular}\n")
 for nm_, df_ in (("tab_ranking_singlerun", T1), ("tab_groups", T2), ("tab_coverage", T3), ("tab_controlled", T5), ("tab_fingerprints", T6), ("tab_variants", T7), ("tab_3d_ecfp", T8), ("tab_conformers", T9), ("tab_best_configs", T10)): to_tex(df_, nm_)
 print("exported", len(os.listdir("manuscript/tables")), "LaTeX tables")
+
+T4 = pd.DataFrame([
+    ("LoRA fine-tuning, one run", f"{lora}", "training logs; lower bound"),
+    ("Library embedding, SMILES models (6 variants)", f"{z_h:.1f} min (hERG), {z_d:.1f} min (DILI)", "original run logs"),
+    ("Library embedding, Uni-Mol", ", ".join(f"{r.dataset}: {r.hours:.1f} h" for r in um.itertuples()), "original run logs"),
+    ("RAFE at inference, one molecule", f"{rq1}", "measured, shared P100, exact search"),
+    ("RAFE at inference, 192 molecules", f"{rq192}", "measured"),
+    ("XGBoost inference, one molecule", f"{xg1}", "measured"),
+    ("Tree stage per cell (20 trials, 5-fold CV, fit)", f'XGBoost {tree["XGBoost"]}; LightGBM {tree["LightGBM"]}; CatBoost {tree["CatBoost"]}', "loaded shared server; upper bound")], columns=["Stage", "Cost", "Source"])
+to_tex(T4, "tab_runtime")
+
+# ---------------- numbers used in the manuscript text (macros; every value comes from the analysis files)
+KEY = {"BACE": "BACE", "BBBP": "BBBP", "DILI": "DILI", "Caco-2": "CACO", "Half-Life": "HL"}; ST = {"FT Embed": "FT", "FT Embed+PC": "FTPC", "RAFE": "RAFE"}
+mac = ["% generated by scripts/revision/build_response.py; do not edit"]
+for r in B15.itertuples():
+    k = KEY[r.dataset] + ST[r.stage]; mac += [f"\\newcommand{{\\m{k}}}{{{r.oracle_test_mean:.3f}}}", f"\\newcommand{{\\s{k}}}{{{r.oracle_test_sd:.3f}}}", f"\\newcommand{{\\sr{k}}}{{{r.single_run_original_tables:.3f}}}", f"\\newcommand{{\\cfg{k}}}{{{r.oracle_config}}}"]
+for r in rk.itertuples(): mac.append(f"\\newcommand{{\\m{KEY[r.dataset]}PC}}{{{getattr(r, '_4') if False else rk.loc[r.Index, 'PC-only']:.3f}}}")
+mac += [f"\\newcommand{{\\ntop}}{{{r15_top3}}}", f"\\newcommand{{\\nds}}{{{n15}}}", f"\\newcommand{{\\mrankRAFE}}{{{r15_mean:.1f}}}", f"\\newcommand{{\\mrankFTPC}}{{{r15_ftpc:.1f}}}", f"\\newcommand{{\\mrankFT}}{{{r15_ft:.1f}}}", f"\\newcommand{{\\mrankPC}}{{{r15_pc:.1f}}}"]
+open("manuscript/tables/numbers.tex", "w").write("\n".join(mac) + "\n"); print("macros:", len(mac))
+
+# ---------------- further macros for the manuscript text
+def M(name, val): mac2.append(f"\\newcommand{{\\{name}}}{{{tex_esc(val) if isinstance(val, str) else val}}}")
+mac2 = []
+M("srtop", top3); M("srmean", f"{mrank:.1f}"); M("medtop", mtop3); M("medmean", f"{mmrank:.1f}"); M("medpc", f"{pcm:.1f}")
+M("nmf", n_mf); M("nsr", n_sr); M("nsep", n_sep); M("nrows", len(B15)); M("gaplo", f"{gap_lo:.2f}"); M("gaphi", f"{gap_hi:.2f}"); M("cvtop", r15_cv_top3); M("cvmean", f"{r15_cv_rafe:.1f}"); M("cvpcmean", f"{r15_cv_pc:.1f}")
+M("fracsmall", f"{frac_small*100:.0f}"); M("ncellsabl", len(dev)); M("nbig", len(big)); M("nkcomp", n23); M("nkexc", k23); M("bigcfg", ", ".join(big_cfg)); M("excdetails", "; ".join(exc23))
+M("spmin", f"{e10s.spearman_gain_vs_coverage.min():+.2f}"); M("spmax", f"{e10s.spearman_gain_vs_coverage.max():+.2f}")
+for g_ in "ABC": M(f"rg{g_}lo", f"{rg(g_)[0]*100:.0f}"); M(f"rg{g_}hi", f"{rg(g_)[1]*100:.0f}")
+M("ecorrmax", int(max(e10p.corrected_by_RAFE.max(), e10p.broken_by_RAFE.max())))
+M("vn", v_n); M("vbetterft", v_better_ft); M("vworseft", v_worse_ft); M("vbetterrf", v_better_rf); M("vworserf", v_worse_rf)
+M("covmedian", f"{allrow['median']:.2f}"); M("covn", f"{int(allrow['n']):,}"); M("covsixty", f"{allrow['>=0.6']*100:.0f}"); M("covbace", f"{cov[cov.dataset=='bace']['median'].iloc[0]:.3f}")
+M("ecfpcaco", f"{T6.loc[T6.Dataset=='Caco-2','ECFP4'].iloc[0]:.3f}"); M("pccaco", f"{T6.loc[T6.Dataset=='Caco-2','473 physchem (PC-only)'].iloc[0]:.3f}")
+M("draferecfpdili", f"{p4[(p4.cfg=='dili_um')&(p4.B=='ecfp4')]['diff'].iloc[0]:.2f}"); M("draferecfpcaco", f"{p4[(p4.cfg=='caco2_mtr')&(p4.B=='ecfp4')]['diff'].iloc[0]:.2f}")
+M("ecfpbace", f"{e5m['BACE'][1]:.3f}"); M("threedbace", f"{e5m['BACE'][0]:.3f}")
+M("concatlo", f"{p5v('caco2_um','XGBoost','concat2560','cls512')[0]:.2f}"); M("concathi", f"{p5v('caco2_um','CatBoost','concat2560','cls512')[0]:.2f}")
+M("coslo", f"{dr.median_cos_vs_seed42.min():.2f}"); M("coshi", f"{dr.median_cos_vs_seed42.max():.2f}"); M("rthreedlo", f"{r3d.min():.0f}"); M("rthreedhi", f"{r3d.max():.0f}"); M("rcatlo", f"{rcat.min():.0f}"); M("rcathi", f"{rcat.max():.0f}")
+M("lorarun", lora); M("zhmin", f"{z_h:.1f}"); M("zdmin", f"{z_d:.1f}"); M("raferq", f"{rq1_s:.2f}"); M("umhours", ", ".join(f"{r.dataset}: {r.hours:.1f} h" for r in um.itertuples()))
+M("bbbpcat", f"{bbd['CatBoost']:+.3f}"); M("bbblgb", f"{bbd['LightGBM']:+.3f}"); M("bbbxgb", f"{bbd['XGBoost']:+.3f}")
+M("dilirafecfg", cfgname(dm.loc["RAFE","best_MCC_cfg"])); M("dilirafemcc", f"{dm.loc['RAFE','best_MCC']:.3f}"); M("dilirafeaucfg", cfgname(dm.loc["RAFE","best_AUC_cfg"])); M("dilirafeauc", f"{dm.loc['RAFE','best_AUC']:.3f}")
+M("rhomcclo", f"{dm.rho_MCC_AUC.min():.2f}"); M("rhomcchi", f"{dm.rho_MCC_AUC.max():.2f}")
+M("sharethree", f"{share3*100:.0f}"); M("rawr", f"{hh.R2_raw_hours.mean():.3f}"); M("logr", f"{hh.R2_log1p_space.mean():.3f}"); M("rhoall", f"{rho_all:.2f}"); M("rhorafe", f"{rho_rafe:.2f}"); M("spbestlo", f"{bestsp.min():.2f}"); M("spbesthi", f"{bestsp.max():.2f}")
+open("manuscript/tables/numbers.tex", "a").write("\n".join(mac2) + "\n"); print("extra macros:", len(mac2))

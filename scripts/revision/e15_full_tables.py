@@ -24,21 +24,42 @@ for ds in NAME:
     pend = [t for t in TREES if t not in trees]
     if not trees: print(NAME[ds], "skipped: no tree with a complete grid"); continue
     hdr = "| Embedding, loss | " + " | ".join(f"{t}: {l}" for t in trees for _, l in ARMS) + " |\n|---|" + "---|" * (3 * len(trees)) + "\n"
-    body = []
+    body = []; tbody = []
     for e in embs:
-        cells = []
+        cells = []; tcells = []
         for t in trees:
             vals = {arm: x[(x.emb == e) & (x.arm == arm) & (x.clf == t)].iloc[0] for arm, _ in ARMS}; best = max(vals, key=lambda k: vals[k]["mean"])
             for arm, _ in ARMS:
-                s = f"{vals[arm]['mean']:.3f} ± {vals[arm]['std']:.3f}"; cells.append(f"**{s}**" if arm == best else s)
-        body.append(f"| {lab(e)} | " + " | ".join(cells) + " |")
+                s = f"{vals[arm]['mean']:.3f} ± {vals[arm]['std']:.3f}"; cells.append(f"**{s}**" if arm == best else s); st = s.replace(" ± ", " $\\pm$ "); tcells.append(f"\\textbf{{{st}}}" if arm == best else st)
+        body.append(f"| {lab(e)} | " + " | ".join(cells) + " |"); tbody.append(lab(e) + " & " + " & ".join(tcells) + " \\\\")
     pcrow = "| *PC-only (473 descriptors)* | " + " | ".join(((f"{pc(ds, t)[0]:.3f} ± {pc(ds, t)[1]:.3f}" if pc(ds, t) else "n/a") if i == 0 else "") for t in trees for i, _ in enumerate(ARMS)) + " |"
     # per-tree mean over embeddings of the within-cell differences (descriptive)
     drow = []
     for t in trees:
         w = x[x.clf == t].pivot(index="emb", columns="arm", values="mean"); drow += [f"RAFE−FT: {(w.full_RAFE - w.FT_only).mean():+.3f}", f"RAFE−FT+PC: {(w.full_RAFE - w['base_FT+PC']).mean():+.3f}", f"{len(w)} rows"]
         for e_, r_ in w.iterrows(): summary.append(dict(dataset=NAME[ds], tree=t, emb=lab(e_), rafe_minus_ft=r_.full_RAFE - r_.FT_only, rafe_minus_ftpc=r_.full_RAFE - r_["base_FT+PC"]))
-    drows = "| *Mean difference over rows* | " + " | ".join(drow) + " |"
+    cif0 = O / f"ci_{ds}.csv"; ci0 = pd.read_csv(cif0) if cif0.exists() else None
+    def cim(t, v):
+        if ci0 is None: return "pending"
+        r = ci0[(ci0.tree == t) & (ci0.versus == v)]
+        return "pending" if r.empty else f"{r.iloc[0]['diff']:+.3f} [{r.iloc[0].ci_lo:+.3f}, {r.iloc[0].ci_hi:+.3f}]"
+    drows = "| *RAFE minus FT Embed, pooled over rows and seeds [95% CI]* | " + " | ".join(cim(t, "FT Embed") if i == 0 else "" for t in trees for i in range(3)) + " |\n| *RAFE minus FT Embed+PC, pooled [95% CI]* | " + " | ".join(cim(t, "FT Embed+PC") if i == 0 else "" for t in trees for i in range(3)) + " |"
     md = f"**{NAME[ds]}**: mean ± SD test {'Spearman' if ds in ('caco2', 'half_life') else 'MCC'} over five seeds (42 to 46). Bold: best of the three stages within the row and tree.\n\n" + hdr + "\n".join(body) + "\n" + pcrow + "\n" + drows + "\n" + (f"\nPending trees: {', '.join(pend)}.\n" if pend else "")
     (O / f"{ds}.md").write_text(md); print(md)
+    cif = O / f"ci_{ds}.csv"; ci = pd.read_csv(cif) if cif.exists() else None
+    def cit(t, v):
+        if ci is None: return "pending"
+        r = ci[(ci.tree == t) & (ci.versus == v)]
+        return "pending" if r.empty else f"{r.iloc[0]['diff']:+.3f} [{r.iloc[0].ci_lo:+.3f}, {r.iloc[0].ci_hi:+.3f}]".replace("-", "$-$")
+    pct = [] ; dct = []
+    for t in trees:
+        pct += [f"{pc(ds, t)[0]:.3f} $\\pm$ {pc(ds, t)[1]:.3f}" if pc(ds, t) else "n/a", "", ""]
+        dct += [cit(t, "FT Embed"), cit(t, "FT Embed+PC"), ""]
+    nt = len(trees)
+    tex = ("\\begin{tabular}{@{}l" + "ccc" * nt + "@{}}\n\\toprule\n & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{t}}}" for t in trees) + " \\\\\n"
+           + " ".join(f"\\cmidrule(lr){{{2 + 3 * i}-{4 + 3 * i}}}" for i in range(nt)) + "\nEmbedding, loss & " + " & ".join("FT Embed & FT Embed+PC & RAFE" for _ in trees) + " \\\\\n\\midrule\n"
+           + "\n".join(tbody) + "\n\\midrule\nPC-only (473 descriptors) & " + " & ".join(pct) + " \\\\\n"
+           + "RAFE $-$ FT Embed [95\\% CI] & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{cit(t, 'FT Embed')}}}" for t in trees) + " \\\\\n"
+           + "RAFE $-$ FT Embed+PC [95\\% CI] & " + " & ".join(f"\\multicolumn{{3}}{{c}}{{{cit(t, 'FT Embed+PC')}}}" for t in trees) + " \\\\\n\\bottomrule\n\\end{tabular}\n")
+    Path("manuscript/tables").mkdir(exist_ok=True); Path(f"manuscript/tables/tab_full_{ds}.tex").write_text(tex)
 pd.DataFrame(summary).round(4).to_csv(O / "within_cell_differences.csv", index=False)

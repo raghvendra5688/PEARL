@@ -11,6 +11,7 @@
 | Uni-Mol FL | 0.444 ± 0.017 | 0.479 ± 0.025 | **0.496 ± 0.041** | **0.478 ± 0.027** | 0.468 ± 0.016 | 0.471 ± 0.023 |
 | Uni-Mol WL | 0.429 ± 0.018 | **0.440 ± 0.017** | 0.419 ± 0.036 | 0.421 ± 0.027 | **0.439 ± 0.016** | 0.424 ± 0.015 |
 | *PC-only (473 descriptors)* | 0.477 ± 0.036 |  |  | 0.485 ± 0.021 |  |  |
-| *Mean difference over rows* | RAFE−FT: +0.005 | RAFE−FT+PC: -0.006 | 8 rows | RAFE−FT: +0.001 | RAFE−FT+PC: -0.003 | 8 rows |
+| *RAFE minus FT Embed, pooled over rows and seeds [95% CI]* | +0.005 [-0.009, +0.021] |  |  | +0.001 [-0.013, +0.015] |  |  |
+| *RAFE minus FT Embed+PC, pooled [95% CI]* | -0.006 [-0.017, +0.004] |  |  | -0.003 [-0.013, +0.007] |  |  |
 
 Pending trees: CatBoost.

@@ -1,0 +1,16 @@
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \multicolumn{3}{c}{XGBoost} & \multicolumn{3}{c}{LightGBM} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+Embedding, loss & FT Embed & FT Embed+PC & RAFE & FT Embed & FT Embed+PC & RAFE \\
+\midrule
+ChemBERTa-MLM Huber & 0.350 $\pm$ 0.019 & \textbf{0.370 $\pm$ 0.025} & 0.351 $\pm$ 0.034 & 0.325 $\pm$ 0.007 & \textbf{0.349 $\pm$ 0.010} & 0.332 $\pm$ 0.027 \\
+ChemBERTa-MTR Huber & 0.472 $\pm$ 0.011 & 0.483 $\pm$ 0.017 & \textbf{0.496 $\pm$ 0.007} & \textbf{0.508 $\pm$ 0.023} & 0.506 $\pm$ 0.014 & 0.504 $\pm$ 0.016 \\
+MolFormer Huber & 0.592 $\pm$ 0.021 & \textbf{0.595 $\pm$ 0.017} & 0.559 $\pm$ 0.024 & 0.550 $\pm$ 0.010 & \textbf{0.558 $\pm$ 0.036} & 0.512 $\pm$ 0.020 \\
+Uni-Mol Huber & 0.385 $\pm$ 0.036 & 0.379 $\pm$ 0.041 & \textbf{0.427 $\pm$ 0.028} & 0.412 $\pm$ 0.027 & \textbf{0.428 $\pm$ 0.024} & 0.402 $\pm$ 0.015 \\
+\midrule
+PC-only (473 descriptors) & 0.499 $\pm$ 0.021 &  &  & 0.477 $\pm$ 0.016 &  &  \\
+RAFE $-$ FT Embed [95\% CI] & \multicolumn{3}{c}{+0.009 [$-$0.023, +0.039]} & \multicolumn{3}{c}{$-$0.011 [$-$0.040, +0.017]} \\
+RAFE $-$ FT Embed+PC [95\% CI] & \multicolumn{3}{c}{+0.002 [$-$0.024, +0.026]} & \multicolumn{3}{c}{$-$0.023 [$-$0.044, $-$0.002]} \\
+\bottomrule
+\end{tabular}

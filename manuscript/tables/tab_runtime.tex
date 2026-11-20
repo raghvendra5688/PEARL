@@ -1,0 +1,13 @@
+\begin{tabular}{lll}
+\toprule
+Stage & Cost & Source \\
+\midrule
+LoRA fine-tuning, one run & median 13 s, IQR 6-43 s, max 540 s & training logs; lower bound \\
+Library embedding, SMILES models (6 variants) & 4.4 min (hERG), 4.2 min (DILI) & original run logs \\
+Library embedding, Uni-Mol & herg: 8.4 h, dili: 9.1 h, caco2: 1.7 h & original run logs \\
+RAFE at inference, one molecule & retrieval 125.8 ms, features 3.8 ms, total 129.6 ms (129.63 ms per molecule) & measured, shared P100, exact search \\
+RAFE at inference, 192 molecules & retrieval 139.8 ms, features 456.2 ms, total 596.0 ms (3.10 ms per molecule) & measured \\
+XGBoost inference, one molecule & 0.5 ms & measured \\
+Tree stage per cell (20 trials, 5-fold CV, fit) & XGBoost median 639 s, IQR 398-888 s; LightGBM median 213 s, IQR 33-778 s; CatBoost median 1560 s, IQR 833-4380 s & loaded shared server; upper bound \\
+\bottomrule
+\end{tabular}

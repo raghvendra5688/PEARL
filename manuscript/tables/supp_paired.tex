@@ -1,0 +1,133 @@
+\begin{longtable}{llllp{4.2cm}}
+\caption{Controlled comparison (E1): paired bootstrap differences (five seeds pooled, 3{,}000 resamples) for each dataset configuration and tree.}\label{tab:supp_paired}\\
+\toprule
+Configuration & Tree & Comparison & Metric & Difference [95\% CI] \\
+\midrule
+\endfirsthead
+\toprule
+Configuration & Tree & Comparison & Metric & Difference [95\% CI] \\
+\midrule
+\endhead
+\bottomrule
+\endfoot
+bbbp\_mf & XGBoost & FT Embed+PC minus PC-only & MCC & +0.054 [$-$0.017, +0.130] \\
+bbbp\_mf & XGBoost & FT Embed+PC minus FT Embed & MCC & +0.002 [$-$0.014, +0.024] \\
+bbbp\_mf & XGBoost & RAFE minus FT Embed+PC & MCC & $-$0.006 [$-$0.024, +0.008] \\
+bbbp\_mf & XGBoost & RAFE minus PC-only & MCC & +0.048 [$-$0.023, +0.126] \\
+bbbp\_mf & XGBoost & RAFE minus FT Embed & MCC & $-$0.004 [$-$0.026, +0.016] \\
+bbbp\_mf & LightGBM & FT Embed+PC minus PC-only & MCC & +0.022 [$-$0.051, +0.096] \\
+bbbp\_mf & LightGBM & FT Embed+PC minus FT Embed & MCC & $-$0.013 [$-$0.031, +0.003] \\
+bbbp\_mf & LightGBM & RAFE minus FT Embed+PC & MCC & +0.012 [$-$0.002, +0.029] \\
+bbbp\_mf & LightGBM & RAFE minus PC-only & MCC & +0.034 [$-$0.038, +0.106] \\
+bbbp\_mf & LightGBM & RAFE minus FT Embed & MCC & $-$0.002 [$-$0.019, +0.015] \\
+bbbp\_mf & CatBoost & FT Embed+PC minus PC-only & MCC & +0.042 [$-$0.022, +0.109] \\
+bbbp\_mf & CatBoost & FT Embed+PC minus FT Embed & MCC & +0.005 [$-$0.016, +0.029] \\
+bbbp\_mf & CatBoost & RAFE minus FT Embed+PC & MCC & $-$0.007 [$-$0.030, +0.017] \\
+bbbp\_mf & CatBoost & RAFE minus PC-only & MCC & +0.035 [$-$0.036, +0.105] \\
+bbbp\_mf & CatBoost & RAFE minus FT Embed & MCC & $-$0.002 [$-$0.026, +0.023] \\
+dili\_um & XGBoost & FT Embed+PC minus PC-only & MCC & +0.021 [$-$0.071, +0.112] \\
+dili\_um & XGBoost & FT Embed+PC minus FT Embed & MCC & +0.173 [+0.051, +0.300] \\
+dili\_um & XGBoost & RAFE minus FT Embed+PC & MCC & +0.004 [$-$0.034, +0.040] \\
+dili\_um & XGBoost & RAFE minus PC-only & MCC & +0.025 [$-$0.058, +0.107] \\
+dili\_um & XGBoost & RAFE minus FT Embed & MCC & +0.177 [+0.060, +0.300] \\
+dili\_um & LightGBM & FT Embed+PC minus PC-only & MCC & +0.036 [$-$0.048, +0.118] \\
+dili\_um & LightGBM & FT Embed+PC minus FT Embed & MCC & +0.116 [+0.011, +0.231] \\
+dili\_um & LightGBM & RAFE minus FT Embed+PC & MCC & $-$0.031 [$-$0.073, +0.003] \\
+dili\_um & LightGBM & RAFE minus PC-only & MCC & +0.005 [$-$0.090, +0.096] \\
+dili\_um & LightGBM & RAFE minus FT Embed & MCC & +0.085 [$-$0.018, +0.196] \\
+dili\_um & CatBoost & FT Embed+PC minus PC-only & MCC & $-$0.054 [$-$0.146, +0.028] \\
+dili\_um & CatBoost & FT Embed+PC minus FT Embed & MCC & +0.089 [$-$0.018, +0.198] \\
+dili\_um & CatBoost & RAFE minus FT Embed+PC & MCC & $-$0.014 [$-$0.056, +0.029] \\
+dili\_um & CatBoost & RAFE minus PC-only & MCC & $-$0.069 [$-$0.168, +0.020] \\
+dili\_um & CatBoost & RAFE minus FT Embed & MCC & +0.074 [$-$0.027, +0.189] \\
+caco2\_mtr & XGBoost & FT Embed+PC minus PC-only & Spearman & $-$0.019 [$-$0.059, +0.017] \\
+caco2\_mtr & XGBoost & FT Embed+PC minus FT Embed & Spearman & +0.025 [$-$0.000, +0.048] \\
+caco2\_mtr & XGBoost & RAFE minus FT Embed+PC & Spearman & +0.003 [$-$0.003, +0.010] \\
+caco2\_mtr & XGBoost & RAFE minus PC-only & Spearman & $-$0.016 [$-$0.057, +0.023] \\
+caco2\_mtr & XGBoost & RAFE minus FT Embed & Spearman & +0.028 [+0.003, +0.051] \\
+caco2\_mtr & LightGBM & FT Embed+PC minus PC-only & Spearman & $-$0.014 [$-$0.063, +0.030] \\
+caco2\_mtr & LightGBM & FT Embed+PC minus FT Embed & Spearman & +0.030 [+0.009, +0.051] \\
+caco2\_mtr & LightGBM & RAFE minus FT Embed+PC & Spearman & $-$0.003 [$-$0.010, +0.004] \\
+caco2\_mtr & LightGBM & RAFE minus PC-only & Spearman & $-$0.017 [$-$0.068, +0.029] \\
+caco2\_mtr & LightGBM & RAFE minus FT Embed & Spearman & +0.027 [+0.005, +0.050] \\
+caco2\_mtr & CatBoost & FT Embed+PC minus PC-only & Spearman & $-$0.007 [$-$0.039, +0.026] \\
+caco2\_mtr & CatBoost & FT Embed+PC minus FT Embed & Spearman & +0.024 [+0.008, +0.043] \\
+caco2\_mtr & CatBoost & RAFE minus FT Embed+PC & Spearman & $-$0.000 [$-$0.009, +0.008] \\
+caco2\_mtr & CatBoost & RAFE minus PC-only & Spearman & $-$0.007 [$-$0.041, +0.030] \\
+caco2\_mtr & CatBoost & RAFE minus FT Embed & Spearman & +0.024 [+0.009, +0.043] \\
+bace\_um & XGBoost & FT Embed+PC minus PC-only & MCC & $-$0.038 [$-$0.124, +0.045] \\
+bace\_um & XGBoost & FT Embed+PC minus FT Embed & MCC & +0.011 [$-$0.047, +0.068] \\
+bace\_um & XGBoost & RAFE minus FT Embed+PC & MCC & $-$0.021 [$-$0.069, +0.024] \\
+bace\_um & XGBoost & RAFE minus PC-only & MCC & $-$0.058 [$-$0.147, +0.025] \\
+bace\_um & XGBoost & RAFE minus FT Embed & MCC & $-$0.010 [$-$0.068, +0.050] \\
+bace\_um & LightGBM & FT Embed+PC minus PC-only & MCC & $-$0.045 [$-$0.125, +0.029] \\
+bace\_um & LightGBM & FT Embed+PC minus FT Embed & MCC & +0.019 [$-$0.026, +0.064] \\
+bace\_um & LightGBM & RAFE minus FT Embed+PC & MCC & $-$0.015 [$-$0.059, +0.028] \\
+bace\_um & LightGBM & RAFE minus PC-only & MCC & $-$0.060 [$-$0.151, +0.025] \\
+bace\_um & LightGBM & RAFE minus FT Embed & MCC & +0.004 [$-$0.059, +0.068] \\
+bace\_um & CatBoost & FT Embed+PC minus PC-only & MCC & $-$0.025 [$-$0.101, +0.050] \\
+bace\_um & CatBoost & FT Embed+PC minus FT Embed & MCC & +0.051 [+0.009, +0.097] \\
+bace\_um & CatBoost & RAFE minus FT Embed+PC & MCC & $-$0.015 [$-$0.057, +0.024] \\
+bace\_um & CatBoost & RAFE minus PC-only & MCC & $-$0.041 [$-$0.111, +0.025] \\
+bace\_um & CatBoost & RAFE minus FT Embed & MCC & +0.035 [$-$0.018, +0.089] \\
+bace\_mf & XGBoost & FT Embed+PC minus PC-only & MCC & +0.060 [$-$0.029, +0.154] \\
+bace\_mf & XGBoost & FT Embed+PC minus FT Embed & MCC & $-$0.005 [$-$0.031, +0.020] \\
+bace\_mf & XGBoost & RAFE minus FT Embed+PC & MCC & $-$0.011 [$-$0.042, +0.025] \\
+bace\_mf & XGBoost & RAFE minus PC-only & MCC & +0.050 [$-$0.038, +0.147] \\
+bace\_mf & XGBoost & RAFE minus FT Embed & MCC & $-$0.015 [$-$0.043, +0.010] \\
+bace\_mf & LightGBM & FT Embed+PC minus PC-only & MCC & +0.064 [$-$0.019, +0.154] \\
+bace\_mf & LightGBM & FT Embed+PC minus FT Embed & MCC & +0.010 [$-$0.009, +0.031] \\
+bace\_mf & LightGBM & RAFE minus FT Embed+PC & MCC & +0.004 [$-$0.010, +0.020] \\
+bace\_mf & LightGBM & RAFE minus PC-only & MCC & +0.068 [$-$0.013, +0.157] \\
+bace\_mf & LightGBM & RAFE minus FT Embed & MCC & +0.014 [$-$0.002, +0.035] \\
+bace\_mf & CatBoost & FT Embed+PC minus PC-only & MCC & +0.062 [$-$0.039, +0.165] \\
+bace\_mf & CatBoost & FT Embed+PC minus FT Embed & MCC & $-$0.018 [$-$0.045, +0.008] \\
+bace\_mf & CatBoost & RAFE minus FT Embed+PC & MCC & $-$0.009 [$-$0.033, +0.012] \\
+bace\_mf & CatBoost & RAFE minus PC-only & MCC & +0.053 [$-$0.051, +0.157] \\
+bace\_mf & CatBoost & RAFE minus FT Embed & MCC & $-$0.028 [$-$0.062, +0.000] \\
+herg\_mf & XGBoost & FT Embed+PC minus PC-only & MCC & $-$0.048 [$-$0.075, $-$0.021] \\
+herg\_mf & XGBoost & FT Embed+PC minus FT Embed & MCC & +0.001 [$-$0.007, +0.009] \\
+herg\_mf & XGBoost & RAFE minus FT Embed+PC & MCC & $-$0.001 [$-$0.012, +0.010] \\
+herg\_mf & XGBoost & RAFE minus PC-only & MCC & $-$0.049 [$-$0.076, $-$0.022] \\
+herg\_mf & XGBoost & RAFE minus FT Embed & MCC & +0.001 [$-$0.011, +0.012] \\
+herg\_mf & LightGBM & FT Embed+PC minus PC-only & MCC & $-$0.032 [$-$0.058, $-$0.005] \\
+herg\_mf & LightGBM & FT Embed+PC minus FT Embed & MCC & +0.013 [+0.005, +0.021] \\
+herg\_mf & LightGBM & RAFE minus FT Embed+PC & MCC & $-$0.002 [$-$0.012, +0.009] \\
+herg\_mf & LightGBM & RAFE minus PC-only & MCC & $-$0.033 [$-$0.060, $-$0.007] \\
+herg\_mf & LightGBM & RAFE minus FT Embed & MCC & +0.011 [+0.001, +0.022] \\
+herg\_mf & CatBoost & FT Embed+PC minus PC-only & MCC & $-$0.051 [$-$0.077, $-$0.025] \\
+herg\_mf & CatBoost & FT Embed+PC minus FT Embed & MCC & +0.006 [$-$0.003, +0.015] \\
+herg\_mf & CatBoost & RAFE minus FT Embed+PC & MCC & $-$0.005 [$-$0.016, +0.006] \\
+herg\_mf & CatBoost & RAFE minus PC-only & MCC & $-$0.056 [$-$0.083, $-$0.030] \\
+herg\_mf & CatBoost & RAFE minus FT Embed & MCC & +0.001 [$-$0.010, +0.012] \\
+flavor\_mf & XGBoost & FT Embed+PC minus PC-only & MCC & $-$0.029 [$-$0.046, $-$0.011] \\
+flavor\_mf & XGBoost & FT Embed+PC minus FT Embed & MCC & $-$0.002 [$-$0.005, +0.001] \\
+flavor\_mf & XGBoost & RAFE minus FT Embed+PC & MCC & +0.002 [$-$0.004, +0.007] \\
+flavor\_mf & XGBoost & RAFE minus PC-only & MCC & $-$0.027 [$-$0.044, $-$0.010] \\
+flavor\_mf & XGBoost & RAFE minus FT Embed & MCC & +0.000 [$-$0.006, +0.006] \\
+flavor\_mf & LightGBM & FT Embed+PC minus PC-only & MCC & $-$0.015 [$-$0.031, +0.001] \\
+flavor\_mf & LightGBM & FT Embed+PC minus FT Embed & MCC & +0.003 [$-$0.002, +0.009] \\
+flavor\_mf & LightGBM & RAFE minus FT Embed+PC & MCC & +0.002 [$-$0.003, +0.007] \\
+flavor\_mf & LightGBM & RAFE minus PC-only & MCC & $-$0.013 [$-$0.028, +0.003] \\
+flavor\_mf & LightGBM & RAFE minus FT Embed & MCC & +0.006 [$-$0.000, +0.011] \\
+flavor\_mf & CatBoost & FT Embed+PC minus PC-only & MCC & $-$0.009 [$-$0.023, +0.005] \\
+flavor\_mf & CatBoost & FT Embed+PC minus FT Embed & MCC & $-$0.000 [$-$0.005, +0.005] \\
+flavor\_mf & CatBoost & RAFE minus FT Embed+PC & MCC & $-$0.003 [$-$0.008, +0.002] \\
+flavor\_mf & CatBoost & RAFE minus PC-only & MCC & $-$0.012 [$-$0.027, +0.003] \\
+flavor\_mf & CatBoost & RAFE minus FT Embed & MCC & $-$0.003 [$-$0.008, +0.001] \\
+half\_life\_mf & XGBoost & FT Embed+PC minus PC-only & Spearman & +0.096 [$-$0.014, +0.204] \\
+half\_life\_mf & XGBoost & FT Embed+PC minus FT Embed & Spearman & +0.003 [$-$0.026, +0.031] \\
+half\_life\_mf & XGBoost & RAFE minus FT Embed+PC & Spearman & $-$0.036 [$-$0.082, +0.011] \\
+half\_life\_mf & XGBoost & RAFE minus PC-only & Spearman & +0.060 [$-$0.049, +0.171] \\
+half\_life\_mf & XGBoost & RAFE minus FT Embed & Spearman & $-$0.033 [$-$0.084, +0.017] \\
+half\_life\_mf & LightGBM & FT Embed+PC minus PC-only & Spearman & +0.081 [$-$0.021, +0.192] \\
+half\_life\_mf & LightGBM & FT Embed+PC minus FT Embed & Spearman & +0.009 [$-$0.022, +0.040] \\
+half\_life\_mf & LightGBM & RAFE minus FT Embed+PC & Spearman & $-$0.046 [$-$0.105, +0.008] \\
+half\_life\_mf & LightGBM & RAFE minus PC-only & Spearman & +0.035 [$-$0.078, +0.148] \\
+half\_life\_mf & LightGBM & RAFE minus FT Embed & Spearman & $-$0.038 [$-$0.102, +0.022] \\
+half\_life\_mf & CatBoost & FT Embed+PC minus PC-only & Spearman & +0.066 [$-$0.020, +0.152] \\
+half\_life\_mf & CatBoost & FT Embed+PC minus FT Embed & Spearman & $-$0.009 [$-$0.041, +0.022] \\
+half\_life\_mf & CatBoost & RAFE minus FT Embed+PC & Spearman & $-$0.019 [$-$0.050, +0.012] \\
+half\_life\_mf & CatBoost & RAFE minus PC-only & Spearman & +0.047 [$-$0.044, +0.141] \\
+half\_life\_mf & CatBoost & RAFE minus FT Embed & Spearman & $-$0.028 [$-$0.061, +0.005] \\
+\end{longtable}
