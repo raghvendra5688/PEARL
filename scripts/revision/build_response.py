@@ -198,11 +198,11 @@ Best-configuration values are single runs and therefore optimistic: rerunning wi
 
 {md(T1)}
 
-![**Figure 1.** Difference between pipeline stages over matched embedding-loss-tree configurations (supplementary tables; intervals are bootstrap over configurations and are descriptive because configurations share a test set).]({F}figA_ladder_gain.pdf)
+![**Figure 1.** Difference between pipeline stages over matched embedding-loss-tree configurations (test metric: MCC for classification, Spearman correlation for Caco-2 and Half-Life; supplementary tables; intervals are bootstrap over configurations and are descriptive because configurations share a test set).]({F}figA_ladder_gain.pdf)
 
 ![**Figure 2.** Best configuration of each method per dataset (red: RAFE).]({F}figB_best_config_ranking.pdf)
 
-![**Figure 3.** Cost-performance frontier of the best configuration of each stage (median view over matched configurations: `results/revision/e12_pareto/pareto_frontier_median.pdf`).](../results/revision/e12_pareto/pareto_frontier.pdf)
+![**Figure 3.** Cost-performance frontier of the best configuration of each stage (median view over matched configurations).](../results/revision/e12_pareto/pareto_frontier.pdf)
 
 {CQ("R1.3", "Insufficient ablation studies")}
 

@@ -42,7 +42,9 @@ table { border-collapse: collapse; width: 100%; font-size: 7pt; margin: 5pt 0; }
 table, th, td { border: 0.5pt solid #888; }
 th, td { padding: 1.8pt 3.5pt; text-align: left; line-height: 1.15; }
 thead { background: #e8e8e8; }
-img { max-width: 92%; display: block; margin: 5pt auto; page-break-inside: avoid; }
+img { max-width: 92%; display: block; margin: 5pt auto; }
+figure { page-break-inside: avoid; margin: 5pt 0; }
+figcaption { font-size: 8.7pt; margin-top: 3pt; }
 hr { border: none; border-top: 0.5pt solid #bbb; margin: 8pt 0; }
 code { background: #f2f2f2; padding: 0.5pt 2pt; font-size: 7.6pt; }
 a { color: #0645ad; text-decoration: none; }

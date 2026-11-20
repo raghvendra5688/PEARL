@@ -171,7 +171,7 @@ embedding, embedding plus descriptors, retrieval) for three CLM families
 including a 3D model, crossed with two losses and three tree models, on
 seven datasets covering binary, multi-class and regression tasks, under
 one scaffold-split protocol with in-house PC-only, fingerprint, Chemprop
-and GCN baselines. For this revision alone we ran 5,580 tuned model fits
+and GCN baselines. For this revision alone we ran 5,605 tuned model fits
 with five seeds each and per-molecule predictions stored for paired
 testing. To our knowledge no published comparison of parameter-efficient
 1D and 3D chemical language models holds the split, the tuning budget,
@@ -284,9 +284,10 @@ Half-Life & 0.568 & 3 & FT Embed (0.623)\tabularnewline
 \centering
 \includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{../results/revision/figures_response/figA_ladder_gain.pdf}
 \caption{\textbf{Figure 1.} Difference between pipeline stages over
-matched embedding-loss-tree configurations (supplementary tables;
-intervals are bootstrap over configurations and are descriptive because
-configurations share a test set).}
+matched embedding-loss-tree configurations (test metric: MCC for
+classification, Spearman correlation for Caco-2 and Half-Life;
+supplementary tables; intervals are bootstrap over configurations and
+are descriptive because configurations share a test set).}
 \end{figure}
 
 \begin{figure}
@@ -300,8 +301,7 @@ dataset (red: RAFE).}
 \centering
 \includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{../results/revision/e12_pareto/pareto_frontier.pdf}
 \caption{\textbf{Figure 3.} Cost-performance frontier of the best
-configuration of each stage (median view over matched configurations:
-\texttt{results/revision/e12\_pareto/pareto\_frontier\_median.pdf}).}
+configuration of each stage (median view over matched configurations).}
 \end{figure}
 
 \textbf{R1.3}

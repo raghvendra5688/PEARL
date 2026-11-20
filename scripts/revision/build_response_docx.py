@@ -1,6 +1,6 @@
 """Response letter as .docx for collaborators: figures rasterised from the vector PDFs, tables kept as real Word tables.
 The PDFs stay the canonical figures; the PNGs here exist only for the Word file. Run after build_response.py."""
-import re, subprocess, sys, shutil
+import re, subprocess, sys, shutil, zipfile
 from pathlib import Path
 import pypdfium2 as pdfium
 REPO = Path(__file__).resolve().parents[2]; MS = REPO / "manuscript"
@@ -30,4 +30,16 @@ cmd = ["pandoc", tmp.name, "-f", "markdown+pipe_tables-smart", "-t", "docx", "--
 ref = MS / "response_reference.docx"
 if ref.exists(): cmd += ["--reference-doc", ref.name]
 subprocess.run(cmd, cwd=MS, check=True); tmp.unlink()
-print(f"wrote {docx} ({docx.stat().st_size/1e6:.2f} MB); {n} figures embedded at {DPI} dpi")
+
+# pandoc writes the source PNG's absolute local path (including the server directory tree) into each image's
+# pic:cNvPr descr attribute (distinct from wp:docPr descr, which correctly holds the figure caption and is kept).
+# Strip it so no filesystem path reaches the shared document.
+with zipfile.ZipFile(docx) as z:
+    names = z.namelist(); doc_xml = z.read("word/document.xml").decode("utf-8")
+    other = {nm: z.read(nm) for nm in names if nm != "word/document.xml"}
+leaks = len(re.findall(r'(<pic:cNvPr\b[^>]*?)descr="[^"]*"', doc_xml))
+doc_xml = re.sub(r'(<pic:cNvPr\b[^>]*?)descr="[^"]*"', r'\1descr=""', doc_xml)
+with zipfile.ZipFile(docx, "w", zipfile.ZIP_DEFLATED) as z:
+    for nm, data in other.items(): z.writestr(nm, data)
+    z.writestr("word/document.xml", doc_xml)
+print(f"wrote {docx} ({docx.stat().st_size/1e6:.2f} MB); {n} figures embedded at {DPI} dpi; stripped {leaks} leaked file paths")
