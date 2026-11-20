@@ -2,29 +2,29 @@
 \toprule
 Dataset (embedding) & Metric & Tree & PC-only & FT Embed & FT Embed+PC & RAFE \\
 \midrule
-BACE (MolFormer-WL) & MCC & CatBoost & 0.465 & 0.546 & 0.528 & 0.518 \\
-BACE (MolFormer-WL) & MCC & LightGBM & 0.485 & 0.539 & 0.549 & 0.553 \\
-BACE (MolFormer-WL) & MCC & XGBoost & 0.477 & 0.542 & 0.538 & 0.527 \\
-BACE (Uni-Mol-WL) & MCC & CatBoost & 0.465 & 0.390 & 0.440 & 0.425 \\
-BACE (Uni-Mol-WL) & MCC & LightGBM & 0.485 & 0.421 & 0.439 & 0.424 \\
-BACE (Uni-Mol-WL) & MCC & XGBoost & 0.477 & 0.429 & 0.440 & 0.419 \\
-BBBP (MolFormer-FL) & MCC & CatBoost & 0.726 & 0.762 & 0.768 & 0.799 \\
-BBBP (MolFormer-FL) & MCC & LightGBM & 0.733 & 0.768 & 0.755 & 0.767 \\
-BBBP (MolFormer-FL) & MCC & XGBoost & 0.731 & 0.783 & 0.785 & 0.779 \\
-Caco-2 (ChemBERTa-MTR) & Spearman & CatBoost & 0.840 & 0.809 & 0.833 & 0.833 \\
-Caco-2 (ChemBERTa-MTR) & Spearman & LightGBM & 0.834 & 0.789 & 0.819 & 0.816 \\
-Caco-2 (ChemBERTa-MTR) & Spearman & XGBoost & 0.833 & 0.788 & 0.813 & 0.817 \\
-DILI (Uni-Mol-FL) & MCC & CatBoost & 0.738 & 0.595 & 0.683 & 0.669 \\
-DILI (Uni-Mol-FL) & MCC & LightGBM & 0.654 & 0.574 & 0.690 & 0.658 \\
-DILI (Uni-Mol-FL) & MCC & XGBoost & 0.672 & 0.520 & 0.693 & 0.697 \\
-Flavor (MolFormer-WL) & MCC & CatBoost & 0.798 & 0.789 & 0.789 & 0.786 \\
-Flavor (MolFormer-WL) & MCC & LightGBM & 0.798 & 0.779 & 0.783 & 0.785 \\
-Flavor (MolFormer-WL) & MCC & XGBoost & 0.809 & 0.782 & 0.780 & 0.782 \\
-Half-Life (MolFormer) & Spearman & CatBoost & 0.530 & 0.604 & 0.596 & 0.577 \\
-Half-Life (MolFormer) & Spearman & LightGBM & 0.477 & 0.550 & 0.558 & 0.512 \\
-Half-Life (MolFormer) & Spearman & XGBoost & 0.499 & 0.592 & 0.595 & 0.559 \\
-hERG (MolFormer-FL) & MCC & CatBoost & 0.593 & 0.536 & 0.543 & 0.537 \\
-hERG (MolFormer-FL) & MCC & LightGBM & 0.577 & 0.532 & 0.545 & 0.544 \\
-hERG (MolFormer-FL) & MCC & XGBoost & 0.594 & 0.545 & 0.546 & 0.545 \\
+BACE (MolFormer-WL) & MCC & CatBoost & 0.465 & \textbf{0.546} & 0.528 & 0.518 \\
+BACE (MolFormer-WL) & MCC & LightGBM & 0.485 & 0.539 & 0.549 & \textbf{0.553} \\
+BACE (MolFormer-WL) & MCC & XGBoost & 0.477 & \textbf{0.542} & 0.538 & 0.527 \\
+BACE (Uni-Mol-WL) & MCC & CatBoost & \textbf{0.465} & 0.390 & 0.440 & 0.425 \\
+BACE (Uni-Mol-WL) & MCC & LightGBM & \textbf{0.485} & 0.421 & 0.439 & 0.424 \\
+BACE (Uni-Mol-WL) & MCC & XGBoost & \textbf{0.477} & 0.429 & 0.440 & 0.419 \\
+BBBP (MolFormer-FL) & MCC & CatBoost & 0.726 & 0.762 & 0.768 & \textbf{0.799} \\
+BBBP (MolFormer-FL) & MCC & LightGBM & 0.733 & \textbf{0.768} & 0.755 & 0.767 \\
+BBBP (MolFormer-FL) & MCC & XGBoost & 0.731 & 0.783 & \textbf{0.785} & 0.779 \\
+Caco-2 (ChemBERTa-MTR) & Spearman & CatBoost & \textbf{0.840} & 0.809 & 0.833 & 0.833 \\
+Caco-2 (ChemBERTa-MTR) & Spearman & LightGBM & \textbf{0.834} & 0.789 & 0.819 & 0.816 \\
+Caco-2 (ChemBERTa-MTR) & Spearman & XGBoost & \textbf{0.833} & 0.788 & 0.813 & 0.817 \\
+DILI (Uni-Mol-FL) & MCC & CatBoost & \textbf{0.738} & 0.595 & 0.683 & 0.669 \\
+DILI (Uni-Mol-FL) & MCC & LightGBM & 0.654 & 0.574 & \textbf{0.690} & 0.658 \\
+DILI (Uni-Mol-FL) & MCC & XGBoost & 0.672 & 0.520 & 0.693 & \textbf{0.697} \\
+Flavor (MolFormer-WL) & MCC & CatBoost & \textbf{0.798} & 0.789 & 0.789 & 0.786 \\
+Flavor (MolFormer-WL) & MCC & LightGBM & \textbf{0.798} & 0.779 & 0.783 & 0.785 \\
+Flavor (MolFormer-WL) & MCC & XGBoost & \textbf{0.809} & 0.782 & 0.780 & 0.782 \\
+Half-Life (MolFormer) & Spearman & CatBoost & 0.530 & \textbf{0.604} & 0.596 & 0.577 \\
+Half-Life (MolFormer) & Spearman & LightGBM & 0.477 & 0.550 & \textbf{0.558} & 0.512 \\
+Half-Life (MolFormer) & Spearman & XGBoost & 0.499 & 0.592 & \textbf{0.595} & 0.559 \\
+hERG (MolFormer-FL) & MCC & CatBoost & \textbf{0.593} & 0.536 & 0.543 & 0.537 \\
+hERG (MolFormer-FL) & MCC & LightGBM & \textbf{0.577} & 0.532 & 0.545 & 0.544 \\
+hERG (MolFormer-FL) & MCC & XGBoost & \textbf{0.594} & 0.545 & 0.546 & 0.545 \\
 \bottomrule
 \end{tabular}

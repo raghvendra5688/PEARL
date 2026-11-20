@@ -34,7 +34,7 @@ def rank_table(agg):
     t = pd.DataFrame(rows).T; return t, t.rank(axis=1, ascending=False, method="min").astype(int)
 tb, rb = rank_table(lambda x: x.max()); tm_, rm = rank_table(lambda x: x.median())
 winner = {ds: tb.loc[ds].idxmax() for ds in ORDER}
-T1 = pd.DataFrame([{"Dataset": NAME[ds], "RAFE best configuration": tb.loc[ds, "RAFE"], "RAFE rank (of 7)": int(rb.loc[ds, "RAFE"]), "Best method": f"{winner[ds]} ({tb.loc[ds].max():.3f})"} for ds in ORDER])
+T1 = pd.DataFrame([{"Dataset": NAME[ds], "RAFE best configuration": (lambda v, r: f"**{v:.3f}**" if r == 1 else f"{v:.3f}")(tb.loc[ds, "RAFE"], int(rb.loc[ds, "RAFE"])), "RAFE rank (of 7)": int(rb.loc[ds, "RAFE"]), "Best method": f"{winner[ds]} ({tb.loc[ds].max():.3f})"} for ds in ORDER])
 top3 = int((rb.RAFE <= 3).sum()); wins = [NAME[ds] for ds in ORDER if rb.loc[ds, "RAFE"] == 1]; mrank = rb.RAFE.mean()
 mtop3 = int((rm.RAFE <= 3).sum()); mmrank = rm.RAFE.mean(); pcm = rm["PC-only"].mean()
 
@@ -49,11 +49,17 @@ n_mf = int(B15.oracle_config.str.startswith("MolFormer").sum()); n_sr = int((B15
 w_fp = W11[(W11.versus == "base_FT+PC") & (W11.variant != "selected")]; w_rf = W11[(W11.versus == "full_RAFE") & (W11.variant != "selected")]
 v_better_ft, v_worse_ft, v_better_rf, v_worse_rf = int(w_fp.ci_better.sum()), int(w_fp.ci_worse.sum()), int(w_rf.ci_better.sum()), int(w_rf.ci_worse.sum()); v_n = int(w_fp.comparisons.sum())
 def ci(o, lo, hi): return f"{o:+.3f} [{lo:+.3f}, {hi:+.3f}]"
-T10 = pd.DataFrame([{"Dataset": r.dataset, "Stage": r.stage, "Best configuration (embedding, loss / tree)": r.oracle_config, "Test, 5-seed mean ± SD": f"{r.oracle_test_mean:.3f} ± {r.oracle_test_sd:.3f}", "Single run in the original tables": (f"{r.single_run_original_tables:.3f}" if r.single_run_original_tables == r.single_run_original_tables else "n/a"), "Runner-up (test mean)": f"{r.runner_up_config} ({r.runner_up_test_mean:.3f})", "Best minus runner-up [95% CI]": ci(r.runner_up_diff, r.runner_up_ci_lo, r.runner_up_ci_hi)} for r in B15.itertuples()])
+def bci(o, lo, hi): s = ci(o, lo, hi); return f"**{s}**" if (lo > 0 or hi < 0) else s   # bold when the paired interval excludes zero
+def bold_rowmax(df, cols, nd=3):
+    """Bold the best (highest) value in each row among `cols`; ties are all bolded."""
+    df = df.copy(); vals = df[cols].astype(float); mx = vals.max(axis=1)
+    for c in cols: df[c] = [f"**{v:.{nd}f}**" if abs(v - m) < 1e-9 else f"{v:.{nd}f}" for v, m in zip(vals[c], mx)]
+    return df
+T10 = pd.DataFrame([{"Dataset": r.dataset, "Stage": r.stage, "Best configuration (embedding, loss / tree)": r.oracle_config, "Test, 5-seed mean ± SD": f"{r.oracle_test_mean:.3f} ± {r.oracle_test_sd:.3f}", "Single run in the original tables": (f"{r.single_run_original_tables:.3f}" if r.single_run_original_tables == r.single_run_original_tables else "n/a"), "Runner-up (test mean)": f"{r.runner_up_config} ({r.runner_up_test_mean:.3f})", "Best minus runner-up [95% CI]": bci(r.runner_up_diff, r.runner_up_ci_lo, r.runner_up_ci_hi)} for r in B15.itertuples()])
 T7 = pd.DataFrame([{"Dataset": r.Dataset, "PC-only": f"{r.PC_only:.3f}", "FT+PC": f"{r.FT_PC:.3f}", "RAFE": f"{r.RAFE:.3f}", "Best variant (test mean)": f"{r.best_variant} ({r.best_test:.3f})", "Best variant minus RAFE [95% CI]": ci(r.diff_vs_full_RAFE, r.lo_full_RAFE, r.hi_full_RAFE), "Best variant minus FT+PC [95% CI]": ci(r._8, r._9, r._10)} for r in BV.itertuples()]) if False else None
 rows7 = []
 for _, r in BV.iterrows():
-    rows7.append({"Dataset": r.Dataset, "PC-only": f"{r.PC_only:.3f}", "FT+PC": f"{r.FT_PC:.3f}", "RAFE": f"{r.RAFE:.3f}", "Best variant (test mean)": f"{r.best_variant} ({r.best_test:.3f})", "Minus RAFE [95% CI]": ci(r["diff_vs_full_RAFE"], r["lo_full_RAFE"], r["hi_full_RAFE"]), "Minus FT+PC [95% CI]": ci(r["diff_vs_base_FT+PC"], r["lo_base_FT+PC"], r["hi_base_FT+PC"])})
+    rows7.append({"Dataset": r.Dataset, "PC-only": f"{r.PC_only:.3f}", "FT+PC": f"{r.FT_PC:.3f}", "RAFE": f"{r.RAFE:.3f}", "Best variant (test mean)": f"{r.best_variant} ({r.best_test:.3f})", "Minus RAFE [95% CI]": bci(r["diff_vs_full_RAFE"], r["lo_full_RAFE"], r["hi_full_RAFE"]), "Minus FT+PC [95% CI]": bci(r["diff_vs_base_FT+PC"], r["lo_base_FT+PC"], r["hi_base_FT+PC"])})
 T7 = pd.DataFrame(rows7); W11 = pd.read_csv(R + "e11_analysis/wins.csv")
 FT = {k: open(R + f"e15_analysis/full_tables/{k}.md").read().strip() for k in ("dili", "caco2", "bbbp")}
 # ---------------- ladder (matched-pair, supplement)
@@ -73,6 +79,7 @@ neg_rp_ds = ", ".join(sorted({NAME[{'herg_mf':'herg','flavor_mf':'flavor','bace_
 mat = pd.read_csv(R + "e06/controlled_matrix_means.csv"); nm = {"bace_mf": "BACE (MolFormer-WL)", "bace_um": "BACE (Uni-Mol-WL)", "bbbp_mf": "BBBP (MolFormer-FL)", "caco2_mtr": "Caco-2 (ChemBERTa-MTR)", "dili_um": "DILI (Uni-Mol-FL)", "flavor_mf": "Flavor (MolFormer-WL)", "half_life_mf": "Half-Life (MolFormer)", "herg_mf": "hERG (MolFormer-FL)"}
 met = {"caco2_mtr": "Spearman", "half_life_mf": "Spearman"}
 T5 = pd.DataFrame({"Dataset (embedding)": [nm[c] for c in mat.cfg], "Metric": [met.get(c, "MCC") for c in mat.cfg], "Tree": mat.clf, "PC-only": mat.PC_only, "FT Embed": mat.FT_only, "FT Embed+PC": mat["base_FT+PC"], "RAFE": mat.full_RAFE})
+T5 = bold_rowmax(T5, ["PC-only", "FT Embed", "FT Embed+PC", "RAFE"])
 incomplete = []
 for c in nm:
     for arm in ("PC_only", "FT_only", "base_FT+PC", "full_RAFE"):
@@ -89,9 +96,17 @@ for c in ["bbbp_mf", "dili_um", "caco2_mtr", "bace_mf", "bace_um", "herg_mf", "f
         v = [val(json.load(open(f))) for f in glob.glob(f"{R}e1/{c}/{a}_{CLF[c]}_s4?.json")]; r[lab] = float(np.mean(v)) if v else float("nan")
     for lab in list(r)[2:]: dev.append((nm[c], lab, r[lab] - r["FT+PC"]))
     ab_rows.append(r)
-T2 = pd.DataFrame(ab_rows); big = sorted([x for x in dev if abs(x[2]) > 0.02], key=lambda x: x[2]); frac_small = np.mean([abs(x[2]) <= 0.02 for x in dev])
+big = sorted([x for x in dev if abs(x[2]) > 0.02], key=lambda x: x[2]); frac_small = np.mean([abs(x[2]) <= 0.02 for x in dev])
+ab_rows2 = []
+for row in ab_rows:
+    new = {"Dataset (tree)": row["Dataset (tree)"], "FT+PC": f"{row['FT+PC']:.3f}"}
+    for lab in list(row)[2:]:
+        dfl = row[lab] - row["FT+PC"]; vs = f"{row[lab]:.3f}"; new[lab] = f"**{vs}**" if abs(dfl) > 0.02 else vs
+    ab_rows2.append(new)
+T2 = pd.DataFrame(ab_rows2)
 e4 = pd.read_csv(R + "e06/e04_best_tree_means.csv", index_col=0)
-T6 = pd.DataFrame([{"Dataset": NAME[ds], "ECFP4": e4.loc[ds, "ecfp4"], "ECFP6": e4.loc[ds, "ecfp6"], "MACCS": e4.loc[ds, "maccs"], "ECFP4+MACCS": e4.loc[ds, "ecfp4_maccs"], "RDKit descriptors": e4.loc[ds, "rdkit_desc"], "473 physchem (PC-only)": e4.loc[ds, "pc473"]} for ds in ORDER])
+T6_num = pd.DataFrame([{"Dataset": NAME[ds], "ECFP4": e4.loc[ds, "ecfp4"], "ECFP6": e4.loc[ds, "ecfp6"], "MACCS": e4.loc[ds, "maccs"], "ECFP4+MACCS": e4.loc[ds, "ecfp4_maccs"], "RDKit descriptors": e4.loc[ds, "rdkit_desc"], "473 physchem (PC-only)": e4.loc[ds, "pc473"]} for ds in ORDER])
+T6 = bold_rowmax(T6_num, ["ECFP4", "ECFP6", "MACCS", "ECFP4+MACCS", "RDKit descriptors", "473 physchem (PC-only)"])
 seeds4 = {ds: len({f.split("_s")[-1] for f in glob.glob(f"{R}e04_baselines/{ds}/pc473_XGBoost_s*.json")}) for ds in ORDER}
 p4 = pd.read_csv(R + "e06/paired_e4.csv")
 ntest = {c: json.load(open(glob.glob(f"{R}e1/{c}/base_FT+PC_{CLF[c]}_s42.json")[0]))['n_test'] for c in CLF}
@@ -122,7 +137,7 @@ rows5 = []; e5m = {}
 for nm_, cf_ in (("BACE", "bace_um"), ("BBBP", "bbbp_um"), ("Caco-2", "caco2_um"), ("DILI", "dili_um")):
     e5m[nm_] = [np.mean([val(json.load(open(f))) for f in glob.glob(f"{R}e05/{cf_}/{a}_XGBoost_s4?.json")]) for a in ("cls512", "ecfp2048", "concat2560")]
     rows5.append({"Dataset": nm_, "3D vector (512-d)": e5m[nm_][0], "ECFP4 (2048-bit)": e5m[nm_][1], "Both (2560-d)": e5m[nm_][2]})
-T8 = pd.DataFrame(rows5); p5 = pd.read_csv(R + "e06/paired_e5.csv")
+T8 = pd.DataFrame(rows5); T8 = bold_rowmax(T8, ["3D vector (512-d)", "ECFP4 (2048-bit)", "Both (2560-d)"]); p5 = pd.read_csv(R + "e06/paired_e5.csv")
 def p5v(ds, clf, A, B): x = p5[(p5.cfg == ds) & (p5.clf == clf) & (p5.A == A) & (p5.B == B)].iloc[0]; return x["diff"], x.ci_lo, x.ci_hi
 cf = pd.read_csv(R + "e05b/conformer_vs_tree_variance.csv"); dr = pd.read_csv(R + "e05b/embedding_drift.csv"); dr = dr[dr.conformer_seed != 42]
 ratio = (cf.sd_across_conformers / cf.sd_across_tree_seeds); r3d = ratio[cf.arm == "cls512"]; rcat = ratio[cf.arm == "concat2560"]
@@ -234,19 +249,19 @@ Best-configuration values are single runs and therefore optimistic: rerunning wi
 
 {CQ("R1.5", "End-to-end computational efficiency and runtime analysis")}
 
-**Ans:** Table 4 and Figure 7 give the cost of each stage, measured or taken from the logs of the original runs (no cross-method comparison, as discussed). One-off costs are small for the SMILES models (LoRA fine-tuning in seconds to minutes; embedding the 249k-molecule library in about {(z_h+z_d)/2:.1f} minutes) and large for Uni-Mol (hours, dominated by conformer generation). At prediction time RAFE adds about {rq1_s:.2f} s per molecule on a shared GPU, using exact search; tree inference takes under a millisecond. The figures come from different hardware and are indicative. [Revision: new subsection "Computational cost"]
+**Ans:** Table 4 and Figure 7 report the cost of each pipeline stage, measured directly or taken from the logs of the original runs; these figures are not a controlled cross-method comparison (see R1.3 and R2.1 for controlled accuracy comparisons). One-off costs are modest for the SMILES-based models (LoRA fine-tuning: seconds to minutes per dataset; embedding the 249k-molecule library: approximately {(z_h+z_d)/2:.1f} minutes) and substantially larger for Uni-Mol, where conformer generation dominates (hours). At inference, RAFE adds approximately {rq1_s:.2f} s per molecule on a shared GPU using exact search, and tree-model inference requires under one millisecond. Because the measurements were collected on different hardware, we report them as indicative rather than precisely comparable figures. [Revision: new subsection "Computational cost"]
 
 **Table 4.** Runtime of the pipeline stages.
 
-| Stage | Cost | Source |
-|---|---|---|
-| LoRA fine-tuning, one run | {lora} | training logs; includes small test runs, so a lower bound per dataset |
-| Library embedding, SMILES models (6 variants) | {z_h:.1f} min (hERG), {z_d:.1f} min (DILI) | original run logs |
-| Library embedding, Uni-Mol | {", ".join(f"{r.dataset}: {r.hours:.1f} h" for r in um.itertuples())} (hERG and DILI: 2 variants each; Caco-2 rerun: 1 variant) | original run logs |
-| RAFE at inference, one molecule | {rq1} | measured, shared P100, exact search over 249k molecules |
-| RAFE at inference, 192 molecules | {rq192} | measured |
-| XGBoost inference, one molecule | {xg1} | measured |
-| Tree stage per cell (20 Optuna trials × 5-fold CV + fit) | XGBoost {tree["XGBoost"]}; LightGBM {tree["LightGBM"]}; CatBoost {tree["CatBoost"]} | E1 and E4 cells on a loaded shared server; an upper bound |
+| Stage | Cost |
+|---|---|
+| LoRA fine-tuning, one run (lower bound; includes small test runs) | {lora} |
+| Library embedding, SMILES models (6 variants) | {z_h:.1f} min (hERG), {z_d:.1f} min (DILI) |
+| Library embedding, Uni-Mol | {", ".join(f"{r.dataset}: {r.hours:.1f} h" for r in um.itertuples())} (hERG and DILI: 2 variants each; Caco-2 rerun: 1 variant) |
+| RAFE at inference, one molecule (shared P100, exact search over 249k molecules) | {rq1} |
+| RAFE at inference, 192 molecules | {rq192} |
+| XGBoost inference, one molecule | {xg1} |
+| Tree stage per cell, 20 Optuna trials / 5-fold CV / fit (upper bound, shared server) | XGBoost {tree["XGBoost"]}; LightGBM {tree["LightGBM"]}; CatBoost {tree["CatBoost"]} |
 
 ![**Figure 7.** Cost of the pipeline stages (blue: one-off; red: per query molecule).]({F}figE_runtime.pdf)
 
@@ -276,7 +291,7 @@ Because the reviewer's concern is that best rows may pair different trees, we al
 
 {CQ("R2.2", "Insufficient comparison with conventional molecular fingerprints")}
 
-**Ans:** We agree that these baselines belong in the main benchmark. Table 6 evaluates ECFP4, ECFP6, MACCS, ECFP4+MACCS, RDKit descriptors and the 473 physicochemical descriptors with the same trees and tuning (best tree shown; {min(v for k, v in seeds4.items() if k not in ("herg", "flavor"))}{'' if min(v for k, v in seeds4.items() if k not in ('herg', 'flavor')) == max(v for k, v in seeds4.items() if k not in ('herg', 'flavor')) else ' to ' + str(max(v for k, v in seeds4.items() if k not in ('herg', 'flavor')))} seeds on the smaller datasets and {seeds4["herg"]} on hERG and Flavor because of cost). Fingerprints alone are clearly weaker than descriptors on Caco-2 ({T6.loc[T6.Dataset=="Caco-2","ECFP4"].iloc[0]:.3f} for ECFP4 versus {T6.loc[T6.Dataset=="Caco-2","473 physchem (PC-only)"].iloc[0]:.3f}), DILI and Half-Life, and comparable on BACE, hERG and Flavor. RAFE is clearly better than ECFP4 alone on DILI (+{p4[(p4.cfg=="dili_um")&(p4.B=="ecfp4")]["diff"].iloc[0]:.2f}) and Caco-2 (+{p4[(p4.cfg=="caco2_mtr")&(p4.B=="ecfp4")]["diff"].iloc[0]:.2f}); against PC-only the intervals include zero on all three datasets compared (BBBP, DILI, Caco-2). [Revision]
+**Ans:** We agree that these baselines belong in the main benchmark. Table 6 evaluates ECFP4, ECFP6, MACCS, ECFP4+MACCS, RDKit descriptors and the 473 physicochemical descriptors with the same trees and tuning (best tree shown; {min(v for k, v in seeds4.items() if k not in ("herg", "flavor"))}{'' if min(v for k, v in seeds4.items() if k not in ('herg', 'flavor')) == max(v for k, v in seeds4.items() if k not in ('herg', 'flavor')) else ' to ' + str(max(v for k, v in seeds4.items() if k not in ('herg', 'flavor')))} seeds on the smaller datasets and {seeds4["herg"]} on hERG and Flavor because of cost). Fingerprints alone are clearly weaker than descriptors on Caco-2 ({T6_num.loc[T6_num.Dataset=="Caco-2","ECFP4"].iloc[0]:.3f} for ECFP4 versus {T6_num.loc[T6_num.Dataset=="Caco-2","473 physchem (PC-only)"].iloc[0]:.3f}), DILI and Half-Life, and comparable on BACE, hERG and Flavor. RAFE is clearly better than ECFP4 alone on DILI (+{p4[(p4.cfg=="dili_um")&(p4.B=="ecfp4")]["diff"].iloc[0]:.2f}) and Caco-2 (+{p4[(p4.cfg=="caco2_mtr")&(p4.B=="ecfp4")]["diff"].iloc[0]:.2f}); against PC-only the intervals include zero on all three datasets compared (BBBP, DILI, Caco-2). [Revision]
 
 **Table 6.** Fingerprint and descriptor baselines (best tree per cell; MCC for classification, Spearman for regression).
 
@@ -354,7 +369,7 @@ On the second point we would offer a different reading. That a simple descriptor
 
 {CQ("R3.4", "Interpretation of the performance claims")}
 
-**Ans:** We revised each of the examples. (a) *BBBP:* the RAFE effect over FT Embed+PC depends on the tree ({bbd['CatBoost']:+.3f} with CatBoost, {bbd['LightGBM']:+.3f} with LightGBM, {bbd['XGBoost']:+.3f} with XGBoost; Table 5), and we now describe it as small and tree-dependent. (b) *DILI metrics:* the best configuration depends on the metric: for RAFE, MCC, accuracy and F1 select {cfgname(dm.loc["RAFE","best_MCC_cfg"])} (MCC {dm.loc["RAFE","best_MCC"]:.3f}) while AUC selects {cfgname(dm.loc["RAFE","best_AUC_cfg"])} ({dm.loc["RAFE","best_AUC"]:.3f}); the rank correlation between MCC and AUC across configurations is {dm.rho_MCC_AUC.min():.2f} to {dm.rho_MCC_AUC.max():.2f}. With 96 test molecules, MCC at a fixed threshold is noisier than AUC, so we state the ranking metric and report AUC alongside. (c) *Half-Life:* Spearman and R² behave differently because R² is computed in hours after inverting the log1p transform, where {share3*100:.0f}% of the test variance sits in three molecules; for the E4 baselines R² rises from {hh.R2_raw_hours.mean():.3f} to {hh.R2_log1p_space.mean():.3f} on the log scale (Figure 12). The rank correlation between Spearman and R² across the supplementary configurations is {rho_all:.2f} ({rho_rafe:.2f} within RAFE). We report both: the models rank half-lives moderately well (Spearman {bestsp.min():.2f} to {bestsp.max():.2f}) but do not predict their magnitude. (d) *BACE and protein-ligand interactions:* we removed the statement that Uni-Mol captures protein-ligand interactions; the data show that a 3D-aware model performs best on BACE, which does not by itself establish interaction modelling. [Revision]
+**Ans:** We revised each of the examples. (a) *BBBP:* the RAFE effect over FT Embed+PC depends on the tree ({bbd['CatBoost']:+.3f} with CatBoost, {bbd['LightGBM']:+.3f} with LightGBM, {bbd['XGBoost']:+.3f} with XGBoost; Table 5), and we now describe it as small and tree-dependent. (b) *DILI metrics:* the best configuration depends on the metric: for RAFE, MCC, accuracy and F1 select {cfgname(dm.loc["RAFE","best_MCC_cfg"])} (MCC {dm.loc["RAFE","best_MCC"]:.3f}) while AUC selects {cfgname(dm.loc["RAFE","best_AUC_cfg"])} ({dm.loc["RAFE","best_AUC"]:.3f}); the rank correlation between MCC and AUC across configurations is {dm.rho_MCC_AUC.min():.2f} to {dm.rho_MCC_AUC.max():.2f}. With 96 test molecules, MCC at a fixed threshold is noisier than AUC, so we state the ranking metric and report AUC alongside. (c) *Half-Life:* Spearman and R² behave differently because R² is computed in hours after inverting the log1p transform, where {share3*100:.0f}% of the test variance sits in three molecules; for the fingerprint and descriptor baselines R² rises from {hh.R2_raw_hours.mean():.3f} to {hh.R2_log1p_space.mean():.3f} on the log scale (Figure 12). The rank correlation between Spearman and R² across the supplementary configurations is {rho_all:.2f} ({rho_rafe:.2f} within RAFE). We report both: the models rank half-lives moderately well (Spearman {bestsp.min():.2f} to {bestsp.max():.2f}) but do not predict their magnitude. (d) *BACE and protein-ligand interactions:* we removed the statement that Uni-Mol captures protein-ligand interactions; the data show that a 3D-aware model performs best on BACE, which does not by itself establish interaction modelling. [Revision]
 
 ![**Figure 12.** Half-Life. Left: Spearman versus R² (hours) over the supplementary configurations. Right: R² in hours versus on the log1p scale for the descriptor and fingerprint baselines.]({F}figH_halflife_metrics.pdf)
 
@@ -386,8 +401,11 @@ import os
 os.makedirs("manuscript/tables", exist_ok=True)
 def tex_esc(v, nd=3):
     t = f"{v:.{nd}f}" if isinstance(v, (float, np.floating)) else str(v)
+    bold = t.startswith("**") and t.endswith("**") and len(t) > 4
+    if bold: t = t[2:-2]
     for a, b in (("\\", "\\textbackslash{}"), ("&", "\\&"), ("%", "\\%"), ("_", "\\_"), ("#", "\\#"), ("±", "$\\pm$"), ("−", "$-$"), ("≥", "$\\geq$")): t = t.replace(a, b)
-    return re.sub(r"(?<![\w}])-(?=\d)", "$-$", t)
+    t = re.sub(r"(?<![\w}])-(?=\d)", "$-$", t)
+    return f"\\textbf{{{t}}}" if bold else t
 def to_tex(df, name, nd=3):
     cols = "l" * len(df.columns); head = " & ".join(tex_esc(c) for c in df.columns) + " \\\\"
     rows = "\n".join(" & ".join(tex_esc(v, nd) for v in r) + " \\\\" for r in df.values)
@@ -396,13 +414,13 @@ for nm_, df_ in (("tab_ranking_singlerun", T1), ("tab_groups", T2), ("tab_covera
 print("exported", len(os.listdir("manuscript/tables")), "LaTeX tables")
 
 T4 = pd.DataFrame([
-    ("LoRA fine-tuning, one run", f"{lora}", "training logs; lower bound"),
-    ("Library embedding, SMILES models (6 variants)", f"{z_h:.1f} min (hERG), {z_d:.1f} min (DILI)", "original run logs"),
-    ("Library embedding, Uni-Mol", ", ".join(f"{r.dataset}: {r.hours:.1f} h" for r in um.itertuples()), "original run logs"),
-    ("RAFE at inference, one molecule", f"{rq1}", "measured, shared P100, exact search"),
-    ("RAFE at inference, 192 molecules", f"{rq192}", "measured"),
-    ("XGBoost inference, one molecule", f"{xg1}", "measured"),
-    ("Tree stage per cell (20 trials, 5-fold CV, fit)", f'XGBoost {tree["XGBoost"]}; LightGBM {tree["LightGBM"]}; CatBoost {tree["CatBoost"]}', "loaded shared server; upper bound")], columns=["Stage", "Cost", "Source"])
+    ("LoRA fine-tuning, one run (lower bound)", f"{lora}"),
+    ("Library embedding, SMILES models (6 variants)", f"{z_h:.1f} min (hERG), {z_d:.1f} min (DILI)"),
+    ("Library embedding, Uni-Mol", ", ".join(f"{r.dataset}: {r.hours:.1f} h" for r in um.itertuples())),
+    ("RAFE at inference, one molecule", f"{rq1}"),
+    ("RAFE at inference, 192 molecules", f"{rq192}"),
+    ("XGBoost inference, one molecule", f"{xg1}"),
+    ("Tree stage per cell, 20 trials/5-fold CV/fit (upper bound, shared server)", f'XGBoost {tree["XGBoost"]}; LightGBM {tree["LightGBM"]}; CatBoost {tree["CatBoost"]}')], columns=["Stage", "Cost"])
 to_tex(T4, "tab_runtime")
 
 # ---------------- numbers used in the manuscript text (macros; every value comes from the analysis files)
@@ -425,7 +443,7 @@ for g_ in "ABC": M(f"rg{g_}lo", f"{rg(g_)[0]*100:.0f}"); M(f"rg{g_}hi", f"{rg(g_
 M("ecorrmax", int(max(e10p.corrected_by_RAFE.max(), e10p.broken_by_RAFE.max())))
 M("vn", v_n); M("vbetterft", v_better_ft); M("vworseft", v_worse_ft); M("vbetterrf", v_better_rf); M("vworserf", v_worse_rf)
 M("covmedian", f"{allrow['median']:.2f}"); M("covn", f"{int(allrow['n']):,}"); M("covsixty", f"{allrow['>=0.6']*100:.0f}"); M("covbace", f"{cov[cov.dataset=='bace']['median'].iloc[0]:.3f}")
-M("ecfpcaco", f"{T6.loc[T6.Dataset=='Caco-2','ECFP4'].iloc[0]:.3f}"); M("pccaco", f"{T6.loc[T6.Dataset=='Caco-2','473 physchem (PC-only)'].iloc[0]:.3f}")
+M("ecfpcaco", f"{T6_num.loc[T6_num.Dataset=='Caco-2','ECFP4'].iloc[0]:.3f}"); M("pccaco", f"{T6_num.loc[T6_num.Dataset=='Caco-2','473 physchem (PC-only)'].iloc[0]:.3f}")
 M("draferecfpdili", f"{p4[(p4.cfg=='dili_um')&(p4.B=='ecfp4')]['diff'].iloc[0]:.2f}"); M("draferecfpcaco", f"{p4[(p4.cfg=='caco2_mtr')&(p4.B=='ecfp4')]['diff'].iloc[0]:.2f}")
 M("ecfpbace", f"{e5m['BACE'][1]:.3f}"); M("threedbace", f"{e5m['BACE'][0]:.3f}")
 M("concatlo", f"{p5v('caco2_um','XGBoost','concat2560','cls512')[0]:.2f}"); M("concathi", f"{p5v('caco2_um','CatBoost','concat2560','cls512')[0]:.2f}")

@@ -26,7 +26,7 @@ We are grateful for the time and care that went into these reports. They pointed
 
 **Ans:** We accept the factual part of this comment: PEARL composes known components, and the revised manuscript no longer presents RAFE as a new learning mechanism. We would respectfully argue, however, that the contribution should be judged on what the work establishes rather than on whether a new learner is introduced, and we ask the reviewer to weigh four points.
 
-*(a) The benchmark is the contribution, and it is one the field currently lacks.* We evaluate a complete ladder (end-to-end LoRA, frozen embedding, embedding plus descriptors, retrieval) for three CLM families including a 3D model, crossed with two losses and three tree models, on seven datasets covering binary, multi-class and regression tasks, under one scaffold-split protocol with in-house PC-only, fingerprint, Chemprop and GCN baselines. For this revision alone we ran 5,614 tuned model fits with five seeds each and per-molecule predictions stored for paired testing. To our knowledge no published comparison of parameter-efficient 1D and 3D chemical language models holds the split, the tuning budget, the downstream learner and the seeds fixed in this way. A benchmark whose conclusions are reproducible is, we believe, a legitimate scientific contribution, and the reviewer's own first listed strength is this coverage.
+*(a) The benchmark is the contribution, and it is one the field currently lacks.* We evaluate a complete ladder (end-to-end LoRA, frozen embedding, embedding plus descriptors, retrieval) for three CLM families including a 3D model, crossed with two losses and three tree models, on seven datasets covering binary, multi-class and regression tasks, under one scaffold-split protocol with in-house PC-only, fingerprint, Chemprop and GCN baselines. For this revision alone we ran 5,633 tuned model fits with five seeds each and per-molecule predictions stored for paired testing. To our knowledge no published comparison of parameter-efficient 1D and 3D chemical language models holds the split, the tuning budget, the downstream learner and the seeds fixed in this way. A benchmark whose conclusions are reproducible is, we believe, a legitimate scientific contribution, and the reviewer's own first listed strength is this coverage.
 
 *(b) RAFE has properties that matter in practice and that distinguish it from existing molecular retrieval.* Most molecular retrieval augmentation retrieves labelled training molecules, which couples the retrieval space to the prediction target and risks leakage. RAFE retrieves from a fixed external library using structure only, so no label can enter the features and leakage is impossible by construction. It is also architecture-agnostic (it wraps any CLM without retraining), it costs about 0.13 s per molecule, and it needs no tuning: we show the result is unchanged across $k$ from 1 to 100 and across three retrieval metrics (R1.3). In 24 controlled paired comparisons it is never significantly worse than the stage below it, and it is significantly better than the fine-tuned embedding alone on 4 of 7 datasets. A stage that cannot leak, needs no tuning and does not degrade accuracy is a useful default, even if it is assembled from known parts.
 
@@ -52,10 +52,10 @@ Best-configuration values are single runs and therefore optimistic: rerunning wi
 | Dataset | RAFE best configuration | RAFE rank (of 7) | Best method |
 |---|---|---|---|
 | BACE | 0.561 | 2 | E2E LoRA (0.623) |
-| BBBP | 0.798 | 1 | RAFE (0.798) |
+| BBBP | **0.798** | 1 | RAFE (0.798) |
 | Flavor | 0.804 | 3 | Chemprop (0.809) |
 | hERG | 0.589 | 4 | E2E LoRA (0.609) |
-| DILI | 0.790 | 1 | RAFE (0.790) |
+| DILI | **0.790** | 1 | RAFE (0.790) |
 | Caco-2 | 0.835 | 2 | PC-only (0.853) |
 | Half-Life | 0.568 | 3 | FT Embed (0.623) |
 
@@ -83,13 +83,13 @@ Best-configuration values are single runs and therefore optimistic: rerunning wi
 | Dataset (tree) | FT+PC | +A | +B | +C | +D | RAFE | RAFE-A | RAFE-B | RAFE-C | RAFE-D |
 |---|---|---|---|---|---|---|---|---|---|---|
 | BBBP (MolFormer-FL) (XGBoost) | 0.785 | 0.790 | 0.781 | 0.790 | 0.780 | 0.779 | 0.783 | 0.779 | 0.789 | 0.769 |
-| DILI (Uni-Mol-FL) (XGBoost) | 0.693 | 0.680 | 0.686 | 0.673 | 0.704 | 0.697 | 0.671 | 0.693 | 0.705 | 0.651 |
+| DILI (Uni-Mol-FL) (XGBoost) | 0.693 | 0.680 | 0.686 | **0.673** | 0.704 | 0.697 | **0.671** | 0.693 | 0.705 | **0.651** |
 | Caco-2 (ChemBERTa-MTR) (CatBoost) | 0.833 | 0.826 | 0.832 | 0.834 | 0.835 | 0.833 | 0.830 | 0.835 | 0.836 | 0.826 |
 | BACE (MolFormer-WL) (LightGBM) | 0.549 | 0.554 | 0.553 | 0.558 | 0.550 | 0.553 | 0.550 | 0.544 | 0.548 | 0.558 |
-| BACE (Uni-Mol-WL) (XGBoost) | 0.440 | 0.455 | 0.418 | 0.444 | 0.433 | 0.419 | 0.421 | 0.433 | 0.420 | 0.445 |
+| BACE (Uni-Mol-WL) (XGBoost) | 0.440 | 0.455 | **0.418** | 0.444 | 0.433 | **0.419** | 0.421 | 0.433 | **0.420** | 0.445 |
 | hERG (MolFormer-FL) (LightGBM) | 0.545 | 0.550 | 0.544 | 0.542 | 0.540 | 0.544 | 0.552 | 0.542 | 0.545 | 0.544 |
 | Flavor (MolFormer-WL) (LightGBM) | 0.783 | 0.786 | 0.785 | 0.782 | 0.781 | 0.785 | 0.783 | 0.782 | 0.783 | 0.777 |
-| Half-Life (MolFormer) (XGBoost) | 0.595 | 0.571 | 0.591 | 0.581 | 0.593 | 0.559 | 0.580 | 0.565 | 0.572 | 0.551 |
+| Half-Life (MolFormer) (XGBoost) | 0.595 | **0.571** | 0.591 | 0.581 | 0.593 | **0.559** | 0.580 | **0.565** | **0.572** | **0.551** |
 
 ![**Figure 4.** Change relative to FT Embed+PC for each feature-group arm (RAFE-X: RAFE without group X).](../results/revision/figures_response/figC_ablation_heatmap.pdf)
 
@@ -121,19 +121,19 @@ Best-configuration values are single runs and therefore optimistic: rerunning wi
 > End-to-End Computational Efficiency and Runtime Analysis: Although the paper emphasizes parameter efficiency through LoRA and reports low FAISS retrieval latency, it lacks a comprehensive evaluation of the computational cost of the entire PEARL pipeline.
 
 
-**Ans:** Table 4 and Figure 7 give the cost of each stage, measured or taken from the logs of the original runs (no cross-method comparison, as discussed). One-off costs are small for the SMILES models (LoRA fine-tuning in seconds to minutes; embedding the 249k-molecule library in about 4.3 minutes) and large for Uni-Mol (hours, dominated by conformer generation). At prediction time RAFE adds about 0.13 s per molecule on a shared GPU, using exact search; tree inference takes under a millisecond. The figures come from different hardware and are indicative. [Revision: new subsection "Computational cost"]
+**Ans:** Table 4 and Figure 7 report the cost of each pipeline stage, measured directly or taken from the logs of the original runs; these figures are not a controlled cross-method comparison (see R1.3 and R2.1 for controlled accuracy comparisons). One-off costs are modest for the SMILES-based models (LoRA fine-tuning: seconds to minutes per dataset; embedding the 249k-molecule library: approximately 4.3 minutes) and substantially larger for Uni-Mol, where conformer generation dominates (hours). At inference, RAFE adds approximately 0.13 s per molecule on a shared GPU using exact search, and tree-model inference requires under one millisecond. Because the measurements were collected on different hardware, we report them as indicative rather than precisely comparable figures. [Revision: new subsection "Computational cost"]
 
 **Table 4.** Runtime of the pipeline stages.
 
-| Stage | Cost | Source |
-|---|---|---|
-| LoRA fine-tuning, one run | median 13 s, IQR 6-43 s, max 540 s | training logs; includes small test runs, so a lower bound per dataset |
-| Library embedding, SMILES models (6 variants) | 4.4 min (hERG), 4.2 min (DILI) | original run logs |
-| Library embedding, Uni-Mol | herg: 8.4 h, dili: 9.1 h, caco2: 1.7 h (hERG and DILI: 2 variants each; Caco-2 rerun: 1 variant) | original run logs |
-| RAFE at inference, one molecule | retrieval 125.8 ms, features 3.8 ms, total 129.6 ms (129.63 ms per molecule) | measured, shared P100, exact search over 249k molecules |
-| RAFE at inference, 192 molecules | retrieval 139.8 ms, features 456.2 ms, total 596.0 ms (3.10 ms per molecule) | measured |
-| XGBoost inference, one molecule | 0.5 ms | measured |
-| Tree stage per cell (20 Optuna trials × 5-fold CV + fit) | XGBoost median 639 s, IQR 398-888 s; LightGBM median 213 s, IQR 33-778 s; CatBoost median 1560 s, IQR 833-4380 s | E1 and E4 cells on a loaded shared server; an upper bound |
+| Stage | Cost |
+|---|---|
+| LoRA fine-tuning, one run (lower bound; includes small test runs) | median 13 s, IQR 6-43 s, max 540 s |
+| Library embedding, SMILES models (6 variants) | 4.4 min (hERG), 4.2 min (DILI) |
+| Library embedding, Uni-Mol | herg: 8.4 h, dili: 9.1 h, caco2: 1.7 h (hERG and DILI: 2 variants each; Caco-2 rerun: 1 variant) |
+| RAFE at inference, one molecule (shared P100, exact search over 249k molecules) | retrieval 125.8 ms, features 3.8 ms, total 129.6 ms (129.63 ms per molecule) |
+| RAFE at inference, 192 molecules | retrieval 139.8 ms, features 456.2 ms, total 596.0 ms (3.10 ms per molecule) |
+| XGBoost inference, one molecule | 0.5 ms |
+| Tree stage per cell, 20 Optuna trials / 5-fold CV / fit (upper bound, shared server) | XGBoost median 639 s, IQR 398-888 s; LightGBM median 213 s, IQR 33-778 s; CatBoost median 1560 s, IQR 833-4380 s |
 
 ![**Figure 7.** Cost of the pipeline stages (blue: one-off; red: per query molecule).](../results/revision/figures_response/figE_runtime.pdf)
 
@@ -154,30 +154,30 @@ The outcome is clear. RAFE is never significantly different from FT Embed+PC (24
 
 | Dataset (embedding) | Metric | Tree | PC-only | FT Embed | FT Embed+PC | RAFE |
 |---|---|---|---|---|---|---|
-| BACE (MolFormer-WL) | MCC | CatBoost | 0.465 | 0.546 | 0.528 | 0.518 |
-| BACE (MolFormer-WL) | MCC | LightGBM | 0.485 | 0.539 | 0.549 | 0.553 |
-| BACE (MolFormer-WL) | MCC | XGBoost | 0.477 | 0.542 | 0.538 | 0.527 |
-| BACE (Uni-Mol-WL) | MCC | CatBoost | 0.465 | 0.390 | 0.440 | 0.425 |
-| BACE (Uni-Mol-WL) | MCC | LightGBM | 0.485 | 0.421 | 0.439 | 0.424 |
-| BACE (Uni-Mol-WL) | MCC | XGBoost | 0.477 | 0.429 | 0.440 | 0.419 |
-| BBBP (MolFormer-FL) | MCC | CatBoost | 0.726 | 0.762 | 0.768 | 0.799 |
-| BBBP (MolFormer-FL) | MCC | LightGBM | 0.733 | 0.768 | 0.755 | 0.767 |
-| BBBP (MolFormer-FL) | MCC | XGBoost | 0.731 | 0.783 | 0.785 | 0.779 |
-| Caco-2 (ChemBERTa-MTR) | Spearman | CatBoost | 0.840 | 0.809 | 0.833 | 0.833 |
-| Caco-2 (ChemBERTa-MTR) | Spearman | LightGBM | 0.834 | 0.789 | 0.819 | 0.816 |
-| Caco-2 (ChemBERTa-MTR) | Spearman | XGBoost | 0.833 | 0.788 | 0.813 | 0.817 |
-| DILI (Uni-Mol-FL) | MCC | CatBoost | 0.738 | 0.595 | 0.683 | 0.669 |
-| DILI (Uni-Mol-FL) | MCC | LightGBM | 0.654 | 0.574 | 0.690 | 0.658 |
-| DILI (Uni-Mol-FL) | MCC | XGBoost | 0.672 | 0.520 | 0.693 | 0.697 |
-| Flavor (MolFormer-WL) | MCC | CatBoost | 0.798 | 0.789 | 0.789 | 0.786 |
-| Flavor (MolFormer-WL) | MCC | LightGBM | 0.798 | 0.779 | 0.783 | 0.785 |
-| Flavor (MolFormer-WL) | MCC | XGBoost | 0.809 | 0.782 | 0.780 | 0.782 |
-| Half-Life (MolFormer) | Spearman | CatBoost | 0.530 | 0.604 | 0.596 | 0.577 |
-| Half-Life (MolFormer) | Spearman | LightGBM | 0.477 | 0.550 | 0.558 | 0.512 |
-| Half-Life (MolFormer) | Spearman | XGBoost | 0.499 | 0.592 | 0.595 | 0.559 |
-| hERG (MolFormer-FL) | MCC | CatBoost | 0.593 | 0.536 | 0.543 | 0.537 |
-| hERG (MolFormer-FL) | MCC | LightGBM | 0.577 | 0.532 | 0.545 | 0.544 |
-| hERG (MolFormer-FL) | MCC | XGBoost | 0.594 | 0.545 | 0.546 | 0.545 |
+| BACE (MolFormer-WL) | MCC | CatBoost | 0.465 | **0.546** | 0.528 | 0.518 |
+| BACE (MolFormer-WL) | MCC | LightGBM | 0.485 | 0.539 | 0.549 | **0.553** |
+| BACE (MolFormer-WL) | MCC | XGBoost | 0.477 | **0.542** | 0.538 | 0.527 |
+| BACE (Uni-Mol-WL) | MCC | CatBoost | **0.465** | 0.390 | 0.440 | 0.425 |
+| BACE (Uni-Mol-WL) | MCC | LightGBM | **0.485** | 0.421 | 0.439 | 0.424 |
+| BACE (Uni-Mol-WL) | MCC | XGBoost | **0.477** | 0.429 | 0.440 | 0.419 |
+| BBBP (MolFormer-FL) | MCC | CatBoost | 0.726 | 0.762 | 0.768 | **0.799** |
+| BBBP (MolFormer-FL) | MCC | LightGBM | 0.733 | **0.768** | 0.755 | 0.767 |
+| BBBP (MolFormer-FL) | MCC | XGBoost | 0.731 | 0.783 | **0.785** | 0.779 |
+| Caco-2 (ChemBERTa-MTR) | Spearman | CatBoost | **0.840** | 0.809 | 0.833 | 0.833 |
+| Caco-2 (ChemBERTa-MTR) | Spearman | LightGBM | **0.834** | 0.789 | 0.819 | 0.816 |
+| Caco-2 (ChemBERTa-MTR) | Spearman | XGBoost | **0.833** | 0.788 | 0.813 | 0.817 |
+| DILI (Uni-Mol-FL) | MCC | CatBoost | **0.738** | 0.595 | 0.683 | 0.669 |
+| DILI (Uni-Mol-FL) | MCC | LightGBM | 0.654 | 0.574 | **0.690** | 0.658 |
+| DILI (Uni-Mol-FL) | MCC | XGBoost | 0.672 | 0.520 | 0.693 | **0.697** |
+| Flavor (MolFormer-WL) | MCC | CatBoost | **0.798** | 0.789 | 0.789 | 0.786 |
+| Flavor (MolFormer-WL) | MCC | LightGBM | **0.798** | 0.779 | 0.783 | 0.785 |
+| Flavor (MolFormer-WL) | MCC | XGBoost | **0.809** | 0.782 | 0.780 | 0.782 |
+| Half-Life (MolFormer) | Spearman | CatBoost | 0.530 | **0.604** | 0.596 | 0.577 |
+| Half-Life (MolFormer) | Spearman | LightGBM | 0.477 | 0.550 | **0.558** | 0.512 |
+| Half-Life (MolFormer) | Spearman | XGBoost | 0.499 | 0.592 | **0.595** | 0.559 |
+| hERG (MolFormer-FL) | MCC | CatBoost | **0.593** | 0.536 | 0.543 | 0.537 |
+| hERG (MolFormer-FL) | MCC | LightGBM | **0.577** | 0.532 | 0.545 | 0.544 |
+| hERG (MolFormer-FL) | MCC | XGBoost | **0.594** | 0.545 | 0.546 | 0.545 |
 
 ![**Figure 8.** The controlled comparison of Table 5 (thick line: mean over trees; markers: individual trees).](../results/revision/figures_response/figF_controlled_matrix.pdf)
 
@@ -244,13 +244,13 @@ Pending trees: CatBoost.
 
 | Dataset | ECFP4 | ECFP6 | MACCS | ECFP4+MACCS | RDKit descriptors | 473 physchem (PC-only) |
 |---|---|---|---|---|---|---|
-| BACE | 0.515 | 0.473 | 0.505 | 0.516 | 0.426 | 0.498 |
-| BBBP | 0.688 | 0.673 | 0.700 | 0.700 | 0.729 | 0.748 |
-| Flavor | 0.799 | 0.797 | 0.804 | 0.815 | 0.800 | 0.806 |
-| hERG | 0.584 | 0.560 | 0.539 | 0.587 | 0.593 | 0.601 |
-| DILI | 0.546 | 0.486 | 0.612 | 0.607 | 0.731 | 0.732 |
-| Caco-2 | 0.607 | 0.517 | 0.800 | 0.791 | 0.842 | 0.838 |
-| Half-Life | 0.444 | 0.414 | 0.526 | 0.524 | 0.516 | 0.526 |
+| BACE | 0.515 | 0.473 | 0.505 | **0.516** | 0.426 | 0.498 |
+| BBBP | 0.688 | 0.673 | 0.700 | 0.700 | 0.729 | **0.748** |
+| Flavor | 0.799 | 0.797 | 0.804 | **0.815** | 0.800 | 0.806 |
+| hERG | 0.584 | 0.560 | 0.539 | 0.587 | 0.593 | **0.601** |
+| DILI | 0.546 | 0.486 | 0.612 | 0.607 | 0.731 | **0.732** |
+| Caco-2 | 0.607 | 0.517 | 0.800 | 0.791 | **0.842** | 0.838 |
+| Half-Life | 0.444 | 0.414 | **0.526** | 0.524 | 0.516 | **0.526** |
 
 **R2.3**
 
@@ -285,10 +285,10 @@ Of 72 paired comparisons of the five variants with FT Embed+PC (six datasets, tw
 
 | Dataset | 3D vector (512-d) | ECFP4 (2048-bit) | Both (2560-d) |
 |---|---|---|---|
-| BACE | 0.394 | 0.495 | 0.429 |
-| BBBP | 0.690 | 0.694 | 0.721 |
-| Caco-2 | 0.522 | 0.518 | 0.653 |
-| DILI | 0.521 | 0.410 | 0.520 |
+| BACE | 0.394 | **0.495** | 0.429 |
+| BBBP | 0.690 | 0.694 | **0.721** |
+| Caco-2 | 0.522 | 0.518 | **0.653** |
+| DILI | **0.521** | 0.410 | 0.520 |
 
 We also examined the influence of the conformer (relevant to R3.2). Re-embedding BACE with five RDKit ETKDG seeds (the original seed reproduces the stored embeddings exactly) shows that the 3D vector changes noticeably between conformers (median cosine similarity to the original 0.91 to 0.92). The resulting spread in test MCC is 4 to 7 times the tuning noise for the 3D vector alone and 2 to 3 times with ECFP4 added (Table 9, Figure 10), so a single conformer should be reported with this caveat. Pipelines built on SMILES-based models, including the RAFE configurations with MolFormer and ChemBERTa, do not involve conformers at all.
 
@@ -328,7 +328,7 @@ We also examined the influence of the conformer (relevant to R3.2). Re-embedding
 | DILI | RAFE | Uni-Mol FL / XGBoost | 0.697 ± 0.008 | 0.790 | Uni-Mol WL / XGBoost (0.677) | +0.020 [-0.050, +0.097] |
 | Half-Life | FT Embed | MolFormer Huber / XGBoost | 0.592 ± 0.021 | 0.623 | MolFormer Huber / LightGBM (0.550) | +0.042 [-0.001, +0.086] |
 | Half-Life | FT Embed+PC | MolFormer Huber / XGBoost | 0.595 ± 0.017 | 0.593 | MolFormer Huber / LightGBM (0.558) | +0.037 [-0.005, +0.083] |
-| Half-Life | RAFE | MolFormer Huber / XGBoost | 0.559 ± 0.024 | 0.568 | MolFormer Huber / LightGBM (0.512) | +0.048 [+0.004, +0.094] |
+| Half-Life | RAFE | MolFormer Huber / XGBoost | 0.559 ± 0.024 | 0.568 | MolFormer Huber / LightGBM (0.512) | **+0.048 [+0.004, +0.094]** |
 
 Two readings follow. The best configuration is MolFormer in 9 of 15 rows, and the single-run values exceed the five-seed means in 14 of 15 rows (largest for DILI RAFE, 0.790 versus 0.697). The best configuration is separable from the runner-up in only 1 of 15 rows, so the identity of the best configuration is itself uncertain and we base claims on paired differences. Selecting by training-split cross-validation instead is unreliable on these scaffold splits: it lowers the RAFE score by 0.00 to 0.23 relative to the test-based choice, so we do not use it for ranking.
 
@@ -387,7 +387,7 @@ On the second point we would offer a different reading. That a simple descriptor
 > Several performance claims require more careful interpretation. For example, RAFE provides only a modest MCC improvement on BBBP, while different evaluation metrics exhibit inconsistent trends on DILI. The Half-Life results also show a discrepancy between Spearman correlation and R², suggesting different levels of ranking and quantitative prediction performance. In addition, Uni-Mol's superior performance on BACE does not directly establish its ability to capture protein–ligand interactions. These conclusions should be better aligned with the experimental evidence.
 
 
-**Ans:** We revised each of the examples. (a) *BBBP:* the RAFE effect over FT Embed+PC depends on the tree (+0.031 with CatBoost, +0.012 with LightGBM, -0.006 with XGBoost; Table 5), and we now describe it as small and tree-dependent. (b) *DILI metrics:* the best configuration depends on the metric: for RAFE, MCC, accuracy and F1 select Uni-Mol FL with XGBoost (MCC 0.790) while AUC selects ChemBERTa-MLM FL with CatBoost (0.907); the rank correlation between MCC and AUC across configurations is 0.65 to 0.79. With 96 test molecules, MCC at a fixed threshold is noisier than AUC, so we state the ranking metric and report AUC alongside. (c) *Half-Life:* Spearman and R² behave differently because R² is computed in hours after inverting the log1p transform, where 57% of the test variance sits in three molecules; for the E4 baselines R² rises from 0.043 to 0.169 on the log scale (Figure 12). The rank correlation between Spearman and R² across the supplementary configurations is 0.40 (0.25 within RAFE). We report both: the models rank half-lives moderately well (Spearman 0.54 to 0.62) but do not predict their magnitude. (d) *BACE and protein-ligand interactions:* we removed the statement that Uni-Mol captures protein-ligand interactions; the data show that a 3D-aware model performs best on BACE, which does not by itself establish interaction modelling. [Revision]
+**Ans:** We revised each of the examples. (a) *BBBP:* the RAFE effect over FT Embed+PC depends on the tree (+0.031 with CatBoost, +0.012 with LightGBM, -0.006 with XGBoost; Table 5), and we now describe it as small and tree-dependent. (b) *DILI metrics:* the best configuration depends on the metric: for RAFE, MCC, accuracy and F1 select Uni-Mol FL with XGBoost (MCC 0.790) while AUC selects ChemBERTa-MLM FL with CatBoost (0.907); the rank correlation between MCC and AUC across configurations is 0.65 to 0.79. With 96 test molecules, MCC at a fixed threshold is noisier than AUC, so we state the ranking metric and report AUC alongside. (c) *Half-Life:* Spearman and R² behave differently because R² is computed in hours after inverting the log1p transform, where 57% of the test variance sits in three molecules; for the fingerprint and descriptor baselines R² rises from 0.043 to 0.169 on the log scale (Figure 12). The rank correlation between Spearman and R² across the supplementary configurations is 0.40 (0.25 within RAFE). We report both: the models rank half-lives moderately well (Spearman 0.54 to 0.62) but do not predict their magnitude. (d) *BACE and protein-ligand interactions:* we removed the statement that Uni-Mol captures protein-ligand interactions; the data show that a 3D-aware model performs best on BACE, which does not by itself establish interaction modelling. [Revision]
 
 ![**Figure 12.** Half-Life. Left: Spearman versus R² (hours) over the supplementary configurations. Right: R² in hours versus on the log1p scale for the descriptor and fingerprint baselines.](../results/revision/figures_response/figH_halflife_metrics.pdf)
 
