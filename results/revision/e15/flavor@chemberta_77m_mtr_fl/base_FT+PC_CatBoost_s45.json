@@ -1,0 +1,26 @@
+{
+ "dataset": "flavor",
+ "clf": "CatBoost",
+ "seed": 45,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 857,
+ "best_params": {
+  "max_depth": 4,
+  "learning_rate": 0.014217793462689242,
+  "n_estimators": 538
+ },
+ "cv_best": 0.8104,
+ "seconds": 11384.9,
+ "cfg": "flavor@chemberta_77m_mtr_fl",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.7874437906733586,
+ "Accuracy": 0.8779946761313221,
+ "F1_macro": 0.706986803216164,
+ "AUC": 0.9667239147077961
+}

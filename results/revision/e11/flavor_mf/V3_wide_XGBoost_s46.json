@@ -1,0 +1,21 @@
+{
+ "dataset": "flavor",
+ "clf": "XGBoost",
+ "seed": 46,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 1331,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.0497164788602217,
+  "n_estimators": 429
+ },
+ "cv_best": 0.8019,
+ "seconds": 2538.1,
+ "cfg": "flavor_mf",
+ "arm": "V3_wide",
+ "MCC": 0.7810646135869469,
+ "Accuracy": 0.8775510204081632,
+ "F1_macro": 0.7311105619265333,
+ "AUC": 0.9627945736296099
+}

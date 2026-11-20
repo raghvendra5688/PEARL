@@ -1,0 +1,26 @@
+{
+ "dataset": "flavor",
+ "clf": "CatBoost",
+ "seed": 46,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 768,
+ "best_params": {
+  "max_depth": 4,
+  "learning_rate": 0.05676980289918639,
+  "n_estimators": 542
+ },
+ "cv_best": 0.7958,
+ "seconds": 22029.5,
+ "cfg": "flavor@molformer_finetuned_wl",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.7892360016711589,
+ "Accuracy": 0.8793256433007985,
+ "F1_macro": 0.7494591294873441,
+ "AUC": 0.9491649503816688
+}

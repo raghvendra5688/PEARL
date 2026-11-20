@@ -1,0 +1,26 @@
+{
+ "dataset": "flavor",
+ "clf": "XGBoost",
+ "seed": 44,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 2560,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.04544430666826219,
+  "n_estimators": 595
+ },
+ "cv_best": 0.6808,
+ "seconds": 713.5,
+ "cfg": "flavor@unimol_wl",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.7629160945281886,
+ "Accuracy": 0.8637976929902396,
+ "F1_macro": 0.6893718837695182,
+ "AUC": 0.9583399518895053
+}

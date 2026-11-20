@@ -1,0 +1,10 @@
+\begin{tabular}{llllll}
+\toprule
+Input & Tree & Mean MCC & SD across 5 conformer seeds & SD across 3 tree seeds & Range over conformers \\
+\midrule
+3D vector (512-d) & LightGBM & 0.363 & 0.042 & 0.011 & 0.096 \\
+3D vector (512-d) & XGBoost & 0.349 & 0.045 & 0.006 & 0.099 \\
+3D + ECFP4 (2560-d) & LightGBM & 0.428 & 0.024 & 0.011 & 0.063 \\
+3D + ECFP4 (2560-d) & XGBoost & 0.411 & 0.022 & 0.007 & 0.049 \\
+\bottomrule
+\end{tabular}

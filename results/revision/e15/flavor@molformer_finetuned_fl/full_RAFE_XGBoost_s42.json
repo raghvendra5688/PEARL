@@ -1,0 +1,26 @@
+{
+ "dataset": "flavor",
+ "clf": "XGBoost",
+ "seed": 42,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 1301,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.015237126274606792,
+  "n_estimators": 529
+ },
+ "cv_best": 0.7913,
+ "seconds": 533.9,
+ "cfg": "flavor@molformer_finetuned_fl",
+ "arm": "full_RAFE",
+ "n_rafe": 60,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.773708631041727,
+ "Accuracy": 0.8713398402839396,
+ "F1_macro": 0.7762013477108712,
+ "AUC": 0.9605704233687972
+}

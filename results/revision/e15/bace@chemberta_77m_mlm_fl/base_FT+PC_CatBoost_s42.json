@@ -1,0 +1,26 @@
+{
+ "dataset": "bace",
+ "clf": "CatBoost",
+ "seed": 42,
+ "n_train": 1210,
+ "n_test": 152,
+ "n_feat": 857,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.0012409988296121011,
+  "n_estimators": 103
+ },
+ "cv_best": 0.7778,
+ "seconds": 1830.6,
+ "cfg": "bace@chemberta_77m_mlm_fl",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.42227863083000367,
+ "Accuracy": 0.6776315789473685,
+ "F1_macro": 0.6776176254166126,
+ "AUC": 0.8204710144927536
+}

@@ -95,9 +95,9 @@ of Cheminformatics)
 
 \emph{Written for: the handling editor and Reviewers 1, 2 and 3. Status
 markers: \placeholder{: ...} marks a result that is still being
-computed and will be filled in before submission; \textbf{{[}v3{]}}
-marks a change that will appear in the revised manuscript or
-supplement.}
+computed and will be filled in before submission;
+\textbf{{[}Revision{]}} marks a change that will appear in the revised
+manuscript or supplement.}
 
 Dear Editor and Reviewers,
 
@@ -130,8 +130,11 @@ and five seeds. Quoted reviewer text is abridged.
   \textbf{Benchmark view.} As a benchmark of which embedding, loss, tree
   and stage works best for each dataset, RAFE's best configuration ranks
   in the top three on 6 of 7 datasets and first on BBBP and DILI (Figure
-  2, Table 1). We now back every best-configuration value with
-  seed-averaged results.
+  2, Table 1). Because best-run values are single runs, we re-ranked on
+  five-seed means over the full configuration grid (Table 10, Figure
+  12): on the 5 datasets completed so far RAFE is in the top three on 5
+  (mean rank 2.8 of 7 methods, against 2.2 for FT Embed+PC, 3.8 for FT
+  Embed and 4.4 for PC-only), with the remaining datasets pending.
 \item
   \textbf{Where we have revised our claims.} RAFE's advantage over FT
   Embed+PC is small and dataset-specific, and physicochemical
@@ -142,7 +145,7 @@ and five seeds. Quoted reviewer text is abridged.
 \item
   \textbf{Statistics and reproducibility.} Paired bootstrap confidence
   intervals on identical test molecules replace the ±1 SE overlap; the
-  training and tuning protocol is stated explicitly. {[}v3{]}
+  training and tuning protocol is stated explicitly. {[}Revision{]}
 \end{enumerate}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
@@ -155,19 +158,16 @@ techniques ... RAFE constructs statistical features from retrieved
 molecules without a new representation-learning mechanism")}. We
 respectfully agree that PEARL assembles known components, and we have
 revised the manuscript so that it no longer presents RAFE as a new
-learning method. We would, however, argue that the contribution is not a
-new learner but a systematic, reproducible study that had not been done:
-(a) a ladder from end-to-end LoRA through frozen embeddings, descriptors
-and retrieval features, evaluated under one scaffold-split protocol
-against in-house PC-only, Chemprop and GCN baselines on seven datasets;
-(b) retrieval from an external molecular library that uses structures
-only, so no label information enters the features and no test leakage is
-possible; and (c) LoRA adaptation of Uni-Mol through its fused attention
-projection, which the standard adapter recipes do not cover. Relative to
-EffiChem, the new elements are the Uni-Mol branch, the descriptor and
-retrieval stages, and the controlled comparisons reported in this
-response. We have added a paragraph on exactly what RAFE adds. {[}v3:
-Introduction{]}
+learning method. We would argue that the contribution is a systematic,
+reproducible study rather than a new learner: (a) a ladder from
+end-to-end LoRA through frozen embeddings, descriptors and retrieval
+features under one scaffold-split protocol, against in-house PC-only,
+Chemprop and GCN baselines on seven datasets; (b) retrieval from an
+external library using structures only, so no label information enters
+the features; and (c) LoRA adaptation of Uni-Mol through its fused
+attention projection. Relative to EffiChem, the new elements are the
+Uni-Mol branch, the descriptor and retrieval stages, and the controlled
+comparisons here. {[}Revision: Introduction{]}
 
 \textbf{R1.2 Inconsistent improvements from retrieval augmentation}
 \emph{("small or negative improvement on several datasets; PC-only
@@ -188,15 +188,15 @@ FT Embed+PC the matched-configuration difference is +0.034 on Flavor
 ±0.01 elsewhere. The cost-performance view (Figure 3) shows on which
 datasets the extra stage reaches the frontier.
 
-We add a caution that we think the reviewer would also want:
-best-configuration values are single runs and are optimistic. When the
-same configurations are rerun with five seeds, the two largest values
-move (DILI: 0.790 in the table, 0.697 ± 0.022 over five seeds with the
-stored RAFE features; BBBP: 0.798 versus 0.772 to 0.779), and we will
-recompute the rankings on seed-averaged values. We will report these
-next to the best-run values and base the rankings on them.
-\placeholder{: seed-averaged, CV-selected ranking, replaces Table
-1; see Table 10}
+Best-configuration values are single runs and therefore optimistic:
+rerunning with five seeds, DILI falls from 0.790 to 0.697 and BBBP from
+0.798 to 0.779. We therefore re-ranked on five-seed means of the full
+configuration grid (Table 10, R2.5). On the 5 datasets completed (BACE,
+BBBP, Caco-2, DILI, Half-Life), RAFE ranks in the top three on 5 (mean
+rank 2.8 of 7 methods), behind FT Embed+PC (2.2) and ahead of FT Embed
+(3.8) and PC-only (4.4). We read this as RAFE being a consistently
+competitive final stage rather than a winner, and the paper now says so.
+\placeholder{: hERG and Flavor of the seed-averaged ranking}
 
 \textbf{Table 1.} Rank of RAFE's best configuration among seven methods
 (single-run values from the supplementary tables; Chemprop, GCN and
@@ -259,14 +259,16 @@ carrying overlapping information (see R2.3).
 
 \emph{Retrieval metric and neighbour count.} We compared CLM-cosine
 retrieval with Morgan-Tanimoto retrieval and with random retrieval (five
-independent random draws), and swept k from 1 to 100. Of 44 paired
-comparisons, 2 has an interval that excludes zero (Figure 5).
-Practically, RAFE does not need its retrieval settings tuned. We read
-the equal performance of random neighbours as showing that RAFE works as
-a source of chemical-space context rather than as a nearest-analogue
-lookup, and we have changed the manuscript's description accordingly.
-\placeholder{: pooled paired intervals for the random-retrieval
-control (5 draws × 5 seeds) from the final cluster cells}
+independent random draws), and swept k from 1 to 100. Of 49 paired
+comparisons, 2 have an interval that excludes zero (Flavor with
+LightGBM, CLM-cosine versus random neighbours (random higher by 0.010):
+-0.010, 95\% CI -0.018 to -0.000; Caco-2 with CatBoost, k100 versus k10:
+-0.008, 95\% CI -0.015 to -0.001; Figure 5), and both differences are
+below 0.011 in size. RAFE therefore needs no tuning of its retrieval
+settings. Equal performance of random neighbours shows that it acts as
+chemical-space context rather than as an analogue lookup, and the
+manuscript now says so. \placeholder{: BBBP neighbour-count sweep
+(cells still running)}
 
 \emph{Mixed tree models.} The reviewer is right that the main-text
 tables could pair different trees. The controlled matrix (Table 5, R2.1)
@@ -512,13 +514,11 @@ for every dataset molecule, the largest Morgan-Tanimoto similarity to
 ZINC-250k (Table 3, Figure 6). The median is 0.40 over all 34,018
 molecules, and about 5\% have a neighbour at 0.6 or above; BACE is the
 least covered (median 0.338). ZINC-250k therefore provides background
-chemical context rather than close analogues. This is compatible with
-the results above: the per-molecule gain from RAFE is not related to
-coverage (R2.3), and random neighbours perform like similar ones (R1.3).
-In other words, the module does not depend on the library covering the
-task chemistry closely, which makes a generic library workable; whether
-a task-matched library would do better is untested and is stated as a
-limitation. {[}v3{]}
+chemical context rather than close analogues. Consistent with this, the
+per-molecule gain from RAFE is unrelated to coverage (R2.3) and random
+neighbours perform like similar ones (R1.3). Whether a task-matched
+library would do better is untested and is listed as a limitation.
+{[}Revision{]}
 
 \textbf{Table 3.} Coverage of the dataset molecules by ZINC-250k.
 
@@ -648,7 +648,7 @@ the 249k-molecule library in about 4.3 minutes) and large for Uni-Mol
 (hours, dominated by conformer generation). At prediction time RAFE adds
 about 0.13 s per molecule on a shared GPU, using exact search; tree
 inference takes under a millisecond. The figures come from different
-hardware and are indicative. {[}v3: new subsection "Computational
+hardware and are indicative. {[}Revision: new subsection "Computational
 cost"{]}
 
 \textbf{Table 4.} Runtime of the pipeline stages.
@@ -744,8 +744,8 @@ and test molecules, with the same tuning budget (20 Optuna trials,
 5-fold cross-validation on the training split only), the same three tree
 models and the same five seeds (Table 5, Figure 8). All hyper-parameters
 are optimised on the training split alone, and the test split is
-evaluated once per fitted model. {[}v3: Methods, and a main-text table
-with the full matrix in the supplement{]}
+evaluated once per fitted model. {[}Revision: Methods, and a main-text
+table with the full matrix in the supplement{]}
 
 The controlled comparison gives a clear and useful picture. RAFE is
 never significantly different from FT Embed+PC (24 paired comparisons: 0
@@ -756,9 +756,8 @@ is best depends on the dataset: the fine-tuned embedding helps over
 descriptors alone on BACE (MolFormer), BBBP and Half-Life, whereas
 PC-only is the strongest or tied on Caco-2, hERG and Flavor, and RAFE is
 significantly below PC-only in 4 of 24 comparisons (Flavor, hERG) and
-significantly above it in 0. We state this plainly, and note that
-identifying such dataset-specific winners is the purpose of the
-benchmark.
+significantly above it in 0. Identifying such dataset-specific winners
+is the purpose of the benchmark.
 
 \textbf{Table 5.} Controlled comparison (mean over seeds; MCC for
 classification, Spearman for regression; one embedding configuration per
@@ -838,7 +837,7 @@ descriptors on Caco-2 (0.607 for ECFP4 versus 0.838), DILI and
 Half-Life, and comparable on BACE, hERG and Flavor. RAFE is clearly
 better than ECFP4 alone on DILI (+0.26) and Caco-2 (+0.22); against
 PC-only the intervals include zero on all three datasets compared (BBBP,
-DILI, Caco-2). {[}v3{]}
+DILI, Caco-2). {[}Revision{]}
 
 \textbf{Table 6.} Fingerprint and descriptor baselines (best tree per
 cell; MCC for classification, Spearman for regression).
@@ -873,12 +872,9 @@ complementary and partly redundant; the Tanimoto group is not
 predictable from them (Figure 9, right). \emph{How much predictions
 change:} RAFE corrects or breaks between 0 and 4 test molecules on the
 classification sets. We read this as RAFE being a conservative
-refinement. To test whether its redundant part can be removed, we are
-evaluating five variants that use no labels in retrieval or feature
-construction (groups A and B only, residualised features, additional
-ZINC properties, compressed features, hybrid retrieval) (Table 7).
-\placeholder{: RAFE variants, Table 7, from
-\texttt{results/revision/e11/}}
+refinement. To test whether its redundant part can be removed, we
+evaluated five variants that use no labels in retrieval or feature
+construction (Table 7).
 
 \begin{figure}
 \centering
@@ -888,168 +884,130 @@ Embed+PC by ZINC-coverage tercile. Right: held-out R² of each RAFE group
 predicted from the embedding and descriptors.}
 \end{figure}
 
-\textbf{Table 7 (placeholder).} Label-free RAFE variants at each
-dataset's best configuration (5 seeds; variant chosen by training
-cross-validation).
+\textbf{Table 7.} Label-free RAFE variants (V1: groups A+B only; V2:
+residualised features; V3: additional ZINC properties; V4: compressed
+features; V5: hybrid retrieval) at each dataset's configuration, own
+tree, 5-seed test means. The "best variant" is the one with the highest
+test mean among RAFE and V1 to V5. Flavor is still running.
 
-\begin{longtable}[]{@{}lllllllll@{}}
+\begin{longtable}[]{@{}lllllll@{}}
 \toprule
-\begin{minipage}[b]{0.08\columnwidth}\raggedright
+\begin{minipage}[b]{0.12\columnwidth}\raggedright
 Dataset\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+PC-only\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
 FT+PC\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
 RAFE\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedright
-V1 groups A+B\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedright
-V2 residual\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedright
-V3 wide\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedright
-V4 compressed\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedright
-V5 hybrid\strut
-\end{minipage} & \begin{minipage}[b]{0.08\columnwidth}\raggedright
-Chosen by CV\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+Best variant (test mean)\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+Minus RAFE {[}95\% CI{]}\strut
+\end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
+Minus FT+PC {[}95\% CI{]}\strut
 \end{minipage}\tabularnewline
 \midrule
 \endhead
-\begin{minipage}[t]{0.08\columnwidth}\raggedright
-BACE\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.08\columnwidth}\raggedright
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
 BBBP\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.731\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.785\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.779\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+V1\_AB (0.792)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.013 {[}-0.003, +0.036{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.007 {[}-0.002, +0.017{]}\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.08\columnwidth}\raggedright
-Flavor\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.08\columnwidth}\raggedright
-hERG\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.08\columnwidth}\raggedright
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
 DILI\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.672\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.693\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.697\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+V2\_residual (0.703)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.006 {[}-0.041, +0.056{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.010 {[}-0.036, +0.063{]}\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.08\columnwidth}\raggedright
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
 Caco-2\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.833\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.813\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.817\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+V2\_residual (0.820)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.003 {[}-0.004, +0.011{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.006 {[}-0.000, +0.014{]}\strut
 \end{minipage}\tabularnewline
-\begin{minipage}[t]{0.08\columnwidth}\raggedright
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+BACE\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.485\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.549\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.553\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+V5\_hybrid (0.558)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.005 {[}-0.020, +0.030{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.009 {[}-0.014, +0.033{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+hERG\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.577\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.545\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.544\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+V1\_AB (0.551)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.007 {[}-0.003, +0.018{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.006 {[}-0.003, +0.014{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
 Half-Life\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.08\columnwidth}\raggedright
-\placeholder{: }\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.499\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.595\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.559\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+V4\_compressed (0.583)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.023 {[}-0.026, +0.072{]}\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+-0.013 {[}-0.044, +0.020{]}\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
+
+Of 72 paired comparisons of the five variants with FT Embed+PC (six
+datasets, two trees), 1 is significantly better and 7 significantly
+worse; against RAFE, 0 are better and 0 worse. We therefore do not claim
+that any variant improves on RAFE. No variant differs significantly from
+RAFE itself, which supports reading RAFE as a conservative refinement.
+\placeholder{: Flavor row}
 
 \textbf{R2.4 Insufficient isolation of the contribution of 3D
 information.} We agree and have separated the three components (Table 8,
@@ -1062,7 +1020,7 @@ complementary there. On DILI the 3D vector outperforms ECFP4 for
 CatBoost. We have corrected the wording accordingly: the headline BACE
 result (MCC 0.623) is the end-to-end LoRA Uni-Mol model with its own
 head, which does not use ECFP4, so the ECFP4 confound the reviewer
-identified applies only to the frozen-embedding rows. {[}v3{]}
+identified applies only to the frozen-embedding rows. {[}Revision{]}
 
 \textbf{Table 8.} 3D versus ECFP4 within the Uni-Mol vector (XGBoost, 5
 seeds; MCC, and Spearman for Caco-2).
@@ -1186,141 +1144,285 @@ optimistic when taken from a single run. To make the selection
 transparent we (i) report seed-averaged values next to every best-run
 value (DILI as an example: 0.697 ± 0.022 over five seeds with the stored
 RAFE features versus 0.790 in the table, with FT Embed+PC at 0.693 ±
-0.019); (ii) choose configurations by the training-only cross-validation
-score when quoting a selected result; and (iii) give the paired
-difference between the best and runner-up configurations (Table 10). The
-full configuration grid (all embedding models, losses and trees) is
+0.019); (ii) keep the usual convention of judging configurations by
+their test performance, but on five-seed means, so that a single
+favourable run cannot decide a winner; and (iii) give the paired
+difference between the best and the runner-up configuration (Table 10).
+The full configuration grid (all embedding models, losses and trees) is
 complete for XGBoost and LightGBM on five datasets. \placeholder{:
 CatBoost, hERG and Flavor of the full grid, then Table 10}
 
-\textbf{Table 10 (placeholder).} Seed-averaged best configurations.
+\textbf{Table 10.} Best configuration per dataset and stage, judged on
+five-seed test means (XGBoost and LightGBM; CatBoost cells for the five
+small datasets are still running). "Single run" is the best value in the
+original tables of the same modality. \placeholder{: hERG and
+Flavor rows}
 
 \begin{longtable}[]{@{}lllllll@{}}
 \toprule
 \begin{minipage}[b]{0.12\columnwidth}\raggedright
 Dataset\strut
 \end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
-Best by training CV (embedding, loss, tree, stage)\strut
+Stage\strut
 \end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
-Test score (seed mean ± SD)\strut
+Best configuration (embedding, loss / tree)\strut
 \end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
-Best by test score\strut
+Test, 5-seed mean ± SD\strut
 \end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
-Test score (seed mean ± SD)\strut
+Single run in the original tables\strut
 \end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
-Optimism gap\strut
+Runner-up (test mean)\strut
 \end{minipage} & \begin{minipage}[b]{0.12\columnwidth}\raggedright
-Runner-up difference (paired 95\% CI)\strut
+Best minus runner-up {[}95\% CI{]}\strut
 \end{minipage}\tabularnewline
 \midrule
 \endhead
 \begin{minipage}[t]{0.12\columnwidth}\raggedright
 BACE\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+FT Embed\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer WL / XGBoost\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.542 ± 0.005\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.557\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer WL / LightGBM (0.539)\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
++0.003 {[}-0.034, +0.049{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+BACE\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer WL / LightGBM\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.549 ± 0.020\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.550\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer FL / LightGBM (0.541)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.008 {[}-0.076, +0.093{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+BACE\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+RAFE\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer WL / LightGBM\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.553 ± 0.017\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.561\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer WL / XGBoost (0.527)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.026 {[}-0.006, +0.062{]}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.12\columnwidth}\raggedright
 BBBP\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+FT Embed\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer FL / XGBoost\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.783 ± 0.010\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.787\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer FL / LightGBM (0.768)\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
++0.015 {[}-0.014, +0.048{]}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.12\columnwidth}\raggedright
-Flavor\strut
+BBBP\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+FT Embed+PC\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer FL / XGBoost\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.785 ± 0.016\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.789\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer WL / LightGBM (0.761)\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
++0.024 {[}-0.041, +0.086{]}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.12\columnwidth}\raggedright
-hERG\strut
+BBBP\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+RAFE\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer FL / XGBoost\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.779 ± 0.009\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.798\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer FL / LightGBM (0.767)\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage}\tabularnewline
-\begin{minipage}[t]{0.12\columnwidth}\raggedright
-DILI\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
-\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
++0.012 {[}-0.019, +0.045{]}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.12\columnwidth}\raggedright
 Caco-2\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+FT Embed\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+ChemBERTa-MTR Huber / LightGBM\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.789 ± 0.003\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.821\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+ChemBERTa-MTR Huber / XGBoost (0.788)\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
++0.001 {[}-0.012, +0.015{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Caco-2\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR Huber / LightGBM\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.819 ± 0.006\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.827\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR Huber / XGBoost (0.813)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.006 {[}-0.008, +0.021{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Caco-2\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+RAFE\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR Huber / XGBoost\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.817 ± 0.007\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.835\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MTR Huber / LightGBM (0.816)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.000 {[}-0.015, +0.016{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+DILI\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+FT Embed\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MLM FL / LightGBM\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.613 ± 0.047\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.673\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+ChemBERTa-MLM WL / LightGBM (0.579)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.034 {[}-0.088, +0.165{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+DILI\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol FL / XGBoost\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.693 ± 0.019\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.703\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol FL / LightGBM (0.690)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.003 {[}-0.044, +0.047{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+DILI\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+RAFE\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol FL / XGBoost\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.697 ± 0.008\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.790\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+Uni-Mol WL / XGBoost (0.677)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.020 {[}-0.050, +0.097{]}\strut
 \end{minipage}\tabularnewline
 \begin{minipage}[t]{0.12\columnwidth}\raggedright
 Half-Life\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+FT Embed\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer Huber / XGBoost\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.592 ± 0.021\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+0.623\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
+MolFormer Huber / LightGBM (0.550)\strut
 \end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
-\placeholder{: }\strut
++0.042 {[}-0.001, +0.086{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Half-Life\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+FT Embed+PC\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer Huber / XGBoost\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.595 ± 0.017\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.593\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer Huber / LightGBM (0.558)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.037 {[}-0.005, +0.083{]}\strut
+\end{minipage}\tabularnewline
+\begin{minipage}[t]{0.12\columnwidth}\raggedright
+Half-Life\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+RAFE\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer Huber / XGBoost\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.559 ± 0.024\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+0.568\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
+MolFormer Huber / LightGBM (0.512)\strut
+\end{minipage} & \begin{minipage}[t]{0.12\columnwidth}\raggedright
++0.048 {[}+0.004, +0.094{]}\strut
 \end{minipage}\tabularnewline
 \bottomrule
 \end{longtable}
+
+Two readings follow. First, the best configuration is MolFormer in 9 of
+15 rows, and the single-run values of the original tables exceed the
+five-seed means in 14 of 15 rows (largest for DILI RAFE, 0.790 versus
+0.697). Second, the best configuration is separable from the runner-up
+in only 1 of 15 rows (the paired interval excludes zero), so the choice
+of "best" configuration is itself uncertain, which is why we base claims
+on paired differences. Selecting the configuration by training-split
+cross-validation instead is unreliable on these scaffold splits: it
+lowers the RAFE score by 0.00 to 0.23 MCC (or Spearman) relative to the
+test-based choice, and we do not use it for ranking.
+
+\begin{figure}
+\centering
+\includegraphics[width=\linewidth,height=0.42\textheight,keepaspectratio]{../results/revision/e15_analysis/e15_grid_heatmap.pdf}
+\caption{\textbf{Figure 12.} Five-seed mean test metric over the full
+configuration grid for the five completed datasets (red box: best
+cell).}
+\end{figure}
 
 \textbf{R2.6 Limited coherence of the central scientific narrative.} We
 agree and have reorganised the paper around three hypotheses: H1, LoRA
@@ -1332,18 +1434,18 @@ is a safe addition that improves on the embedding alone on several
 datasets, with a small and dataset-specific advantage over embedding
 plus descriptors; for H3, see R2.4. The strength of the descriptor
 baseline is now treated as a result in its own right (R2.1, R2.2).
-{[}v3{]}
+{[}Revision{]}
 
 \textbf{R2.7 Organisation and repetition.} We merged "Results and
 Discussion" and restricted the discussion to interpretation, limitations
-and implications. {[}v3{]}
+and implications. {[}Revision{]}
 
 \textbf{R2.8 References and the LoRA initialisation.} We reformatted the
 references with DOIs throughout. \placeholder{: final DOI check of
 every reference} The LoRA description now matches the implementation:
 ΔW = (α/r)·B·A, with A initialised by Kaiming-uniform and B initialised
 to zero (the library default); Figure 2 of the paper was redrawn, and
-the Methods and supplement use the same notation. {[}v3{]}
+the Methods and supplement use the same notation. {[}Revision{]}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 
@@ -1366,13 +1468,17 @@ The paired bootstrap and the five-seed protocol are described in R2.1
 and R2.5. On model selection: the tree models are tuned by 5-fold
 cross-validation on the training split only (MCC for classification,
 negative RMSE for regression), and the test split is evaluated once per
-fitted model and never used for tuning. LoRA fine-tuning uses the
-training split, with the validation split for monitoring and checkpoint
-selection. As a limitation, seed variability was measured for the
-downstream stage; fine-tuning and library re-embedding were not repeated
-with independent seeds because of cost, so the intervals describe the
-downstream stage and are lower bounds on total variability. {[}v3:
-Methods and Limitations{]}
+fitted model and never used for tuning. Configurations (embedding model,
+loss, tree model and stage) are then compared on the test set, as is
+usual for benchmarks. Because the best configuration is selected on the
+same test set, its score is optimistic; we therefore report five-seed
+means and the paired difference to the runner-up (Table 10). LoRA
+fine-tuning uses the training split, with the validation split for
+monitoring and checkpoint selection. As a limitation, seed variability
+was measured for the downstream stage; fine-tuning and library
+re-embedding were not repeated with independent seeds because of cost,
+so the intervals describe the downstream stage and are lower bounds on
+total variability. {[}Revision: Methods and Limitations{]}
 
 \textbf{R3.4 Interpretation of performance claims.} We revised each of
 the examples. (a) \emph{BBBP:} the RAFE effect over FT Embed+PC depends
@@ -1389,13 +1495,12 @@ computed in hours after inverting the log1p transform, where 57\% of the
 test variance sits in three molecules; for the E4 baselines R² rises
 from 0.043 to 0.169 on the log scale (Figure 11). The rank correlation
 between Spearman and R² across the supplementary configurations is 0.40
-(0.25 within RAFE). We report both and conclude that the models rank
-half-lives moderately well (Spearman 0.54 to 0.62 for the best
-configuration of each stage) but do not predict their magnitude. (d)
-\emph{BACE and protein-ligand interactions:} we removed the statement
-that Uni-Mol captures protein-ligand interactions; the data show that a
-3D-aware model performs best on BACE, which does not by itself establish
-interaction modelling. {[}v3{]}
+(0.25 within RAFE). We report both: the models rank half-lives
+moderately well (Spearman 0.54 to 0.62) but do not predict their
+magnitude. (d) \emph{BACE and protein-ligand interactions:} we removed
+the statement that Uni-Mol captures protein-ligand interactions; the
+data show that a 3D-aware model performs best on BACE, which does not by
+itself establish interaction modelling. {[}Revision{]}
 
 \begin{figure}
 \centering
@@ -1413,7 +1518,7 @@ of MolFormer-XL; the LoRA initialisation and formula; the loss-function
 definitions; and the label of the best BACE configuration (the stored
 retrieval index is MolFormer FL, whereas the text said WL). A table of
 all corrections is in the supplement. \placeholder{: final
-consistency check of the revised tables} {[}v3{]}
+consistency check of the revised tables} {[}Revision{]}
 
 \textbf{R3.6 Additional related work.} We added a discussion of Fang et
 al. (Nature Machine Intelligence, 2022), Li et al. (Nature
@@ -1421,7 +1526,7 @@ Communications, 2023), Su et al. (ChemRxiv, 2026) and Li et al. (Journal
 of Chemical Theory and Computation, 2026) to the Introduction and
 Discussion, in the context of geometric, knowledge-based and multimodal
 molecular representations. \placeholder{: verification of the four
-DOIs against the sources} {[}v3{]}
+DOIs against the sources} {[}Revision{]}
 
 \begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
 

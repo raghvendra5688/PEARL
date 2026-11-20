@@ -1,0 +1,26 @@
+{
+ "dataset": "flavor",
+ "clf": "CatBoost",
+ "seed": 43,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 2560,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.09036099865762874,
+  "n_estimators": 400
+ },
+ "cv_best": 0.678,
+ "seconds": 10947.1,
+ "cfg": "flavor@unimol_wl",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.7473041813523492,
+ "Accuracy": 0.8531499556344276,
+ "F1_macro": 0.682606751756766,
+ "AUC": 0.9366683504375972
+}

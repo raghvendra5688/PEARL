@@ -1,0 +1,26 @@
+{
+ "dataset": "herg",
+ "clf": "LightGBM",
+ "seed": 42,
+ "n_train": 9411,
+ "n_test": 2690,
+ "n_feat": 857,
+ "best_params": {
+  "max_depth": 10,
+  "learning_rate": 0.09356769343096663,
+  "n_estimators": 584
+ },
+ "cv_best": 0.7626,
+ "seconds": 851.6,
+ "cfg": "herg@chemberta_77m_mlm_fl",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.5548245325733653,
+ "Accuracy": 0.7773234200743494,
+ "F1_macro": 0.7773219121866333,
+ "AUC": 0.8444941977695595
+}

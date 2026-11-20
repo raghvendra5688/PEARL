@@ -1,0 +1,26 @@
+{
+ "dataset": "flavor",
+ "clf": "LightGBM",
+ "seed": 46,
+ "n_train": 10517,
+ "n_test": 2254,
+ "n_feat": 1241,
+ "best_params": {
+  "max_depth": 10,
+  "learning_rate": 0.009387930836566692,
+  "n_estimators": 499
+ },
+ "cv_best": 0.7815,
+ "seconds": 5117.9,
+ "cfg": "flavor@molformer_finetuned_wl",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.7889779575398784,
+ "Accuracy": 0.8793256433007985,
+ "F1_macro": 0.7430567758463942,
+ "AUC": 0.968650916768128
+}

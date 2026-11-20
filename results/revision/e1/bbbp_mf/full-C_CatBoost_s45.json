@@ -1,0 +1,26 @@
+{
+ "dataset": "bbbp",
+ "clf": "CatBoost",
+ "seed": 45,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 1267,
+ "best_params": {
+  "max_depth": 5,
+  "learning_rate": 0.09848879528130439,
+  "n_estimators": 395
+ },
+ "cv_best": 0.8113,
+ "seconds": 27044.1,
+ "cfg": "bbbp_mf",
+ "arm": "full-C",
+ "n_rafe": 26,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABD",
+ "MCC": 0.7886033614009413,
+ "Accuracy": 0.9010416666666666,
+ "F1_macro": 0.8873204633204633,
+ "AUC": 0.9347775175644027
+}

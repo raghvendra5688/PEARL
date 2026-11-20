@@ -1,0 +1,16 @@
+dataset,stage,selected_by_cv,selected_test_mean,selected_test_sd,oracle_config,oracle_test_mean,oracle_test_sd,optimism_gap,single_run_original_tables,runner_up_config,runner_up_test_mean,runner_up_diff,runner_up_ci_lo,runner_up_ci_hi
+BACE,FT Embed,ChemBERTa-MLM WL / LightGBM,0.4942,0.0054,MolFormer WL / XGBoost,0.5423,0.0046,0.0481,0.557,MolFormer WL / LightGBM,0.539,0.0033,-0.0341,0.0493
+BACE,FT Embed+PC,ChemBERTa-MLM WL / XGBoost,0.48,0.0209,MolFormer WL / LightGBM,0.5488,0.0196,0.0688,0.55,MolFormer FL / LightGBM,0.5411,0.0077,-0.0764,0.0935
+BACE,RAFE,ChemBERTa-MLM WL / LightGBM,0.4942,0.0088,MolFormer WL / LightGBM,0.5532,0.0165,0.059,0.561,MolFormer WL / XGBoost,0.5268,0.0263,-0.0058,0.0623
+BBBP,FT Embed,ChemBERTa-MTR FL / XGBoost,0.6827,0.0128,MolFormer FL / XGBoost,0.7834,0.0097,0.1007,0.787,MolFormer FL / LightGBM,0.7685,0.0149,-0.014,0.0481
+BBBP,FT Embed+PC,ChemBERTa-MTR FL / XGBoost,0.6896,0.0051,MolFormer FL / XGBoost,0.7853,0.016,0.0957,0.789,MolFormer WL / LightGBM,0.7615,0.0238,-0.0409,0.0862
+BBBP,RAFE,ChemBERTa-MTR FL / XGBoost,0.6589,0.0053,MolFormer FL / XGBoost,0.7789,0.0095,0.12,0.798,MolFormer FL / LightGBM,0.7668,0.0121,-0.0186,0.0453
+Caco-2,FT Embed,ChemBERTa-MTR Huber / LightGBM,0.7891,0.0028,ChemBERTa-MTR Huber / LightGBM,0.7891,0.0028,0.0,0.821,ChemBERTa-MTR Huber / XGBoost,0.7884,0.0007,-0.0123,0.0151
+Caco-2,FT Embed+PC,ChemBERTa-MTR Huber / LightGBM,0.8193,0.0058,ChemBERTa-MTR Huber / LightGBM,0.8193,0.0058,0.0,0.827,ChemBERTa-MTR Huber / XGBoost,0.8133,0.0059,-0.0082,0.0207
+Caco-2,RAFE,ChemBERTa-MTR Huber / XGBoost,0.8166,0.007,ChemBERTa-MTR Huber / XGBoost,0.8166,0.007,0.0,0.835,ChemBERTa-MTR Huber / LightGBM,0.8163,0.0003,-0.0146,0.0157
+DILI,FT Embed,MolFormer FL / LightGBM,0.5449,0.0175,ChemBERTa-MLM FL / LightGBM,0.6128,0.0469,0.068,0.673,ChemBERTa-MLM WL / LightGBM,0.5793,0.0336,-0.0885,0.1647
+DILI,FT Embed+PC,MolFormer FL / LightGBM,0.5534,0.0314,Uni-Mol FL / XGBoost,0.6932,0.0186,0.1398,0.703,Uni-Mol FL / LightGBM,0.6899,0.0032,-0.0442,0.0467
+DILI,RAFE,ChemBERTa-MTR WL / XGBoost,0.5624,0.025,Uni-Mol FL / XGBoost,0.6974,0.0082,0.135,0.79,Uni-Mol WL / XGBoost,0.6774,0.0199,-0.0498,0.0972
+Half-Life,FT Embed,ChemBERTa-MLM Huber / XGBoost,0.3501,0.0192,MolFormer Huber / XGBoost,0.5921,0.0212,0.242,0.623,MolFormer Huber / LightGBM,0.5498,0.0422,-0.0012,0.0862
+Half-Life,FT Embed+PC,ChemBERTa-MLM Huber / LightGBM,0.3487,0.0103,MolFormer Huber / XGBoost,0.5953,0.017,0.2466,0.593,MolFormer Huber / LightGBM,0.5584,0.0369,-0.0054,0.0828
+Half-Life,RAFE,ChemBERTa-MLM Huber / LightGBM,0.3323,0.0273,MolFormer Huber / XGBoost,0.5594,0.0243,0.2271,0.568,MolFormer Huber / LightGBM,0.5119,0.0475,0.0043,0.0937

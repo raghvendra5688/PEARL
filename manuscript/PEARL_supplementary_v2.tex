@@ -24,7 +24,7 @@
 {\large PEARL: Parameter-Efficient Adaptation with
 Retrieval-Augmented Learning for Molecular Property Prediction}}
 
-\author{Kavya Agarwal, Sukrit Gupta, Halima Bensmail, Raghvendra Mall}
+\author{Kavya Agarwal, Sukrit Gupta, Yundong Zhou, Chengliang Yin, Halima Bensmail, Raghvendra Mall}
 \date{}
 
 \begin{document}
@@ -34,8 +34,8 @@ Retrieval-Augmented Learning for Molecular Property Prediction}}
 
 
 %% =============================================================================
-\phantomsection\addcontentsline{toc}{section}{Supplementary Tables}
-\section*{Supplementary Tables}
+\phantomsection\addcontentsline{toc}{section}{Supplementary Information}
+%\section*{Supplementary Tables}
 %% =============================================================================
 
 %% -----------------------------------------------------------------------------
@@ -893,8 +893,8 @@ Flavor & WL & MolFormer-XL       & 4  & 64  & 0.1 & 45{,}560{,}069 & 1{,}625{,}0
 \newpage
 
 %% =============================================================================
-\phantomsection\addcontentsline{toc}{section}{Supplementary Sections}
-\section*{Supplementary Sections}
+%\phantomsection\addcontentsline{toc}{section}{Supplementary Sections}
+%\section*{Supplementary Sections}
 %% =============================================================================
 
 %% -----------------------------------------------------------------------------
@@ -1072,6 +1072,8 @@ validation and test splits, preventing any data leakage from retrieval.
 
 \paragraph{Per-group feature breakdown.}
 The final RAFE feature vector is composed of the following groups:
+
+\phantomsection\addcontentsline{toc}{table}{Table S10: RAFE feature vector composition.}
 \begin{table}[h]
 \centering
 \caption{RAFE feature vector composition.}
@@ -1104,8 +1106,8 @@ For Uni-Mol (embedding dim 2560), the input is
 $[\text{FT embed}_{2560} \| \text{PC}_{473} \| \text{RAFE}] = 3102$ dims.
 
 %% =============================================================================
-\phantomsection\addcontentsline{toc}{section}{Section S5: External Baselines and In-House GNN/PC-only Comparison}
-\section*{Section S5: External Baselines and In-House GNN/PC-only Comparison}
+\phantomsection\addcontentsline{toc}{subsection}{Section S5: External Baselines and In-House GNN/PC-only Comparison}
+\subsection*{Section S5: External Baselines and In-House GNN/PC-only Comparison}
 %% =============================================================================
 
 \subsection*{Scope and Methodology}
@@ -1119,6 +1121,7 @@ the identical scaffold split, preprocessing, and bootstrapped-CI protocol as eve
 CLM-based method in this paper. It directly addresses the concern that GNN baselines were never run
 under the same protocol as PEARL's own pipeline.
 
+\phantomsection\addcontentsline{toc}{table}{Table S11: Comparison of PEARL with published external baselines on MoleculeNet scaffold splits (BACE/BBBP/Flavor only).}
 \subsection*{Method Descriptions}
 
 \noindent\textbf{Chemprop / D-MPNN}~\cite{yang2019chemprop}.
@@ -1178,6 +1181,8 @@ PEARL RAFE best               & this work & $0.858$\textsuperscript{b} & $\mathb
 }
 \end{table}
 
+\phantomsection\addcontentsline{toc}{table}{Table S12: In-house PC-only/Chemprop/GCN baselines vs. the best CLM-based method, all seven datasets.}
+
 \subsection*{In-House Baseline Comparison}
 
 Table~S12 reports PC-only, Chemprop, and GCN, run in-house on the identical split
@@ -1185,6 +1190,7 @@ and protocol as the CLM ladder, on all seven datasets. The final column applies
 the $\pm1$~SE overlap convention from Section~S3 to the comparison between the best
 CLM-based method (E2E LoRA, FT Embed, FT Embed+PC, or RAFE, whichever has the
 highest point estimate) and PC-only.
+
 
 \begin{table}[htbp]
 \centering

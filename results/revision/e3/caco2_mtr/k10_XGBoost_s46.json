@@ -1,0 +1,25 @@
+{
+ "dataset": "caco2",
+ "clf": "XGBoost",
+ "seed": 46,
+ "n_train": 637,
+ "n_test": 182,
+ "n_feat": 900,
+ "best_params": {
+  "max_depth": 4,
+  "learning_rate": 0.01473113972173146,
+  "n_estimators": 481
+ },
+ "cv_best": -0.3953,
+ "seconds": 2425.9,
+ "cfg": "caco2_mtr",
+ "arm": "k10",
+ "n_rafe": 49,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "single",
+ "groups": "ABCD",
+ "Spearman": 0.8190186821223113,
+ "R2": 0.6548190646131742,
+ "MAE": 0.31606189697507087
+}
