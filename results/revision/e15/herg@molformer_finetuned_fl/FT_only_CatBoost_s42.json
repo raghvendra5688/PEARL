@@ -1,0 +1,26 @@
+{
+ "dataset": "herg",
+ "clf": "CatBoost",
+ "seed": 42,
+ "n_train": 9411,
+ "n_test": 2690,
+ "n_feat": 768,
+ "best_params": {
+  "max_depth": 10,
+  "learning_rate": 0.0952910932007993,
+  "n_estimators": 536
+ },
+ "cv_best": 0.7058,
+ "seconds": 9800.5,
+ "cfg": "herg@molformer_finetuned_fl",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.5360094124750509,
+ "Accuracy": 0.7680297397769517,
+ "F1_macro": 0.768000884564352,
+ "AUC": 0.8514397902140818
+}
