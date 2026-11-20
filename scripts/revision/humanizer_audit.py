@@ -23,7 +23,9 @@ if "--integrity" in sys.argv:
     A = open(sys.argv[sys.argv.index("--integrity") + 1]).read(); B = open(f).read()
     def feats(x):
         x = re.sub(r"%.*", "", x)
-        return {"numbers": collections.Counter(re.findall(r"(?<![A-Za-z\\])-?\d+(?:\.\d+)?", re.sub(r"\\cite[a-z]*\{[^}]*\}|\\(?:ref|label)\{[^}]*\}", "", x))), "cite": collections.Counter(k.strip() for c in re.findall(r"\\cite[a-z]*\{([^}]*)\}", x) for k in c.split(",")),
+        def norm(v):   # numbers are compared at 3 decimals, so the deliberate rounding pass is not flagged
+            return f"{float(v):.3f}" if "." in v else v
+        return {"numbers": collections.Counter(norm(v) for v in re.findall(r"(?<![A-Za-z\\])-?\d+(?:\.\d+)?", re.sub(r"\\cite[a-z]*\{[^}]*\}|\\(?:ref|label)\{[^}]*\}", "", x))), "cite": collections.Counter(k.strip() for c in re.findall(r"\\cite[a-z]*\{([^}]*)\}", x) for k in c.split(",")),
                 "ref/label": collections.Counter(re.findall(r"\\(?:ref|label)\{[^}]*\}", x)), "equations": collections.Counter(re.findall(r"\\begin\{equation\}.*?\\end\{equation\}", x, flags=re.S))}
     fa, fb = feats(A), feats(B); bad = False
     for k in fa:

@@ -315,7 +315,7 @@ RAFE       & Uni-Mol      & FL & XGBoost & 0.928 & 0.891 & 0.872 & 0.891 & 0.773
 \end{table*}
 
 \subsubsection{Flavor Dataset Results}
-Table~\ref{tab:flavor} presents results on the multi-class Flavor dataset (single runs). RAFE (MolFormer-XL WL~$+$~CatBoost) reaches MCC$=0.804$ (AUC$=0.963$, Prec$=0.868$, Rec$=0.749$, SE$=0.010$), within one standard error of Chemprop (MCC$=0.809$, SE$=0.0115$) and PC-only (MCC$=0.808$, SE$=0.0108$). The test set is large ($n_\text{test}=2{,}254$), so the controlled comparison is informative: with XGBoost, RAFE is significantly below PC-only ($-0.027$, 95\% interval $-0.044$ to $-0.010$; Table~\ref{tab:controlled}), and with LightGBM and CatBoost the intervals include zero. The CLM ladder therefore does not clear the PC-only and GNN baselines on this dataset. Uni-Mol reaches MCC$=0.795$ with weighted loss, competitive with but below MolFormer, which suggests that 3D geometry adds little for taste prediction. \pending{five-seed values for Flavor} The full per-embedding, per-loss ablation is in Supplementary Table~S3.
+Table~\ref{tab:flavor} presents results on the multi-class Flavor dataset (single runs). RAFE (MolFormer-XL WL~$+$~CatBoost) reaches MCC$=0.804$ (AUC$=0.963$, Prec$=0.868$, Rec$=0.749$, SE$=0.010$), within one standard error of Chemprop (MCC$=0.809$, SE$=0.011$) and PC-only (MCC$=0.808$, SE$=0.011$). The test set is large ($n_\text{test}=2{,}254$), so the controlled comparison is informative: with XGBoost, RAFE is significantly below PC-only ($-0.027$, 95\% interval $-0.044$ to $-0.010$; Table~\ref{tab:controlled}), and with LightGBM and CatBoost the intervals include zero. The CLM ladder therefore does not clear the PC-only and GNN baselines on this dataset. Uni-Mol reaches MCC$=0.795$ with weighted loss, competitive with but below MolFormer, which suggests that 3D geometry adds little for taste prediction. \pending{five-seed values for Flavor} The full per-embedding, per-loss ablation is in Supplementary Table~S3.
 
 \begin{table*}[t]
 \centering
@@ -326,16 +326,16 @@ Table~\ref{tab:flavor} presents results on the multi-class Flavor dataset (singl
 \toprule
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & F1$_\text{mic}$ & MCC & Prec & Rec & SE(MCC) \\
 \midrule
-PC-only    & --- & --- & XGBoost  & 0.972 & 0.890 & 0.761 & 0.890 & 0.808 & 0.733 & 0.798 & 0.0108 \\
-Chemprop   & --- & --- & --- & 0.974 & \textbf{0.899} & \textbf{0.809} & \textbf{0.899} & \textbf{0.809} & 0.796 & 0.835 & 0.0115 \\
-GCN        & --- & --- & --- & 0.973 & 0.893 & 0.814 & 0.893 & 0.798 & 0.834 & 0.800 & 0.0118 \\
+PC-only    & --- & --- & XGBoost  & 0.972 & 0.890 & 0.761 & 0.890 & 0.808 & 0.733 & 0.798 & 0.011 \\
+Chemprop   & --- & --- & --- & 0.974 & \textbf{0.899} & \textbf{0.809} & \textbf{0.899} & \textbf{0.809} & 0.796 & 0.835 & 0.011 \\
+GCN        & --- & --- & --- & 0.973 & 0.893 & 0.814 & 0.893 & 0.798 & 0.834 & 0.800 & 0.012 \\
 \midrule
-E2E LoRA   & MolFormer-XL & WL & --- & \textbf{0.975} & 0.892 & \textbf{0.809} & 0.892 & 0.802 & 0.802 & 0.817 & 0.0115 \\
+E2E LoRA   & MolFormer-XL & WL & --- & \textbf{0.975} & 0.892 & \textbf{0.809} & 0.892 & 0.802 & 0.802 & 0.817 & 0.011 \\
 \midrule
-FT Embed   & MolFormer-XL & WL & LightGBM& 0.970 & 0.882 & 0.783 & 0.882 & 0.787 & 0.800 & 0.778 & 0.0111 \\
-FT Embed+PC& MolFormer-XL & WL & CatBoost& 0.958 & 0.888 & 0.772 & 0.888 & 0.801 & 0.756 & 0.793 & 0.0111 \\
+FT Embed   & MolFormer-XL & WL & LightGBM& 0.970 & 0.882 & 0.783 & 0.882 & 0.787 & 0.800 & 0.778 & 0.011 \\
+FT Embed+PC& MolFormer-XL & WL & CatBoost& 0.958 & 0.888 & 0.772 & 0.888 & 0.801 & 0.756 & 0.793 & 0.011 \\
 \midrule
-RAFE       & MolFormer-XL & WL & CatBoost& 0.963 & 0.893 & 0.774 & 0.893 & 0.804 & \textbf{0.868} & 0.749 & 0.0102 \\
+RAFE       & MolFormer-XL & WL & CatBoost& 0.963 & 0.893 & 0.774 & 0.893 & 0.804 & \textbf{0.868} & 0.749 & 0.010 \\
 \bottomrule
 \end{tabular}
 }
@@ -380,7 +380,7 @@ RAFE       & MolFormer-XL & WL & LightGBM & 0.858 & 0.770 & 0.768 & 0.770 & 0.56
 \subsubsection{TDC ADMET Group Results}\label{sec:new_datasets}
 This section reports results on the four TDC ADMET Group datasets. All four are evaluated with the same in-house PC-only, Chemprop, and GCN baselines as BACE/BBBP/Flavor.
 
-\paragraph{hERG (Cardiac Ion-Channel Inhibition).} Table~\ref{tab:herg} shows results for hERG (single runs). Uni-Mol E2E LoRA (WL) has the highest value (MCC$=0.609$, AUC$=0.881$, SE$=0.0154$), narrowly ahead of PC-only (MCC$=0.604$, SE$=0.0157$), FT~Embed+PC (Uni-Mol FL~$+$~LightGBM, MCC$=0.602$, SE$=0.0154$) and RAFE (Uni-Mol FL~$+$~LightGBM, MCC$=0.589$, SE$=0.0155$). The test set is large ($n=2{,}690$), and the controlled comparison shows that RAFE is significantly below PC-only with all three trees (differences $-0.049$, $-0.033$ and $-0.056$ for XGBoost, LightGBM and CatBoost; Table~\ref{tab:controlled}). RAFE is significantly above the fine-tuned embedding alone only with LightGBM ($+0.011$). The full set of ablations is in Supplementary Table~S5. \pending{five-seed grid values for hERG}
+\paragraph{hERG (Cardiac Ion-Channel Inhibition).} Table~\ref{tab:herg} shows results for hERG (single runs). Uni-Mol E2E LoRA (WL) has the highest value (MCC$=0.609$, AUC$=0.881$, SE$=0.015$), narrowly ahead of PC-only (MCC$=0.604$, SE$=0.016$), FT~Embed+PC (Uni-Mol FL~$+$~LightGBM, MCC$=0.602$, SE$=0.015$) and RAFE (Uni-Mol FL~$+$~LightGBM, MCC$=0.589$, SE$=0.015$). The test set is large ($n=2{,}690$), and the controlled comparison shows that RAFE is significantly below PC-only with all three trees (differences $-0.049$, $-0.033$ and $-0.056$ for XGBoost, LightGBM and CatBoost; Table~\ref{tab:controlled}). RAFE is significantly above the fine-tuned embedding alone only with LightGBM ($+0.011$). The full set of ablations is in Supplementary Table~S5. \pending{five-seed grid values for hERG}
 
 \begin{table*}[!ht]
 \centering
@@ -391,22 +391,22 @@ This section reports results on the four TDC ADMET Group datasets. All four are 
 \toprule
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & MCC & Prec & Rec & SE(MCC) \\
 \midrule
-PC-only     & --- & --- & XGBoost  & 0.874 & 0.802 & 0.802 & 0.604 & 0.802 & 0.802 & 0.0157 \\
-Chemprop    & --- & --- & ---      & 0.854 & 0.779 & 0.779 & 0.558 & 0.779 & 0.779 & 0.0160 \\
-GCN         & --- & --- & ---      & 0.833 & 0.755 & 0.755 & 0.510 & 0.755 & 0.755 & 0.0168 \\
+PC-only     & --- & --- & XGBoost  & 0.874 & 0.802 & 0.802 & 0.604 & 0.802 & 0.802 & 0.016 \\
+Chemprop    & --- & --- & ---      & 0.854 & 0.779 & 0.779 & 0.558 & 0.779 & 0.779 & 0.016 \\
+GCN         & --- & --- & ---      & 0.833 & 0.755 & 0.755 & 0.510 & 0.755 & 0.755 & 0.017 \\
 \midrule
-E2E LoRA    & MolFormer-XL & WL & --- & 0.869 & 0.787 & 0.787 & 0.573 & 0.787 & 0.787 & 0.0155 \\
-E2E LoRA$^*$& Uni-Mol      & WL & --- & \textbf{0.881} & \textbf{0.804} & \textbf{0.804} & \textbf{0.609} & \textbf{0.805} & \textbf{0.804} & \textbf{0.0154} \\
+E2E LoRA    & MolFormer-XL & WL & --- & 0.869 & 0.787 & 0.787 & 0.573 & 0.787 & 0.787 & 0.015 \\
+E2E LoRA$^*$& Uni-Mol      & WL & --- & \textbf{0.881} & \textbf{0.804} & \textbf{0.804} & \textbf{0.609} & \textbf{0.805} & \textbf{0.804} & \textbf{0.015} \\
 \midrule
-FT Embed    & Uni-Mol & FL & LightGBM & 0.864 & 0.790 & 0.790 & 0.580 & 0.790 & 0.790 & 0.0158 \\
-FT Embed+PC & Uni-Mol & FL & LightGBM & 0.871 & 0.801 & 0.801 & 0.602 & 0.801 & 0.801 & 0.0154 \\
-RAFE        & Uni-Mol & FL & LightGBM & 0.871 & 0.794 & 0.794 & 0.589 & 0.794 & 0.795 & 0.0155 \\
+FT Embed    & Uni-Mol & FL & LightGBM & 0.864 & 0.790 & 0.790 & 0.580 & 0.790 & 0.790 & 0.016 \\
+FT Embed+PC & Uni-Mol & FL & LightGBM & 0.871 & 0.801 & 0.801 & 0.602 & 0.801 & 0.801 & 0.015 \\
+RAFE        & Uni-Mol & FL & LightGBM & 0.871 & 0.794 & 0.794 & 0.589 & 0.794 & 0.795 & 0.015 \\
 \bottomrule
 \end{tabular}
 }
 \end{table*}
 
-\paragraph{DILI (Drug-Induced Liver Injury).} Table~\ref{tab:dili} shows results for DILI (single runs). RAFE (Uni-Mol FL~$+$~XGBoost) has the highest value (MCC$=0.790$, AUC$=0.875$, SE$=0.0515$), ahead of E2E LoRA (ChemBERTa-MTR WL, MCC$=0.770$) and PC-only (MCC$=0.765$, SE$=0.0581$). This single-run value does not hold up under repetition: with five seeds, the same configuration gives MCC$=\mDILIRAFE \pm \sDILIRAFE$, FT Embed+PC $\mDILIFTPC \pm \sDILIFTPC$ and PC-only $\mDILIPC$. The test set is small ($n=96$), so every interval is wide. What survives is a consistent benefit of RAFE over the fine-tuned embedding alone, which is $+0.072$ with XGBoost and $+0.039$ with LightGBM on average over eight embedding and loss combinations (Table~\ref{tab:full_dili}). Against FT Embed+PC the result depends on the tree (Table~\ref{tab:full_dili}). The full set of ablations is in Supplementary Table~S6.
+\paragraph{DILI (Drug-Induced Liver Injury).} Table~\ref{tab:dili} shows results for DILI (single runs). RAFE (Uni-Mol FL~$+$~XGBoost) has the highest value (MCC$=0.790$, AUC$=0.875$, SE$=0.051$), ahead of E2E LoRA (ChemBERTa-MTR WL, MCC$=0.770$) and PC-only (MCC$=0.765$, SE$=0.058$). This single-run value does not hold up under repetition: with five seeds, the same configuration gives MCC$=\mDILIRAFE \pm \sDILIRAFE$, FT Embed+PC $\mDILIFTPC \pm \sDILIFTPC$ and PC-only $\mDILIPC$. The test set is small ($n=96$), so every interval is wide. What survives is a consistent benefit of RAFE over the fine-tuned embedding alone, which is $+0.072$ with XGBoost and $+0.039$ with LightGBM on average over eight embedding and loss combinations (Table~\ref{tab:full_dili}). Against FT Embed+PC the result depends on the tree (Table~\ref{tab:full_dili}). The full set of ablations is in Supplementary Table~S6.
 
 \begin{table*}[!ht]
 \centering
@@ -417,22 +417,22 @@ RAFE        & Uni-Mol & FL & LightGBM & 0.871 & 0.794 & 0.794 & 0.589 & 0.794 & 
 \toprule
 Modality & CLM & Loss & ML & AUC & Acc & F1$_\text{mac}$ & MCC & Prec & Rec & SE(MCC) \\
 \midrule
-PC-only     & --- & --- & CatBoost & 0.914 & 0.875 & 0.872 & 0.765 & 0.894 & 0.870 & 0.0581 \\
-Chemprop    & --- & --- & ---      & 0.893 & 0.792 & 0.788 & 0.588 & 0.800 & 0.788 & 0.0808 \\
-GCN         & --- & --- & ---      & 0.889 & 0.854 & 0.850 & 0.729 & 0.880 & 0.849 & 0.0600 \\
+PC-only     & --- & --- & CatBoost & 0.914 & 0.875 & 0.872 & 0.765 & 0.894 & 0.870 & 0.058 \\
+Chemprop    & --- & --- & ---      & 0.893 & 0.792 & 0.788 & 0.588 & 0.800 & 0.788 & 0.081 \\
+GCN         & --- & --- & ---      & 0.889 & 0.854 & 0.850 & 0.729 & 0.880 & 0.849 & 0.060 \\
 \midrule
-E2E LoRA    & ChemBERTa-MTR & WL & --- & 0.911 & \textbf{0.885} & \textbf{0.885} & 0.770 & 0.886 & \textbf{0.885} & 0.0650 \\
-E2E LoRA    & Uni-Mol       & FL & --- & \textbf{0.926} & 0.854 & 0.854 & 0.708 & 0.855 & 0.853 & 0.0722 \\
+E2E LoRA    & ChemBERTa-MTR & WL & --- & 0.911 & \textbf{0.885} & \textbf{0.885} & 0.770 & 0.886 & \textbf{0.885} & 0.065 \\
+E2E LoRA    & Uni-Mol       & FL & --- & \textbf{0.926} & 0.854 & 0.854 & 0.708 & 0.855 & 0.853 & 0.072 \\
 \midrule
-FT Embed    & ChemBERTa-MLM & WL & CatBoost & 0.893 & 0.833 & 0.831 & 0.673 & 0.844 & 0.830 & 0.0731 \\
-FT Embed+PC & Uni-Mol       & FL & LightGBM & 0.873 & 0.833 & 0.826 & 0.703 & 0.879 & 0.826 & 0.0552 \\
-RAFE$^*$    & Uni-Mol       & FL & XGBoost  & 0.875 & \textbf{0.885} & 0.883 & \textbf{0.790} & \textbf{0.910} & 0.880 & \textbf{0.0515} \\
+FT Embed    & ChemBERTa-MLM & WL & CatBoost & 0.893 & 0.833 & 0.831 & 0.673 & 0.844 & 0.830 & 0.073 \\
+FT Embed+PC & Uni-Mol       & FL & LightGBM & 0.873 & 0.833 & 0.826 & 0.703 & 0.879 & 0.826 & 0.055 \\
+RAFE$^*$    & Uni-Mol       & FL & XGBoost  & 0.875 & \textbf{0.885} & 0.883 & \textbf{0.790} & \textbf{0.910} & 0.880 & \textbf{0.051} \\
 \bottomrule
 \end{tabular}
 }
 \end{table*}
 
-Figures~\ref{fig:roc_4ds} and~\ref{fig:pr_4ds} summarize the four tree-based modalities (PC-only, FT Embed, FT Embed+PC, RAFE) on the four binary classification datasets, and two things stand out. First, on hERG the four ROC and PR curves are nearly superimposed (AUC $0.864$-$0.874$, AUPR $0.862$-$0.872$), so the modalities do not separate on AUC even though the paired MCC comparison finds RAFE below PC-only. Second, RAFE's rank among the tree-based modalities depends on the dataset. It is the top tree-based modality on BBBP (AUC$=0.940$, AUPR$=0.940$) and the weakest of the four on BACE (AUC$=0.858$, against $0.869$-$0.870$ for FT Embed and FT Embed+PC). On DILI the AUC margin of PC-only over RAFE is modest ($0.914$ versus $0.875$) but the AUPR margin is larger ($0.911$ versus $0.847$), so ROC-AUC alone understates how favorable PC-only is on this small, imbalanced test set (see also Section~\ref{sec:metrics}).
+Figures~\ref{fig:roc_4ds} and~\ref{fig:pr_4ds} summarize the four tree-based modalities (PC-only, FT Embed, FT Embed+PC, RAFE) on the four binary classification datasets, and two things stand out. First, on hERG the four ROC and PR curves are nearly superimposed (AUC $0.864$-$0.874$, AUPR $0.862$-$0.872$), so the modalities do not separate on AUC even though the paired MCC comparison finds RAFE below PC-only. Second, RAFE's rank among the tree-based modalities depends on the dataset. It is the top tree-based modality on BBBP (AUC$=0.940$, AUPR$=0.940$) and the weakest of the four on BACE for the configurations shown (AUC$=0.858$, against $0.869$ and $0.870$ for FT Embed and FT Embed+PC). The curves show each modality's best configuration by MCC; ranked by AUC instead, the best RAFE configuration on BACE reaches $0.875$ (Supplementary Table~S4). On DILI the AUC margin of PC-only over RAFE is modest ($0.914$ versus $0.875$) but the AUPR margin is larger ($0.911$ versus $0.847$), so ROC-AUC alone understates how favorable PC-only is on this small, imbalanced test set (see also Section~\ref{sec:metrics}).
 
 \begin{figure*}[!ht]
   \centering
@@ -459,22 +459,22 @@ Figures~\ref{fig:roc_4ds} and~\ref{fig:pr_4ds} summarize the four tree-based mod
 \toprule
 Modality & CLM & ML & R\textsuperscript{2} & MAE & Spearman & SE(Spearman) \\
 \midrule
-PC-only$^*$ & --- & CatBoost & 0.744 & 0.273 & \textbf{0.853} & \textbf{0.0211} \\
-Chemprop    & --- & --- & 0.534 & 0.359 & 0.802 & 0.0294 \\
-GCN         & --- & --- & 0.244 & 0.491 & 0.733 & 0.0342 \\
+PC-only$^*$ & --- & CatBoost & 0.744 & 0.273 & \textbf{0.853} & \textbf{0.021} \\
+Chemprop    & --- & --- & 0.534 & 0.359 & 0.802 & 0.029 \\
+GCN         & --- & --- & 0.244 & 0.491 & 0.733 & 0.034 \\
 \midrule
-E2E LoRA    & ChemBERTa-MTR & --- & 0.622 & 0.340 & 0.789 & 0.0318 \\
-E2E LoRA    & Uni-Mol       & --- & 0.411 & 0.432 & 0.580 & 0.0565 \\
+E2E LoRA    & ChemBERTa-MTR & --- & 0.622 & 0.340 & 0.789 & 0.032 \\
+E2E LoRA    & Uni-Mol       & --- & 0.411 & 0.432 & 0.580 & 0.057 \\
 \midrule
-FT Embed    & ChemBERTa-MTR & CatBoost & \textbf{0.668} & 0.318 & 0.821 & 0.0284 \\
-FT Embed+PC & ChemBERTa-MTR & LightGBM & 0.672 & \textbf{0.308} & 0.824 & 0.0277 \\
-RAFE        & ChemBERTa-MTR & CatBoost & 0.663 & 0.324 & 0.835 & 0.0256 \\
+FT Embed    & ChemBERTa-MTR & CatBoost & \textbf{0.668} & 0.318 & 0.821 & 0.028 \\
+FT Embed+PC & ChemBERTa-MTR & LightGBM & 0.672 & \textbf{0.308} & 0.824 & 0.028 \\
+RAFE        & ChemBERTa-MTR & CatBoost & 0.663 & 0.324 & 0.835 & 0.026 \\
 \bottomrule
 \end{tabular}
 }
 \end{table*}
 
-\paragraph{Half-Life (Regression).} Table~\ref{tab:half_life} reports Half-Life results (single runs), ranked by Spearman correlation. FT Embed (MolFormer-XL~$+$~XGBoost) has the highest value (Spearman$=0.600$, R\textsuperscript{2}$=0.083$, SE$=0.056$), ahead of FT~Embed+PC (Spearman$=0.593$) and PC-only (Spearman$=0.502$, SE$=0.075$). Half-Life is the noisiest dataset ($n_\text{test}=133$, R\textsuperscript{2} $< 0.11$ for every method after log1p transformation and outlier removal), and the bands of FT Embed and PC-only overlap. RAFE is not favorable here: with LightGBM it is below FT Embed+PC ($-0.023$, 95\% interval $-0.044$ to $-0.002$). Spearman and R\textsuperscript{2} behave differently on this dataset, as discussed in Section~\ref{sec:metrics}. The full per-embedding, per-loss ablation is in Supplementary Table~S8.
+\paragraph{Half-Life (Regression).} Table~\ref{tab:half_life} reports Half-Life results (single runs), ranked by Spearman correlation. FT Embed (MolFormer-XL~$+$~XGBoost) has the highest value (Spearman$=0.600$, R\textsuperscript{2}$=0.083$, SE$=0.056$), ahead of FT~Embed+PC (Spearman$=0.593$) and PC-only (Spearman$=0.502$, SE$=0.075$). Half-Life is the noisiest dataset ($n_\text{test}=133$, R\textsuperscript{2} $\le 0.114$ for every method after log1p transformation and outlier removal), and the bands of FT Embed and PC-only overlap. RAFE is not favorable here: with LightGBM it is below FT Embed+PC ($-0.023$, 95\% interval $-0.044$ to $-0.002$). Spearman and R\textsuperscript{2} behave differently on this dataset, as discussed in Section~\ref{sec:metrics}. The full per-embedding, per-loss ablation is in Supplementary Table~S8.
 
 \begin{table*}[!ht]
 \centering
@@ -485,16 +485,16 @@ RAFE        & ChemBERTa-MTR & CatBoost & 0.663 & 0.324 & 0.835 & 0.0256 \\
 \toprule
 Modality & CLM & ML & R\textsuperscript{2} & MAE (h) & Spearman & SE(Spearman) \\
 \midrule
-PC-only     & --- & XGBoost & 0.110 & 5.687 & 0.502 & 0.0750 \\
-Chemprop    & --- & --- & -0.020 & 6.325 & 0.332 & 0.0841 \\
-GCN         & --- & --- & 0.114 & 5.928 & 0.418 & 0.0777 \\
+PC-only     & --- & XGBoost & 0.110 & 5.687 & 0.502 & 0.075 \\
+Chemprop    & --- & --- & -0.020 & 6.325 & 0.332 & 0.084 \\
+GCN         & --- & --- & 0.114 & 5.928 & 0.418 & 0.078 \\
 \midrule
-E2E LoRA    & ChemBERTa-MTR & --- & 0.072 & 6.367 & 0.541 & 0.0654 \\
-E2E LoRA    & Uni-Mol       & --- & -0.072 & 6.937 & 0.518 & 0.0720 \\
+E2E LoRA    & ChemBERTa-MTR & --- & 0.072 & 6.367 & 0.541 & 0.065 \\
+E2E LoRA    & Uni-Mol       & --- & -0.072 & 6.937 & 0.518 & 0.072 \\
 \midrule
-FT Embed$^*$& MolFormer-XL & XGBoost & \textbf{0.083} & \textbf{5.639} & \textbf{0.600} & \textbf{0.0562} \\
-FT Embed+PC & MolFormer-XL & XGBoost & 0.090 & 5.594 & 0.593 & 0.0535 \\
-RAFE        & MolFormer-XL & XGBoost & 0.090 & 5.557 & 0.568 & 0.0579 \\
+FT Embed$^*$& MolFormer-XL & XGBoost & \textbf{0.083} & \textbf{5.639} & \textbf{0.600} & \textbf{0.056} \\
+FT Embed+PC & MolFormer-XL & XGBoost & 0.090 & 5.594 & 0.593 & 0.053 \\
+RAFE        & MolFormer-XL & XGBoost & 0.090 & 5.557 & 0.568 & 0.058 \\
 \bottomrule
 \end{tabular}
 }
@@ -697,7 +697,7 @@ The conformer also matters. We re-embedded BACE with five RDKit ETKDG seeds (the
 \end{figure}
 
 \subsection{Efficiency Analysis}\label{sec:efficiency}
-Table~\ref{tab:params} reports LoRA hyperparameters and trainable parameter counts illustrating the range of parameter efficiency across five of the seven datasets. ChemBERTa variants (3.4M base parameters) achieve reductions of $76$-$94\%$ depending on rank; MolFormer-XL ($\approx 46$M parameters) achieves $84$-$97\%$ reduction. Uni-Mol (rank $r \in \{4,8,16,32\}$, targeting only \texttt{in\_proj} across 15 attention layers) achieves particularly efficient adaptation, with $<5\%$ trainable parameters for the lowest-rank configurations. hERG (MolFormer-XL, $r=16$) reduces parameters by $93.91\%$, and DILI (ChemBERTa-MTR, $r=64$) by $76.31\%$. Both fall within the same $76$-$97\%$ range observed elsewhere in the table. The full parameter counts for BACE, BBBP and Flavor datasets are in Supplementary Table~S9. This addresses H1: LoRA reduces the trainable parameters by $76$-$97\%$, and the end-to-end LoRA results are competitive with the published full-finetuning and graph baselines (Section~\ref{sec:external_comparison}).
+Table~\ref{tab:params} reports LoRA hyperparameters and trainable parameter counts illustrating the range of parameter efficiency across five of the seven datasets. ChemBERTa variants (3.4M base parameters) achieve reductions of $76$-$94\%$ depending on rank; MolFormer-XL ($\approx 46$M parameters) achieves $84$-$97\%$ reduction. Uni-Mol (rank $r \in \{4,8,16,32\}$, targeting \texttt{in\_proj} across 15 attention layers) stays below $5\%$ trainable parameters at every rank in the sweep: the adapters add $2048r$ parameters per layer, which is at most $1.5$M of the $\approx47$M total at $r=32$ (Supplementary Section~S2). hERG (MolFormer-XL, $r=16$) reduces parameters by $93.91\%$, and DILI (ChemBERTa-MTR, $r=64$) by $76.31\%$. Both fall within the same $76$-$97\%$ range observed elsewhere in the table. The full parameter counts for BACE, BBBP and Flavor datasets are in Supplementary Table~S9. This addresses H1: LoRA reduces the trainable parameters by $76$-$97\%$, and the end-to-end LoRA results are competitive with the published full-finetuning and graph baselines (Section~\ref{sec:external_comparison}).
 
 \paragraph{Computational cost.} Table~\ref{tab:runtime} and Figure~\ref{fig:runtime} give the cost of each stage, measured or taken from the logs of the original runs. One-off costs are small for the SMILES models (LoRA finetuning: median \lorarun{}; embedding the 249k-molecule library: about \zhmin{} minutes) and large for Uni-Mol (hours, dominated by conformer generation: \umhours{}). At prediction time RAFE adds about \raferq{} s for a single molecule on a shared GPU with exact search, and tree inference takes under a millisecond. The numbers come from different hardware and are indicative.
 
@@ -775,7 +775,7 @@ PC-only (in-house)     & this work & $0.850$\textsuperscript{b}          & $0.93
 }
 \end{table*}
 
-On \textbf{BACE}, PEARL Uni-Mol WL (AUC~$=0.891$) is competitive with GROVER-Large ($0.894\pm0.028$) within the reported standard deviation, and surpasses both the published Uni-Mol full-finetuning result ($0.857$) and the in-house Chemprop/GCN baselines ($\le0.855$). On \textbf{BBBP}, PEARL MolFormer E2E LoRA (AUC~$=0.929$) and RAFE (AUC$=0.940$) both exceed the in-house GCN (AUC$=0.924$) and Chemprop (AUC$=0.918$) baselines, and RAFE exceeds GROVER-Large and Mole-BERT (both $0.940$, tied). On \textbf{Flavor}, in-house Chemprop (AUC$=0.974$) is essentially tied with PEARL MolFormer E2E LoRA ($0.975$): the CLM ladder's margin over a graph-only baseline is negligible on this dataset, consistent with the earlier PC-only finding.
+On \textbf{BACE}, PEARL Uni-Mol WL (AUC~$=0.891$) is competitive with GROVER-Large ($0.894\pm0.028$) within the reported standard deviation, and surpasses both the published Uni-Mol full-finetuning result ($0.857$) and the in-house Chemprop/GCN baselines ($\le0.855$). On \textbf{BBBP}, PEARL MolFormer E2E LoRA (AUC~$=0.929$) and RAFE (AUC$=0.940$) both exceed the in-house GCN (AUC$=0.924$) and Chemprop (AUC$=0.918$) baselines, and RAFE matches GROVER-Large and Mole-BERT (all three at $0.940$). On \textbf{Flavor}, in-house Chemprop (AUC$=0.974$) is essentially tied with PEARL MolFormer E2E LoRA ($0.975$): the CLM ladder's margin over a graph-only baseline is negligible on this dataset, consistent with the earlier PC-only finding.
 
 \subsection{Discussion}\label{sec:bace_discussion}
 Across seven datasets and two task types, PEARL holds every claimed improvement to in-house, identically evaluated baselines and reports where the improvements disappear.

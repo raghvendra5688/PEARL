@@ -31,3 +31,23 @@ Numbers, `\cite` keys, `\ref`/`\label` and equations were compared between the p
 - Red `\pending{}` markers: hERG and Flavor grid, CatBoost columns of the full tables, Flavor row of the variants table, BBBP neighbor-count sweep, AI-use statement against the journal policy, BACE configuration label check.
 - `RAFE_Framework_v2.pdf` and `PEARL_Workflow_v2.pdf` may still show 69 features; the figures must be redrawn. `PEARL_HM_Workflow_v2.pdf`, referenced in the template, is not in `Figures_v2/`.
 - LaTeX not compiled on the server (no TeX installation); label, brace and environment checks pass.
+
+## Numerical verification pass (2026-11-20)
+
+Script: `/tmp/.../verify.py` logic folded into the checks below; figures and tables regenerated from the result files.
+
+**Checked automatically (58 checks, all passing):** five-seed means quoted in prose against `e15_analysis/best_configs.csv`; PC-only five-seed values against the E1 cells; every paired difference and interval against `e06/paired_e1.csv` and `e15_analysis/full_tables/ci_*.csv`; the matched-pair ladder differences and Wilcoxon p-values against `e09_selection_audit/matched_pair_differences.csv`; the counts of significant comparisons (24 / 5 / 4 / 0); the mean FT+PC minus FT per dataset; all seven test-set sizes against `n_test` in the result cells.
+
+**Checked by cross-reference:** every value quoted in a per-dataset paragraph now appears either in that paragraph's own table or among the verified paired quantities (7 of 7 paragraphs clean).
+
+**Corrections made during this pass**
+1. Half-Life: "R\textsuperscript{2} $< 0.11$ for every method" was false, since the GCN row of the same table reads 0.114. Changed to "$\le 0.114$".
+2. BACE ROC/PR paragraph: "RAFE is the weakest of the four (AUC 0.858)" holds only for the plotted best-by-MCC configurations. RAFE's best-AUC configuration on BACE reaches 0.875 (Supplementary Table S4). The sentence now says which configurations are shown and gives 0.875.
+3. External baselines: "RAFE exceeds GROVER-Large and Mole-BERT (both 0.940, tied)" was self-contradictory. Changed to "matches ... (all three at 0.940)".
+4. Uni-Mol parameter efficiency: the "$<5\%$ trainable" claim had no table behind it. It is now derived in the text: the adapters add $2048r$ parameters per layer, at most 1.5M of about 47M at $r=32$ (verified: 3.1%).
+
+**Rounding:** all 47 four-decimal values (the SE columns) were rounded to three decimals, so the whole manuscript now reports three decimals. The integrity check compares numbers at three decimals for this reason.
+
+**Integrity check after the pass:** the only differences from the pre-humanizer draft are the four corrections above (`0.110` replaced by `0.114`, `0.875` added) and two name fragments ("Caco-2", "ZINC-250k") in rewritten sentences. No citation, equation or reference changed.
+
+**Not verifiable from the shipped files:** the AUPR values quoted in the ROC/PR paragraph (0.862-0.872 on hERG, 0.940 on BBBP, 0.911 and 0.847 on DILI) come from the curve figures of the previous version, and no per-curve data file is kept in the repository. They should be re-read from the figure source before submission.
