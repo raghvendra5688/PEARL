@@ -85,7 +85,7 @@ Figure~\ref{fig:workflow} illustrates the complete PEARL workflow. The molecular
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.99\textwidth]{PEARL_HM_Workflow_v2.pdf}
+  \includegraphics[width=0.99\textwidth]{PEARL_Workflow_v2.pdf}
   \caption{PEARL workflow. Molecules are processed by one of three CLM families (ChemBERTa, MolFormer, Uni-Mol) with LoRA adapters. Task-specific embeddings are fused with molecular PC features and ZINC-250k retrieval features, then passed to tree-based classifiers/regressors. Uni-Mol also encodes 3D ETKDGv3 conformers via an SE(3) representation. The ladder spans both classification and regression targets (including Caco-2, Half-Life) and is benchmarked against in-house Chemprop/GCN/PC-only baselines run under the same protocol.}
   \label{fig:workflow}
 \end{figure*}
