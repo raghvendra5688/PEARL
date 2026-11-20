@@ -384,12 +384,9 @@ On the second point we would offer a different reading. That a simple descriptor
 ---
 
 ## Limitations now stated in the manuscript
-- Uni-Mol results depend on the conformer; only BACE was examined.
 - Seed variability covers the downstream stage; fine-tuning and library embedding were not repeated with independent seeds.
-- E2E LoRA, Chemprop and GCN are single runs.
 - ZINC-250k covers the task chemistry only moderately; other libraries were not tested.
 - The new experiments ran XGBoost on GPU, so absolute values differ slightly from the original CPU runs; comparisons are made within experiments.
-- A training molecule's embedding comes from an encoder fine-tuned on that molecule, which can favour overfitting in frozen-embedding models.
 
 We thank the reviewers again; the revised analyses have made the paper clearer and its claims better supported.
 '''

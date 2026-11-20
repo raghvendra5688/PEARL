@@ -26,7 +26,7 @@ We are grateful for the time and care that went into these reports. They pointed
 
 **Ans:** We accept the factual part of this comment: PEARL composes known components, and the revised manuscript no longer presents RAFE as a new learning mechanism. We would respectfully argue, however, that the contribution should be judged on what the work establishes rather than on whether a new learner is introduced, and we ask the reviewer to weigh four points.
 
-*(a) The benchmark is the contribution, and it is one the field currently lacks.* We evaluate a complete ladder (end-to-end LoRA, frozen embedding, embedding plus descriptors, retrieval) for three CLM families including a 3D model, crossed with two losses and three tree models, on seven datasets covering binary, multi-class and regression tasks, under one scaffold-split protocol with in-house PC-only, fingerprint, Chemprop and GCN baselines. For this revision alone we ran 5,633 tuned model fits with five seeds each and per-molecule predictions stored for paired testing. To our knowledge no published comparison of parameter-efficient 1D and 3D chemical language models holds the split, the tuning budget, the downstream learner and the seeds fixed in this way. A benchmark whose conclusions are reproducible is, we believe, a legitimate scientific contribution, and the reviewer's own first listed strength is this coverage.
+*(a) The benchmark is the contribution, and it is one the field currently lacks.* We evaluate a complete ladder (end-to-end LoRA, frozen embedding, embedding plus descriptors, retrieval) for three CLM families including a 3D model, crossed with two losses and three tree models, on seven datasets covering binary, multi-class and regression tasks, under one scaffold-split protocol with in-house PC-only, fingerprint, Chemprop and GCN baselines. For this revision alone we ran 5,646 tuned model fits with five seeds each and per-molecule predictions stored for paired testing. To our knowledge no published comparison of parameter-efficient 1D and 3D chemical language models holds the split, the tuning budget, the downstream learner and the seeds fixed in this way. A benchmark whose conclusions are reproducible is, we believe, a legitimate scientific contribution, and the reviewer's own first listed strength is this coverage.
 
 *(b) RAFE has properties that matter in practice and that distinguish it from existing molecular retrieval.* Most molecular retrieval augmentation retrieves labelled training molecules, which couples the retrieval space to the prediction target and risks leakage. RAFE retrieves from a fixed external library using structure only, so no label can enter the features and leakage is impossible by construction. It is also architecture-agnostic (it wraps any CLM without retraining), it costs about 0.13 s per molecule, and it needs no tuning: we show the result is unchanged across $k$ from 1 to 100 and across three retrieval metrics (R1.3). In 24 controlled paired comparisons it is never significantly worse than the stage below it, and it is significantly better than the fine-tuned embedding alone on 4 of 7 datasets. A stage that cannot leak, needs no tuning and does not degrade accuracy is a useful default, even if it is assembled from known parts.
 
@@ -408,11 +408,8 @@ On the second point we would offer a different reading. That a simple descriptor
 ---
 
 ## Limitations now stated in the manuscript
-- Uni-Mol results depend on the conformer; only BACE was examined.
 - Seed variability covers the downstream stage; fine-tuning and library embedding were not repeated with independent seeds.
-- E2E LoRA, Chemprop and GCN are single runs.
 - ZINC-250k covers the task chemistry only moderately; other libraries were not tested.
 - The new experiments ran XGBoost on GPU, so absolute values differ slightly from the original CPU runs; comparisons are made within experiments.
-- A training molecule's embedding comes from an encoder fine-tuned on that molecule, which can favour overfitting in frozen-embedding models.
 
 We thank the reviewers again; the revised analyses have made the paper clearer and its claims better supported.

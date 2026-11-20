@@ -57,17 +57,22 @@ pd.set_option("display.width", 250); pd.set_option("display.max_colwidth", 60)
 print(B[["dataset", "stage", "selected_by_cv", "selected_test_mean", "oracle_config", "oracle_test_mean", "optimism_gap", "runner_up_diff", "runner_up_ci_lo", "runner_up_ci_hi"]].round(3).to_string(index=False))
 for conv in ("best_of_grid", "cv_selected"):
     r = Rk[Rk.convention == conv]; print("\n", conv, "RAFE rank per dataset:", dict(zip(r.dataset, r.rank_RAFE)), "| mean rank RAFE", round(r.rank_RAFE.mean(), 2), "PC-only", round(r["rank_PC-only"].mean(), 2), "FT+PC", round(r["rank_FT Embed+PC"].mean(), 2), "FT", round(r["rank_FT Embed"].mean(), 2), "| RAFE top3:", int((r.rank_RAFE <= 3).sum()), "of", len(r))
-# heatmap of the grid
-fig, axs = plt.subplots(1, len(complete), figsize=(3.6 * len(complete), 3.6), squeeze=False)
-for ax, ds in zip(axs[0], complete):
+# heatmap of the grid: 2 rows (ncols chosen to fit len(complete) datasets), larger fonts throughout
+ncols = -(-len(complete) // 2)  # ceil division: e.g. 5 datasets -> 3 columns, 2 rows
+fig, axs = plt.subplots(2, ncols, figsize=(5.4 * ncols, 7.4), squeeze=False)
+axs_flat = axs.ravel()
+for k, ax in enumerate(axs_flat):
+    if k >= len(complete): ax.axis("off"); continue
+    ds = complete[k]
     x = g[g.ds == ds]; cols = [(a, c) for a in STAGES for c in TREES]; embs = sorted(set(x.emb), key=lambda e: pretty(e)); M = np.full((len(embs), len(cols)), np.nan)
     for i_, e in enumerate(embs):
         for j_, (a, c) in enumerate(cols):
             s = x[(x.emb == e) & (x.arm == a) & (x.clf == c)]
             if len(s): M[i_, j_] = s.test.iloc[0]
-    im = ax.imshow(M, cmap="viridis", aspect="auto"); bi = np.unravel_index(np.nanargmax(M), M.shape); ax.add_patch(plt.Rectangle((bi[1] - .5, bi[0] - .5), 1, 1, fill=False, ec="red", lw=2))
-    ax.set_xticks(range(len(cols))); ax.set_xticklabels([f"{STAGES[a].replace('FT Embed', 'FT')}\n{c[:4]}" for a, c in cols], fontsize=5.5, rotation=0); ax.set_yticks(range(len(embs))); ax.set_yticklabels([pretty(e) for e in embs] if ds == complete[0] else [""] * len(embs), fontsize=6)
-    ax.set_title(f"{NAME[ds]} (red box: best by test mean)", fontsize=7)
+    im = ax.imshow(M, cmap="viridis", aspect="auto"); bi = np.unravel_index(np.nanargmax(M), M.shape); ax.add_patch(plt.Rectangle((bi[1] - .5, bi[0] - .5), 1, 1, fill=False, ec="red", lw=2.5))
+    TABBR = {"XGBoost": "XGB", "LightGBM": "LGBM"}
+    ax.set_xticks(range(len(cols))); ax.set_xticklabels([f"{STAGES[a].replace('FT Embed', 'FT')}\n{TABBR.get(c, c)}" for a, c in cols], fontsize=9, rotation=0); ax.set_yticks(range(len(embs))); ax.set_yticklabels([pretty(e) for e in embs], fontsize=10)
+    ax.set_title(f"{NAME[ds]} (red box: best by test mean)", fontsize=11)
     for i_ in range(M.shape[0]):
-        for j_ in range(M.shape[1]): ax.text(j_, i_, f"{M[i_, j_]:.2f}", ha="center", va="center", fontsize=4.5, color="w")
-fig.suptitle("Full configuration grid, mean test metric over 5 seeds (MCC; Spearman for Caco-2 and Half-Life)", fontsize=8); fig.tight_layout(); fig.savefig(OUT / "e15_grid_heatmap.pdf"); print("saved figure")
+        for j_ in range(M.shape[1]): ax.text(j_, i_, f"{M[i_, j_]:.2f}", ha="center", va="center", fontsize=8, color="w")
+fig.suptitle("Full configuration grid, mean test metric over 5 seeds (MCC; Spearman for Caco-2 and Half-Life)", fontsize=13); fig.tight_layout(rect=[0, 0, 1, 0.96]); fig.savefig(OUT / "e15_grid_heatmap.pdf"); print("saved figure")
