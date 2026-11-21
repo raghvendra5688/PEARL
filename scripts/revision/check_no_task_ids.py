@@ -44,7 +44,7 @@ def from_docx(path):
 
 def main():
     targets = []
-    md = MS / "PEARL_Response_to_Reviewers_Draft.md"
+    md = MS / "PEARL_Response_to_Reviewers.md"
     if md.exists():
         targets.append(("markdown: response", md.read_text()))
     for name in ("PEARL_Response_to_Reviewers.pdf",):

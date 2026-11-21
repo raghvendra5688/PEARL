@@ -1,4 +1,4 @@
-"""Builds manuscript/PEARL_Response_to_Reviewers_Draft.md from the result files. Every number in the text is computed here (nothing typed by hand
+"""Builds manuscript/PEARL_Response_to_Reviewers.md from the result files. Every number in the text is computed here (nothing typed by hand
 except quoted reviewer text and the S11 baselines, which are parsed from the supplement). Run: python scripts/revision/build_response.py"""
 import json, glob, re, numpy as np, pandas as pd
 from scipy.stats import spearmanr
@@ -400,7 +400,7 @@ On the second point we would offer a different reading. That a simple descriptor
 
 We thank the reviewers again; the revised analyses have made the paper clearer and its claims better supported.
 '''
-open("manuscript/PEARL_Response_to_Reviewers_Draft.md", "w").write(doc); print(len(doc.split()), "words;", doc.count("PENDING"), "PENDING markers")
+open("manuscript/PEARL_Response_to_Reviewers.md", "w").write(doc); print(len(doc.split()), "words;", doc.count("PENDING"), "PENDING markers")
 print("derived:", dict(top3=top3, wins=wins, mrank=round(mrank, 2), mtop3=mtop3, sig_ladder=[x[0] for x in sig_fe], n_rf=n_rf, pos_rf=pos_rf, neg_rf=neg_rf, pos_re=pos_re, neg_rp=neg_rp, neg_rp_ds=neg_rp_ds, share3=round(share3, 3), n23=n23, k23=k23, incomplete=incomplete))
 
 # ---------------- LaTeX tables for the revised manuscript (same DataFrames as the response; \input from PEARL_paper_v3.tex)

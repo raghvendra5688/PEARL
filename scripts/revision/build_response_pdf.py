@@ -5,7 +5,7 @@ import re, subprocess, sys
 from pathlib import Path
 import pypdfium2 as pdfium
 REPO = Path(__file__).resolve().parents[2]; MS = REPO / "manuscript"
-md = (MS / "PEARL_Response_to_Reviewers_Draft.md").read_text()
+md = (MS / "PEARL_Response_to_Reviewers.md").read_text()
 png = REPO.parent / "EffiChem_Extras_v2" / "PEARL_revision" / "response_png"; png.mkdir(parents=True, exist_ok=True)
 DPI = int(sys.argv[1]) if len(sys.argv) > 1 else 300
 def raster(rel):
