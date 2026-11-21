@@ -11,7 +11,7 @@ import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 from scipy.stats import spearmanr
 OUT = RES / "e10"; OUT.mkdir(exist_ok=True)
 cov = pd.read_csv(RES / "e07_coverage" / "per_molecule_coverage.csv"); cov = cov[cov.split == "test"]
-CFGS = [(n, CFG[n]["ds"], CFG[n]["clf"]) for n in ("bbbp_mf", "dili_um", "caco2_mtr", "bace_um", "bace_mf", "flavor_mf") if n in CFG]
+CFGS = [(n, CFG[n]["ds"], CFG[n]["clf"]) for n in ("bbbp_mf", "dili_um", "caco2_mtr", "bace_um", "bace_mf", "flavor_mf", "herg_mf") if n in CFG]
 rng = np.random.default_rng(0)
 def seeds_avail(name, clf):
     return [s for s in range(42, 47) if all((RES / "e1" / name / f"{a}_{clf}_s{s}.npz").exists() for a in ("base_FT+PC", "full_RAFE"))]

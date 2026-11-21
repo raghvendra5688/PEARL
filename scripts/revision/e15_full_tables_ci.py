@@ -4,7 +4,7 @@ import sys, glob, json, pandas as pd; from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent)); import e06b_paired_all as pa
 ds = sys.argv[1]; R = Path("results/revision"); rows = []
 embs = sorted({p.split("/")[-1].split("@")[1] for p in glob.glob(str(R / f"e15/{ds}@*"))})
-for clf in ("XGBoost", "LightGBM"):
+for clf in ("XGBoost", "LightGBM", "CatBoost"):
     for B, lab in (("FT_only", "FT Embed"), ("base_FT+PC", "FT Embed+PC")):
         pr = [(R / "e15" / f"{ds}@{e}" / f"full_RAFE_{clf}_s{s}", R / "e15" / f"{ds}@{e}" / f"{B}_{clf}_s{s}") for e in embs for s in range(42, 47)]
         pr = [p for p in pr if p[0].with_suffix(".npz").exists() and p[1].with_suffix(".npz").exists()]

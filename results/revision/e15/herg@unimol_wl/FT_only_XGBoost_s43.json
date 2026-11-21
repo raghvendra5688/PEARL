@@ -1,0 +1,26 @@
+{
+ "dataset": "herg",
+ "clf": "XGBoost",
+ "seed": 43,
+ "n_train": 9411,
+ "n_test": 2690,
+ "n_feat": 2560,
+ "best_params": {
+  "max_depth": 7,
+  "learning_rate": 0.05600504328568892,
+  "n_estimators": 365
+ },
+ "cv_best": 0.6043,
+ "seconds": 339.0,
+ "cfg": "herg@unimol_wl",
+ "arm": "FT_only",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "MCC": 0.5338670041802253,
+ "Accuracy": 0.7669144981412639,
+ "F1_macro": 0.7669028692162612,
+ "AUC": 0.8510621711382921
+}

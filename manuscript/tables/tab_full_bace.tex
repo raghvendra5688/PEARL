@@ -1,20 +1,20 @@
-\begin{tabular}{@{}lcccccc@{}}
+\begin{tabular}{@{}lccccccccc@{}}
 \toprule
- & \multicolumn{3}{c}{XGBoost} & \multicolumn{3}{c}{LightGBM} \\
-\cmidrule(lr){2-4} \cmidrule(lr){5-7}
-Embedding, loss & FT Embed & FT Embed+PC & RAFE & FT Embed & FT Embed+PC & RAFE \\
+ & \multicolumn{3}{c}{XGBoost} & \multicolumn{3}{c}{LightGBM} & \multicolumn{3}{c}{CatBoost} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+Embedding, loss & FT Embed & FT Embed+PC & RAFE & FT Embed & FT Embed+PC & RAFE & FT Embed & FT Embed+PC & RAFE \\
 \midrule
-ChemBERTa-MLM FL & 0.401 $\pm$ 0.014 & 0.422 $\pm$ 0.024 & \textbf{0.433 $\pm$ 0.011} & 0.415 $\pm$ 0.021 & 0.418 $\pm$ 0.007 & \textbf{0.423 $\pm$ 0.006} \\
-ChemBERTa-MLM WL & 0.471 $\pm$ 0.012 & \textbf{0.480 $\pm$ 0.021} & 0.461 $\pm$ 0.007 & 0.494 $\pm$ 0.005 & \textbf{0.498 $\pm$ 0.004} & 0.494 $\pm$ 0.009 \\
-ChemBERTa-MTR FL & 0.458 $\pm$ 0.003 & \textbf{0.463 $\pm$ 0.010} & 0.460 $\pm$ 0.018 & 0.466 $\pm$ 0.021 & 0.475 $\pm$ 0.014 & \textbf{0.476 $\pm$ 0.015} \\
-ChemBERTa-MTR WL & 0.433 $\pm$ 0.027 & \textbf{0.440 $\pm$ 0.023} & 0.431 $\pm$ 0.005 & \textbf{0.448 $\pm$ 0.018} & 0.428 $\pm$ 0.005 & 0.431 $\pm$ 0.018 \\
-MolFormer FL & 0.512 $\pm$ 0.021 & \textbf{0.522 $\pm$ 0.010} & 0.508 $\pm$ 0.018 & 0.521 $\pm$ 0.008 & \textbf{0.541 $\pm$ 0.018} & 0.520 $\pm$ 0.018 \\
-MolFormer WL & \textbf{0.542 $\pm$ 0.005} & 0.538 $\pm$ 0.016 & 0.527 $\pm$ 0.011 & 0.539 $\pm$ 0.010 & 0.549 $\pm$ 0.020 & \textbf{0.553 $\pm$ 0.017} \\
-Uni-Mol FL & 0.444 $\pm$ 0.017 & 0.479 $\pm$ 0.025 & \textbf{0.496 $\pm$ 0.041} & \textbf{0.478 $\pm$ 0.027} & 0.468 $\pm$ 0.016 & 0.471 $\pm$ 0.023 \\
-Uni-Mol WL & 0.429 $\pm$ 0.018 & \textbf{0.440 $\pm$ 0.017} & 0.419 $\pm$ 0.036 & 0.421 $\pm$ 0.027 & \textbf{0.439 $\pm$ 0.016} & 0.424 $\pm$ 0.015 \\
+ChemBERTa-MLM FL & 0.401 $\pm$ 0.014 & 0.422 $\pm$ 0.024 & \textbf{0.433 $\pm$ 0.011} & 0.415 $\pm$ 0.021 & 0.418 $\pm$ 0.007 & \textbf{0.423 $\pm$ 0.006} & 0.396 $\pm$ 0.020 & \textbf{0.409 $\pm$ 0.020} & 0.407 $\pm$ 0.029 \\
+ChemBERTa-MLM WL & 0.471 $\pm$ 0.012 & \textbf{0.480 $\pm$ 0.021} & 0.461 $\pm$ 0.007 & 0.494 $\pm$ 0.005 & \textbf{0.498 $\pm$ 0.004} & 0.494 $\pm$ 0.009 & 0.476 $\pm$ 0.005 & \textbf{0.480 $\pm$ 0.007} & 0.478 $\pm$ 0.008 \\
+ChemBERTa-MTR FL & 0.458 $\pm$ 0.003 & \textbf{0.463 $\pm$ 0.010} & 0.460 $\pm$ 0.018 & 0.466 $\pm$ 0.021 & 0.475 $\pm$ 0.014 & \textbf{0.476 $\pm$ 0.015} & 0.454 $\pm$ 0.019 & \textbf{0.469 $\pm$ 0.020} & 0.459 $\pm$ 0.006 \\
+ChemBERTa-MTR WL & 0.433 $\pm$ 0.027 & \textbf{0.440 $\pm$ 0.023} & 0.431 $\pm$ 0.005 & \textbf{0.448 $\pm$ 0.018} & 0.428 $\pm$ 0.005 & 0.431 $\pm$ 0.018 & 0.417 $\pm$ 0.004 & 0.418 $\pm$ 0.006 & \textbf{0.422 $\pm$ 0.008} \\
+MolFormer FL & 0.512 $\pm$ 0.021 & \textbf{0.522 $\pm$ 0.010} & 0.508 $\pm$ 0.018 & 0.521 $\pm$ 0.008 & \textbf{0.541 $\pm$ 0.018} & 0.520 $\pm$ 0.018 & 0.549 $\pm$ 0.016 & \textbf{0.556 $\pm$ 0.014} & 0.551 $\pm$ 0.018 \\
+MolFormer WL & \textbf{0.542 $\pm$ 0.005} & 0.538 $\pm$ 0.016 & 0.527 $\pm$ 0.011 & 0.539 $\pm$ 0.010 & 0.549 $\pm$ 0.020 & \textbf{0.553 $\pm$ 0.017} & \textbf{0.546 $\pm$ 0.020} & 0.528 $\pm$ 0.015 & 0.518 $\pm$ 0.022 \\
+Uni-Mol FL & 0.444 $\pm$ 0.017 & 0.479 $\pm$ 0.025 & \textbf{0.496 $\pm$ 0.041} & \textbf{0.478 $\pm$ 0.027} & 0.468 $\pm$ 0.016 & 0.471 $\pm$ 0.023 & 0.492 $\pm$ 0.037 & \textbf{0.513 $\pm$ 0.039} & 0.473 $\pm$ 0.056 \\
+Uni-Mol WL & 0.429 $\pm$ 0.018 & \textbf{0.440 $\pm$ 0.017} & 0.419 $\pm$ 0.036 & 0.421 $\pm$ 0.027 & \textbf{0.439 $\pm$ 0.016} & 0.424 $\pm$ 0.015 & 0.389 $\pm$ 0.037 & \textbf{0.440 $\pm$ 0.025} & 0.425 $\pm$ 0.025 \\
 \midrule
-PC-only (473 descriptors) & 0.477 $\pm$ 0.036 &  &  & 0.485 $\pm$ 0.021 &  &  \\
-RAFE $-$ FT Embed [95\% CI] & \multicolumn{3}{c}{+0.005 [$-$0.009, +0.021]} & \multicolumn{3}{c}{+0.001 [$-$0.013, +0.015]} \\
-RAFE $-$ FT Embed+PC [95\% CI] & \multicolumn{3}{c}{$-$0.006 [$-$0.017, +0.004]} & \multicolumn{3}{c}{$-$0.003 [$-$0.013, +0.007]} \\
+PC-only (473 descriptors) & 0.477 $\pm$ 0.036 &  &  & 0.485 $\pm$ 0.021 &  &  & 0.465 $\pm$ 0.020 &  &  \\
+RAFE $-$ FT Embed [95\% CI] & \multicolumn{3}{c}{+0.005 [$-$0.009, +0.021]} & \multicolumn{3}{c}{+0.001 [$-$0.013, +0.015]} & \multicolumn{3}{c}{pending} \\
+RAFE $-$ FT Embed+PC [95\% CI] & \multicolumn{3}{c}{$-$0.006 [$-$0.017, +0.004]} & \multicolumn{3}{c}{$-$0.003 [$-$0.013, +0.007]} & \multicolumn{3}{c}{pending} \\
 \bottomrule
 \end{tabular}

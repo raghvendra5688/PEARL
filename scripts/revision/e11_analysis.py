@@ -7,7 +7,7 @@ import e06b_paired_all as pa
 from rev_common import RES, DS
 from rafe_lib import CFG
 OUT = RES / "e11_analysis"; OUT.mkdir(exist_ok=True); R = str(RES) + "/"
-ARMS = ["base_FT+PC", "full_RAFE", "V1_AB", "V2_residual", "V3_wide", "V4_compressed", "V5_hybrid"]; VARS = ARMS[1:]; TREES = ["XGBoost", "LightGBM"]
+ARMS = ["base_FT+PC", "full_RAFE", "V1_AB", "V2_residual", "V3_wide", "V4_compressed", "V5_hybrid"]; VARS = ARMS[1:]; TREES = ["XGBoost", "LightGBM"]   # E11 variants were run with these two trees only (no CatBoost cells exist)
 OWN = {"bbbp_mf": "XGBoost", "dili_um": "XGBoost", "caco2_mtr": "XGBoost", "bace_mf": "LightGBM", "herg_mf": "LightGBM", "half_life_mf": "XGBoost", "flavor_mf": "LightGBM"}
 NAME = {"bbbp_mf": "BBBP", "dili_um": "DILI", "caco2_mtr": "Caco-2", "bace_mf": "BACE", "herg_mf": "hERG", "flavor_mf": "Flavor", "half_life_mf": "Half-Life"}
 rows = []
@@ -31,6 +31,7 @@ for c in complete:
     x = g[(g.cfg == c) & (g.clf == OWN[c])].set_index("arm"); sel = x.loc[VARS].cv.idxmax()
     pcv = np.mean([json.load(open(p)).get("MCC", json.load(open(p)).get("Spearman")) for p in glob.glob(f"{R}e1/{c}/PC_only_{OWN[c]}_s4?.json")])
     tab.append({"Dataset": NAME[c], "Tree": OWN[c], "PC-only": pcv, **{a: x.loc[a].test for a in ARMS}, "Chosen by CV": sel, "Chosen: test score": x.loc[sel].test})
+assert comp and tab, f"nothing to write: {len(complete)} complete configs for trees {TREES}; refusing to overwrite existing outputs"
 C = pd.DataFrame(comp); C.round(4).to_csv(OUT / "comparisons.csv", index=False); T = pd.DataFrame(tab); T.round(4).to_csv(OUT / "variants_table.csv", index=False)
 wins = []
 for A in VARS + ["selected"]:

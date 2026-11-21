@@ -1,0 +1,25 @@
+{
+ "dataset": "half_life",
+ "clf": "CatBoost",
+ "seed": 43,
+ "n_train": 459,
+ "n_test": 133,
+ "n_feat": 857,
+ "best_params": {
+  "max_depth": 7,
+  "learning_rate": 0.032766958727897595,
+  "n_estimators": 435
+ },
+ "cv_best": -0.7506,
+ "seconds": 4004.6,
+ "cfg": "half_life@chemberta_77m_mtr_huber",
+ "arm": "base_FT+PC",
+ "n_rafe": 0,
+ "strategy": null,
+ "k": 10,
+ "mode": "orig",
+ "groups": "",
+ "Spearman": 0.5338240223760357,
+ "R2": 0.07631122343886143,
+ "MAE": 5.740848219828531
+}

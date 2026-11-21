@@ -7,7 +7,7 @@ import e06b_paired_all as pa
 from rev_common import RES
 import matplotlib; matplotlib.use("Agg"); import matplotlib.pyplot as plt
 OUT = RES / "e15_analysis"; OUT.mkdir(exist_ok=True); R = str(RES) + "/"
-STAGES = {"FT_only": "FT Embed", "base_FT+PC": "FT Embed+PC", "full_RAFE": "RAFE"}; TREES = ["XGBoost", "LightGBM"]
+STAGES = {"FT_only": "FT Embed", "base_FT+PC": "FT Embed+PC", "full_RAFE": "RAFE"}; TREES = ["XGBoost", "LightGBM", "CatBoost"]
 PC_CFG = {"bace": "bace_mf", "bbbp": "bbbp_mf", "dili": "dili_um", "caco2": "caco2_mtr", "half_life": "half_life_mf", "herg": "herg_mf", "flavor": "flavor_mf"}
 NAME = {"bace": "BACE", "bbbp": "BBBP", "herg": "hERG", "dili": "DILI", "caco2": "Caco-2", "half_life": "Half-Life", "flavor": "Flavor"}
 def pretty(e): m = re.match(r"(chemberta_77m_mlm|chemberta_77m_mtr|molformer_finetuned|unimol)_(\w+)", e); return {"chemberta_77m_mlm": "ChemBERTa-MLM", "chemberta_77m_mtr": "ChemBERTa-MTR", "molformer_finetuned": "MolFormer", "unimol": "Uni-Mol"}[m.group(1)] + " " + m.group(2).upper().replace("HUBER", "Huber")

@@ -14,3 +14,9 @@ bace_um,bace,high coverage,51,0.38-0.60,0.0157,-0.0078,0.0471
 bace_mf,bace,low coverage,51,0.22-0.32,0.0,-0.0118,0.0118
 bace_mf,bace,mid coverage,50,0.33-0.38,0.0,-0.012,0.012
 bace_mf,bace,high coverage,51,0.38-0.60,0.0078,-0.0078,0.0275
+flavor_mf,flavor,low coverage,746,0.08-0.39,0.0011,-0.0051,0.0078
+flavor_mf,flavor,mid coverage,753,0.39-0.47,0.0005,-0.004,0.0048
+flavor_mf,flavor,high coverage,755,0.47-1.00,0.0019,-0.0034,0.0069
+herg_mf,herg,low coverage,896,0.20-0.34,0.0004,-0.0085,0.0096
+herg_mf,herg,mid coverage,897,0.34-0.40,0.0007,-0.0089,0.0103
+herg_mf,herg,high coverage,897,0.40-1.00,-0.0036,-0.0118,0.0045

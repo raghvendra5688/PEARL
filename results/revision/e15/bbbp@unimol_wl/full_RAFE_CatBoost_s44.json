@@ -1,0 +1,26 @@
+{
+ "dataset": "bbbp",
+ "clf": "CatBoost",
+ "seed": 44,
+ "n_train": 1599,
+ "n_test": 192,
+ "n_feat": 3093,
+ "best_params": {
+  "max_depth": 9,
+  "learning_rate": 0.025444660485608478,
+  "n_estimators": 436
+ },
+ "cv_best": 0.6537,
+ "seconds": 8802.3,
+ "cfg": "bbbp@unimol_wl",
+ "arm": "full_RAFE",
+ "n_rafe": 60,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.7479687185215562,
+ "Accuracy": 0.8802083333333334,
+ "F1_macro": 0.8599651181227208,
+ "AUC": 0.924473067915691
+}

@@ -4,3 +4,5 @@ dili_um,dili,XGBoost,5,96,0.0021,0.0528,-0.2081,0.2954
 caco2_mtr,caco2,CatBoost,5,182,-0.0085,0.1428,-0.0136,0.2891
 bace_um,bace,XGBoost,5,152,-0.0013,0.0541,-0.0826,0.1813
 bace_mf,bace,LightGBM,5,152,0.0026,0.0562,-0.1256,0.2377
+flavor_mf,flavor,LightGBM,5,2254,0.0012,0.0036,-0.0409,0.0475
+herg_mf,herg,LightGBM,5,2690,-0.0008,-0.0191,-0.0563,0.0187

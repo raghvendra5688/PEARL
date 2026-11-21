@@ -1,0 +1,26 @@
+{
+ "dataset": "dili",
+ "clf": "CatBoost",
+ "seed": 46,
+ "n_train": 332,
+ "n_test": 96,
+ "n_feat": 1295,
+ "best_params": {
+  "max_depth": 3,
+  "learning_rate": 0.047328484681768125,
+  "n_estimators": 596
+ },
+ "cv_best": 0.7952,
+ "seconds": 8346.7,
+ "cfg": "dili@molformer_finetuned_fl",
+ "arm": "full_RAFE",
+ "n_rafe": 60,
+ "strategy": "clm",
+ "k": 10,
+ "mode": "orig",
+ "groups": "ABCD",
+ "MCC": 0.5614802018328859,
+ "Accuracy": 0.78125,
+ "F1_macro": 0.7806549885757808,
+ "AUC": 0.8595652173913044
+}

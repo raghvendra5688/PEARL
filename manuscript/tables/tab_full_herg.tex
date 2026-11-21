@@ -1,0 +1,20 @@
+\begin{tabular}{@{}lccccccccc@{}}
+\toprule
+ & \multicolumn{3}{c}{XGBoost} & \multicolumn{3}{c}{LightGBM} & \multicolumn{3}{c}{CatBoost} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7} \cmidrule(lr){8-10}
+Embedding, loss & FT Embed & FT Embed+PC & RAFE & FT Embed & FT Embed+PC & RAFE & FT Embed & FT Embed+PC & RAFE \\
+\midrule
+ChemBERTa-MLM FL & 0.540 $\pm$ 0.004 & 0.546 $\pm$ 0.006 & \textbf{0.552 $\pm$ 0.005} & 0.541 $\pm$ 0.005 & 0.546 $\pm$ 0.008 & \textbf{0.549 $\pm$ 0.009} & 0.542 $\pm$ 0.006 & 0.544 $\pm$ 0.003 & \textbf{0.548 $\pm$ 0.005} \\
+ChemBERTa-MLM WL & 0.536 $\pm$ 0.006 & \textbf{0.542 $\pm$ 0.005} & 0.541 $\pm$ 0.009 & 0.537 $\pm$ 0.003 & 0.542 $\pm$ 0.005 & \textbf{0.543 $\pm$ 0.008} & 0.523 $\pm$ 0.009 & 0.538 $\pm$ 0.012 & \textbf{0.541 $\pm$ 0.007} \\
+ChemBERTa-MTR FL & 0.549 $\pm$ 0.005 & \textbf{0.553 $\pm$ 0.005} & 0.548 $\pm$ 0.004 & 0.551 $\pm$ 0.008 & \textbf{0.554 $\pm$ 0.004} & 0.552 $\pm$ 0.010 & 0.551 $\pm$ 0.004 & \textbf{0.560 $\pm$ 0.003} & 0.552 $\pm$ 0.005 \\
+ChemBERTa-MTR WL & \textbf{0.548 $\pm$ 0.008} & 0.548 $\pm$ 0.003 & 0.546 $\pm$ 0.004 & 0.548 $\pm$ 0.002 & 0.543 $\pm$ 0.005 & \textbf{0.551 $\pm$ 0.008} & 0.543 $\pm$ 0.007 & \textbf{0.551 $\pm$ 0.004} & 0.549 $\pm$ 0.005 \\
+MolFormer FL & 0.545 $\pm$ 0.008 & \textbf{0.546 $\pm$ 0.003} & 0.544 $\pm$ 0.006 & 0.532 $\pm$ 0.006 & \textbf{0.545 $\pm$ 0.010} & 0.539 $\pm$ 0.008 & 0.536 $\pm$ 0.002 & 0.543 $\pm$ 0.007 & \textbf{0.544 $\pm$ 0.006} \\
+MolFormer WL & 0.570 $\pm$ 0.004 & \textbf{0.572 $\pm$ 0.006} & 0.570 $\pm$ 0.005 & 0.574 $\pm$ 0.005 & \textbf{0.575 $\pm$ 0.002} & 0.570 $\pm$ 0.001 & 0.568 $\pm$ 0.006 & \textbf{0.568 $\pm$ 0.002} & 0.563 $\pm$ 0.007 \\
+Uni-Mol FL & 0.566 $\pm$ 0.010 & \textbf{0.582 $\pm$ 0.012} & 0.576 $\pm$ 0.008 & 0.567 $\pm$ 0.009 & \textbf{0.591 $\pm$ 0.007} & 0.589 $\pm$ 0.010 & 0.552 $\pm$ 0.006 & \textbf{0.589 $\pm$ 0.012} & 0.585 $\pm$ 0.007 \\
+Uni-Mol WL & 0.542 $\pm$ 0.011 & \textbf{0.568 $\pm$ 0.011} & 0.559 $\pm$ 0.007 & 0.549 $\pm$ 0.013 & 0.569 $\pm$ 0.007 & \textbf{0.575 $\pm$ 0.003} & 0.548 $\pm$ 0.006 & \textbf{0.565 $\pm$ 0.005} & 0.563 $\pm$ 0.008 \\
+\midrule
+PC-only (473 descriptors) & 0.594 $\pm$ 0.007 &  &  & 0.577 $\pm$ 0.011 &  &  & 0.593 $\pm$ 0.009 &  &  \\
+RAFE $-$ FT Embed [95\% CI] & \multicolumn{3}{c}{pending} & \multicolumn{3}{c}{pending} & \multicolumn{3}{c}{pending} \\
+RAFE $-$ FT Embed+PC [95\% CI] & \multicolumn{3}{c}{pending} & \multicolumn{3}{c}{pending} & \multicolumn{3}{c}{pending} \\
+\bottomrule
+\end{tabular}

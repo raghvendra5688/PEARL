@@ -19,3 +19,11 @@ bace_mf,bace,A,18,0.3673,-0.03,0.6279
 bace_mf,bace,B,5,0.4741,-0.2187,0.9359
 bace_mf,bace,C,34,0.3162,-0.1541,0.9257
 bace_mf,bace,D,3,0.0999,-0.0431,0.3428
+flavor_mf,flavor,A,18,0.5461,0.2602,0.7761
+flavor_mf,flavor,B,5,0.6115,0.1298,0.936
+flavor_mf,flavor,C,34,0.5868,0.3022,0.9539
+flavor_mf,flavor,D,3,0.4918,0.3276,0.714
+herg_mf,herg,A,18,0.5867,0.1449,0.7962
+herg_mf,herg,B,5,0.5344,0.1734,0.8035
+herg_mf,herg,C,34,0.7357,0.5251,0.9202
+herg_mf,herg,D,3,0.1689,-0.4203,0.5769
