@@ -51,3 +51,27 @@ Script: `/tmp/.../verify.py` logic folded into the checks below; figures and tab
 **Integrity check after the pass:** the only differences from the pre-humanizer draft are the four corrections above (`0.110` replaced by `0.114`, `0.875` added) and two name fragments ("Caco-2", "ZINC-250k") in rewritten sentences. No citation, equation or reference changed.
 
 **Not verifiable from the shipped files:** the AUPR values quoted in the ROC/PR paragraph (0.862-0.872 on hERG, 0.940 on BBBP, 0.911 and 0.847 on DILI) come from the curve figures of the previous version, and no per-curve data file is kept in the repository. They should be re-read from the figure source before submission.
+
+## Pass 3 (2026-11-21): complete-grid results folded in
+
+Applied after every experiment finished, so the manuscript could state results rather than placeholders.
+
+**Content changes (all driven by the completed grid, not by editing)**
+- All nine result-dependent `\pending{}` markers replaced with real numbers: the abstract ranking, the five-seed values for Flavor and hERG, the complete-grid wording, the ranking paragraph, the full same-tree tables, the neighbour-count sweep, the variants table and the limitations. Only the AI-use policy wording remains, which is for the authors.
+- The ranking is now over all seven datasets and all three tree models. RAFE's mean rank is \mrankRAFE{} of seven methods and it is top three on \ntop{} of them. The earlier 2.8 / five-of-five figure covered five datasets and two trees only; it is not comparable and has been removed rather than carried forward.
+- Added the measurement caveat the ranking needs: our four stages are five-seed means, the external references are single runs, so the comparison is conservative with respect to RAFE.
+- Added the pooled complete-grid comparison, which is the better-powered version of the controlled matrix: RAFE improves on the embedding it refines in 12 of 21 comparisons and loses none.
+
+**Corrections**
+- Removed a "correction" that was itself wrong. Table S16 claimed the stored BACE retrieval index is MolFormer FL and that the text should have said so. The stored files use `Molformer_Finetuned_WL` for both the embedding column and the ZINC index, so the original weighted-loss label was right. The row is gone and R3.5 now says the label was checked and needed no change.
+- `sn-bibliography.bib`: 45 of 54 entries now carry a DOI, up from 6 (R2.8). Looked up against Crossref with a title-similarity threshold and a trusted-prefix filter so that no aggregator or mismatched DOI is written; a sample was verified to resolve to the right paper.
+
+**Humanizer rules applied to the new prose**
+- Split the three sentences this pass introduced that ran past 40 words; the count is back to the pre-pass baseline.
+- Kept the register neutral and the claims tied to numbers. No em-dashes were introduced.
+
+**Audit status.** The remaining flags are all cases Layer 3 says to preserve: the "em-dashes" at lines 242-246 are minus signs inside equations, and the "over-claiming verbs" are calibrated hedges ("not confirmed", "our data do not establish that mechanism") that are correct as written.
+
+**Integrity check.** Against the pre-humanizer baseline the only differences are the intentional ones: `0.110` to `0.114` and `0.875` added (the earlier numeric-verification fixes), `2.800` removed (the superseded five-dataset mean rank), `24`, `12` and `10` added by the new pooled-comparison sentences, and two new section cross-references. No citation key or equation changed.
+
+**Structural check.** Both files: braces balanced, environments matched, every `\ref` resolved against labels including those inside generated tables, every `\input` and `\includegraphics` target present.
