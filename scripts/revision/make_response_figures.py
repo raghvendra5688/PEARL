@@ -113,5 +113,5 @@ fig, ax = plt.subplots(1, 2, figsize=(8, 3.2)); cm = {"E2E LoRA": GREEN, "FT Emb
 for m_, g in h.groupby("Modality"): ax[0].scatter(g.Spearman, g.R2, s=14, color=cm[m_], label=m_)
 ax[0].set_xlabel("Spearman (rank agreement)"); ax[0].set_ylabel("R$^2$ in hours"); ax[0].legend(frameon=False, fontsize=7); ax[0].set_title("A. Ranking is moderate, magnitude is hard")
 ax[1].scatter(hh.R2_raw_hours, hh.R2_log1p_space, s=12, color=BLUE); lim = [min(hh.R2_raw_hours.min(), hh.R2_log1p_space.min()) - .02, hh.R2_log1p_space.max() + .02]; ax[1].plot(lim, lim, color="k", lw=.6)
-ax[1].set_xlabel("R$^2$ in hours"); ax[1].set_ylabel("R$^2$ on log1p scale"); ax[1].set_title("B. Same predictions, two scales (E4 baselines)")
+ax[1].set_xlabel("R$^2$ in hours"); ax[1].set_ylabel("R$^2$ on log1p scale"); ax[1].set_title("B. Same predictions, two scales (fingerprint and descriptor baselines)")
 fig.tight_layout(); fig.savefig(O + "figH_halflife_metrics.pdf"); plt.close(); print("figures:", sorted(p.split("/")[-1] for p in glob.glob(O + "*.pdf")))

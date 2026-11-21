@@ -12,8 +12,8 @@ def longtable(df, cols, spec, cap, label, name):
 p = pd.read_csv("results/revision/e06/paired_e1.csv"); p = p[p.A.isin(["full_RAFE", "base_FT+PC"]) & p.B.isin(["FT_only", "base_FT+PC", "PC_only"]) & (p.A != p.B)]
 nm = {"full_RAFE": "RAFE", "base_FT+PC": "FT Embed+PC", "FT_only": "FT Embed", "PC_only": "PC-only"}
 d = pd.DataFrame([(r.cfg, r.clf, f"{nm[r.A]} minus {nm[r.B]}", r.metric, ci(r._asdict() if False else r)) for _, r in p.iterrows()], columns=["Configuration", "Tree", "Comparison", "Metric", "Difference [95\\% CI]"])
-longtable(d, list(d.columns), "llllp{4.2cm}", "Controlled comparison (E1): paired bootstrap differences (five seeds pooled, 3{,}000 resamples) for each dataset configuration and tree.", "tab:supp_paired", "supp_paired")
+longtable(d, list(d.columns), "llllp{4.2cm}", "Controlled comparison: paired bootstrap differences (five seeds pooled, 3{,}000 resamples) for each dataset configuration and tree.", "tab:supp_paired", "supp_paired")
 c = pd.read_csv("results/revision/e11_analysis/comparisons.csv"); c = c[c.own_tree]
 d2 = pd.DataFrame([(r.dataset, r.tree, r.A, r.B.replace("_", "-"), ci(r)) for _, r in c.iterrows()], columns=["Dataset", "Tree", "Variant", "Versus", "Difference [95\\% CI]"])
-longtable(d2, list(d2.columns), "lllp{2.6cm}p{4.2cm}", "Label-free RAFE variants (E11), own tree of each dataset: paired bootstrap differences versus FT Embed+PC, RAFE and PC-only.", "tab:supp_variants", "supp_variants")
+longtable(d2, list(d2.columns), "lllp{2.6cm}p{4.2cm}", "Label-free RAFE variants, own tree of each dataset: paired bootstrap differences versus FT Embed+PC, RAFE and PC-only.", "tab:supp_variants", "supp_variants")
 print(len(d), len(d2))

@@ -1,16 +1,22 @@
 dataset,stage,selected_by_cv,selected_test_mean,selected_test_sd,oracle_config,oracle_test_mean,oracle_test_sd,optimism_gap,single_run_original_tables,runner_up_config,runner_up_test_mean,runner_up_diff,runner_up_ci_lo,runner_up_ci_hi
-BACE,FT Embed,ChemBERTa-MLM WL / LightGBM,0.4942,0.0054,MolFormer WL / XGBoost,0.5423,0.0046,0.0481,0.557,MolFormer WL / LightGBM,0.539,0.0033,-0.0341,0.0493
-BACE,FT Embed+PC,ChemBERTa-MLM WL / XGBoost,0.48,0.0209,MolFormer WL / LightGBM,0.5488,0.0196,0.0688,0.55,MolFormer FL / LightGBM,0.5411,0.0077,-0.0764,0.0935
-BACE,RAFE,ChemBERTa-MLM WL / LightGBM,0.4942,0.0088,MolFormer WL / LightGBM,0.5532,0.0165,0.059,0.561,MolFormer WL / XGBoost,0.5268,0.0263,-0.0058,0.0623
+BACE,FT Embed,ChemBERTa-MLM WL / CatBoost,0.4765,0.0054,MolFormer FL / CatBoost,0.5492,0.0164,0.0727,0.557,MolFormer WL / CatBoost,0.546,0.0032,-0.0661,0.0696
+BACE,FT Embed+PC,ChemBERTa-MLM WL / CatBoost,0.4804,0.0069,MolFormer FL / CatBoost,0.5565,0.0136,0.0761,0.55,MolFormer WL / LightGBM,0.5488,0.0077,-0.0641,0.0775
+BACE,RAFE,ChemBERTa-MLM WL / CatBoost,0.4784,0.0082,MolFormer WL / LightGBM,0.5532,0.0165,0.0747,0.561,MolFormer FL / CatBoost,0.5512,0.002,-0.0663,0.0731
 BBBP,FT Embed,ChemBERTa-MTR FL / XGBoost,0.6827,0.0128,MolFormer FL / XGBoost,0.7834,0.0097,0.1007,0.787,MolFormer FL / LightGBM,0.7685,0.0149,-0.014,0.0481
-BBBP,FT Embed+PC,ChemBERTa-MTR FL / XGBoost,0.6896,0.0051,MolFormer FL / XGBoost,0.7853,0.016,0.0957,0.789,MolFormer WL / LightGBM,0.7615,0.0238,-0.0409,0.0862
-BBBP,RAFE,ChemBERTa-MTR FL / XGBoost,0.6589,0.0053,MolFormer FL / XGBoost,0.7789,0.0095,0.12,0.798,MolFormer FL / LightGBM,0.7668,0.0121,-0.0186,0.0453
-Caco-2,FT Embed,ChemBERTa-MTR Huber / LightGBM,0.7891,0.0028,ChemBERTa-MTR Huber / LightGBM,0.7891,0.0028,0.0,0.821,ChemBERTa-MTR Huber / XGBoost,0.7884,0.0007,-0.0123,0.0151
-Caco-2,FT Embed+PC,ChemBERTa-MTR Huber / LightGBM,0.8193,0.0058,ChemBERTa-MTR Huber / LightGBM,0.8193,0.0058,0.0,0.827,ChemBERTa-MTR Huber / XGBoost,0.8133,0.0059,-0.0082,0.0207
-Caco-2,RAFE,ChemBERTa-MTR Huber / XGBoost,0.8166,0.007,ChemBERTa-MTR Huber / XGBoost,0.8166,0.007,0.0,0.835,ChemBERTa-MTR Huber / LightGBM,0.8163,0.0003,-0.0146,0.0157
-DILI,FT Embed,MolFormer FL / LightGBM,0.5449,0.0175,ChemBERTa-MLM FL / LightGBM,0.6128,0.0469,0.068,0.673,ChemBERTa-MLM WL / LightGBM,0.5793,0.0336,-0.0885,0.1647
-DILI,FT Embed+PC,MolFormer FL / LightGBM,0.5534,0.0314,Uni-Mol FL / XGBoost,0.6932,0.0186,0.1398,0.703,Uni-Mol FL / LightGBM,0.6899,0.0032,-0.0442,0.0467
-DILI,RAFE,ChemBERTa-MTR WL / XGBoost,0.5624,0.025,Uni-Mol FL / XGBoost,0.6974,0.0082,0.135,0.79,Uni-Mol WL / XGBoost,0.6774,0.0199,-0.0498,0.0972
-Half-Life,FT Embed,ChemBERTa-MLM Huber / XGBoost,0.3501,0.0192,MolFormer Huber / XGBoost,0.5921,0.0212,0.242,0.623,MolFormer Huber / LightGBM,0.5498,0.0422,-0.0012,0.0862
-Half-Life,FT Embed+PC,ChemBERTa-MLM Huber / LightGBM,0.3487,0.0103,MolFormer Huber / XGBoost,0.5953,0.017,0.2466,0.593,MolFormer Huber / LightGBM,0.5584,0.0369,-0.0054,0.0828
-Half-Life,RAFE,ChemBERTa-MLM Huber / LightGBM,0.3323,0.0273,MolFormer Huber / XGBoost,0.5594,0.0243,0.2271,0.568,MolFormer Huber / LightGBM,0.5119,0.0475,0.0043,0.0937
+BBBP,FT Embed+PC,ChemBERTa-MTR FL / XGBoost,0.6896,0.0051,MolFormer FL / XGBoost,0.7853,0.016,0.0957,0.789,MolFormer FL / CatBoost,0.768,0.0173,-0.0244,0.061
+BBBP,RAFE,ChemBERTa-MTR FL / CatBoost,0.6848,0.0064,MolFormer FL / XGBoost,0.7789,0.0095,0.094,0.798,MolFormer WL / CatBoost,0.7711,0.0078,-0.054,0.0716
+Caco-2,FT Embed,ChemBERTa-MTR Huber / CatBoost,0.8089,0.0079,ChemBERTa-MTR Huber / CatBoost,0.8089,0.0079,0.0,0.821,ChemBERTa-MTR Huber / LightGBM,0.7891,0.0198,0.0024,0.0376
+Caco-2,FT Embed+PC,ChemBERTa-MTR Huber / CatBoost,0.8331,0.0053,ChemBERTa-MTR Huber / CatBoost,0.8331,0.0053,0.0,0.827,ChemBERTa-MTR Huber / LightGBM,0.8193,0.0139,-0.0035,0.0331
+Caco-2,RAFE,ChemBERTa-MTR Huber / CatBoost,0.8331,0.0052,ChemBERTa-MTR Huber / CatBoost,0.8331,0.0052,0.0,0.835,ChemBERTa-MTR Huber / XGBoost,0.8166,0.0165,-0.0035,0.0377
+DILI,FT Embed,MolFormer FL / CatBoost,0.4992,0.0149,Uni-Mol WL / CatBoost,0.6302,0.0263,0.131,0.673,ChemBERTa-MLM WL / CatBoost,0.6279,0.0023,-0.171,0.1801
+DILI,FT Embed+PC,MolFormer FL / CatBoost,0.5583,0.0357,Uni-Mol FL / XGBoost,0.6932,0.0186,0.1349,0.703,Uni-Mol FL / LightGBM,0.6899,0.0032,-0.0442,0.0467
+DILI,RAFE,ChemBERTa-MLM WL / CatBoost,0.6316,0.0281,Uni-Mol FL / XGBoost,0.6974,0.0082,0.0658,0.79,Uni-Mol WL / XGBoost,0.6774,0.0199,-0.0498,0.0972
+Flavor,FT Embed,ChemBERTa-MLM WL / CatBoost,0.7799,0.0027,MolFormer WL / CatBoost,0.7889,0.004,0.009,0.793,ChemBERTa-MTR FL / CatBoost,0.7874,0.0015,-0.016,0.0188
+Flavor,FT Embed+PC,ChemBERTa-MLM FL / CatBoost,0.771,0.0022,Uni-Mol FL / XGBoost,0.7911,0.0041,0.0201,0.801,MolFormer WL / CatBoost,0.7889,0.0021,-0.0137,0.0182
+Flavor,RAFE,ChemBERTa-MLM FL / CatBoost,0.7733,0.0037,Uni-Mol FL / XGBoost,0.7956,0.0099,0.0223,0.804,Uni-Mol WL / XGBoost,0.7899,0.0057,-0.0023,0.0142
+Half-Life,FT Embed,ChemBERTa-MLM Huber / CatBoost,0.3694,0.0183,MolFormer Huber / CatBoost,0.6041,0.024,0.2348,0.623,MolFormer Huber / XGBoost,0.5921,0.0121,-0.0368,0.0608
+Half-Life,FT Embed+PC,ChemBERTa-MLM Huber / CatBoost,0.415,0.0375,MolFormer Huber / CatBoost,0.5955,0.0267,0.1805,0.593,MolFormer Huber / XGBoost,0.5953,0.0002,-0.0537,0.0547
+Half-Life,RAFE,ChemBERTa-MLM Huber / CatBoost,0.4166,0.0141,MolFormer Huber / CatBoost,0.5766,0.018,0.1599,0.568,MolFormer Huber / XGBoost,0.5594,0.0172,-0.0357,0.0662
+hERG,FT Embed,MolFormer WL / XGBoost,0.5696,0.004,MolFormer WL / LightGBM,0.5743,0.0052,0.0048,0.58,MolFormer WL / XGBoost,0.5696,0.0048,-0.0017,0.0115
+hERG,FT Embed+PC,MolFormer WL / CatBoost,0.5685,0.0024,Uni-Mol FL / LightGBM,0.5912,0.0072,0.0227,0.602,Uni-Mol FL / CatBoost,0.5888,0.0024,-0.0108,0.0155
+hERG,RAFE,MolFormer WL / XGBoost,0.5701,0.005,Uni-Mol FL / LightGBM,0.5886,0.0102,0.0185,0.589,Uni-Mol FL / CatBoost,0.5848,0.0038,-0.0087,0.0158
