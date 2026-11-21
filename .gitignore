@@ -32,6 +32,7 @@ catboost_info/
 .vscode/
 *.swp
 .venv
+.venv/
 
 # webapp
 webapp/backend/models_cache/
