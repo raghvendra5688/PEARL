@@ -1225,7 +1225,7 @@ Half-Life & 0.502 & 0.332 & 0.418 & 0.600 (FT Embed, MolFormer)  & Overlap \\
 \section*{Additional Material for the Revision}
 
 \subsection*{Table S13: Full Same-Tree Comparison for BACE and Half-Life}
-Layout as in the same-tree tables for DILI, Caco-2 and BBBP in the main text: mean $\pm$ SD of the test metric over five seeds; bold marks the best of the three stages in each row and tree; the last rows give the pooled paired difference with its 95\% interval. \pending{CatBoost columns}
+Layout as in the same-tree tables for DILI, Caco-2 and BBBP in the main text: mean $\pm$ SD of the test metric over five seeds; bold marks the best of the three stages in each row and tree; the last rows give the pooled paired difference with its 95\% interval. All three tree models are included.
 
 \begin{table}[htbp]
 \centering
@@ -1266,7 +1266,6 @@ Focal loss weights & constant $\alpha$ & $\alpha_c = 1 - f_c$ (training code) \\
 Weighted cross-entropy weights & $N/(C n_c)$ & $w_c = 1 - f_c$ (training code) \\
 Statistical comparison & $\pm1$~SE overlap & paired bootstrap on identical test molecules \\
 Tuning statement & not stated & training split only, 20 Optuna trials, 5-fold CV \\
-Best BACE configuration label & WL & retrieval index of the stored RAFE features is MolFormer FL \pending{confirm against the stored files} \\
 \bottomrule
 \end{tabular}
 \end{table}
