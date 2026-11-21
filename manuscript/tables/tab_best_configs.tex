@@ -2,20 +2,26 @@
 \toprule
 Dataset & Stage & Best configuration (embedding, loss / tree) & Test, 5-seed mean $\pm$ SD & Single run in the original tables & Runner-up (test mean) & Best minus runner-up [95\% CI] \\
 \midrule
-BACE & FT Embed & MolFormer WL / XGBoost & 0.542 $\pm$ 0.005 & 0.557 & MolFormer WL / LightGBM (0.539) & +0.003 [$-$0.034, +0.049] \\
-BACE & FT Embed+PC & MolFormer WL / LightGBM & 0.549 $\pm$ 0.020 & 0.550 & MolFormer FL / LightGBM (0.541) & +0.008 [$-$0.076, +0.093] \\
-BACE & RAFE & MolFormer WL / LightGBM & 0.553 $\pm$ 0.017 & 0.561 & MolFormer WL / XGBoost (0.527) & +0.026 [$-$0.006, +0.062] \\
+BACE & FT Embed & MolFormer FL / CatBoost & 0.549 $\pm$ 0.016 & 0.557 & MolFormer WL / CatBoost (0.546) & +0.003 [$-$0.066, +0.070] \\
+BACE & FT Embed+PC & MolFormer FL / CatBoost & 0.556 $\pm$ 0.014 & 0.550 & MolFormer WL / LightGBM (0.549) & +0.008 [$-$0.064, +0.077] \\
+BACE & RAFE & MolFormer WL / LightGBM & 0.553 $\pm$ 0.017 & 0.561 & MolFormer FL / CatBoost (0.551) & +0.002 [$-$0.066, +0.073] \\
 BBBP & FT Embed & MolFormer FL / XGBoost & 0.783 $\pm$ 0.010 & 0.787 & MolFormer FL / LightGBM (0.768) & +0.015 [$-$0.014, +0.048] \\
-BBBP & FT Embed+PC & MolFormer FL / XGBoost & 0.785 $\pm$ 0.016 & 0.789 & MolFormer WL / LightGBM (0.761) & +0.024 [$-$0.041, +0.086] \\
-BBBP & RAFE & MolFormer FL / XGBoost & 0.779 $\pm$ 0.009 & 0.798 & MolFormer FL / LightGBM (0.767) & +0.012 [$-$0.019, +0.045] \\
-Caco-2 & FT Embed & ChemBERTa-MTR Huber / LightGBM & 0.789 $\pm$ 0.003 & 0.821 & ChemBERTa-MTR Huber / XGBoost (0.788) & +0.001 [$-$0.012, +0.015] \\
-Caco-2 & FT Embed+PC & ChemBERTa-MTR Huber / LightGBM & 0.819 $\pm$ 0.006 & 0.827 & ChemBERTa-MTR Huber / XGBoost (0.813) & +0.006 [$-$0.008, +0.021] \\
-Caco-2 & RAFE & ChemBERTa-MTR Huber / XGBoost & 0.817 $\pm$ 0.007 & 0.835 & ChemBERTa-MTR Huber / LightGBM (0.816) & +0.000 [$-$0.015, +0.016] \\
-DILI & FT Embed & ChemBERTa-MLM FL / LightGBM & 0.613 $\pm$ 0.047 & 0.673 & ChemBERTa-MLM WL / LightGBM (0.579) & +0.034 [$-$0.088, +0.165] \\
+BBBP & FT Embed+PC & MolFormer FL / XGBoost & 0.785 $\pm$ 0.016 & 0.789 & MolFormer FL / CatBoost (0.768) & +0.017 [$-$0.024, +0.061] \\
+BBBP & RAFE & MolFormer FL / XGBoost & 0.779 $\pm$ 0.009 & 0.798 & MolFormer WL / CatBoost (0.771) & +0.008 [$-$0.054, +0.072] \\
+Caco-2 & FT Embed & ChemBERTa-MTR Huber / CatBoost & 0.809 $\pm$ 0.008 & 0.821 & ChemBERTa-MTR Huber / LightGBM (0.789) & \textbf{+0.020 [+0.002, +0.038]} \\
+Caco-2 & FT Embed+PC & ChemBERTa-MTR Huber / CatBoost & 0.833 $\pm$ 0.005 & 0.827 & ChemBERTa-MTR Huber / LightGBM (0.819) & +0.014 [$-$0.004, +0.033] \\
+Caco-2 & RAFE & ChemBERTa-MTR Huber / CatBoost & 0.833 $\pm$ 0.005 & 0.835 & ChemBERTa-MTR Huber / XGBoost (0.817) & +0.017 [$-$0.004, +0.038] \\
+DILI & FT Embed & Uni-Mol WL / CatBoost & 0.630 $\pm$ 0.026 & 0.673 & ChemBERTa-MLM WL / CatBoost (0.628) & +0.002 [$-$0.171, +0.180] \\
 DILI & FT Embed+PC & Uni-Mol FL / XGBoost & 0.693 $\pm$ 0.019 & 0.703 & Uni-Mol FL / LightGBM (0.690) & +0.003 [$-$0.044, +0.047] \\
 DILI & RAFE & Uni-Mol FL / XGBoost & 0.697 $\pm$ 0.008 & 0.790 & Uni-Mol WL / XGBoost (0.677) & +0.020 [$-$0.050, +0.097] \\
-Half-Life & FT Embed & MolFormer Huber / XGBoost & 0.592 $\pm$ 0.021 & 0.623 & MolFormer Huber / LightGBM (0.550) & +0.042 [$-$0.001, +0.086] \\
-Half-Life & FT Embed+PC & MolFormer Huber / XGBoost & 0.595 $\pm$ 0.017 & 0.593 & MolFormer Huber / LightGBM (0.558) & +0.037 [$-$0.005, +0.083] \\
-Half-Life & RAFE & MolFormer Huber / XGBoost & 0.559 $\pm$ 0.024 & 0.568 & MolFormer Huber / LightGBM (0.512) & \textbf{+0.048 [+0.004, +0.094]} \\
+Flavor & FT Embed & MolFormer WL / CatBoost & 0.789 $\pm$ 0.004 & 0.793 & ChemBERTa-MTR FL / CatBoost (0.787) & +0.002 [$-$0.016, +0.019] \\
+Flavor & FT Embed+PC & Uni-Mol FL / XGBoost & 0.791 $\pm$ 0.004 & 0.801 & MolFormer WL / CatBoost (0.789) & +0.002 [$-$0.014, +0.018] \\
+Flavor & RAFE & Uni-Mol FL / XGBoost & 0.796 $\pm$ 0.010 & 0.804 & Uni-Mol WL / XGBoost (0.790) & +0.006 [$-$0.002, +0.014] \\
+Half-Life & FT Embed & MolFormer Huber / CatBoost & 0.604 $\pm$ 0.024 & 0.623 & MolFormer Huber / XGBoost (0.592) & +0.012 [$-$0.037, +0.061] \\
+Half-Life & FT Embed+PC & MolFormer Huber / CatBoost & 0.596 $\pm$ 0.027 & 0.593 & MolFormer Huber / XGBoost (0.595) & +0.000 [$-$0.054, +0.055] \\
+Half-Life & RAFE & MolFormer Huber / CatBoost & 0.577 $\pm$ 0.018 & 0.568 & MolFormer Huber / XGBoost (0.559) & +0.017 [$-$0.036, +0.066] \\
+hERG & FT Embed & MolFormer WL / LightGBM & 0.574 $\pm$ 0.005 & 0.580 & MolFormer WL / XGBoost (0.570) & +0.005 [$-$0.002, +0.011] \\
+hERG & FT Embed+PC & Uni-Mol FL / LightGBM & 0.591 $\pm$ 0.007 & 0.602 & Uni-Mol FL / CatBoost (0.589) & +0.002 [$-$0.011, +0.015] \\
+hERG & RAFE & Uni-Mol FL / LightGBM & 0.589 $\pm$ 0.010 & 0.589 & Uni-Mol FL / CatBoost (0.585) & +0.004 [$-$0.009, +0.016] \\
 \bottomrule
 \end{tabular}

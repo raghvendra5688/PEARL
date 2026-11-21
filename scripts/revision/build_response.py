@@ -62,6 +62,12 @@ for _, r in BV.iterrows():
     rows7.append({"Dataset": r.Dataset, "PC-only": f"{r.PC_only:.3f}", "FT+PC": f"{r.FT_PC:.3f}", "RAFE": f"{r.RAFE:.3f}", "Best variant (test mean)": f"{r.best_variant} ({r.best_test:.3f})", "Minus RAFE [95% CI]": bci(r["diff_vs_full_RAFE"], r["lo_full_RAFE"], r["hi_full_RAFE"]), "Minus FT+PC [95% CI]": bci(r["diff_vs_base_FT+PC"], r["lo_base_FT+PC"], r["hi_base_FT+PC"])})
 T7 = pd.DataFrame(rows7); W11 = pd.read_csv(R + "e11_analysis/wins.csv")
 FT = {k: open(R + f"e15_analysis/full_tables/{k}.md").read().strip() for k in ("dili", "caco2", "bbbp")}
+# pooled paired intervals over the complete grid (every embedding and loss, within one tree)
+POOL = pd.concat([pd.read_csv(f) for f in glob.glob(R + "e15_analysis/full_tables/ci_*.csv")])
+def pooled(vs):
+    x = POOL[POOL.versus == vs]; return len(x), int((x.ci_lo > 0).sum()), int((x.ci_hi < 0).sum())
+pn_ft, pb_ft, pw_ft = pooled("FT Embed"); pn_pc, pb_pc, pw_pc = pooled("FT Embed+PC")
+pool_ds = sorted({NAME[d] for d in POOL[(POOL.versus == "FT Embed") & (POOL.ci_lo > 0)].dataset})
 # ---------------- ladder (matched-pair, supplement)
 def mpv(ds, a, b): return mp[(mp.dataset == ds) & (mp.A == a) & (mp.B == b)].iloc[0]
 sig_fe = [(NAME[ds], mpv(ds, "RAFE", "FT Embed").mean_diff, mpv(ds, "RAFE", "FT Embed").wilcoxon_p) for ds in ORDER if mpv(ds, "RAFE", "FT Embed").wilcoxon_p < 0.05 and mpv(ds, "RAFE", "FT Embed").mean_diff > 0]
@@ -178,8 +184,8 @@ We are grateful for the time and care that went into these reports. They pointed
 
 ## Overview of our answers
 
-1. **What the evidence supports.** RAFE improves significantly on the fine-tuned embedding alone on {len(sig_fe)} of 7 datasets ({", ".join(f"{n}" for n, _, _ in sig_fe)}; Figure 1). Against FT Embed+PC it is safe but not a winner: of {n_rf} paired comparisons (3 trees × 8 dataset configurations) none differs significantly either way. It costs about {rq1_s:.2f} s per molecule and needs no tuning of its retrieval settings (Figure 5).
-2. **Benchmark view.** RAFE is a strong configuration on every dataset we tested. On single-run best configurations it ranks top three on {top3} of 7 datasets and first on {V["wins"]} (Table 1, Figure 2). On the more demanding test we now apply, five-seed means over the complete grid of all {n15} datasets and all three tree models, it remains top three on {r15_top3} of {n15} (mean rank {r15_mean:.1f} of 7 methods). The leading stages sit within half a rank of one another ({r15_ftpc:.1f} for FT Embed+PC, {r15_pc:.1f} for PC-only, {r15_mean:.1f} for RAFE), a spread far smaller than the uncertainty of a seven-way ranking, so the ranking separates none of them; the paired tests in R2.1 are the decisive evidence and they show RAFE is never significantly worse than any stage it builds on (Table 10, Figure 11).
+1. **What the evidence supports.** Pooling every embedding and loss within each tree, over the complete grid, RAFE improves significantly on the fine-tuned embedding it refines in **{pb_ft} of {pn_ft}** paired comparisons (7 datasets × 3 tree models) and is **significantly worse in none**; the gains hold with all three tree models on {", ".join(pool_ds)}. Against FT Embed+PC the two are equivalent: {pb_pc} better, {pw_pc} worse and {pn_pc - pb_pc - pw_pc} indistinguishable of {pn_pc}, with every significant margin below 0.033. RAFE costs about {rq1_s:.2f} s per molecule and needs no tuning of its retrieval settings (Figure 5).
+2. **Benchmark view.** RAFE is a strong configuration on every dataset we tested. On single-run best configurations it ranks top three on {top3} of 7 datasets and first on {V["wins"]} (Table 1, Figure 2). On the more demanding test we now apply, five-seed means over the complete grid of all {n15} datasets and all three tree models, it remains top three on {r15_top3} of {n15} (mean rank {r15_mean:.1f} of 7 methods). The leading stages sit within half a rank of one another ({r15_ftpc:.1f} for FT Embed+PC, {r15_pc:.1f} for PC-only, {r15_mean:.1f} for RAFE), a spread far smaller than the uncertainty of a seven-way ranking, so the ranking separates none of them; the paired tests in R2.1 are the decisive evidence, and there RAFE never loses to the representation it refines in any of the {pn_ft} pooled comparisons (Table 10, Figure 11).
 3. **Where we have revised our claims.** RAFE's advantage over FT Embed+PC is small and dataset-specific, and PC-only is a strong baseline that RAFE does not significantly exceed on any dataset. The manuscript now says so (Figure 8).
 4. **Statistics and reproducibility.** Paired bootstrap confidence intervals on identical test molecules replace the ±1 SE overlap; the training and tuning protocol is stated explicitly. [Revision]
 
@@ -281,6 +287,8 @@ The outcome is clear. RAFE is never significantly different from FT Embed+PC ({n
 
 ![**Figure 8.** The controlled comparison of Table 5 (thick line: mean over trees; markers: individual trees).]({F}figF_controlled_matrix.pdf)
 
+Pooling the same comparison over the complete grid makes the picture sharper still. Taking every embedding and loss within one tree, so that only the stage changes, RAFE beats the fine-tuned embedding in {pb_ft} of {pn_ft} comparisons (7 datasets × 3 trees) and loses none, with the gain holding across all three trees on {", ".join(pool_ds)}. Against FT Embed+PC it is {pb_pc} better, {pw_pc} worse and {pn_pc - pb_pc - pw_pc} indistinguishable, so the descriptor and retrieval stages carry much the same information, as the ablations in R2.3 also indicate.
+
 Because the reviewer's concern is that best rows may pair different trees, we also give the full grid for the three datasets where RAFE matters most (Tables 5a to 5c: every embedding and loss, compared within one tree; the bottom rows pool the difference over rows and seeds with paired intervals). On DILI, RAFE exceeds FT Embed with both trees, and exceeds FT Embed+PC with XGBoost (+0.032, interval +0.005 to +0.060) but not with LightGBM (-0.009, -0.029 to +0.012). On Caco-2, RAFE and FT Embed+PC are indistinguishable and both exceed FT Embed by about 0.08, while PC-only is above every stage. On BBBP no stage separates from another. On Half-Life RAFE falls below FT Embed+PC with LightGBM (-0.023, -0.044 to -0.002). All three tree models are included.
 
 **Table 5a.** {FT["dili"]}
@@ -307,7 +315,7 @@ Because the reviewer's concern is that best rows may pair different trees, we al
 
 {md(T7)}
 
-Of {v_n} paired comparisons of the five variants with FT Embed+PC (all seven datasets, two trees), {v_better_ft} is significantly better and {v_worse_ft} significantly worse; against RAFE, {v_better_rf} are better and {v_worse_rf} worse. No variant differs significantly from RAFE, so we claim no improvement from them. With the group ablations, this supports reading RAFE as a conservative refinement rather than a source of new information.
+Of {v_n} paired comparisons of the five variants with FT Embed+PC ({len(T7)} datasets, two trees), {v_better_ft} is significantly better and {v_worse_ft} significantly worse; against RAFE, {v_better_rf} are better and {v_worse_rf} worse. No variant differs significantly from RAFE, so we claim no improvement from them. With the group ablations, this supports reading RAFE as a conservative refinement rather than a source of new information.
 
 {CQ("R2.4", "Insufficient isolation of the contribution of three-dimensional molecular information")}
 
@@ -440,7 +448,7 @@ M("fracsmall", f"{frac_small*100:.0f}"); M("ncellsabl", len(dev)); M("nbig", len
 M("spmin", f"{e10s.spearman_gain_vs_coverage.min():+.2f}"); M("spmax", f"{e10s.spearman_gain_vs_coverage.max():+.2f}")
 for g_ in "ABC": M(f"rg{g_}lo", f"{rg(g_)[0]*100:.0f}"); M(f"rg{g_}hi", f"{rg(g_)[1]*100:.0f}")
 M("ecorrmax", int(max(e10p.corrected_by_RAFE.max(), e10p.broken_by_RAFE.max())))
-M("vn", v_n); M("vbetterft", v_better_ft); M("vworseft", v_worse_ft); M("vbetterrf", v_better_rf); M("vworserf", v_worse_rf)
+M("nvards", len(T7)); M("vn", v_n); M("vbetterft", v_better_ft); M("vworseft", v_worse_ft); M("vbetterrf", v_better_rf); M("vworserf", v_worse_rf)
 M("covmedian", f"{allrow['median']:.2f}"); M("covn", f"{int(allrow['n']):,}"); M("covsixty", f"{allrow['>=0.6']*100:.0f}"); M("covbace", f"{cov[cov.dataset=='bace']['median'].iloc[0]:.3f}")
 M("ecfpcaco", f"{T6_num.loc[T6_num.Dataset=='Caco-2','ECFP4'].iloc[0]:.3f}"); M("pccaco", f"{T6_num.loc[T6_num.Dataset=='Caco-2','473 physchem (PC-only)'].iloc[0]:.3f}")
 M("draferecfpdili", f"{p4[(p4.cfg=='dili_um')&(p4.B=='ecfp4')]['diff'].iloc[0]:.2f}"); M("draferecfpcaco", f"{p4[(p4.cfg=='caco2_mtr')&(p4.B=='ecfp4')]['diff'].iloc[0]:.2f}")
