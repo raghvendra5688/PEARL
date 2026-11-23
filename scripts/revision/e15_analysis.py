@@ -13,7 +13,7 @@ NAME = {"bace": "BACE", "bbbp": "BBBP", "herg": "hERG", "dili": "DILI", "caco2":
 def pretty(e): m = re.match(r"(chemberta_77m_mlm|chemberta_77m_mtr|molformer_finetuned|unimol)_(\w+)", e); return {"chemberta_77m_mlm": "ChemBERTa-MLM", "chemberta_77m_mtr": "ChemBERTa-MTR", "molformer_finetuned": "MolFormer", "unimol": "Uni-Mol"}[m.group(1)] + " " + m.group(2).upper().replace("HUBER", "Huber")
 rows = []
 for f in glob.glob(R + "e15/*/*.json"):
-    j = json.load(open(f)); dsemb = f.split("/")[-2]; ds, emb = dsemb.split("@")
+    j = json.load(open(f)); dsemb = Path(f).parent.name; ds, emb = dsemb.split("@")
     rows.append(dict(ds=ds, emb=emb, arm=j["arm"], clf=j["clf"], seed=j["seed"], v=j.get("MCC", j.get("Spearman")), cv=j.get("cv_best", np.nan)))
 d = pd.DataFrame(rows); d = d[d.clf.isin(TREES)]
 g = d.groupby(["ds", "emb", "arm", "clf"]).agg(test=("v", "mean"), sd=("v", "std"), cv=("cv", "mean"), n=("v", "count")).reset_index()
@@ -57,9 +57,9 @@ pd.set_option("display.width", 250); pd.set_option("display.max_colwidth", 60)
 print(B[["dataset", "stage", "selected_by_cv", "selected_test_mean", "oracle_config", "oracle_test_mean", "optimism_gap", "runner_up_diff", "runner_up_ci_lo", "runner_up_ci_hi"]].round(3).to_string(index=False))
 for conv in ("best_of_grid", "cv_selected"):
     r = Rk[Rk.convention == conv]; print("\n", conv, "RAFE rank per dataset:", dict(zip(r.dataset, r.rank_RAFE)), "| mean rank RAFE", round(r.rank_RAFE.mean(), 2), "PC-only", round(r["rank_PC-only"].mean(), 2), "FT+PC", round(r["rank_FT Embed+PC"].mean(), 2), "FT", round(r["rank_FT Embed"].mean(), 2), "| RAFE top3:", int((r.rank_RAFE <= 3).sum()), "of", len(r))
-# heatmap of the grid: 2 rows (ncols chosen to fit len(complete) datasets), larger fonts throughout
-ncols = -(-len(complete) // 2)  # ceil division: e.g. 5 datasets -> 3 columns, 2 rows
-fig, axs = plt.subplots(2, ncols, figsize=(5.4 * ncols, 7.4), squeeze=False)
+# heatmap of the grid: fixed 3x3 layout (up to 9 datasets; empty panels switched off), vertical x-axis labels for legibility
+nrows, ncols = 3, 3
+fig, axs = plt.subplots(nrows, ncols, figsize=(5.4 * ncols, 8.6 * nrows / 2), squeeze=False)
 axs_flat = axs.ravel()
 for k, ax in enumerate(axs_flat):
     if k >= len(complete): ax.axis("off"); continue
@@ -71,8 +71,10 @@ for k, ax in enumerate(axs_flat):
             if len(s): M[i_, j_] = s.test.iloc[0]
     im = ax.imshow(M, cmap="viridis", aspect="auto"); bi = np.unravel_index(np.nanargmax(M), M.shape); ax.add_patch(plt.Rectangle((bi[1] - .5, bi[0] - .5), 1, 1, fill=False, ec="red", lw=2.5))
     TABBR = {"XGBoost": "XGB", "LightGBM": "LGBM"}
-    ax.set_xticks(range(len(cols))); ax.set_xticklabels([f"{STAGES[a].replace('FT Embed', 'FT')}\n{TABBR.get(c, c)}" for a, c in cols], fontsize=9, rotation=0); ax.set_yticks(range(len(embs))); ax.set_yticklabels([pretty(e) for e in embs], fontsize=10)
-    ax.set_title(f"{NAME[ds]} (red box: best by test mean)", fontsize=11)
+    ax.set_xticks(range(len(cols))); ax.set_xticklabels([f"{STAGES[a].replace('FT Embed', 'FT')} {TABBR.get(c, c)}" for a, c in cols], fontsize=9, fontweight="bold", rotation=90, ha="center", va="top"); ax.set_yticks(range(len(embs))); ax.set_yticklabels([pretty(e) for e in embs], fontsize=10, fontweight="bold")
+    ax.set_title(f"{NAME[ds]} (red box: best by test mean)", fontsize=11, fontweight="bold")
     for i_ in range(M.shape[0]):
-        for j_ in range(M.shape[1]): ax.text(j_, i_, f"{M[i_, j_]:.2f}", ha="center", va="center", fontsize=8, color="w")
-fig.suptitle("Full configuration grid, mean test metric over 5 seeds (MCC; Spearman for Caco-2 and Half-Life)", fontsize=13); fig.tight_layout(rect=[0, 0, 1, 0.96]); fig.savefig(OUT / "e15_grid_heatmap.pdf"); print("saved figure")
+        for j_ in range(M.shape[1]): ax.text(j_, i_, f"{M[i_, j_]:.2f}", ha="center", va="center", fontsize=8, fontweight="bold", color="w")
+    cbar = fig.colorbar(im, ax=ax, fraction=0.046, pad=0.04); cbar.ax.tick_params(labelsize=8)
+    for lbl in cbar.ax.get_yticklabels(): lbl.set_fontweight("bold")
+fig.suptitle(f"Full configuration grid, mean test metric over 5 seeds (MCC; Spearman for Caco-2 and Half-Life) -- {len(complete)} of 7 datasets complete", fontsize=13, fontweight="bold"); fig.tight_layout(rect=[0, 0, 1, 0.96]); fig.savefig(OUT / "e15_grid_heatmap.pdf"); print("saved figure")

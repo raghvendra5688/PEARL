@@ -3,6 +3,11 @@ The PDFs stay the canonical figures; the PNGs here exist only for the Word file.
 import re, subprocess, sys, shutil, zipfile
 from pathlib import Path
 import pypdfium2 as pdfium
+from docx import Document
+from docx.table import Table
+from docx.text.paragraph import Paragraph
+from docx.oxml.ns import qn
+from docx.shared import Pt
 REPO = Path(__file__).resolve().parents[2]; MS = REPO / "manuscript"
 md = (MS / "PEARL_Response_to_Reviewers.md").read_text()
 png = REPO.parent / "EffiChem_Extras_v2" / "PEARL_revision" / "response_png"   # rasterised copies live outside the repo
@@ -42,4 +47,25 @@ doc_xml = re.sub(r'(<pic:cNvPr\b[^>]*?)descr="[^"]*"', r'\1descr=""', doc_xml)
 with zipfile.ZipFile(docx, "w", zipfile.ZIP_DEFLATED) as z:
     for nm, data in other.items(): z.writestr(nm, data)
     z.writestr("word/document.xml", doc_xml)
-print(f"wrote {docx} ({docx.stat().st_size/1e6:.2f} MB); {n} figures embedded at {DPI} dpi; stripped {leaks} leaked file paths")
+
+# compact the widest tables (same sizes chosen by hand for readability: 9pt for the 11-column
+# feature-group ablation, 10pt for the full per-tree grids and the best-configuration table).
+# Matched by the "Table N." caption that pandoc always places immediately before its table.
+COMPACT = {"2": 9, "5a": 10, "5b": 10, "5c": 10, "10": 10}
+dd = Document(docx)
+body = dd.element.body
+items = [Paragraph(c, dd) if c.tag == qn("w:p") else Table(c, dd) if c.tag == qn("w:tbl") else None for c in body]
+n_compacted = 0
+for i, it in enumerate(items):
+    if isinstance(it, Paragraph):
+        m = re.match(r"^Table (\d+[a-z]?)\.", it.text)
+        if m and m.group(1) in COMPACT and i + 1 < len(items) and isinstance(items[i + 1], Table):
+            pt = COMPACT[m.group(1)]
+            for row in items[i + 1].rows:
+                for cell in row.cells:
+                    for p in cell.paragraphs:
+                        for r in p.runs:
+                            r.font.size = Pt(pt)
+            n_compacted += 1
+dd.save(docx)
+print(f"wrote {docx} ({docx.stat().st_size/1e6:.2f} MB); {n} figures embedded at {DPI} dpi; stripped {leaks} leaked file paths; compacted {n_compacted}/{len(COMPACT)} tables")
