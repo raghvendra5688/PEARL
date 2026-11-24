@@ -15,7 +15,14 @@
 \usepackage{microtype}
 \usepackage{enumitem}
 \usepackage{adjustbox}
+\usepackage{float}
 \newcommand{\pending}[1]{{\color{red}\textbf{[PENDING: #1]}}}
+
+% Caption numbers were running 1..16 and 1..5 while the section headings and every cross-reference
+% from the main text say "Table S1"/"Figure S1". The auto-numbers already follow the S-order, so
+% prefixing them makes the captions agree with the headings and with the main manuscript.
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
 \geometry{a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
 \graphicspath{{Figures_v2/}{Figures_v3/}}
 
@@ -26,7 +33,8 @@
 {\large PEARL: Parameter-Efficient Adaptation with
 Retrieval-Augmented Learning for Molecular Property Prediction}}
 
-\author{Kavya Agrawal, Sukrit Gupta, Yundong Zhou, Chengliang Yin, Halima Bensmail, Raghvendra Mall}
+\author{Kavya Agrawal, Sukrit Gupta, Yundong Zhou, Chengliang Yin,\\
+Halima Bensmail, Raghvendra Mall}
 \date{}
 
 \begin{document}
@@ -994,40 +1002,51 @@ $[\text{FT embed}_{2560} \| \text{PC}_{473} \| \text{RAFE}] = 3093$ dims (2560+4
 \section*{Supplementary Figures}
 %% =============================================================================
 
-\phantomsection\addcontentsline{toc}{subsection}{Figure S1: Best Single-Run Configuration Ranking}
-\subsection*{Figure S1: Best Single-Run Configuration Ranking}
-\begin{figure}[h]
+\phantomsection\addcontentsline{toc}{subsection}{Figure S1: BACE ROC and Precision-Recall Curves}
+\subsection*{Figure S1: BACE ROC and Precision-Recall Curves}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.48\textwidth]{bace_roc.pdf}
+\includegraphics[width=0.48\textwidth]{bace_pr.pdf}
+\caption{ROC (left) and precision-recall (right) curves for BACE inhibitor prediction, comparing Uni-Mol end-to-end LoRA with its counterparts in the CLM ladder. Uni-Mol WL achieves the highest AUPR and the highest overall MCC~$=0.623$. Referenced in the BACE results of the main text (Section 5.1, BACE Dataset Results).}
+\label{fig:s1_bace}
+\end{figure}
+
+\phantomsection\addcontentsline{toc}{subsection}{Figure S2: Classification Curves on the Four Binary Datasets}
+\subsection*{Figure S2: Classification Curves on the Four Binary Datasets}
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.62\textwidth]{roc_curves_4datasets.pdf}\\[6pt]
+\includegraphics[width=0.62\textwidth]{pr_curves_4datasets.pdf}
+\caption{Classification curves for the best configuration of each tree-based method (PC-only, FT Embed, FT Embed+PC and RAFE) on all four binary classification datasets in this study: two MoleculeNet tasks (BACE, BBBP) and two TDC ADMET tasks (hERG, DILI). Top: ROC curves. Bottom: precision-recall curves for the same models and datasets. DILI's small test set ($n=96$) produces visibly noisier curves than the other three datasets, consistent with its wide bootstrapped SE throughout the paper. Referenced in the TDC ADMET Group results of the main text (Section 5.1, TDC ADMET Group Results).}
+\label{fig:s2_curves}
+\end{figure}
+
+\phantomsection\addcontentsline{toc}{subsection}{Figure S3: Best Single-Run Configuration Ranking}
+\subsection*{Figure S3: Best Single-Run Configuration Ranking}
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{best_config_ranking_v3.pdf}
 \caption{Best single-run configuration of each method per dataset (red: RAFE).}
-\label{fig:s1_ranking}
+\label{fig:s3_ranking}
 \end{figure}
 
-\phantomsection\addcontentsline{toc}{subsection}{Figure S2: ZINC-250k Coverage UMAP}
-\subsection*{Figure S2: ZINC-250k Coverage UMAP}
-\begin{figure}[h]
-\centering
-\includegraphics[width=0.95\textwidth]{umap_coverage_v3.pdf}
-\caption{Joint UMAP of the dataset molecules and ZINC-250k.}
-\label{fig:s2_umap}
-\end{figure}
-
-\phantomsection\addcontentsline{toc}{subsection}{Figure S3: 3D Vector versus ECFP4, and Conformer Sensitivity}
-\subsection*{Figure S3: 3D Vector versus ECFP4, and Conformer Sensitivity}
-\begin{figure}[h]
+\phantomsection\addcontentsline{toc}{subsection}{Figure S4: 3D Vector versus ECFP4, and Conformer Sensitivity}
+\subsection*{Figure S4: 3D Vector versus ECFP4, and Conformer Sensitivity}
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{3d_ecfp4_conformers_v3.pdf}
 \caption{Left: 3D vector versus ECFP4 versus both (XGBoost). Right: test MCC for each conformer seed (42 is the original), both inputs, XGBoost and LightGBM.}
-\label{fig:s3_3d}
+\label{fig:s4_3d}
 \end{figure}
 
-\phantomsection\addcontentsline{toc}{subsection}{Figure S4: Pipeline Runtime}
-\subsection*{Figure S4: Pipeline Runtime}
-\begin{figure}[h]
+\phantomsection\addcontentsline{toc}{subsection}{Figure S5: Pipeline Runtime}
+\subsection*{Figure S5: Pipeline Runtime}
+\begin{figure}[H]
 \centering
 \includegraphics[width=0.95\textwidth]{runtime_v3.pdf}
 \caption{Cost of the pipeline stages (blue: one-off; red: per query molecule).}
-\label{fig:s4_runtime}
+\label{fig:s5_runtime}
 \end{figure}
 
 \newpage
@@ -1230,12 +1249,12 @@ the identical scaffold split, preprocessing, and bootstrapped-CI protocol as eve
 CLM-based method in this paper. It directly addresses the concern that GNN baselines were never run
 under the same protocol as PEARL's own pipeline.
 
-\phantomsection\addcontentsline{toc}{table}{Table S15: Comparison of PEARL with published external baselines on MoleculeNet scaffold splits (BACE/BBBP/Flavor only).}
+\phantomsection\addcontentsline{toc}{subsection}{Table S15: External Baseline Comparison (BACE/BBBP/Flavor)}
 \subsection*{Method Descriptions}
 
 \noindent\textbf{Chemprop / D-MPNN}~\cite{yang2019chemprop}.
 Directed Message Passing Neural Network with a learned bond-message-passing scheme.
-In this work, re-implemented and re-trained in-house (Optuna hyperparameter
+In this work, we re-implemented and re-trained in-house (Optuna hyperparameter
 search over depth/hidden\_size/ffn\_num\_layers/dropout, 20 trials, plus a final
 longer run) on all seven datasets, reading predictions obtained from Chemprop and scoring with the identical sklearn metric functions.
 
@@ -1290,7 +1309,7 @@ PEARL RAFE best               & this work & $0.858$\textsuperscript{b} & $\mathb
 }
 \end{table}
 
-\phantomsection\addcontentsline{toc}{table}{Table S16: In-house PC-only/Chemprop/GCN baselines vs. the best CLM-based method, all seven datasets.}
+\phantomsection\addcontentsline{toc}{subsection}{Table S16: In-House Baseline Comparison, All Seven Datasets}
 
 \subsection*{In-House Baseline Comparison}
 
@@ -1337,6 +1356,19 @@ Half-Life & 0.502 & 0.332 & 0.418 & 0.600 (FT Embed, MolFormer)  & Overlap \\
 \paragraph{Caco-2:} PC-only is highest; physicochemical descriptors are mechanistically close to membrane permeability, and no CLM-based stage exceeds them.
 
 \paragraph{Half-Life:} the noisiest dataset. The single-run lead of FT Embed over PC-only ($+0.098$ Spearman) is not supported by the paired intervals given the small test set ($n=133$).
+
+%% -----------------------------------------------------------------------------
+\phantomsection\addcontentsline{toc}{subsection}{Section S6: Key Points}
+\subsection*{Section S6: Key Points}
+%% -----------------------------------------------------------------------------
+
+\begin{itemize}
+\item PEARL applies LoRA to three chemical language models (ChemBERTa, MolFormer, Uni-Mol) and adds RAFE, a retrieval stage that summarizes the ZINC-250k neighborhood of each molecule with 60 label-free features.
+\item Seven datasets (binary, multi-class and regression) are evaluated under one protocol with three tree models, five seeds, tuning on the training split only, and paired bootstrap intervals.
+\item RAFE improves on the fine-tuned embedding alone on four datasets but is never significantly different from embedding plus descriptors in 24 paired comparisons.
+\item A descriptor-only baseline with no language model is the strongest or tied method on Caco-2, hERG and Flavor, and should be a standard control in molecular CLM benchmarks.
+\item End-to-end LoRA on Uni-Mol gives the best single-run BACE result (MCC = 0.623), but the Uni-Mol vector contains an ECFP4 block and depends on the conformer.
+\end{itemize}
 
 \bibliographystyle{unsrt}
 \bibliography{sn-bibliography}
