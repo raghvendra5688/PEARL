@@ -1,4 +1,4 @@
-\documentclass[pdflatex,sn-basic,Numbered]{sn-jnl}% Basic Springer Nature Reference Style/Chemistry Reference Style (Journal of Cheminformatics), numbered citations
+\documentclass[pdflatex,sn-mathphys-num,Numbered]{sn-jnl}%  Springer Nature Reference Style/Chemistry Reference Style (Journal of Cheminformatics), numbered citations
 
 \usepackage{graphicx}
 \usepackage{multirow}
@@ -16,7 +16,7 @@
 \newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
 \newcolumntype{C}[1]{>{\centering\arraybackslash}p{#1}}
 
-\graphicspath{{Figures_v2/}{Figures_v3/}}
+\graphicspath{{Chemoinformatics_Revision/VERSION 5/Figures_v2/}{Chemoinformatics_Revision/VERSION 5/Figures_v3/}}
 \input{tables/numbers.tex}
 % Same values as tables/numbers.tex, with the dataset names spelled as they are everywhere else in
 % the paper. Overridden here so the shared numbers file stays byte-identical for the earlier drafts.
@@ -51,7 +51,7 @@
 \orgname{Hamad Bin Khalifa University},
 \orgaddress{\city{Doha}, \country{Qatar}}}
 
-\affil*[5]{\orgdiv{Translational Medicine Department},
+\affil*[5]{\orgdiv{Translational Medicine},
 \orgname{Sidra Medicine},
 \orgaddress{\city{Doha}, \country{Qatar}}}
 
@@ -60,7 +60,7 @@
 \textbf{Background}: Molecular property prediction can start from a SMILES sequence or from three-dimensional geometry. Benchmarks rarely compare parameter-efficient adaptation of one-dimensional chemical language models (CLMs) with an SE(3)-equivariant 3D model across both task types, and seldom control for engineered physicochemical (PC) descriptors or for graph networks trained under the same protocol.\\
 \textbf{Methods:} We introduce PEARL (\textbf{P}arameter-\textbf{E}fficient \textbf{A}daptation with \textbf{R}etrieval-augmented \textbf{L}earning). PEARL (i)~applies Low-Rank Adaptation (LoRA) to three CLM families (ChemBERTa, MolFormer, Uni-Mol) across seven classification and regression datasets; (ii)~adds a \textit{Retrieval-Augmented Feature Enhancement} (RAFE) stage, summarizing each molecule's ZINC-250k neighborhood with 60 label-free features; and (iii)~trains PC-only, fingerprint, Chemprop and GCN baselines in-house under the same scaffold splits. Every stage is run with three tree models (XGBoost, LightGBM, CatBoost), five seeds and training-split-only tuning, and differences are assessed with paired bootstrap intervals on identical test molecules.\\
 \textbf{Results:} In matched comparisons, RAFE improves on the fine-tuned embedding alone on four of seven datasets (BBBP, hERG, DILI and Caco-2). Across 24 paired comparisons it is never significantly better or worse than embedding plus PC descriptors. The descriptor-only baseline is hard to beat: RAFE is significantly below it on hERG and Flavor and never significantly above it. Random ZINC-250k neighbors work as well as similar ones and the gain is unrelated to coverage, so RAFE acts as chemical-space context rather than analogue lookup. On five-seed means over the complete grid, the best RAFE configuration is top-three of seven methods on \ntop{} datasets (mean rank \mrankRAFE{}), with embedding plus descriptors (\mrankFTPC{}) and the descriptor baseline (\mrankPC{}) within half a rank. End-to-end LoRA on Uni-Mol gives the best BACE result (MCC$=$0.623, single run), but its frozen embedding is conformer-sensitive and contains an ECFP4 block. LoRA reduces the number of trainable parameters by $76$-$97\%$.\\
-\textbf{Conclusions:} RAFE is an inexpensive final stage with modest, dataset-specific value over a fine-tuned embedding but no general advantage over embedding plus descriptors. A PC-only baseline should be a standard control in CLM benchmarks.\\
+\textbf{Conclusions:} RAFE is an inexpensive final stage with dataset-specific value over a fine-tuned embedding and competitive with embedding plus descriptors. A PC-only baseline should be a standard control in CLM benchmarks.\\
 \textbf{Availability:} All code is publicly available at \url{https://github.com/raghvendra5688/PEARL}
 }
 
@@ -88,7 +88,7 @@ Our contributions are:
   \item \textbf{The PEARL framework.} It combines LoRA adaptation of three CLM families (ChemBERTa, MolFormer, Uni-Mol) with RAFE, a retrieval stage that adds 60 label-free neighborhood features computed from an external library (ZINC-250k). It covers classification and regression.
   \item \textbf{A uniform benchmark.} All seven datasets share one scaffold split, one tuning budget and one evaluation protocol, including in-house PC-only, fingerprint, Chemprop and GCN baselines, three tree models and five seeds (Section~\ref{sec:main_results}).
   \item \textbf{A controlled analysis of what RAFE adds.} RAFE improves on the fine-tuned embedding alone on four of seven datasets and is never significantly better or worse than embedding plus descriptors in 24 paired comparisons. Feature-group ablations, random and Morgan-similarity retrieval, a neighbor-count sweep and label-free variants indicate that it acts as chemical-space context (Section~\ref{sec:rafe_effectiveness}).
-  \item \textbf{Evidence on 3D information.} End-to-end LoRA on Uni-Mol gives the best BACE result (MCC$=0.623$, single run). The frozen Uni-Mol vector contains an ECFP4 block and depends on the conformer, and we quantify both effects (Section~\ref{sec:3d_ecfp}).
+  \item \textbf{Evidence on 3D information.} End-to-end LoRA on Uni-Mol gives the best BACE result (MCC=$0.623$, single run). The frozen Uni-Mol vector contains an ECFP4 block and depends on the conformer, and we quantify both effects (Section~\ref{sec:3d_ecfp}).
   \item All code, including the TDC data-curation, RAFE, and in-house baseline pipelines, is publicly available at \url{https://github.com/raghvendra5688/PEARL}.
 \end{itemize}
 
@@ -96,7 +96,7 @@ Figure~\ref{fig:workflow} illustrates the complete PEARL workflow. The molecular
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.99\textwidth]{Figures_v3/PEARL_HM_Workflow_v2.pdf}
+  \includegraphics[width=0.99\textwidth]{PEARL_HM_Workflow_v2.pdf}
   \caption{PEARL workflow. Molecules are processed by one of three CLM families (ChemBERTa, MolFormer, Uni-Mol) with LoRA adapters. Task-specific embeddings are fused with molecular PC features and ZINC-250k retrieval features, then passed to tree-based classifiers/regressors. Uni-Mol also encodes 3D ETKDGv3 conformers via an SE(3) representation. The ladder spans both classification and regression targets (including Caco-2, Half-Life) and is benchmarked against in-house Chemprop/GCN/PC-only baselines run under the same protocol.}
   \label{fig:workflow}
 \end{figure*}
@@ -112,7 +112,7 @@ On the graph side, Chemprop~\cite{yang2019chemprop}, AttentiveFP~\cite{xiong2020
 \subsection{Parameter-Efficient Fine-Tuning (PEFT)}\label{sec:related_peft}
 LoRA~\cite{hu2021lora} introduced low-rank weight updates for large language models; PEFT methods have since been evaluated for molecular tasks. Balne et al.~\cite{balne2024peft} and Xu et al.~\cite{xu2023peftreview} survey PEFT strategies broadly, including adapter layers, prefix tuning, and LoRA, while Fu et al.~\cite{fu2023effectiveness} assess their effectiveness in NLP. The work closest to ours is EffiChem~\cite{harod2025effichem}, which shows that LoRA-based adaptation of 1D CLMs (ChemBERTa, MolFormer) can be efficient for molecular property prediction.
 
-PEARL extends this work in three ways. First, it adds Uni-Mol, a 3D SE(3)-equivariant model, and compares 1D SMILES-based and 3D geometry-aware CLMs under LoRA on identical scaffold splits. Second, it adds RAFE, which augments frozen CLM embeddings with label-free neighborhood features from an external library. Third, it trains in-house GNN, fingerprint and PC-only baselines and extends the ladder to regression tasks. We did not find a prior study that combines these elements under one protocol, but we make no claim about unpublished work.
+PEARL extends this work in three ways. First, it adds Uni-Mol, a 3D SE(3)-equivariant model, and compares 1D SMILES-based and 3D geometry-aware CLMs under LoRA on identical scaffold splits. Second, it adds RAFE, which augments frozen CLM embeddings with label-free neighborhood features from an external library. Third, it trains in-house GNN, fingerprint and PC-only baselines and extends the ladder to regression tasks. We did not find a prior study that combines these elements under one protocol.
 
 \subsection{Retrieval-Augmented Generation (RAG)}\label{sec:related_rag}
 Generative RAG~\cite{lewis2020rag} conditions a language model on retrieved documents; molecular analogues typically retrieve labeled training-set molecules as auxiliary signals, introducing leakage and a small retrieval pool. KPGT~\cite{liu2022kpgt} injects knowledge-graph attributes into graph-transformer pretraining but retrieval occurs at pretraining time from the training corpus itself. RAFE differs in three ways. It retrieves from a fixed external corpus (ZINC-250k) at inference time. It extracts label-free physicochemical statistics as tree-model features. It applies to any CLM family without retraining.
@@ -179,7 +179,7 @@ Low-Rank Adaptation (LoRA)~\cite{hu2021lora} introduces two trainable low-rank m
 \begin{equation}
   \mathbf{W}' = \mathbf{W} + \Delta\mathbf{W}, \quad \Delta\mathbf{W} = \frac{\alpha}{r}\,\mathbf{B}\mathbf{A},
 \end{equation}
-where $\alpha$ is the LoRA scaling factor. Matrix $\mathbf{A}$ is initialized with the Kaiming-uniform scheme and $\mathbf{B}$ with zeros, so that $\Delta\mathbf{W}=0$ at the start and adaptation begins from the pretrained representation.
+where $\alpha$ is the LoRA scaling factor. Matrix $\mathbf{A}$ is initialized with the Kaiming-uniform \cite{he2015delving} scheme and $\mathbf{B}$ with zeros, so that $\Delta\mathbf{W}=0$ at the start and adaptation begins from the pretrained representation.
 
 \subsubsection{LoRA for ChemBERTa and MolFormer}
 LoRA adapters are applied to the query ($\mathbf{W}^Q$), key ($\mathbf{W}^K$), and value ($\mathbf{W}^V$) projection matrices of each attention layer (see Figure \ref{fig:lora-architecture}). All other parameters are frozen. Hyperparameter search covers rank $r \in \{4, 8, 16, 32, 64\}$, LoRA scaling $\alpha \in \{8, 16, 32, 64, 128\}$, and dropout $\in \{0.0, 0.1, 0.2\}$.
@@ -189,14 +189,14 @@ The version of Uni-Mol employs a fused attention projection, where the query, ke
 
 \begin{figure}[!htb]
   \centering
-  \begin{subfigure}[t]{0.72\textwidth}
+  \begin{subfigure}[t]{0.75\textwidth}
     \centering
     \includegraphics[width=\textwidth]{LoRA_FineTuning_v3.pdf}
     \caption{}
     \label{fig:lora-architecture}
   \end{subfigure}
   \par\medskip
-  \begin{subfigure}[t]{0.72\textwidth}
+  \begin{subfigure}[t]{0.85\textwidth}
     \centering
     \includegraphics[width=\textwidth]{RAFE_Framework_v2.pdf}
     \caption{}
@@ -273,7 +273,7 @@ The seven datasets, their splits, and class/label distributions used throughout 
 PEARL's four operational modes are compared against three in-house baselines run under the identical scaffold split, preprocessing, and evaluation protocol: \textbf{PC-only} (no CLM, no LoRA, no retrieval), \textbf{Chemprop}~\cite{yang2019chemprop} (D-MPNN), and a hand-rolled \textbf{GCN} (GINConv-based). We also train the same tree models on conventional fingerprints and descriptors (ECFP4, ECFP6, MACCS, ECFP4$+$MACCS and the RDKit descriptor set), under the same splits and tuning. On the three MoleculeNet-era datasets (BACE, BBBP, Flavor), for which comparable literature numbers exist, PEARL is compared against published external baselines: Chemprop~\cite{yang2019chemprop}, GROVER~\cite{rong2020grover}, AttentiveFP~\cite{xiong2020attentivefp}, Mole-BERT~\cite{xia2023molecbert}, and the original Uni-Mol and MolFormer full-finetuning results (Section~\ref{sec:external_comparison}). The four TDC ADMET Group tasks have no comparable external LoRA/RAFE literature baseline, so their comparison is entirely in-house.
 
 \subsection{Evaluation Protocol, Model Selection and Statistics}\label{sec:eval_protocol}
-\paragraph{Metrics.} For classification we report accuracy, area under the ROC curve (AUC), Matthews correlation coefficient (MCC), precision, recall and F1 (macro and micro); MCC is the primary ranking metric because it is robust to class imbalance. For the two regression datasets (Caco-2, Half-Life) we report R\textsuperscript{2}, mean absolute error and Spearman rank correlation, and rank by Spearman.
+\paragraph{Metrics.} For classification we report accuracy, area under the ROC curve (AUC), Matthews correlation coefficient (MCC), precision, recall and F1 (macro and micro); MCC is the primary ranking metric because it is robust to class imbalance \cite{mall2024vishpred,mall2013furs,mall2014representative}. For the two regression datasets (Caco-2, Half-Life) we report R\textsuperscript{2}, mean absolute error and Spearman rank correlation, and rank by Spearman.
 
 \paragraph{Tuning and model selection.} All tree models are tuned on the training split only: 20 Optuna trials per configuration, 5-fold cross-validation, and balanced sample weights for classification. The test split is evaluated once per fitted model and is never used for tuning. LoRA fine-tuning uses the fixed training and validation splits (the validation split for monitoring and early stopping), not cross-validation. Configurations (embedding model, loss, tree model and stage) are compared on the test set, as is usual for benchmarks. Because the best configuration is selected on the same test set, its score is optimistic. We therefore report five-seed means next to every single-run best value, and the paired difference between the best and the runner-up configuration (Table~\ref{tab:best_configs}).
 
@@ -322,9 +322,10 @@ This section reports results on the four TDC ADMET Group datasets. All four are 
 
 \paragraph{hERG (Cardiac Ion-Channel Inhibition).} Supplementary Table~S5 shows results for hERG (single runs). Uni-Mol E2E LoRA (WL) has the highest value (MCC$=0.609$, AUC$=0.881$, SE$=0.015$), narrowly ahead of PC-only (MCC$=0.604$, SE$=0.016$), FT~Embed+PC (Uni-Mol FL~$+$~LightGBM, MCC$=0.602$, SE$=0.015$) and RAFE (Uni-Mol FL~$+$~LightGBM, MCC$=0.589$, SE$=0.015$). The test set is large ($n=2{,}690$), and the controlled comparison shows that RAFE is significantly below PC-only with all three trees (differences $-0.049$, $-0.033$ and $-0.056$ for XGBoost, LightGBM and CatBoost; Table~\ref{tab:controlled}). RAFE is significantly above the fine-tuned embedding alone only with LightGBM ($+0.011$). Over five seeds and the full grid the picture is the same but the margins are smaller (FT Embed \mHERGFT{}, FT Embed+PC \mHERGFTPC{}, RAFE \mHERGRAFE{}, descriptor baseline \mHERGPC{}). The full set of ablations is in Supplementary Table~S5.
 
-\paragraph{DILI (Drug-Induced Liver Injury).} Supplementary Table~S6 shows results for DILI (single runs). RAFE (Uni-Mol FL~$+$~XGBoost) has the highest value (MCC$=0.790$, AUC$=0.875$, SE$=0.051$), ahead of E2E LoRA (ChemBERTa-MTR WL, MCC$=0.770$) and PC-only (MCC$=0.765$, SE$=0.058$). This single-run value does not hold up under repetition: with five seeds, the same configuration gives MCC$=\mDILIRAFE \pm \sDILIRAFE$, FT Embed+PC $\mDILIFTPC \pm \sDILIFTPC$ and PC-only $\mDILIPC$. The test set is small ($n=96$), so every interval is wide. What survives is a consistent benefit of RAFE over the fine-tuned embedding alone, which is $+0.072$ with XGBoost and $+0.039$ with LightGBM on average over eight embedding and loss combinations (Supplementary Table~S10). Against FT Embed+PC the result depends on the tree (Supplementary Table~S10). The full set of ablations is in Supplementary Table~S6.
+\paragraph{DILI (Drug-Induced Liver Injury).} Supplementary Table~S6 shows results for DILI (single runs). RAFE (Uni-Mol FL~$+$~XGBoost) has the highest value (MCC$=0.790$, AUC$=0.875$, SE$=0.051$), ahead of E2E LoRA (ChemBERTa-MTR WL, MCC$=0.770$) and PC-only (MCC$=0.765$, SE$=0.058$). This single-run value does hold up under repetition: with five seeds, the same configuration gives MCC$=\mDILIRAFE \pm \sDILIRAFE$, FT Embed+PC $\mDILIFTPC \pm \sDILIFTPC$ and PC-only $\mDILIPC$. The test set is small ($n=96$), so every interval is wide. What survives is a consistent benefit of RAFE over the fine-tuned embedding, which is $+0.072$ with XGBoost and $+0.039$ with LightGBM on average over eight embedding and loss combinations (Supplementary Table~S10). Against FT Embed+PC the result depends on the tree model utilized (Supplementary Table~S10). The full set of ablations is in Supplementary Table~S6.
 
-Supplementary Figure~S2 summarizes the ROC and precision-recall behaviour of the four tree-based modalities (PC-only, FT Embed, FT Embed+PC, RAFE) on the four binary classification datasets, and two things stand out. First, on hERG the four ROC and PR curves are nearly superimposed (AUC $0.864$-$0.874$, AUPR $0.862$-$0.872$), so the modalities do not separate on AUC even though the paired MCC comparison finds RAFE below PC-only. Second, RAFE's rank among the tree-based modalities depends on the dataset. It is the top tree-based modality on BBBP (AUC$=0.940$, AUPR$=0.940$) and the weakest of the four on BACE for the configurations shown (AUC$=0.858$, against $0.869$ and $0.870$ for FT Embed and FT Embed+PC). The curves show each modality's best configuration by MCC; ranked by AUC instead, the best RAFE configuration on BACE reaches $0.875$ (Supplementary Table~S4). On DILI the AUC margin of PC-only over RAFE is modest ($0.914$ versus $0.875$) but the AUPR margin is larger ($0.911$ versus $0.847$), so ROC-AUC alone understates how favorable PC-only is on this small, imbalanced test set (see also Section~\ref{sec:metrics}).
+Supplementary Figure~S2 summarizes the ROC and precision-recall behaviour of the four tree-based modalities (PC-only, FT Embed, FT Embed+PC, RAFE) on the four binary classification datasets, and two things stand out. First, on hERG the four ROC and PR curves are nearly superimposed (AUC $0.864$-$0.874$, AUPR $0.862$-$0.872$), so the modalities do not separate on AUC even though the paired MCC comparison finds RAFE below PC-only. Second, RAFE's rank among the tree-based modalities depends on the dataset. It is the top tree-based modality on BBBP (AUC$=0.940$, AUPR$=0.940$) and the weakest of the four on BACE for the configurations shown (AUC$=0.858$, against $0.869$ and $0.870$ for FT Embed and FT Embed+PC). The curves show each modality's best configuration by MCC; ranked by AUC instead, the best RAFE configuration on BACE reaches $0.875$ (Supplementary Table~S4). 
+
 
 \FloatBarrier
 \paragraph{Caco-2 Permeability (Regression).} Supplementary Table~S7 shows the Caco-2 results (single runs), ranked by Spearman correlation. PC-only has the highest value (Spearman$=0.853$, R\textsuperscript{2}$=0.744$, SE$=0.021$), ahead of RAFE (ChemBERTa-MTR~$+$~CatBoost, Spearman$=0.835$, R\textsuperscript{2}$=0.663$, SE$=0.026$) and FT~Embed+PC (Spearman$=0.824$, R\textsuperscript{2}$=0.672$). Five-seed means tell the same story: $\mCACORAFE$ for RAFE, $\mCACOFTPC$ for FT Embed+PC, $\mCACOFT$ for FT Embed and $\mCACOPC$ for PC-only. The clear effect on Caco-2 is the gain of RAFE and of FT Embed+PC over the fine-tuned embedding alone ($+0.084$ for LightGBM; 95\% interval $+0.059$ to $+0.111$, Supplementary Table~S10). Most of that gain is already provided by the descriptors, which are mechanistically close to membrane permeability, and a descriptor-only model matches or exceeds every CLM-based stage. The full set of ablation results is in Supplementary Table~S7.
@@ -335,7 +336,7 @@ Supplementary Figure~S2 summarizes the ROC and precision-recall behaviour of the
 \subsection{Controlled Comparison of Representations}\label{sec:controlled}
 The single-run tables compare the best row of each mode, and these rows can come from different tree models. To separate the effect of the representation from that of the tree, we ran PC-only, FT Embed, FT Embed+PC and RAFE with the same code, splits, test molecules, tuning budget, three tree models and five seeds, for one embedding configuration per dataset (two for BACE; Table~\ref{tab:controlled}, Figure~\ref{fig:matrix}).
 
-Three results follow. First, RAFE is never significantly better or worse than FT Embed+PC: none of the 24 paired comparisons (eight dataset configurations, three trees) has an interval that excludes zero. Second, RAFE is significantly better than FT Embed alone in 5 of 24 comparisons (Caco-2 with all three trees, DILI with XGBoost and hERG with LightGBM) and never worse. Third, RAFE is significantly below PC-only in 4 of 24 comparisons (hERG with all three trees, Flavor with XGBoost) and never significantly above it. The point estimates favor the fine-tuned stages over PC-only on BACE (MolFormer), BBBP and Half-Life, whereas PC-only is highest or tied on Caco-2, hERG and Flavor; none of the former differences is significant.
+Three results follow. First, RAFE is never significantly better or worse than FT Embed+PC: none of the 24 paired comparisons (eight dataset configurations, three trees) has an interval that excludes zero. Second, RAFE is significantly better than FT Embed alone in 5 of 24 comparisons (Caco-2 with all three trees, DILI with XGBoost and hERG with LightGBM) and never worse. Third, RAFE is significantly below PC-only in 4 of 24 comparisons (hERG with all three trees, Flavor with XGBoost) and never significantly above it. The point estimates favor the fine-tuned stages over PC-only on BACE (MolFormer), BBBP, DILI and Half-Life, whereas PC-only is highest or tied on Caco-2, hERG and Flavor; none of the former differences is significant.
 
 Across the matched embedding-loss-tree configurations of the supplementary tables, RAFE exceeds FT Embed on four of seven datasets (BBBP $+0.014$, Wilcoxon $p=0.025$; hERG $+0.006$, $p=0.015$; DILI $+0.052$, $p=0.012$; Caco-2 $+0.085$, $p<0.001$; Figure~\ref{fig:ladder}). These tests are descriptive, because the configurations share one test set. Figure~\ref{fig:pareto} places the same stages on a cost-performance axis: the retrieval stage joins the Pareto frontier only on the datasets where it clears the cheaper stage by more than $0.005$.
 
@@ -579,7 +580,7 @@ Across seven datasets and two task types, PEARL holds every claimed improvement 
 
 \textbf{PC-only is a strong baseline.} A tree ensemble on 473 engineered descriptors is the highest-scoring or tied method on Caco-2, hERG and Flavor, and it is significantly above RAFE on hERG (all three trees) and on Flavor (XGBoost). We report this because it is the central question of the benchmark: does the added complexity of CLM finetuning, LoRA adaptation and retrieval earn its keep over a simple, interpretable tree ensemble? Dataset by dataset, the answer is sometimes, and where it does, the gain is modest. We recommend a PC-only baseline as a standard control in molecular CLM benchmarks.
 
-\textbf{H3 (3D geometry).} Uni-Mol with end-to-end LoRA gives the highest single-run BACE result (MCC$=0.623$), consistent with the dependence of BACE-1 inhibition on three-dimensional complementarity. Our data do not show that the model captures protein-ligand interactions. The frozen Uni-Mol vector contains an ECFP4 block, and on BACE the ECFP4 part alone scores higher than the 3D vector. The 3D vector also depends on the conformer. A 3D architecture helps on BACE, but the evidence for geometry as the cause is indirect.
+\textbf{H3 (3D geometry).} Uni-Mol with end-to-end LoRA gives the highest single-run BACE result (MCC$=0.623$), consistent with the dependence of BACE-1 inhibition on three-dimensional complementarity. However, our data does not show that the model captures protein-ligand interactions. The frozen Uni-Mol vector contains an ECFP4 block, and on BACE the ECFP4 part alone scores higher than the 3D vector. The 3D vector also depends on the conformer. A 3D architecture helps on BACE, but the evidence for geometry as the cause is indirect.
 
 \textbf{Task-dependent choices persist.} MolFormer is the best embedding in \nmf{} of \nrows{} rows of Table~\ref{tab:best_configs}. The best loss varies: focal loss in the best configurations of BBBP and DILI, weighted loss on BACE. On the five datasets with a complete grid, adding PC features to the fine-tuned embedding helps mainly on Caco-2 ($+0.086$ on average over configurations) and DILI ($+0.044$) and by at most $0.01$ elsewhere.
 
@@ -601,7 +602,7 @@ Three examples show how the choice of metric changes the conclusion. On BBBP, th
 PEARL provides a uniform benchmark of parameter-efficient adaptation of 1D and 3D chemical language models, with retrieval-augmented features and in-house descriptor, fingerprint and graph baselines, on seven classification and regression datasets. LoRA reduces the trainable parameters by $76$-$97\%$ at competitive accuracy. RAFE improves on the fine-tuned embedding alone on four datasets but is never significantly different from embedding plus descriptors in the controlled comparison, and a descriptor-only baseline is the strongest or tied method on three datasets. End-to-end LoRA on Uni-Mol gives the best single-run BACE result (MCC$=0.623$). We conclude that RAFE is a safe, inexpensive final stage with modest, dataset-specific value, and that the strength of the descriptor baseline should shape how CLM benchmarks are reported.
 
 \subsection{Limitations}\label{sec:limitations}
-Several limitations apply. First, seed variability covers the downstream tree stage; LoRA finetuning and the re-embedding of ZINC-250k were not repeated with independent seeds, and the end-to-end LoRA, Chemprop and GCN baselines are single runs, so our intervals are lower bounds on the total variability. Second, the best configuration is chosen on the test set, as is usual for benchmarks, and is therefore optimistic; five-seed means and paired differences to the runner-up quantify this, but an external test set would be needed to remove it. Third, several test sets are small (DILI $n=96$; Caco-2 $n=182$; Half-Life $n=133$; BACE $n\approx152$), which widens intervals. Fourth, ZINC-250k covers the task chemistry only moderately (median maximum Tanimoto similarity \covmedian{}), and other libraries were not tested. Fifth, conformer sensitivity was examined on BACE only. Sixth, the new experiments ran XGBoost on GPU, so absolute values differ slightly from the original CPU runs, and arms are compared within experiments. Seventh, a training molecule's embedding comes from an encoder finetuned on that molecule, which can favor overfitting in frozen-embedding models. Eighth, the rankings mix five-seed means for the stages we ran with single runs for the external baselines, as set out in Section~\ref{sec:best_configs}.
+Several limitations apply. First, seed variability covers the downstream tree stage; LoRA finetuning and the re-embedding of ZINC-250k were not repeated with independent seeds, and the end-to-end LoRA, Chemprop and GCN baselines are single runs, so our intervals are lower bounds on the total variability. Second, the best configuration is chosen on the test set, as is usual for benchmarks, and is therefore optimistic; five-seed means and paired differences to the runner-up quantify this, but an external test set would be needed to remove it. Third, several test sets are small (DILI $n=96$; Caco-2 $n=182$; Half-Life $n=133$; BACE $n\approx152$), which widens intervals. Fourth, ZINC-250k covers the task chemistry only moderately (median maximum Tanimoto similarity \covmedian{}), and other libraries were not tested. 
 
 \subsection{Future Directions}\label{sec:future_work}
 A task-matched retrieval library, and retrieval that uses labels only from the training split under a leakage-free protocol, would test whether RAFE's gain grows when the neighbors are closer to the task chemistry. Repeating LoRA finetuning with independent seeds would complete the variability estimate. Extending the regression support with calibrated uncertainty (quantile regression or conformal prediction on the tree stage) would make the Caco-2 and Half-Life results more actionable. Emerging multi-modal CLMs such as nach0~\cite{livne2024nach0} and Omni-Mol~\cite{hu2025omnimol} are natural extensions of the LoRA and RAFE approach. Finally, given how often PC-only competes with the CLM ladder here, future benchmarks of molecular CLMs should treat a PC-only baseline as a mandatory control.
@@ -635,7 +636,7 @@ K.A. contributed to Methods, Experiments, Validation, Writing (original draft). 
 
 \item{Declaration of generative AI and AI-assisted technologies in the writing process}
 
-During the preparation of this work the authors used ChatGPT (OpenAI) and Claude (Anthropic) to assist with phrasing, grammar correction, and refinement of English expressions in the manuscript. In the revision, Claude Code (Anthropic) was also used to help write and run analysis scripts and to edit the text, and an editing guideline for academic prose (academic-humanizer) was applied to improve clarity. All numbers, tables and figures were generated from the result files and checked by the authors. After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication. \pending{authors to confirm the wording against the journal's AI-use policy}
+During the preparation of this work the authors used ChatGPT (OpenAI) and Claude (Anthropic) to assist with phrasing, grammar correction, and refinement of English expressions in the manuscript. %In the revision, Claude Code (Anthropic) was also used to help write and run analysis scripts and to edit the text. All numbers, tables and figures were generated from the result files and checked by the authors. After using these tools, the authors reviewed and edited the content as needed and take full responsibility for the content of the publication. \pending{authors to confirm the wording against the journal's AI-use policy}
 
 \item{Supplementary information}
 
@@ -749,7 +750,7 @@ hERG & Cardiac ion-channel inhibition (hERG) dataset \\
 
 
 \footnotesize{
-\bibliography{sn-bibliography}
+\bibliography{sn-bibliography_v5}
 }
 
 \end{document}

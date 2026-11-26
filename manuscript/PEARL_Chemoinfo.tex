@@ -76,7 +76,7 @@ Figure~\ref{fig:workflow} illustrates the complete PEARL workflow. The molecular
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.99\textwidth]{PEARL_HM_Workflow_v2.pdf}
+  \includegraphics[width=0.99\textwidth]{ Figures_v2/PEARL_HM_Workflow_v2.pdf}
   \caption{PEARL workflow. Molecules are processed by one of three CLM families (ChemBERTa, MolFormer, Uni-Mol) with LoRA adapters. Task-specific embeddings are fused with molecular PC features and ZINC-250k retrieval features, then passed to tree-based classifiers/regressors. Uni-Mol additionally encodes 3D ETKDGv3 conformers via SE(3) representation. The ladder spans both classification and regression targets (including Caco-2, Half-Life) and is benchmarked against in-house Chemprop/GCN/PC-only baselines run under the same protocol.}
   \label{fig:workflow}
 \end{figure*}
@@ -169,7 +169,7 @@ The version of Uni-Mol employs a fused attention projection, where the query, ke
 
 \begin{figure}[!htb]
   \centering
-  \includegraphics[width=0.99\textwidth]{LoRA_Finetuning_v2.pdf}
+  \includegraphics[width=0.99\textwidth]{ Figures_v2/LoRA_Finetuning_v2.pdf}
   \caption{Low-Rank Adaptation (LoRA) Architecture. A low-rank adaptation framework fine-tunes frozen transformer weights (Q/K/V layers) using trainable low-rank matrices (A, B), enabling efficient adaptation to task-specific molecular datasets including binary (hERG, DILI), multi-class (Flavor), and regression (Caco-2, Half-Life) targets.}
   \label{fig:lora-architecture}
 \end{figure}
@@ -209,7 +209,7 @@ Together these four groups yield a 69-dimensional RAFE feature vector per molecu
 
 \begin{figure}[!ht]
   \centering
-  \includegraphics[width=0.99\textwidth]{RAFE_Framework_v2.pdf}
+  \includegraphics[width=0.99\textwidth]{ Figures_v2/RAFE_Framework_v2.pdf}
   \caption{Retrieval-Augmented Feature Enhancement (RAFE) pipeline. A query molecule is embedded by a task-specific finetuned CLM; the embedding retrieves $k$ nearest chemical neighbors from the ZINC-250k FAISS index (re-built independently per dataset). Four feature groups are extracted (physico-chemical neighborhood profile, density/isolation, embedding centroid, Tanimoto similarity), yielding a 69-dim RAFE vector concatenated with the CLM embedding and PC features for tree-based classification or regression.}
   \label{fig:rafe}
 \end{figure}
@@ -267,7 +267,7 @@ By applying a $\pm 1$~SE overlap test between each dataset's point-estimate winn
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.99\textwidth]{results_summary_v2.pdf}
+  \includegraphics[width=0.99\textwidth]{ Figures_v2/results_summary_v2.pdf}
   \caption{Mean $\pm$ SE (10,000-resample bootstrap) of the primary ranking metric (MCC for classification, Spearman for regression) for every method across all seven PEARL benchmark datasets. Stars mark the point-estimate winner per dataset. Whisker overlap between the winner and PC-only means the win is not statistically confirmed at $\pm1$~SE; this is the case for six of seven datasets (all but BACE).}
   \label{fig:results_summary}
 \end{figure*}
@@ -335,8 +335,8 @@ RAFE with MolFormer-XL (WL~+~LightGBM) achieves MCC$=0.561$, SE$=0.040$, interme
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.49\textwidth]{bace_roc.pdf}
-  \includegraphics[width=0.49\textwidth]{bace_pr.pdf}
+  \includegraphics[width=0.49\textwidth]{ Figures_v2/bace_roc.pdf}
+  \includegraphics[width=0.49\textwidth]{ Figures_v2/bace_pr.pdf}
   \caption{ROC and precision-recall curves for BACE inhibitor prediction. Uni-Mol WL achieves the highest AUPR and overall MCC~$=0.623$.}
   \label{fig:bace}
 \end{figure*}
@@ -423,14 +423,14 @@ Figures~\ref{fig:roc_4ds} and~\ref{fig:pr_4ds} summarize the four tree-based mod
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.95\textwidth]{roc_curves_4datasets.pdf}
+  \includegraphics[width=0.95\textwidth]{ Figures_v2/roc_curves_4datasets.pdf}
   \caption{ROC curves for best configuration of tree-based methods (PC-only, FT Embed, FT Embed+PC and RAFE), on all four binary classification datasets in this study: two MoleculeNet (BACE, BBBP) and two TDC ADMET tasks (hERG, DILI).}
   \label{fig:roc_4ds}
 \end{figure*}
 
 \begin{figure*}[!ht]
   \centering
-  \includegraphics[width=0.95\textwidth]{pr_curves_4datasets.pdf}
+  \includegraphics[width=0.95\textwidth]{ Figures_v2/pr_curves_4datasets.pdf}
   \caption{Precision-recall curves for the same models and datasets as Figure~\ref{fig:roc_4ds}. DILI's small test set ($n=96$) produces visibly noisier curves than the other three datasets, consistent with its wide bootstrapped SE throughout this paper.}
   \label{fig:pr_4ds}
 \end{figure*}
